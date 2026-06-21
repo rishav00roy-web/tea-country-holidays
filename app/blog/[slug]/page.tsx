@@ -421,9 +421,10 @@ we love sharing it.
 export async function generateMetadata({ 
   params 
 }: { 
-  params: { slug: string } 
+  params: Promise<{ slug: string }> 
 }): Promise<Metadata> {
-  const post = blogPosts.find(p => p.slug === params.slug)
+  const { slug } = await params
+  const post = blogPosts.find(p => p.slug === slug)
   if (!post) {
     return {
       title: "Blog Post Not Found | Tea Country Holidays",
@@ -439,12 +440,13 @@ export async function generateStaticParams() {
   return blogPosts.map(post => ({ slug: post.slug }))
 }
 
-export default function BlogDetailPage({ 
+export default async function BlogDetailPage({ 
   params 
 }: { 
-  params: { slug: string } 
+  params: Promise<{ slug: string }> 
 }) {
-  const post = blogPosts.find(p => p.slug === params.slug)
+  const { slug } = await params
+  const post = blogPosts.find(p => p.slug === slug)
   if (!post) notFound()
 
   return (

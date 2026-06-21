@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  deploymentId: process.env.VERCEL_DEPLOYMENT_ID,
 };
 
 export default nextConfig;
