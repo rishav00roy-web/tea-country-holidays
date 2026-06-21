@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const cormorantGaramond = Cormorant_Garamond({
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${cormorantGaramond.variable} ${dmSans.variable} scroll-smooth`}>
       <body className="font-sans text-brand-ink antialiased bg-brand-floral min-h-screen flex flex-col">
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
