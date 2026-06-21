@@ -1,0 +1,188 @@
+"use client"
+import { useState, Suspense } from "react"
+import { Plane, Calendar, Users } from "lucide-react"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
+import { WhatsAppButton } from "@/components/whatsapp-button"
+import { useAuthGate } from "@/hooks/use-auth-gate"
+import { useSearchParams } from "next/navigation"
+
+function FlightsPageContent() {
+  const { gatedWhatsApp } = useAuthGate()
+  const searchParams = useSearchParams()
+
+  // Read URL params
+  const fromParam = searchParams.get("from") || ""
+  const toParam = searchParams.get("to") || ""
+  const dateParam = searchParams.get("date") || ""
+  const travellersParam = searchParams.get("travellers") || "1 Traveller"
+  const typeParam = searchParams.get("type") || "one-way"
+
+  const [tripType, setTripType] = useState<"one-way" | "round-trip">(
+    typeParam === "round-trip" ? "round-trip" : "one-way"
+  )
+  const [from, setFrom] = useState(fromParam)
+  const [to, setTo] = useState(toParam)
+  const [date, setDate] = useState(dateParam)
+  const [returnDate, setReturnDate] = useState("")
+  const [travellers, setTravellers] = useState(travellersParam)
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const message = `Hi, I need a ${tripType === "one-way" ? "one-way" : "round-trip"} flight from ${from || "[Departure]"} to ${to || "[Destination]"} on ${date || "[Date]"} for ${travellers}.${tripType === "round-trip" ? ` Return on ${returnDate || "[Return Date]"}.` : ""} Please share the best options.`
+    gatedWhatsApp(message)
+  }
+
+  return (
+    <main className="min-h-screen bg-[#FAFAF8]">
+      <Navbar />
+
+      {/* Hero Banner */}
+      <div className="bg-[#1B4332] pt-32 pb-16 px-4">
+        <div className="mx-auto max-w-7xl">
+          <span className="text-[#F4A011] font-semibold text-xs tracking-[0.25em] uppercase mb-4 block">
+            FLIGHT BOOKINGS
+          </span>
+          <h1 className="font-serif text-4xl sm:text-5xl font-normal text-white mb-4 leading-tight">
+            Book Your <span className="italic text-[#F4A011]">Flights</span>
+          </h1>
+          <p className="text-white/70 max-w-xl">
+            Sourcing the best airline fares and handling your booking from takeoff to landing.
+          </p>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-xl px-4 py-16">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
+          
+          {/* Trip Type Toggle */}
+          <div className="flex gap-4 mb-6 border-b border-gray-100 pb-4">
+            <button
+              type="button"
+              onClick={() => setTripType("one-way")}
+              className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-colors cursor-pointer ${
+                tripType === "one-way" ? "bg-[#1B4332] text-white" : "bg-gray-100 text-[#1C1C1E] hover:bg-gray-200"
+              }`}
+            >
+              One-way
+            </button>
+            <button
+              type="button"
+              onClick={() => setTripType("round-trip")}
+              className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-colors cursor-pointer ${
+                tripType === "round-trip" ? "bg-[#1B4332] text-white" : "bg-gray-100 text-[#1C1C1E] hover:bg-gray-200"
+              }`}
+            >
+              Round-trip
+            </button>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">From</label>
+                <div className="relative">
+                  <Plane className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50 rotate-45" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="Delhi (DEL)"
+                    value={from}
+                    onChange={e => setFrom(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">To</label>
+                <div className="relative">
+                  <Plane className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50 -rotate-45" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="Guwahati (GAU)"
+                    value={to}
+                    onChange={e => setTo(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">Departure Date</label>
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50" />
+                  <input
+                    type="date"
+                    required
+                    value={date}
+                    onChange={e => setDate(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
+                  />
+                </div>
+              </div>
+              {tripType === "round-trip" && (
+                <div>
+                  <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">Return Date</label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50" />
+                    <input
+                      type="date"
+                      required
+                      value={returnDate}
+                      onChange={e => setReturnDate(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">Travellers</label>
+              <div className="relative">
+                <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50" />
+                <select
+                  value={travellers}
+                  onChange={e => setTravellers(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E] appearance-none"
+                >
+                  <option value="1 Traveller">1 Traveller</option>
+                  <option value="2 Travellers">2 Travellers</option>
+                  <option value="3 Travellers">3 Travellers</option>
+                  <option value="4 Travellers">4 Travellers</option>
+                  <option value="5+ Travellers">5+ Travellers</option>
+                </select>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="btn-pill mt-6"
+            >
+              Find Flights via Tea Country
+            </button>
+          </form>
+
+          <p className="text-[#1C1C1E]/40 text-sm italic text-center mt-4">
+            We source the best fares and handle your booking end to end.
+          </p>
+        </div>
+      </div>
+
+      <WhatsAppButton />
+      <Footer />
+    </main>
+  )
+}
+
+export default function FlightsContent() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-white text-[#1B4332] font-semibold">Loading Flights...</div>}>
+      <FlightsPageContent />
+    </Suspense>
+  )
+}
