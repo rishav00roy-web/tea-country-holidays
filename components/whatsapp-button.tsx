@@ -1,10 +1,28 @@
 "use client";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export function WhatsAppButton() {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!isHome) {
+      setVisible(true);
+      return;
+    }
+    const handleScroll = () => {
+      setVisible(window.scrollY > 250);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Check initial state
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isHome]);
+
+  if (!visible) return null;
 
   return (
     <button
