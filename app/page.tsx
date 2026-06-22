@@ -1,15 +1,20 @@
-import Navbar              from "@/components/navbar";
-import Hero                from "@/components/hero";
-import WhoWeAre            from "@/components/who-we-are";
-import PackagesScroll      from "@/components/packages-scroll";
-import BentoWhyUs          from "@/components/bento-why-us";
-import Destinations        from "@/components/destinations";
-import MasonryTestimonials from "@/components/masonry-testimonials";
-import OfferBanner         from "@/components/offer-banner";
-import ReviewsMarquee      from "@/components/reviews-marquee";
-import Footer              from "@/components/footer";
-import BlogsSection        from "@/components/blogs-section";
-import { BackToTop }       from "@/components/back-to-top";
+import dynamic from "next/dynamic";
+import Navbar   from "@/components/navbar";
+import Hero     from "@/components/hero";
+import { BackToTop } from "@/components/back-to-top";
+
+// Below-fold sections: code-split and lazy-loaded so they don't
+// block the hero from painting. Each gets a null fallback (no
+// skeleton flash) since they all start off-screen.
+const WhoWeAre            = dynamic(() => import("@/components/who-we-are"));
+const PackagesScroll      = dynamic(() => import("@/components/packages-scroll"));
+const BentoWhyUs          = dynamic(() => import("@/components/bento-why-us"));
+const Destinations        = dynamic(() => import("@/components/destinations"));
+const OfferBanner         = dynamic(() => import("@/components/offer-banner"));
+const MasonryTestimonials = dynamic(() => import("@/components/masonry-testimonials"));
+const ReviewsMarquee      = dynamic(() => import("@/components/reviews-marquee"));
+const BlogsSection        = dynamic(() => import("@/components/blogs-section"));
+const Footer              = dynamic(() => import("@/components/footer"));
 
 export default function Home() {
   return (
@@ -18,7 +23,6 @@ export default function Home() {
 
       <main className="flex-1 flex flex-col w-full overflow-hidden">
         <Hero />
-        
         <WhoWeAre />
         <PackagesScroll />
         <BentoWhyUs />
@@ -30,7 +34,6 @@ export default function Home() {
       </main>
 
       <Footer />
-
       <BackToTop />
     </>
   );

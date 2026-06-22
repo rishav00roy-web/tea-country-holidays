@@ -93,8 +93,6 @@ export default function Destinations() {
           <p className="text-center py-16 text-brand-ink/40 font-serif text-xl italic">More destinations coming soon…</p>
         )}
       </div>
-
-      <style dangerouslySetInnerHTML={{ __html:`@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}` }} />
     </section>
   );
 }

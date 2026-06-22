@@ -29,7 +29,7 @@ export function WhatsAppButton() {
       onClick={() => openWhatsApp("Hi, I need assistance with booking a holiday.")}
       className={`fixed ${
         isHome ? "bottom-20" : "bottom-[120px]"
-      } md:bottom-16 right-6 z-50 transition-all duration-300 hover:scale-115 flex items-center justify-center cursor-pointer border-none outline-none drop-shadow-2xl hover:brightness-105 active:scale-95`}
+      } md:bottom-16 right-6 z-50 transition-all duration-300 hover:scale-110 flex items-center justify-center cursor-pointer border-none outline-none drop-shadow-2xl hover:brightness-105 active:scale-95`}
       aria-label="Contact us on WhatsApp"
     >
       <svg className="w-14 h-14" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">

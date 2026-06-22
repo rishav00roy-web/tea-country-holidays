@@ -45,6 +45,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://lnrkqyxiwbkvkazyzcbe.supabase.co" crossOrigin="anonymous" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Tea Country Holidays — Northeast India Tours" />
+        <meta name="twitter:description" content="Northeast India's #1 Travel Partner. Crafted boutique holidays since 2014." />
       </head>
       <body className="font-sans text-brand-ink antialiased bg-brand-floral min-h-screen flex flex-col overflow-x-hidden max-w-full">
         {children}

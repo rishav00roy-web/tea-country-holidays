@@ -26,7 +26,7 @@ export default function StickyCTA() {
         <div className="flex items-center gap-2 shrink-0">
           {/* WhatsApp Button */}
           <a
-            href="https://wa.me/918826048272"
+            href="https://wa.me/918826048272?text=Hi%2C%20I'm%20looking%20to%20plan%20a%20custom%20trip.%20Can%20an%20expert%20help%20me%20out%3F"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl font-bold text-xs text-white transition-all active:scale-95 shadow-md shrink-0 cursor-pointer"

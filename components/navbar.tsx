@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, User, Map, Building2, Plane, Train, Calendar, Info, BookOpen, Phone } from "lucide-react";
 
@@ -157,11 +156,11 @@ export default function Navbar() {
               </div>
             </Link>
 
-            <Link href="https://wa.me/918826048272?text=Hi,%20I'd%20like%20to%20book%20a%20holiday."
+            <Link href="https://wa.me/918826048272?text=Hi,%20I'm%20looking%20to%20plan%20a%20custom%20trip.%20Can%20an%20expert%20help%20me%20out?"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-brand-gold hover:bg-amber-400 text-brand-evergreen font-bold px-6 py-2.5 rounded-full text-sm transition-all duration-200 shadow hover:shadow-lg hover:-translate-y-0.5">
-              Book Now
+              Consult an Expert
             </Link>
           </div>
 
@@ -267,7 +266,7 @@ export default function Navbar() {
         {/* Bottom area */}
         <div className="p-6 border-t border-brand-gold/10 dark:border-white/10 space-y-4">
           <a
-            href="https://wa.me/918826048272?text=Hi,%20I'd%20like%20to%20book%20a%20holiday."
+            href="https://wa.me/918826048272?text=Hi,%20I'm%20looking%20to%20plan%20a%20custom%20trip.%20Can%20an%20expert%20help%20me%20out?"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full py-3 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
@@ -275,7 +274,7 @@ export default function Navbar() {
             <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
               <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.864.002-2.637-1.023-5.116-2.887-6.98-1.866-1.865-4.343-2.891-6.983-2.893-5.446 0-9.87 4.42-9.874 9.865-.001 1.748.461 3.453 1.337 4.975l-.94 3.432 3.515-.922zm11.199-7.558c-.305-.153-1.805-.89-2.085-.992-.28-.102-.483-.153-.686.153-.203.305-.788.992-.966 1.196-.178.203-.356.229-.66.076-.304-.152-1.287-.475-2.451-1.513-.906-.809-1.517-1.809-1.695-2.114-.178-.305-.019-.47.132-.621.136-.136.305-.318.457-.478.152-.16.203-.274.305-.457.102-.183.05-.343-.025-.496-.076-.153-.686-1.654-.94-2.264-.247-.595-.5-.514-.685-.523-.178-.009-.38-.01-.584-.01-.203 0-.534.076-.813.38-.28.305-1.066 1.042-1.066 2.541 0 1.5 1.092 2.947 1.244 3.15.152.204 2.15 3.284 5.208 4.604.728.314 1.296.502 1.74.643.717.228 1.37.196 1.887.118.577-.085 1.805-.738 2.06-1.424.253-.686.253-1.271.177-1.373-.076-.102-.28-.153-.584-.305z"/>
             </svg>
-            <span>Book via WhatsApp</span>
+            <span>Consult an Expert</span>
           </a>
 
           <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 p-3 rounded-xl">

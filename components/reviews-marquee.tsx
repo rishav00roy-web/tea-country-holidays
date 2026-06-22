@@ -237,10 +237,12 @@ function ReviewCard({ review }: { review: any }) {
 }
 
 export default function ReviewsMarquee({ initialReviews }: { initialReviews?: any[] }) {
-  // Duplicate for seamless infinite loop
-  const doubled = initialReviews && initialReviews.length > 0
-    ? [...initialReviews, ...initialReviews]
-    : [...reviews, ...reviews];
+  // Duplicate for seamless infinite loop — prefix keys to avoid collisions
+  const baseReviews = initialReviews && initialReviews.length > 0 ? initialReviews : reviews;
+  const doubled = [
+    ...baseReviews.map(r => ({ ...r, _key: `a-${r.id}` })),
+    ...baseReviews.map(r => ({ ...r, _key: `b-${r.id}` })),
+  ];
 
   return (
     <section className="py-16 bg-brand-evergreen overflow-hidden border-t border-brand-gold/10">
@@ -276,9 +278,9 @@ export default function ReviewsMarquee({ initialReviews }: { initialReviews?: an
 
       {/* Marquee */}
       <div className="flex overflow-hidden select-none">
-        <div className="marquee-track py-2">
-          {doubled.map((review, idx) => (
-            <ReviewCard key={`${review.id}-${idx}`} review={review} />
+        <div className="marquee-track py-2" aria-label="Customer reviews">
+          {doubled.map((review) => (
+            <ReviewCard key={review._key} review={review} />
           ))}
         </div>
       </div>
