@@ -9,49 +9,49 @@ const packages = [
     name: "Meghalaya Explorer",
     duration: "5N/6D",
     destination: "Northeast India",
-    imageUrl: "https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=600&q=75",
   },
   {
     name: "Bhutan Royal Tour",
     duration: "7N/8D",
     destination: "Bhutan",
-    imageUrl: "https://images.unsplash.com/photo-1578556881786-851d4b79cb73?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1578556881786-851d4b79cb73?w=600&q=75",
   },
   {
     name: "Kerala Backwaters",
     duration: "4N/5D",
     destination: "Kerala",
-    imageUrl: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=600&q=75",
   },
   {
     name: "Dubai Highlights",
     duration: "5N/6D",
     destination: "Dubai",
-    imageUrl: "https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=600&q=75",
   },
   {
     name: "Sikkim Circuit",
     duration: "6N/7D",
     destination: "Sikkim",
-    imageUrl: "https://images.unsplash.com/photo-1622308644420-b20142dc993c?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1622308644420-b20142dc993c?w=600&q=75",
   },
   {
     name: "Rajasthan Heritage",
     duration: "8N/9D",
     destination: "Rajasthan",
-    imageUrl: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=600&q=75",
   },
   {
     name: "Bali Escape",
     duration: "6N/7D",
     destination: "Bali",
-    imageUrl: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=75",
   },
   {
     name: "Andaman Paradise",
     duration: "5N/6D",
     destination: "Andaman",
-    imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75",
   },
 ];
 
@@ -122,8 +122,9 @@ export default function PackagesScroll() {
                     src={pkg.imageUrl}
                     alt={pkg.name}
                     fill
-                    sizes="(max-width: 768px) 80vw, (max-width: 1200px) 30vw, 25vw"
+                    sizes="(max-width: 768px) 85vw, (max-width: 1200px) 32vw, 25vw"
                     className="object-cover pointer-events-none"
+                    loading="lazy"
                     draggable={false}
                   />
                 </div>

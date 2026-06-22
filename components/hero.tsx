@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import Image from "next/image";
 import GlassSearch from "@/components/glass-search";
 
@@ -19,18 +19,33 @@ const PAUSE_AFTER      = 1800;
 const PAUSE_BEFORE     = 400;
 
 const DESTINATIONS = [
-  { name: "Meghalaya", img: "https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=1920&q=80" },
-  { name: "Kerala",    img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1920&q=80" },
-  { name: "Rajasthan", img: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1920&q=80" },
-  { name: "Dubai",     img: "https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=1920&q=80" },
-  { name: "Bhutan",    img: "https://images.unsplash.com/photo-1578556881786-851d4b79cb73?w=1920&q=80" },
-  { name: "Maldives",  img: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1920&q=80" },
+  { name: "Meghalaya", img: "https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=1920&q=75" },
+  { name: "Kerala",    img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1920&q=75" },
+  { name: "Rajasthan", img: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1920&q=75" },
+  { name: "Dubai",     img: "https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=1920&q=75" },
+  { name: "Bhutan",    img: "https://images.unsplash.com/photo-1578556881786-851d4b79cb73?w=1920&q=75" },
+  { name: "Maldives",  img: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1920&q=75" },
 ];
 
-export default function Hero() {
-  const [displayed, setDisplayed] = useState("");
-  const [wordIndex, setWordIndex] = useState(0);
-  const [phase, setPhase] = useState<"typing" | "pausing" | "erasing" | "waiting">("typing");
+// ─── Isolated Typewriter ───────────────────────────────────────────────────
+// All high-frequency state (displayed text) lives ONLY here.
+// The parent hero re-renders just once per word change (every 3-4 s),
+// not every 45 ms, massively reducing TBT.
+const Typewriter = memo(function Typewriter({
+  wordIndex,
+  onWordComplete,
+}: {
+  wordIndex: number;
+  onWordComplete: () => void;
+}) {
+  const [displayed, setDisplayed] = useState(WORDS[wordIndex]);
+  const [phase, setPhase] = useState<"typing" | "pausing" | "erasing" | "waiting">("pausing");
+
+  // Reset when parent advances the word
+  useEffect(() => {
+    setDisplayed("");
+    setPhase("typing");
+  }, [wordIndex]);
 
   useEffect(() => {
     const word = WORDS[wordIndex];
@@ -61,13 +76,39 @@ export default function Hero() {
         return () => clearTimeout(t);
       } else {
         const t = setTimeout(() => {
-          setWordIndex((prev) => (prev + 1) % WORDS.length);
-          setPhase("typing");
+          onWordComplete();
         }, PAUSE_BEFORE);
         return () => clearTimeout(t);
       }
     }
-  }, [displayed, phase, wordIndex]);
+  }, [displayed, phase, wordIndex, onWordComplete]);
+
+  return (
+    <span className="text-[#F4A011] inline-block min-w-[6ch]">
+      {displayed}
+      <span
+        style={{
+          display: "inline-block",
+          width: "2px",
+          height: "0.85em",
+          background: "#F4A011",
+          marginLeft: "4px",
+          verticalAlign: "middle",
+          animation: "blink 0.75s step-end infinite",
+        }}
+      />
+    </span>
+  );
+});
+
+// ─── Hero ─────────────────────────────────────────────────────────────────
+export default function Hero() {
+  const [wordIndex, setWordIndex] = useState(0);
+
+  const advanceWord = () =>
+    setWordIndex((prev) => (prev + 1) % WORDS.length);
+
+  const nextIndex = (wordIndex + 1) % DESTINATIONS.length;
 
   return (
     <>
@@ -102,22 +143,25 @@ export default function Hero() {
           aria-hidden="true"
         />
 
-        {/* Blended Destination Background Slideshow */}
+        {/* Blended Destination Background Slideshow
+            Only render the current slide + the next slide (pre-fetch).
+            All others stay unmounted → no wasted bandwidth.                */}
         {DESTINATIONS.map((dest, idx) => {
-          const shouldRender = idx === 0 || idx === 1 || idx === wordIndex || idx === (wordIndex + 1) % DESTINATIONS.length;
-          if (!shouldRender) return null;
+          const isCurrent = idx === wordIndex;
+          const isNext    = idx === nextIndex;
+          if (!isCurrent && !isNext) return null;
           return (
             <Image
               key={dest.name}
               src={dest.img}
               alt=""
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 100vw"
               priority={idx === 0}
               loading={idx === 0 ? undefined : "lazy"}
               className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out z-0"
               style={{
-                opacity: idx === wordIndex ? 0.7 : 0,
+                opacity: isCurrent ? 0.7 : 0,
               }}
             />
           );
@@ -151,26 +195,13 @@ export default function Hero() {
             Tea Country Holidays
           </p>
 
-          {/* Main headline */}
+          {/* Main headline — parent only re-renders when wordIndex changes */}
           <h1
             className="font-serif text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-snug md:leading-tight"
             style={{ animation: "fadeUp 0.8s ease both 0.35s", opacity: 0 }}
           >
             Discover{" "}
-            <span className="text-[#F4A011] inline-block min-w-[6ch]">
-              {displayed}
-              <span
-                style={{
-                  display: 'inline-block',
-                  width: '2px',
-                  height: '0.85em',
-                  background: '#F4A011',
-                  marginLeft: '4px',
-                  verticalAlign: 'middle',
-                  animation: 'blink 0.75s step-end infinite'
-                }}
-              />
-            </span>
+            <Typewriter wordIndex={wordIndex} onWordComplete={advanceWord} />
           </h1>
 
           {/* Sub-line */}
@@ -209,7 +240,6 @@ export default function Hero() {
             <span className="text-white/20">|</span>
             <span>10 Years of Excellence</span>
           </div>
-
 
 
         </div>

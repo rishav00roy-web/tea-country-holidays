@@ -7,9 +7,14 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "lnrkqyxiwbkvkazyzcbe.supabase.co" },
       { protocol: "https", hostname: "*.googleusercontent.com" },
     ],
-    formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 86400,
-    deviceSizes: [640, 750, 1080, 1920],
+    // Prefer AVIF (smallest), fall back to WebP
+    formats: ["image/avif", "image/webp"],
+    // Cache optimised images for 7 days (reduces repeated origin requests)
+    minimumCacheTTL: 604800,
+    // Breakpoints that Next.js uses to choose srcset widths.
+    // Keep this tight — only widths we actually use.
+    deviceSizes: [390, 640, 750, 1080, 1920],
+    imageSizes: [32, 48, 64, 96, 128, 256, 384],
   },
   // Suppress the lockfile warning
   turbopack: {
