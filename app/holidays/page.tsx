@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   keywords: ["holiday packages", "Northeast India tours", "Shillong tour package", "Meghalaya travel agency", "Tawang tour", "Kaziranga package"],
 }
 
-export default function HolidaysPage() {
-  return <HolidaysContent />
+export interface HolidaysPageProps {
+  searchParams: Promise<{ destination?: string }>
+}
+
+export default async function HolidaysPage({ searchParams }: HolidaysPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const initialDestination = resolvedSearchParams.destination || "";
+
+  return <HolidaysContent initialDestination={initialDestination} />
 }

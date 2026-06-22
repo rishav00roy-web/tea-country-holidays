@@ -124,7 +124,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="pt-8 border-t border-brand-gold/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/35">
-          <p>&copy; {new Date().getFullYear()} TeaCountryHolidays Â· Guwahati, Assam Â· All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} TeaCountryHolidays &middot; Guwahati, Assam &middot; All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="#" className="hover:text-brand-gold transition-colors">Terms</Link>
             <Link href="#" className="hover:text-brand-gold transition-colors">Privacy</Link>

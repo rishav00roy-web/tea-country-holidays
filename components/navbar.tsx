@@ -157,7 +157,9 @@ export default function Navbar() {
               </div>
             </Link>
 
-            <Link href="#"
+            <Link href="https://wa.me/918826048272?text=Hi,%20I'd%20like%20to%20book%20a%20holiday."
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-brand-gold hover:bg-amber-400 text-brand-evergreen font-bold px-6 py-2.5 rounded-full text-sm transition-all duration-200 shadow hover:shadow-lg hover:-translate-y-0.5">
               Book Now
             </Link>

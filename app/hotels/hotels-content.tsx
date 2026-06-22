@@ -4,7 +4,6 @@ import Image from "next/image"
 import { MapPin, Calendar, Users, Star } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import { WhatsAppButton } from "@/components/whatsapp-button"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 import { useSearchParams } from "next/navigation"
 
@@ -148,7 +147,7 @@ function HotelsPageContent() {
         )}
       </div>
 
-      <WhatsAppButton />
+
       <Footer />
     </main>
   )

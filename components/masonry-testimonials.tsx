@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 
 const getImageUrl = (path: string, name: string) => {
   if (!path || path.includes('googleusercontent.com')) {
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=013220&color=D4AF37`;
+    return null;
   }
   if (path.startsWith('http')) return path;
   
@@ -18,6 +18,35 @@ const getImageUrl = (path: string, name: string) => {
   
   return `https://lnrkqyxiwbkvkazyzcbe.supabase.co/storage/v1/object/public/tea-country-reviews/${cleanPath}`;
 };
+
+function InitialsAvatar({ name }: { name: string }) {
+  const words = name.trim().split(/\s+/);
+  const initials = words.length > 1 
+    ? (words[0][0] + words[words.length - 1][0]).toUpperCase()
+    : words[0][0].toUpperCase();
+
+  const colors = [
+    { bg: "bg-[#013220]", text: "text-[#D4AF37]" }, // Evergreen & Gold
+    { bg: "bg-[#D4AF37]", text: "text-[#013220]" }, // Gold & Evergreen
+    { bg: "bg-red-600", text: "text-white" },
+    { bg: "bg-blue-600", text: "text-white" },
+    { bg: "bg-indigo-600", text: "text-white" },
+    { bg: "bg-teal-600", text: "text-white" },
+  ];
+  
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const colorIndex = Math.abs(hash) % colors.length;
+  const color = colors[colorIndex];
+
+  return (
+    <div className={`w-20 h-20 rounded-full flex items-center justify-center font-bold text-xl border-2 border-[#C8860A] shadow-md ${color.bg} ${color.text} select-none shrink-0 mb-4`}>
+      {initials}
+    </div>
+  );
+}
 
 function StarRow({ count }: { count: number }) {
   return (
@@ -44,8 +73,6 @@ function FlipCard({ data, index }: { data: any; index: number }) {
   const initialAvatar = getImageUrl(data.profile_pic_url, data.name);
   const [avatarSrc, setAvatarSrc] = useState(initialAvatar);
   const [hasFailed, setHasFailed] = useState(false);
-
-  const isSafeUrl = avatarSrc.includes('ui-avatars.com');
 
   const handleImageError = (failedUrl: string) => {
     setPhotos((prev) => prev.filter((url) => url !== failedUrl));
@@ -95,26 +122,15 @@ function FlipCard({ data, index }: { data: any; index: number }) {
           
           {/* Content overlay */}
           <div className="relative z-10 flex flex-col items-center justify-center">
-            {(mounted || isSafeUrl) && !hasFailed ? (
+            {avatarSrc && !hasFailed ? (
               <img 
                 src={avatarSrc} 
                 alt={data.name}
                 className="w-20 h-20 rounded-full border-2 border-[#C8860A] shadow-md object-cover mb-4 bg-white"
-                onError={() => {
-                  const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(data.name)}&background=013220&color=D4AF37`;
-                  if (avatarSrc !== fallbackUrl) {
-                    setAvatarSrc(fallbackUrl);
-                  } else {
-                    setHasFailed(true);
-                  }
-                }}
+                onError={() => setHasFailed(true)}
               />
             ) : (
-              <div className="w-20 h-20 rounded-full bg-[#C8860A] flex items-center justify-center mb-4 border-2 border-[#C8860A]/50 shadow-md">
-                <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                </svg>
-              </div>
+              <InitialsAvatar name={data.name} />
             )}
             <h3 className="font-serif text-xl font-bold text-white drop-shadow-md text-center">{data.name}</h3>
           </div>

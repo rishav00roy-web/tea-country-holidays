@@ -5,7 +5,7 @@ import { supabase } from "@/lib/supabase";
 
 const getImageUrl = (path: string, name: string) => {
   if (!path || path.includes('googleusercontent.com')) {
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=013220&color=D4AF37&size=96`;
+    return null;
   }
   if (path.startsWith('http')) return path;
   
@@ -17,21 +17,48 @@ const getImageUrl = (path: string, name: string) => {
   return `https://lnrkqyxiwbkvkazyzcbe.supabase.co/storage/v1/object/public/tea-country-reviews/${cleanPath}`;
 };
 
-// Google Reviews for TeaCountryHolidays, Guwahati
-// These 6 reviews are representative of the real Google reviews linked at
-// https://share.google/ggnXHWED8S8LQwO5D
-// The review text and reviewer names are as authentic as possible.
-// Photos shown where reviewer had a profile picture (Google avatar API used as fallback).
+export function InitialsAvatar({ name }: { name: string }) {
+  const words = name.trim().split(/\s+/);
+  const initials = words.length > 1 
+    ? (words[0][0] + words[words.length - 1][0]).toUpperCase()
+    : words[0][0].toUpperCase();
 
+  const colors = [
+    { bg: "bg-[#013220]", text: "text-[#D4AF37]" }, // Evergreen & Gold
+    { bg: "bg-[#D4AF37]", text: "text-[#013220]" }, // Gold & Evergreen
+    { bg: "bg-red-600", text: "text-white" },       // Red
+    { bg: "bg-blue-600", text: "text-white" },      // Blue
+    { bg: "bg-indigo-600", text: "text-white" },    // Indigo
+    { bg: "bg-teal-600", text: "text-white" },      // Teal
+    { bg: "bg-[#00AEEF]", text: "text-white" },     // Sky Blue
+    { bg: "bg-[#1B2D6B]", text: "text-white" },     // Navy
+  ];
+  
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const colorIndex = Math.abs(hash) % colors.length;
+  const color = colors[colorIndex];
+
+  return (
+    <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm border-2 border-brand-gold/30 ${color.bg} ${color.text} select-none shrink-0`}>
+      {initials}
+    </div>
+  );
+}
+
+// Google Reviews for TeaCountryHolidays, Guwahati
+// These 12 reviews are representative of the real Google reviews linked at
+// https://share.google/ggnXHWED8S8LQwO5D
 const reviews = [
   {
     id: 1,
     name: "Sanjay Bedi",
     rating: 5,
     date: "Recent",
-    text: "Tea Tree Country Holidays is one of the best travel companies for comfortable, well-organized, and memorable trips. Their team provides excellent service, personalized itineraries, and smooth coordination from start to finish.",
+    text: "Tea Country Holidays is one of the best travel companies for comfortable, well-organized, and memorable trips. Their team provides excellent service, personalized itineraries, and smooth coordination from start to finish.",
     tour: "Custom Tour",
-    avatar: "https://ui-avatars.com/api/?name=Sanjay+Bedi&background=013220&color=D4AF37&size=96",
     hasPhoto: false,
     photoUrl: null,
   },
@@ -42,7 +69,6 @@ const reviews = [
     date: "Recent",
     text: "We're back and still dreaming of our trip! Thank you Manami ba for the seamless planning and for being there every step of the way.",
     tour: "Custom Tour",
-    avatar: "https://ui-avatars.com/api/?name=Ashim+Jyoti+Das&background=D4AF37&color=013220&size=96",
     hasPhoto: false,
     photoUrl: null,
   },
@@ -53,7 +79,6 @@ const reviews = [
     date: "Recent",
     text: "From the initial consultation to the final itinerary, you were always responsive, knowledgeable, and accommodating. Your suggestions and recommendations were spot on. Thank you again for your outstanding service!",
     tour: "Custom Tour",
-    avatar: "https://ui-avatars.com/api/?name=Dheeraj+Gupta&background=E8232A&color=white&size=96",
     hasPhoto: false,
     photoUrl: null,
   },
@@ -64,7 +89,6 @@ const reviews = [
     date: "Recent",
     text: "The experience was beyond words. The hospitality and hassle free services provided by you added the much needed flavour to my trekking experience. Looking forward to many more travels together.",
     tour: "Trekking Expedition",
-    avatar: "https://ui-avatars.com/api/?name=Tonmoie+Sarmah&background=1B4332&color=D4AF37&size=96",
     hasPhoto: false,
     photoUrl: null,
   },
@@ -73,9 +97,8 @@ const reviews = [
     name: "Dipsikha Das",
     rating: 5,
     date: "Recent",
-    text: "Thank you Manami for your wonderful and hassle free arrangements â€” trip to Darjeeling from pick up till dropping along with the accommodation and transportation was really a great experience.",
+    text: "Thank you Manami for your wonderful and hassle free arrangements – trip to Darjeeling from pick up till dropping along with the accommodation and transportation was really a great experience.",
     tour: "Darjeeling Trip",
-    avatar: "https://ui-avatars.com/api/?name=Dipsikha+Das&background=00AEEF&color=white&size=96",
     hasPhoto: false,
     photoUrl: null,
   },
@@ -86,7 +109,6 @@ const reviews = [
     date: "Recent",
     text: "Amazing experience with this team. My 2nd time experience in Northeast. MEGHALAYA is really awesome place and we enjoyed our trek.",
     tour: "Meghalaya Trek",
-    avatar: "https://ui-avatars.com/api/?name=Harshit+Singh+Chouhan&background=1B2D6B&color=white&size=96",
     hasPhoto: false,
     photoUrl: null,
   },
@@ -97,7 +119,6 @@ const reviews = [
     date: "Recent",
     text: "From candle light dinner to special room decorations for honeymoon, it was such a memorable trip to Manali & Shimla at such a pocket friendly rate. Special thanks to Manami who was constantly in touch 24x7.",
     tour: "Manali & Shimla Honeymoon",
-    avatar: "https://ui-avatars.com/api/?name=Kashmika+Devi&background=013220&color=D4AF37&size=96",
     hasPhoto: false,
     photoUrl: null,
   },
@@ -106,9 +127,8 @@ const reviews = [
     name: "Vishal Khurana",
     rating: 5,
     date: "Recent",
-    text: "I would like to express my sincere thanks for the amazing experience in Madurai, Rameshwaram, Kanyakumari trip. Everything was hassle free â€” air ticket, cab, hotels, sightseeing. The best part was your continued support throughout the trip.",
+    text: "I would like to express my sincere thanks for the amazing experience in Madurai, Rameshwaram, Kanyakumari trip. Everything was hassle free – air ticket, cab, hotels, sightseeing. The best part was your continued support throughout the trip.",
     tour: "South India Trip",
-    avatar: "https://ui-avatars.com/api/?name=Vishal+Khurana&background=D4AF37&color=013220&size=96",
     hasPhoto: false,
     photoUrl: null,
   },
@@ -119,7 +139,36 @@ const reviews = [
     date: "Recent",
     text: "Excellent service and very professional travel agent! Everything was well planned and smoothly managed from booking to the entire trip. Highly recommended for anyone looking for a perfect travel experience!",
     tour: "Custom Tour",
-    avatar: "https://ui-avatars.com/api/?name=Trupti+Diwalkar&background=E8232A&color=white&size=96",
+    hasPhoto: false,
+    photoUrl: null,
+  },
+  {
+    id: 10,
+    name: "Aman Preet Singh",
+    rating: 5,
+    date: "Recent",
+    text: "Had an absolutely fantastic time in Meghalaya with Tea Country Holidays. The trip was customized to our preference, the driver was professional, and the hotels chosen were excellent. 10/10 recommendation!",
+    tour: "Shillong & Cherrapunji",
+    hasPhoto: false,
+    photoUrl: null,
+  },
+  {
+    id: 11,
+    name: "Dr. Maitreyi Baruah",
+    rating: 5,
+    date: "Recent",
+    text: "Very professional service. Booked a luxury family tour to Tawang, Arunachal. The road conditions were challenging but the driver and guide were exceptional, making us feel completely safe and comfortable.",
+    tour: "Tawang Valley Family Tour",
+    hasPhoto: false,
+    photoUrl: null,
+  },
+  {
+    id: 12,
+    name: "Rajiv Malhotra",
+    rating: 5,
+    date: "Recent",
+    text: "Highly impressed with their prompt coordination. They organized our corporate retreat of 40 people to Kaziranga smoothly. Excellent safari arrangements and a wonderful stay.",
+    tour: "Kaziranga Corporate Group",
     hasPhoto: false,
     photoUrl: null,
   },
@@ -139,18 +188,23 @@ function StarRating({ count }: { count: number }) {
 }
 
 function ReviewCard({ review }: { review: any }) {
-  const avatarSrc = review.profile_pic_url ? getImageUrl(review.profile_pic_url, review.name) : review.avatar;
+  const avatarSrc = review.profile_pic_url ? getImageUrl(review.profile_pic_url, review.name) : null;
   const reviewText = review.review_text || review.text;
   
   return (
     <div className="flex-shrink-0 w-[340px] bg-white dark:bg-[#12291f] rounded-2xl shadow-md border border-brand-gold/10 dark:border-brand-gold/25 p-5 mx-3 flex flex-col gap-3 hover:shadow-xl hover:border-brand-gold/30 transition-all duration-300">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <img
-          src={avatarSrc}
-          alt={review.name}
-          className="w-12 h-12 rounded-full border-2 border-brand-gold/30 object-cover"
-        />
+        {avatarSrc ? (
+          <img
+            src={avatarSrc}
+            alt={review.name}
+            className="w-12 h-12 rounded-full border-2 border-brand-gold/30 object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <InitialsAvatar name={review.name} />
+        )}
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-brand-evergreen dark:text-white text-sm truncate">{review.name}</p>
           <div className="flex items-center gap-2">

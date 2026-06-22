@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import GlassSearch from "@/components/glass-search";
 
 const WORDS = [
@@ -18,7 +19,7 @@ const PAUSE_AFTER      = 1800;
 const PAUSE_BEFORE     = 400;
 
 const DESTINATIONS = [
-  { name: "Meghalaya", img: "https://upload.wikimedia.org/wikipedia/commons/3/31/Elephant_Falls_Shillong_Meghalaya.jpg" },
+  { name: "Meghalaya", img: "https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=1920&q=80" },
   { name: "Kerala",    img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1920&q=80" },
   { name: "Rajasthan", img: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1920&q=80" },
   { name: "Dubai",     img: "https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=1920&q=80" },
@@ -103,10 +104,14 @@ export default function Hero() {
 
         {/* Blended Destination Background Slideshow */}
         {DESTINATIONS.map((dest, idx) => (
-          <img
+          <Image
             key={dest.name}
             src={dest.img}
             alt=""
+            fill
+            sizes="100vw"
+            priority={idx === 0}
+            loading={idx === 0 ? undefined : "lazy"}
             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out z-0"
             style={{
               opacity: idx === wordIndex ? 0.7 : 0,
@@ -169,7 +174,7 @@ export default function Hero() {
             className="font-serif italic text-brand-cream/90 tracking-[0.1em] text-lg sm:text-xl md:text-2xl font-medium"
             style={{ animation: "fadeUp 0.8s ease both 0.6s", opacity: 0 }}
           >
-            Crafting Unforgettable Experiences
+            Northeast India, Curated. Since 2014.
           </p>
 
           {/* Decorative divider */}
@@ -192,13 +197,13 @@ export default function Hero() {
             style={{ animation: "fadeUp 0.8s ease both 1.2s" }}
           >
             <span className="text-[#C8860A]">✦</span>
-            <span>500+ Happy Travellers</span>
+            <span>500+ Tours Crafted</span>
             <span className="text-white/20">|</span>
-            <span>50+ Destinations</span>
+            <span>15+ Destinations</span>
             <span className="text-white/20">|</span>
             <span>4.9★ Google Rating</span>
             <span className="text-white/20">|</span>
-            <span>8 Years of Excellence</span>
+            <span>10 Years of Excellence</span>
           </div>
 
 

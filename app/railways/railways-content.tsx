@@ -3,7 +3,6 @@ import { useState } from "react"
 import { Calendar, Users, Train } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import { WhatsAppButton } from "@/components/whatsapp-button"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 
 export default function RailwaysContent() {
@@ -132,7 +131,7 @@ export default function RailwaysContent() {
         </div>
       </div>
 
-      <WhatsAppButton />
+
       <Footer />
     </main>
   )

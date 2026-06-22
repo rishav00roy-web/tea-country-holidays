@@ -1,13 +1,11 @@
 "use client"
-import { useState, Suspense } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import { Clock, ArrowRight, Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import { WhatsAppButton } from "@/components/whatsapp-button"
 import { useAuthGate } from "@/hooks/use-auth-gate"
-import { useSearchParams } from "next/navigation"
 
 const filters = ["All", "Domestic", "International", "Beach", "Honeymoon", "Adventure", "Pilgrimage"]
 
@@ -39,21 +37,17 @@ const packages = [
   { id: 18, title: "Rameshwaram (Tamil Nadu)", image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&q=80", duration: "4 Days / 3 Nights", price: 11999, theme: "Pilgrimage", category: ["Domestic", "Pilgrimage"], description: "Critical stop on Char Dham circuit in Tamil Nadu housing Shiva's Jyotirlinga." },
 ]
 
-function HolidaysPageContent() {
+export default function HolidaysContent({ initialDestination = "" }: { initialDestination?: string }) {
   const [activeFilter, setActiveFilter] = useState("All")
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState(initialDestination)
   const { gatedWhatsApp } = useAuthGate()
-  const searchParams = useSearchParams()
-  
-  // Pre-fill search from hero search params
-  const destinationParam = searchParams.get("destination") || ""
 
   const filtered = packages.filter(pkg => {
     const matchesFilter = activeFilter === "All" || pkg.category.includes(activeFilter)
-    const matchesSearch = !search && !destinationParam
+    const matchesSearch = !search
       ? true
-      : pkg.title.toLowerCase().includes((search || destinationParam).toLowerCase()) ||
-        pkg.theme.toLowerCase().includes((search || destinationParam).toLowerCase())
+      : pkg.title.toLowerCase().includes(search.toLowerCase()) ||
+        pkg.theme.toLowerCase().includes(search.toLowerCase())
     return matchesFilter && matchesSearch
   })
 
@@ -82,7 +76,7 @@ function HolidaysPageContent() {
               <input
                 type="text"
                 placeholder="Search destinations or themes..."
-                defaultValue={destinationParam}
+                value={search}
                 onChange={e => setSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-400 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30 focus:border-[#1B4332] shadow-sm text-gray-900 placeholder:text-gray-500 font-medium"
               />
@@ -170,16 +164,7 @@ function HolidaysPageContent() {
         )}
       </div>
 
-      <WhatsAppButton />
       <Footer />
     </main>
-  )
-}
-
-export default function HolidaysContent() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-white text-[#1B4332] font-semibold">Loading Holidays...</div>}>
-      <HolidaysPageContent />
-    </Suspense>
   )
 }

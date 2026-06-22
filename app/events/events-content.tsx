@@ -1,7 +1,6 @@
 "use client"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import { WhatsAppButton } from "@/components/whatsapp-button"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 import { Sparkles, Calendar, Users, FileText, User } from "lucide-react"
 
@@ -181,7 +180,7 @@ export default function EventsContent() {
         </div>
       </div>
 
-      <WhatsAppButton />
+
       <Footer />
     </main>
   )

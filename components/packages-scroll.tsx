@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { useAuthGate } from "@/hooks/use-auth-gate";
 
 const packages = [
@@ -117,10 +118,12 @@ export default function PackagesScroll() {
               >
                 {/* Card Image */}
                 <div className="aspect-[4/3] w-full relative overflow-hidden">
-                  <img
+                  <Image
                     src={pkg.imageUrl}
                     alt={pkg.name}
-                    className="aspect-[4/3] w-full object-cover pointer-events-none"
+                    fill
+                    sizes="(max-width: 768px) 80vw, (max-width: 1200px) 30vw, 25vw"
+                    className="object-cover pointer-events-none"
                     draggable={false}
                   />
                 </div>

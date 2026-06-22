@@ -4,7 +4,6 @@ import Link from "next/link"
 import { ArrowLeft, Calendar, Clock } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import { WhatsAppButton } from "@/components/whatsapp-button"
 import { notFound } from "next/navigation"
 
 const blogPosts = [
@@ -558,7 +557,6 @@ export default async function BlogDetailPage({
         </div>
       </div>
 
-      <WhatsAppButton />
       <Footer />
     </main>
   )

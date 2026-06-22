@@ -4,8 +4,10 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "ui-avatars.com" },
     ],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 86400,
+    deviceSizes: [640, 750, 1080, 1920],
   },
   // Suppress the lockfile warning
   turbopack: {

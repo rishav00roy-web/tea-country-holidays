@@ -2,22 +2,20 @@
 
 import { Star } from "lucide-react";
 import { useInView } from "@/hooks/useAnimations";
+import { InitialsAvatar } from "./reviews-marquee";
 
 const testimonials = [
   {
     id: 1, name: "Rahul Sharma", tour: "Magical Meghalaya Explorer",
     review: "An absolute dream vacation! Everything from living root bridges to Nohkalikai Falls was perfectly timed. The guide was knowledgeable and the hotel spotless. TeaCountryHolidays sets a benchmark for Northeast India travel.",
-    avatar: "https://ui-avatars.com/api/?name=Rahul+Sharma&background=013220&color=D4AF37&size=80",
   },
   {
     id: 2, name: "Priya Desai", tour: "Maldives Honeymoon Special",
     review: "Our honeymoon in Maldives was magical beyond words. The overwater villa, private sunset dinner, and every tiny detail was planned to perfection. We didn't have to worry about a single thing.",
-    avatar: "https://ui-avatars.com/api/?name=Priya+Desai&background=D4AF37&color=013220&size=80",
   },
   {
     id: 3, name: "Amit Patel", tour: "Dubai Glitz & Glamour",
     review: "Exceptional service from first enquiry to return. Visa, hotel, desert safari, Burj Khalifa — all handled flawlessly. Pricing was transparent. Will definitely trust TeaCountryHolidays for our next trip.",
-    avatar: "https://ui-avatars.com/api/?name=Amit+Patel&background=E8232A&color=white&size=80",
   },
 ];
 
@@ -74,8 +72,7 @@ export default function Testimonials() {
               </p>
 
               <div className="flex items-center gap-4 pt-5 border-t border-brand-gold/10 relative z-10">
-                <img src={t.avatar} alt={t.name}
-                  className="w-12 h-12 rounded-full border-2 border-brand-gold/40 object-cover" />
+                <InitialsAvatar name={t.name} />
                 <div>
                   <span className="font-bold text-brand-evergreen block">{t.name}</span>
                   <span className="text-brand-gold text-xs font-medium">{t.tour}</span>

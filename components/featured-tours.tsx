@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useInView } from "@/hooks/useAnimations";
 
 // All images verified to load from Unsplash (stable photo IDs)
@@ -67,7 +68,7 @@ export default function FeaturedTours() {
 
         {/* CTA */}
         <div className="mt-14 text-center">
-          <Link href="#"
+          <Link href="/holidays"
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-white dark:bg-[#12291f] border-2 border-brand-evergreen dark:border-brand-gold/40 hover:bg-brand-evergreen hover:text-white dark:hover:bg-brand-evergreen text-brand-evergreen dark:text-white rounded-full font-bold transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-0.5">
             Explore All Packages →
           </Link>
@@ -92,7 +93,9 @@ function TourCard({ tour, index }: { tour: typeof tours[0]; index: number }) {
 
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden bg-brand-varden">
-        <img src={tour.image} alt={tour.name}
+        <Image src={tour.image} alt={tour.name}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-evergreen/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -123,7 +126,7 @@ function TourCard({ tour, index }: { tour: typeof tours[0]; index: number }) {
           {tour.name}
         </h3>
         <div className="mt-auto flex items-center justify-between">
-          <Link href="#" className="text-brand-gold font-semibold text-sm hover:text-brand-evergreen transition-colors flex items-center gap-0.5 group/link">
+          <Link href={`/holidays?destination=${encodeURIComponent(tour.name)}`} className="text-brand-gold font-semibold text-sm hover:text-brand-evergreen transition-colors flex items-center gap-0.5 group/link">
             Details <span className="transition-transform duration-200 group-hover/link:translate-x-1">→</span>
           </Link>
         </div>
