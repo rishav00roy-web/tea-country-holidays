@@ -1,11 +1,17 @@
 "use client";
 import { openWhatsApp } from "@/lib/whatsapp";
+import { usePathname } from "next/navigation";
 
 export function WhatsAppButton() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
   return (
     <button
       onClick={() => openWhatsApp("Hi, I need assistance with booking a holiday.")}
-      className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20ba5a] text-white p-3.5 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center cursor-pointer border-none outline-none"
+      className={`fixed ${
+        isHome ? "bottom-6" : "bottom-[80px]"
+      } md:bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20ba5a] text-white p-3.5 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center cursor-pointer border-none outline-none`}
       aria-label="Contact us on WhatsApp"
     >
       <svg className="w-6 h-6 fill-white" viewBox="0 0 24 24">

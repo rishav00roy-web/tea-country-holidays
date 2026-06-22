@@ -18,11 +18,11 @@
   --color-brand-cream:     #F7F5F0;
 
   /* Typography */
-  --font-serif: var(--font-cormorant), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-sans:  var(--font-dm-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans:  var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* â”€â”€â”€ Base â”€â”€â”€ */
+/* ─── Base ─── */
 @layer base {
   html { scroll-behavior: smooth; }
 
@@ -38,7 +38,7 @@
   ::-webkit-scrollbar-thumb:hover { background: var(--color-brand-evergreen); }
 
   body {
-    @apply text-base leading-relaxed font-sans;
+    @apply text-[14px] leading-[1.6] font-sans;
     color: var(--color-brand-ink);
     background: var(--color-brand-floral);
     transition: background 0.3s ease, color 0.3s ease;

@@ -12,7 +12,7 @@ import OfferBanner         from "@/components/offer-banner";
 import ReviewsMarquee      from "@/components/reviews-marquee";
 import BookingModal        from "@/components/booking-modal";
 import Footer              from "@/components/footer";
-import StickyCTA           from "@/components/sticky-cta";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 import BlogsSection        from "@/components/blogs-section";
 
 export default function Home() {
@@ -39,8 +39,8 @@ export default function Home() {
 
       <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
-      {/* Sticky mobile CTA replaces the old floating Book Now button */}
-      <StickyCTA />
+      {/* WhatsApp FAB on homepage */}
+      <WhatsAppButton />
 
       {/* Back to Top - moved up slightly on mobile so it doesn't hide behind StickyCTA */}
       <button

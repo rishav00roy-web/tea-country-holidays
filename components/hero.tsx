@@ -136,7 +136,7 @@ export default function Hero() {
 
           {/* Eyebrow */}
           <p
-            className="text-[#D4AF37] uppercase tracking-[0.25em] text-sm font-medium"
+            className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-20 sm:pt-0"
             style={{ animation: "fadeUp 0.8s ease both 0.1s", opacity: 1 }}
           >
             Tea Country Holidays
@@ -144,18 +144,18 @@ export default function Hero() {
 
           {/* Main headline */}
           <h1
-            className="font-serif text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight"
+            className="font-serif text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-snug md:leading-tight"
             style={{ animation: "fadeUp 0.8s ease both 0.35s", opacity: 0 }}
           >
             Discover{" "}
-            <span className="text-[#D4AF37] inline-block min-w-[6ch]">
+            <span className="text-[#F4A011] inline-block min-w-[6ch]">
               {displayed}
               <span
                 style={{
                   display: 'inline-block',
                   width: '2px',
                   height: '0.85em',
-                  background: '#D4AF37',
+                  background: '#F4A011',
                   marginLeft: '4px',
                   verticalAlign: 'middle',
                   animation: 'blink 0.75s step-end infinite'
@@ -174,11 +174,11 @@ export default function Hero() {
 
           {/* Decorative divider */}
           <div
-            className="w-16 h-px bg-[#D4AF37]/50 mt-2"
+            className="w-16 h-px bg-[#F4A011]/50 mt-2"
             style={{ animation: "fadeUp 0.8s ease both 0.8s", opacity: 0 }}
           />
 
-          {/* Search bar â€” 48px gap from subtitle */}
+          {/* Search bar — 48px gap from subtitle */}
           <div
             className="w-full pt-8"
             style={{ animation: "fadeUp 0.8s ease both 1s", opacity: 0 }}
