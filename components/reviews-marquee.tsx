@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import Image from "next/image";
 
 const getImageUrl = (path: string, name: string) => {
   if (!path || path.includes('googleusercontent.com')) {
@@ -196,9 +196,11 @@ function ReviewCard({ review }: { review: any }) {
       {/* Header */}
       <div className="flex items-center gap-3">
         {avatarSrc ? (
-          <img
+          <Image
             src={avatarSrc}
             alt={review.name}
+            width={48}
+            height={48}
             className="w-12 h-12 rounded-full border-2 border-brand-gold/30 object-cover"
             loading="lazy"
           />
@@ -228,11 +230,13 @@ function ReviewCard({ review }: { review: any }) {
 
       {/* Tour photo if available */}
       {review.hasPhoto && review.photoUrl && (
-        <div className="rounded-xl overflow-hidden aspect-video">
-          <img
+        <div className="rounded-xl overflow-hidden aspect-video relative">
+          <Image
             src={review.photoUrl}
             alt={`${review.tour} photo`}
-            className="w-full h-full object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, 300px"
+            className="object-cover"
             loading="lazy"
           />
         </div>
@@ -249,35 +253,8 @@ function ReviewCard({ review }: { review: any }) {
 }
 
 export default function ReviewsMarquee() {
-  const [marqueeReviews, setMarqueeReviews] = useState<any[]>(reviews);
-
-  useEffect(() => {
-    async function fetchReviews() {
-      try {
-        const { data, error } = await supabase
-          .from('reviews')
-          .select('*')
-          .eq('is_featured', true);
-
-        if (error) {
-          throw error;
-        }
-
-        if (data && data.length > 0) {
-          setMarqueeReviews(data);
-        } else {
-          console.warn("Supabase returned empty data. Using local fallback.");
-        }
-      } catch (error) {
-        console.warn("Failed to fetch reviews from Supabase. Using local fallback.", error);
-      }
-    }
-    
-    fetchReviews();
-  }, []);
-
   // Duplicate for seamless infinite loop
-  const doubled = [...marqueeReviews, ...marqueeReviews];
+  const doubled = [...reviews, ...reviews];
 
   return (
     <section className="py-16 bg-brand-evergreen overflow-hidden border-t border-brand-gold/10">

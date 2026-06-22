@@ -2,8 +2,8 @@
 
 import { useInView } from "@/hooks/useAnimations";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { fallbackTestimonials } from "@/lib/reviews-data";
-import { supabase } from "@/lib/supabase";
 
 const getImageUrl = (path: string, name: string) => {
   if (!path || path.includes('googleusercontent.com')) {
@@ -104,11 +104,13 @@ function FlipCard({ data, index }: { data: any; index: number }) {
         {/* Front Content */}
         <div className="review-flip-card-front relative flex flex-col items-center justify-center p-6 w-full h-full">
           {photos.map((photo, i) => (
-            <img
+            <Image
               key={photo}
               src={photo}
               alt=""
-              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 pointer-events-none"
+              fill
+              sizes="(max-width: 768px) 100vw, 380px"
+              className="object-cover transition-opacity duration-1000 pointer-events-none"
               style={{
                 opacity: i === currentPhotoIndex ? 0.7 : 0,
                 zIndex: 1
@@ -123,9 +125,11 @@ function FlipCard({ data, index }: { data: any; index: number }) {
           {/* Content overlay */}
           <div className="relative z-10 flex flex-col items-center justify-center">
             {avatarSrc && !hasFailed ? (
-              <img 
+              <Image 
                 src={avatarSrc} 
                 alt={data.name}
+                width={80}
+                height={80}
                 className="w-20 h-20 rounded-full border-2 border-[#C8860A] shadow-md object-cover mb-4 bg-white"
                 onError={() => setHasFailed(true)}
               />
@@ -156,32 +160,7 @@ function FlipCard({ data, index }: { data: any; index: number }) {
 
 export default function MasonryTestimonials() {
   const [ref, inView] = useInView({ threshold: 0.1 });
-  const [testimonials, setTestimonials] = useState(fallbackTestimonials);
-
-  useEffect(() => {
-    async function fetchReviews() {
-      try {
-        const { data, error } = await supabase
-          .from('reviews')
-          .select('*')
-          .eq('is_featured', true);
-
-        if (error) {
-          throw error;
-        }
-
-        if (data && data.length > 0) {
-          setTestimonials(data);
-        } else {
-          console.warn("Supabase returned empty data. Using local fallback.");
-        }
-      } catch (error) {
-        console.warn("Failed to fetch reviews from Supabase. Using local fallback.", error);
-      }
-    }
-    
-    fetchReviews();
-  }, []);
+  const testimonials = fallbackTestimonials;
 
   return (
     <section className="py-20 md:py-28 bg-[#FAFAF7] dark:bg-[#0d1f1a]">

@@ -103,21 +103,25 @@ export default function Hero() {
         />
 
         {/* Blended Destination Background Slideshow */}
-        {DESTINATIONS.map((dest, idx) => (
-          <Image
-            key={dest.name}
-            src={dest.img}
-            alt=""
-            fill
-            sizes="100vw"
-            priority={idx === 0}
-            loading={idx === 0 ? undefined : "lazy"}
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out z-0"
-            style={{
-              opacity: idx === wordIndex ? 0.7 : 0,
-            }}
-          />
-        ))}
+        {DESTINATIONS.map((dest, idx) => {
+          const shouldRender = idx === 0 || idx === 1 || idx === wordIndex || idx === (wordIndex + 1) % DESTINATIONS.length;
+          if (!shouldRender) return null;
+          return (
+            <Image
+              key={dest.name}
+              src={dest.img}
+              alt=""
+              fill
+              sizes="100vw"
+              priority={idx === 0}
+              loading={idx === 0 ? undefined : "lazy"}
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out z-0"
+              style={{
+                opacity: idx === wordIndex ? 0.7 : 0,
+              }}
+            />
+          );
+        })}
 
         {/* Vignette & Contrast Overlay */}
         <div
