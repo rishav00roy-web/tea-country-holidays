@@ -6,10 +6,12 @@ import Image from "next/image";
 import { fallbackTestimonials } from "@/lib/reviews-data";
 
 const getImageUrl = (path: string, name: string) => {
-  if (!path || path.includes('googleusercontent.com')) {
+  if (!path || path.includes('ui-avatars.com')) {
     return null;
   }
-  if (path.startsWith('http')) return path;
+  if (path.includes('googleusercontent.com') || path.startsWith('http')) {
+    return path;
+  }
   
   let cleanPath = path;
   if (cleanPath.startsWith('tea-country-reviews/')) {
@@ -25,24 +27,8 @@ function InitialsAvatar({ name }: { name: string }) {
     ? (words[0][0] + words[words.length - 1][0]).toUpperCase()
     : words[0][0].toUpperCase();
 
-  const colors = [
-    { bg: "bg-[#013220]", text: "text-[#D4AF37]" }, // Evergreen & Gold
-    { bg: "bg-[#D4AF37]", text: "text-[#013220]" }, // Gold & Evergreen
-    { bg: "bg-red-600", text: "text-white" },
-    { bg: "bg-blue-600", text: "text-white" },
-    { bg: "bg-indigo-600", text: "text-white" },
-    { bg: "bg-teal-600", text: "text-white" },
-  ];
-  
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const colorIndex = Math.abs(hash) % colors.length;
-  const color = colors[colorIndex];
-
   return (
-    <div className={`w-20 h-20 rounded-full flex items-center justify-center font-bold text-xl border-2 border-[#C8860A] shadow-md ${color.bg} ${color.text} select-none shrink-0 mb-4`}>
+    <div className="w-20 h-20 rounded-full flex items-center justify-center font-bold text-xl border-2 border-[#C8860A] bg-[#013220] text-[#D4AF37] shadow-md select-none shrink-0 mb-4">
       {initials}
     </div>
   );
@@ -158,9 +144,11 @@ function FlipCard({ data, index }: { data: any; index: number }) {
   );
 }
 
-export default function MasonryTestimonials() {
+export default function MasonryTestimonials({ initialTestimonials }: { initialTestimonials?: any[] }) {
   const [ref, inView] = useInView({ threshold: 0.1 });
-  const testimonials = fallbackTestimonials;
+  const testimonials = initialTestimonials && initialTestimonials.length > 0
+    ? initialTestimonials
+    : fallbackTestimonials;
 
   return (
     <section className="py-20 md:py-28 bg-[#FAFAF7] dark:bg-[#0d1f1a]">

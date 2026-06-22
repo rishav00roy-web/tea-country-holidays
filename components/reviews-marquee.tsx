@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const getImageUrl = (path: string, name: string) => {
-  if (!path || path.includes('googleusercontent.com')) {
+  if (!path || path.includes('ui-avatars.com')) {
     return null;
   }
-  if (path.startsWith('http')) return path;
+  if (path.includes('googleusercontent.com') || path.startsWith('http')) {
+    return path;
+  }
   
   let cleanPath = path;
   if (cleanPath.startsWith('tea-country-reviews/')) {
@@ -23,26 +25,8 @@ export function InitialsAvatar({ name }: { name: string }) {
     ? (words[0][0] + words[words.length - 1][0]).toUpperCase()
     : words[0][0].toUpperCase();
 
-  const colors = [
-    { bg: "bg-[#013220]", text: "text-[#D4AF37]" }, // Evergreen & Gold
-    { bg: "bg-[#D4AF37]", text: "text-[#013220]" }, // Gold & Evergreen
-    { bg: "bg-red-600", text: "text-white" },       // Red
-    { bg: "bg-blue-600", text: "text-white" },      // Blue
-    { bg: "bg-indigo-600", text: "text-white" },    // Indigo
-    { bg: "bg-teal-600", text: "text-white" },      // Teal
-    { bg: "bg-[#00AEEF]", text: "text-white" },     // Sky Blue
-    { bg: "bg-[#1B2D6B]", text: "text-white" },     // Navy
-  ];
-  
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const colorIndex = Math.abs(hash) % colors.length;
-  const color = colors[colorIndex];
-
   return (
-    <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm border-2 border-brand-gold/30 ${color.bg} ${color.text} select-none shrink-0`}>
+    <div className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm border-2 border-brand-gold/30 bg-[#013220] text-[#D4AF37] select-none shrink-0">
       {initials}
     </div>
   );
@@ -252,9 +236,11 @@ function ReviewCard({ review }: { review: any }) {
   );
 }
 
-export default function ReviewsMarquee() {
+export default function ReviewsMarquee({ initialReviews }: { initialReviews?: any[] }) {
   // Duplicate for seamless infinite loop
-  const doubled = [...reviews, ...reviews];
+  const doubled = initialReviews && initialReviews.length > 0
+    ? [...initialReviews, ...initialReviews]
+    : [...reviews, ...reviews];
 
   return (
     <section className="py-16 bg-brand-evergreen overflow-hidden border-t border-brand-gold/10">
