@@ -1,10 +1,9 @@
 "use client"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { supabase } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 import { openWhatsApp } from "@/lib/whatsapp"
 
 export function useAuthGate() {
-  const supabase = createClientComponentClient()
   const router = useRouter()
 
   const gatedWhatsApp = async (message: string, redirectPath?: string) => {

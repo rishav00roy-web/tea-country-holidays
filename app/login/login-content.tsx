@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { supabase } from "@/lib/supabase";
 import { Mail, Lock, User } from "lucide-react";
 
 const authDestinations = [
@@ -61,7 +61,8 @@ export default function LoginContent() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/";
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -82,7 +83,7 @@ export default function LoginContent() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirect)}`,
             data: {
               full_name: name,
             },
@@ -97,7 +98,7 @@ export default function LoginContent() {
           if (session) {
             setSuccess("Registration successful! Redirecting...");
             setTimeout(() => {
-              router.push("/");
+              router.push(redirect);
               router.refresh();
             }, 1000);
           } else {
@@ -115,13 +116,14 @@ export default function LoginContent() {
         } else {
           setSuccess("Login successful! Redirecting...");
           setTimeout(() => {
-            router.push("/");
+            router.push(redirect);
             router.refresh();
           }, 1000);
         }
       }
-    } catch (err: any) {
-      setError(err?.message || "An unexpected error occurred.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "An unexpected error occurred.";
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -136,7 +138,7 @@ export default function LoginContent() {
       const { error: oauthError } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirect)}`,
         },
       });
 
@@ -144,8 +146,9 @@ export default function LoginContent() {
         setError(oauthError.message);
         setIsLoading(false);
       }
-    } catch (err: any) {
-      setError(err?.message || "An unexpected error occurred during Google sign-in.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "An unexpected error occurred during Google sign-in.";
+      setError(message);
       setIsLoading(false);
     }
   };
