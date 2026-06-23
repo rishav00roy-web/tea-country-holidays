@@ -62,6 +62,9 @@ function HotelsPageContent() {
                 placeholder="Enter city or hotel name"
                 defaultValue={cityParam}
                 onChange={e => setCity(e.target.value)}
+                autoCorrect="on"
+                autoComplete="on"
+                spellCheck={true}
                 className="w-full pl-10 pr-4 py-3 bg-white border border-transparent rounded-lg text-sm text-[#1C1C1E] focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20"
               />
             </div>

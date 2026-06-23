@@ -476,6 +476,9 @@ export default function LoginContent() {
                       placeholder="John Doe"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
+                      autoCorrect="on"
+                      autoComplete="name"
+                      spellCheck={true}
                       required
                     />
                   </div>
@@ -492,6 +495,7 @@ export default function LoginContent() {
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
                     required
                   />
                 </div>

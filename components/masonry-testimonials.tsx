@@ -5,7 +5,18 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { fallbackTestimonials } from "@/lib/reviews-data";
 
-const getImageUrl = (path: string, name: string) => {
+interface Testimonial {
+  id?: number | string;
+  name: string;
+  rating: string | number;
+  review_text?: string;
+  review?: string;
+  profile_pic_url?: string;
+  photos?: string[];
+  tour?: string;
+}
+
+const getImageUrl = (path: string) => {
   if (!path || path.includes('ui-avatars.com')) {
     return null;
   }
@@ -52,12 +63,10 @@ function StarRow({ count }: { count: number }) {
   );
 }
 
-function FlipCard({ data, index }: { data: any; index: number }) {
+function FlipCard({ data, index }: { data: Testimonial; index: number }) {
   const [photos, setPhotos] = useState<string[]>([]);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-  const [mounted, setMounted] = useState(false);
-  const initialAvatar = getImageUrl(data.profile_pic_url, data.name);
-  const [avatarSrc, setAvatarSrc] = useState(initialAvatar);
+  const avatarSrc = getImageUrl(data.profile_pic_url || "");
   const [hasFailed, setHasFailed] = useState(false);
 
   const handleImageError = (failedUrl: string) => {
@@ -65,13 +74,14 @@ function FlipCard({ data, index }: { data: any; index: number }) {
   };
 
   useEffect(() => {
-    setMounted(true);
-    setPhotos(data.photos || []);
+    const timer = setTimeout(() => {
+      setPhotos(data.photos || []);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [data.photos]);
 
   useEffect(() => {
     if (photos.length <= 1) {
-      setCurrentPhotoIndex(0);
       return;
     }
     const interval = setInterval(() => {
@@ -129,9 +139,9 @@ function FlipCard({ data, index }: { data: any; index: number }) {
 
         {/* Back Content */}
         <div className="review-flip-card-back z-20 flex flex-col justify-center items-center p-6 text-center bg-[#FAFAF7] dark:bg-[#12291f]">
-          <StarRow count={parseInt(data.rating) || 5} />
+          <StarRow count={Number(data.rating) || 5} />
           <p className="font-sans text-[13px] text-[#222] dark:text-brand-cream/90 leading-[1.6] line-clamp-5 mb-4">
-            "{data.review_text || data.review}"
+            &quot;{data.review_text || data.review}&quot;
           </p>
           <p className="font-serif font-bold text-[#2D5016] dark:text-[#faf8f3] text-[15px] mb-2">{data.name}</p>
           {data.tour && (
@@ -145,7 +155,7 @@ function FlipCard({ data, index }: { data: any; index: number }) {
   );
 }
 
-export default function MasonryTestimonials({ initialTestimonials }: { initialTestimonials?: any[] }) {
+export default function MasonryTestimonials({ initialTestimonials }: { initialTestimonials?: Testimonial[] }) {
   const [ref, inView] = useInView({ threshold: 0.1 });
   const testimonials = initialTestimonials && initialTestimonials.length > 0
     ? initialTestimonials

@@ -53,6 +53,9 @@ export default function RailwaysContent() {
                     placeholder="New Delhi (NDLS)"
                     value={from}
                     onChange={e => setFrom(e.target.value)}
+                    autoCorrect="on"
+                    autoComplete="on"
+                    spellCheck={true}
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
                   />
                 </div>
@@ -67,6 +70,9 @@ export default function RailwaysContent() {
                     placeholder="Guwahati (GHY)"
                     value={to}
                     onChange={e => setTo(e.target.value)}
+                    autoCorrect="on"
+                    autoComplete="on"
+                    spellCheck={true}
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
                   />
                 </div>

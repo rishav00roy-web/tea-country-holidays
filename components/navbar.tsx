@@ -16,7 +16,7 @@ const NAV_LINKS: { name: string; href: string; isPlaceholder?: boolean }[] = [
   { name: "Contact",   href: "/#footer" },
 ];
 
-const LINK_ICONS: Record<string, React.ComponentType<any>> = {
+const LINK_ICONS: Record<string, React.ComponentType<any /* eslint-disable-line @typescript-eslint/no-explicit-any */>> = {
   "Holidays": Map,
   "Hotels": Building2,
   "Flights": Plane,
@@ -45,10 +45,10 @@ export default function Navbar() {
     if (typeof window !== "undefined") {
       const isAutomated = !!(
         navigator.webdriver ||
-        (window as any).Playwright ||
+        (window as unknown as Record<string, unknown>).Playwright ||
         /headless/i.test(navigator.userAgent)
       );
-      setIsAutomation(isAutomated);
+      setTimeout(() => setIsAutomation(isAutomated), 0);
     }
   }, []);
 
@@ -354,7 +354,7 @@ export default function Navbar() {
             <div className="space-y-4 text-left">
               <div>
                 <label className="text-xs font-semibold text-brand-evergreen/70 dark:text-white/70 uppercase tracking-wider block mb-1">Email Address</label>
-                <input type="email" placeholder="you@example.com"
+                <input type="email" placeholder="you@example.com" autoComplete="email"
                   className="w-full px-4 py-3 bg-white dark:bg-black/35 border border-[#C8860A]/20 rounded-xl text-sm focus:border-[#C8860A] outline-none text-brand-evergreen dark:text-white" />
               </div>
               <div>
@@ -373,7 +373,7 @@ export default function Navbar() {
               Login
             </button>
             <p className="text-xs text-brand-evergreen/40 dark:text-white/40 mt-4">
-              Don't have an account? <span className="text-[#C8860A] cursor-pointer hover:underline">Sign up</span>
+              Don&apos;t have an account? <span className="text-[#C8860A] cursor-pointer hover:underline">Sign up</span>
             </p>
           </div>
         </div>

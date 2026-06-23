@@ -1,6 +1,5 @@
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import { Search } from "lucide-react"
 
 export default function HotelsLoading() {
   return (

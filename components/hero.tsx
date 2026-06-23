@@ -43,8 +43,11 @@ const Typewriter = memo(function Typewriter({
 
   // Reset when parent advances the word
   useEffect(() => {
-    setDisplayed("");
-    setPhase("typing");
+    const timer = setTimeout(() => {
+      setDisplayed("");
+      setPhase("typing");
+    }, 0);
+    return () => clearTimeout(timer);
   }, [wordIndex]);
 
   useEffect(() => {
@@ -222,7 +225,7 @@ export default function Hero() {
 
           {/* Search bar — 48px gap from subtitle */}
           <div
-            className="w-full pt-8"
+            className="w-full pt-8 relative z-20"
             style={{ animation: "fadeUp 0.8s ease both 1s", opacity: 0 }}
           >
             <GlassSearch />
@@ -230,7 +233,7 @@ export default function Hero() {
 
           {/* Stats Bar */}
           <div
-            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[#F5F0E8] font-sans text-[13px] tracking-[0.05em] mt-4 opacity-0"
+            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[#F5F0E8] font-sans text-[13px] tracking-[0.05em] mt-4 opacity-0 relative z-10"
             style={{ animation: "fadeUp 0.8s ease both 1.2s" }}
           >
             <span className="text-[#C8860A]">✦</span>

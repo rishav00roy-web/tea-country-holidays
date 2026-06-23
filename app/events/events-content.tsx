@@ -2,7 +2,7 @@
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import { useAuthGate } from "@/hooks/use-auth-gate"
-import { Sparkles, Calendar, Users, FileText, User } from "lucide-react"
+import { Sparkles, Users, FileText, User } from "lucide-react"
 
 export default function EventsContent() {
   const { gatedWhatsApp } = useAuthGate()
@@ -48,7 +48,7 @@ export default function EventsContent() {
               </div>
 
               <p className="text-brand-ink/75 text-base leading-relaxed mb-6">
-                Sharon and the Tea Country team specialise in organizing unique events tailored specifically to your group's desires. We coordinate premium stays, immersive local experiences, and logistics down to the last detail.
+                Sharon and the Tea Country team specialise in organizing unique events tailored specifically to your group&apos;s desires. We coordinate premium stays, immersive local experiences, and logistics down to the last detail.
               </p>
             </div>
 
@@ -106,6 +106,9 @@ export default function EventsContent() {
                       type="text"
                       id="custom-event-name"
                       placeholder="Your Name"
+                      autoCorrect="on"
+                      autoComplete="name"
+                      spellCheck={true}
                       className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 border border-white/20 
                         text-white placeholder:text-white/40 focus:outline-none 
                         focus:border-[#F4A011] focus:ring-1 focus:ring-[#F4A011] transition-all"
@@ -121,6 +124,9 @@ export default function EventsContent() {
                       type="text"
                       id="custom-event-type"
                       placeholder="Type of Event (e.g. Wedding, Corporate Retreat)"
+                      autoCorrect="on"
+                      autoComplete="on"
+                      spellCheck={true}
                       className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 border border-white/20 
                         text-white placeholder:text-white/40 focus:outline-none 
                         focus:border-[#F4A011] focus:ring-1 focus:ring-[#F4A011] transition-all"
@@ -136,6 +142,9 @@ export default function EventsContent() {
                       type="text"
                       id="custom-event-guests"
                       placeholder="Expected Guest Count"
+                      autoCorrect="on"
+                      autoComplete="on"
+                      spellCheck={true}
                       className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 border border-white/20 
                         text-white placeholder:text-white/40 focus:outline-none 
                         focus:border-[#F4A011] focus:ring-1 focus:ring-[#F4A011] transition-all"
@@ -151,6 +160,9 @@ export default function EventsContent() {
                       id="custom-event-details"
                       rows={4}
                       placeholder="Tell us about your preferred destination, date, and vision..."
+                      autoCorrect="on"
+                      autoComplete="on"
+                      spellCheck={true}
                       className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 border border-white/20 
                         text-white placeholder:text-white/40 focus:outline-none 
                         focus:border-[#F4A011] focus:ring-1 focus:ring-[#F4A011] resize-none transition-all"

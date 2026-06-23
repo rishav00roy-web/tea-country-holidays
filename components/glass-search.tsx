@@ -23,12 +23,15 @@ const TRANSPORT_ICONS = {
 // ─── Custom Hooks ──────────────────────────────────────────────────────────
 
 function useOnClickOutside(ref: React.RefObject<HTMLElement | null>, handler: () => void) {
-  // useCallback ensures the same reference is used — prevents infinite effect loops
-  const stableHandler = useCallback(handler, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const handlerRef = useRef(handler);
+  useEffect(() => {
+    handlerRef.current = handler;
+  });
+
   useEffect(() => {
     const listener = (e: MouseEvent | TouchEvent) => {
       if (!ref.current || ref.current.contains(e.target as Node)) return;
-      stableHandler();
+      handlerRef.current();
     };
     document.addEventListener("mousedown", listener);
     document.addEventListener("touchstart", listener, { passive: true });
@@ -36,7 +39,7 @@ function useOnClickOutside(ref: React.RefObject<HTMLElement | null>, handler: ()
       document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
     };
-  }, [ref, stableHandler]);
+  }, [ref]);
 }
 
 // ─── Sub-components ────────────────────────────────────────────────────────
@@ -71,6 +74,9 @@ function LocationInput({
           onChange={(e) => onChange(e.target.value)}
           onFocus={onFocus}
           placeholder={placeholder}
+          autoCorrect="on"
+          autoComplete="on"
+          spellCheck={true}
           className={`w-full pl-9 pr-4 py-3 bg-gray-50 rounded-xl text-sm font-medium outline-none transition-all text-brand-ink border ${
             isActive
               ? "border-brand-gold ring-2 ring-brand-gold/20 bg-white"
@@ -115,8 +121,8 @@ export default function GlassSearch() {
   // ── Debounced Supabase search ──────────────────────────────────────────
   useEffect(() => {
     if (!query || query.length < 1) {
-      setSuggestions([]);
-      return;
+      const timer = setTimeout(() => setSuggestions([]), 0);
+      return () => clearTimeout(timer);
     }
     const timer = setTimeout(async () => {
       setIsSearching(true);
@@ -233,6 +239,13 @@ export default function GlassSearch() {
             value={checkin}
             min={new Date().toISOString().split("T")[0]}
             onChange={(e) => setCheckin(e.target.value)}
+            onClick={(e) => {
+              try {
+                e.currentTarget.showPicker();
+              } catch (err) {
+                console.error("showPicker failed:", err);
+              }
+            }}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
         </div>

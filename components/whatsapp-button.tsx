@@ -10,16 +10,19 @@ export function WhatsAppButton() {
 
   useEffect(() => {
     if (!isHome) {
-      setVisible(true);
-      return;
+      const timer = setTimeout(() => setVisible(true), 0);
+      return () => clearTimeout(timer);
     }
     const handleScroll = () => {
       setVisible(window.scrollY > 250);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     // Check initial state
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    const timer = setTimeout(() => handleScroll(), 0);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [isHome]);
 
   if (!visible) return null;

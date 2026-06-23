@@ -70,6 +70,9 @@ export default function HolidaysContent({
                 placeholder="Search destinations or themes..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
+                autoCorrect="on"
+                autoComplete="on"
+                spellCheck={true}
                 className="w-full pl-10 pr-4 py-3 border border-gray-400 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30 focus:border-[#1B4332] shadow-sm text-gray-900 placeholder:text-gray-500 font-medium"
               />
             </div>

@@ -1,9 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const getImageUrl = (path: string, name: string) => {
+interface Review {
+  id: number | string;
+  name: string;
+  rating: number;
+  date: string;
+  review_text?: string;
+  text?: string;
+  profile_pic_url?: string;
+  hasPhoto?: boolean;
+  photoUrl?: string | null;
+  tour: string;
+}
+
+const getImageUrl = (path: string) => {
   if (!path || path.includes('ui-avatars.com')) {
     return null;
   }
@@ -171,8 +183,8 @@ function StarRating({ count }: { count: number }) {
   );
 }
 
-function ReviewCard({ review }: { review: any }) {
-  const avatarSrc = review.profile_pic_url ? getImageUrl(review.profile_pic_url, review.name) : null;
+function ReviewCard({ review }: { review: Review }) {
+  const avatarSrc = review.profile_pic_url ? getImageUrl(review.profile_pic_url) : null;
   const reviewText = review.review_text || review.text;
   
   return (
@@ -237,7 +249,7 @@ function ReviewCard({ review }: { review: any }) {
   );
 }
 
-export default function ReviewsMarquee({ initialReviews }: { initialReviews?: any[] }) {
+export default function ReviewsMarquee({ initialReviews }: { initialReviews?: Review[] }) {
   // Duplicate for seamless infinite loop — prefix keys to avoid collisions
   const baseReviews = initialReviews && initialReviews.length > 0 ? initialReviews : reviews;
   const doubled = [
