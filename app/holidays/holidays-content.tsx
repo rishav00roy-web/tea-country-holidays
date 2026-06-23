@@ -117,7 +117,7 @@ export default function HolidaysContent({
             {filtered.map(pkg => (
               <div key={pkg.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col">
                 <div className="relative h-56 overflow-hidden">
-                  <Image src={optimizeUnsplashUrl(pkg.image)} alt={pkg.title} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <Image src={optimizeUnsplashUrl(pkg.image)} alt={pkg.title} fill loading="lazy" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" quality={65} className="object-cover group-hover:scale-105 transition-transform duration-300" />
                   <div className="absolute top-4 left-4 bg-[#F4A011] text-white text-xs font-semibold px-3 py-1 rounded-full">
                     {pkg.theme}
                   </div>

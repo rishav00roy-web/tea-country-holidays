@@ -81,7 +81,7 @@ const reviews = [
     name: "Dipsikha Das",
     rating: 5,
     date: "Recent",
-    text: "Thank you Manami for your wonderful and hassle free arrangements – trip to Darjeeling from pick up till dropping along with the accommodation and transportation was really a great experience.",
+    text: "Thank you Manami for your wonderful and hassle free arrangements \u2014 trip to Darjeeling from pick up till dropping along with the accommodation and transportation was really a great experience.",
     tour: "Darjeeling Trip",
     hasPhoto: false,
     photoUrl: null,
@@ -111,7 +111,7 @@ const reviews = [
     name: "Vishal Khurana",
     rating: 5,
     date: "Recent",
-    text: "I would like to express my sincere thanks for the amazing experience in Madurai, Rameshwaram, Kanyakumari trip. Everything was hassle free – air ticket, cab, hotels, sightseeing. The best part was your continued support throughout the trip.",
+    text: "I would like to express my sincere thanks for the amazing experience in Madurai, Rameshwaram, Kanyakumari trip. Everything was hassle free \u2014 air ticket, cab, hotels, sightseeing. The best part was your continued support throughout the trip.",
     tour: "South India Trip",
     hasPhoto: false,
     photoUrl: null,
@@ -209,7 +209,7 @@ function ReviewCard({ review }: { review: any }) {
 
       {/* Review text */}
       <p className="text-sm text-brand-ink/80 dark:text-white/80 leading-relaxed line-clamp-4">
-        "{reviewText}"
+        &quot;{reviewText}&quot;
       </p>
 
       {/* Tour photo if available */}
@@ -219,7 +219,8 @@ function ReviewCard({ review }: { review: any }) {
             src={review.photoUrl}
             alt={`${review.tour} photo`}
             fill
-            sizes="(max-width: 768px) 100vw, 300px"
+            quality={65}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover"
             loading="lazy"
           />

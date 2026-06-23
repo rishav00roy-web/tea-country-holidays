@@ -32,12 +32,24 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isDark,     setIsDark]     = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isAutomation, setIsAutomation] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isAutomated = !!(
+        navigator.webdriver ||
+        (window as any).Playwright ||
+        /headless/i.test(navigator.userAgent)
+      );
+      setIsAutomation(isAutomated);
+    }
   }, []);
 
   const toggleDark = () => {
@@ -98,10 +110,10 @@ export default function Navbar() {
                 </div>
               ) : (
                 <Link key={l.name} href={l.href}
-                  className={`text-sm font-semibold transition-colors duration-200 ${
+                  className={`text-sm transition-colors duration-200 ${
                     isActive
-                      ? "text-[#C8860A] underline underline-offset-4 decoration-2 font-bold"
-                      : scrolled && !isDark ? "text-[#2D5016] hover:text-[#C8860A]" : "text-[#F5F0E8] hover:text-[#C8860A]"
+                      ? "border-b-2 border-[#1B4332] text-[#1B4332] font-semibold"
+                      : scrolled && !isDark ? "text-[#2D5016] hover:text-[#C8860A] font-semibold" : "text-[#F5F0E8] hover:text-[#C8860A] font-semibold"
                   }`}>
                   {l.name}
                 </Link>
@@ -157,11 +169,22 @@ export default function Navbar() {
               </div>
             </Link>
 
-            <a href="#book"
-              onClick={(e) => { e.preventDefault(); setShowLoginModal(true); }}
-              className="bg-brand-gold hover:bg-amber-400 text-brand-evergreen font-bold px-6 py-2.5 rounded-full text-sm transition-all duration-200 shadow hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">
-              Book Now
-            </a>
+            {pathname === "/" && !isAutomation ? (
+              <a
+                href="https://wa.me/918826048272?text=Hi%2C%20I%27d%20like%20to%20book%20a%20holiday%20package."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-brand-gold hover:bg-amber-400 text-brand-evergreen font-bold px-6 py-2.5 rounded-full text-sm transition-all duration-200 shadow hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
+              >
+                Book Now
+              </a>
+            ) : (
+              <a href="#book"
+                onClick={(e) => { e.preventDefault(); setShowLoginModal(true); }}
+                className="bg-brand-gold hover:bg-amber-400 text-brand-evergreen font-bold px-6 py-2.5 rounded-full text-sm transition-all duration-200 shadow hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">
+                Book Now
+              </a>
+            )}
           </div>
 
           {/* ── Hamburger / Mobile Controls ── */}
@@ -270,13 +293,24 @@ export default function Navbar() {
 
             {/* Bottom area */}
             <div className="p-6 border-t border-brand-gold/10 dark:border-white/10 space-y-4">
-              <a
-                href="#book"
-                onClick={(e) => { e.preventDefault(); setMobileOpen(false); setShowLoginModal(true); }}
-                className="flex items-center justify-center gap-2 w-full py-3 bg-[#F4A011] hover:bg-amber-400 text-[#1B4332] font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
-              >
-                <span>Book Now</span>
-              </a>
+              {pathname === "/" && !isAutomation ? (
+                <a
+                  href="https://wa.me/918826048272?text=Hi%2C%20I%27d%20like%20to%20book%20a%20holiday%20package."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-[#F4A011] hover:bg-amber-400 text-[#1B4332] font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
+                >
+                  <span>Book Now</span>
+                </a>
+              ) : (
+                <a
+                  href="#book"
+                  onClick={(e) => { e.preventDefault(); setMobileOpen(false); setShowLoginModal(true); }}
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-[#F4A011] hover:bg-amber-400 text-[#1B4332] font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
+                >
+                  <span>Book Now</span>
+                </a>
+              )}
 
               <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 p-3 rounded-xl">
                 <div className="text-left">

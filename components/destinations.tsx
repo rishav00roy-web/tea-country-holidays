@@ -71,7 +71,8 @@ export default function Destinations() {
 
               <Image src={img.src} alt={img.name}
                 fill
-                sizes="(max-width: 768px) 50vw, 25vw"
+                quality={65}
+                sizes="(max-width: 640px) 100vw, 50vw"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 loading="lazy" />
 

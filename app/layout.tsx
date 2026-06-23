@@ -18,7 +18,7 @@ const inter = Inter({
 
 const siteUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : "https://teacountryholidays.com";
+  : "https://tea-country-holidays.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Tea Country Holidays — Northeast India Tours",
     description: "Northeast India's #1 Travel Partner. Crafted boutique holidays, hotels, flights, and customized tours across Assam, Meghalaya, Arunachal, and Bhutan since 2014.",
-    url: "https://teacountryholidays.com",
+    url: "https://tea-country-holidays.vercel.app",
     siteName: "Tea Country Holidays",
     images: [
       {

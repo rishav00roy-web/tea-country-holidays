@@ -463,7 +463,7 @@ export default async function BlogDetailPage({
           fill
           priority
           quality={75}
-          sizes="(max-width: 1200px) 100vw, 1200px"
+          sizes="100vw"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t 

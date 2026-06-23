@@ -90,7 +90,8 @@ export default function BlogsSection() {
                   src={blog.image}
                   alt={blog.title}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  quality={65}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
               </div>
