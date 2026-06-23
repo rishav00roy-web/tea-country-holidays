@@ -110,9 +110,13 @@ export default function Navbar() {
                 </div>
               ) : (
                 <Link key={l.name} href={l.href}
-                  className={`text-sm transition-colors duration-200 ${
+                  className={`text-sm transition-colors duration-200 pb-1 ${
                     isActive
-                      ? "border-b-2 border-[#1B4332] text-[#1B4332] font-semibold"
+                      ? scrolled
+                        ? isDark
+                          ? "border-b-2 border-[#F4A011] text-[#F4A011] font-semibold"
+                          : "border-b-2 border-[#1B4332] text-[#1B4332] font-semibold"
+                        : "border-b-2 border-[#F4A011] text-[#F4A011] font-semibold"
                       : scrolled && !isDark ? "text-[#2D5016] hover:text-[#C8860A] font-semibold" : "text-[#F5F0E8] hover:text-[#C8860A] font-semibold"
                   }`}>
                   {l.name}
@@ -251,7 +255,7 @@ export default function Navbar() {
             <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-1">
               {NAV_LINKS.map(l => {
                 const IconComp = LINK_ICONS[l.name] || Info;
-                const isActive = pathname === l.href || (pathname === '/' && l.href.startsWith('/#'));
+                const isActive = pathname === l.href;
 
                 return l.isPlaceholder ? (
                   <div key={l.name} className="flex items-center justify-between px-6 py-3.5 border-l-4 border-transparent opacity-50">

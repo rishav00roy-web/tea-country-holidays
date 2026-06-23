@@ -125,8 +125,8 @@ export default function Footer() {
         <div className="pt-8 border-t border-brand-gold/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/35">
           <p>&copy; {new Date().getFullYear()} TeaCountryHolidays &middot; Guwahati, Assam &middot; All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/terms" className="hover:text-brand-gold transition-colors">Terms</Link>
-            <Link href="/privacy" className="hover:text-brand-gold transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-brand-gold transition-colors">Terms & Conditions</Link>
+            <Link href="/privacy" className="hover:text-brand-gold transition-colors">Privacy Policy</Link>
           </div>
         </div>
       </div>
