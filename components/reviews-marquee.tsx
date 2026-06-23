@@ -286,7 +286,7 @@ export default function ReviewsMarquee({ initialReviews }: { initialReviews?: an
       </div>
 
       <p className="text-center text-brand-gold/40 text-xs mt-6 tracking-wider">
-        ★ Verified Google Reviews · TeaCountryHolidays, Guwahati, Assam
+        {"\u2605"} Verified Google Reviews {"\u00B7"} TeaCountryHolidays, Guwahati, Assam
       </p>
     </section>
   );

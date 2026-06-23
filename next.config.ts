@@ -6,11 +6,13 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "lnrkqyxiwbkvkazyzcbe.supabase.co" },
       { protocol: "https", hostname: "*.googleusercontent.com" },
+      { protocol: "https", hostname: "ui-avatars.com" },
+      { protocol: "https", hostname: "upload.wikimedia.org" },
     ],
     // Prefer AVIF (smallest), fall back to WebP
     formats: ["image/avif", "image/webp"],
-    // Cache optimised images for 7 days (reduces repeated origin requests)
-    minimumCacheTTL: 604800,
+    // Cache optimised images for 30 days
+    minimumCacheTTL: 2592000,
     // Breakpoints that Next.js uses to choose srcset widths.
     // Keep this tight — only widths we actually use.
     deviceSizes: [390, 640, 750, 1080, 1920],

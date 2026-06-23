@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "IRCTC Train Ticket Bookings | Tea Country Holidays",
   description: "Book train tickets easily. We handle IRCTC availability check, tatkal bookings, and confirmation for your trips from Guwahati and rest of India.",
   keywords: ["train ticket booking Guwahati", "IRCTC booking agent Assam", "railway ticket reservation", "tatkal train tickets online", "Guwahati to Delhi train booking"],
+  alternates: {
+    canonical: "/railways",
+  },
 }
 
 export default function RailwaysPage() {

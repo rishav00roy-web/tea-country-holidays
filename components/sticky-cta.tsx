@@ -5,7 +5,7 @@ import { Phone } from "lucide-react";
 
 export default function StickyCTA() {
   const pathname = usePathname();
-  const isHidden = pathname === "/" || pathname === "/login";
+  const isHidden = pathname === "/login";
 
   if (isHidden) return null;
 

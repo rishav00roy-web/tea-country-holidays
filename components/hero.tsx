@@ -157,9 +157,10 @@ export default function Hero() {
               src={dest.img}
               alt=""
               fill
-              sizes="(max-width: 768px) 100vw, 100vw"
+              sizes="100vw"
               priority={idx === 0}
-              loading={idx === 0 ? undefined : "lazy"}
+              loading={idx === 0 ? "eager" : "lazy"}
+              quality={idx === 0 ? 80 : 65}
               className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out z-0"
               style={{
                 opacity: isCurrent ? 0.7 : 0,
@@ -235,7 +236,7 @@ export default function Hero() {
             <span className="text-[#C8860A]">✦</span>
             <span>500+ Tours Crafted</span>
             <span className="text-white/20">|</span>
-            <span>15+ Destinations</span>
+            <span>50+ Destinations</span>
             <span className="text-white/20">|</span>
             <span>4.9★ Google Rating</span>
             <span className="text-white/20">|</span>

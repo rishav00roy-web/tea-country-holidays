@@ -251,7 +251,7 @@ export default function GlassSearch() {
             <span className="text-[#F4A011] text-[10px] font-bold uppercase tracking-widest">Who &amp; How?</span>
             <span className="text-white font-medium text-sm flex items-center gap-1.5">
               <Users size={13} className="text-white/50" />
-              {adults + children} traveller{adults + children !== 1 ? "s" : ""} · <TIcon size={13} className="text-white/50" /> {transport}
+              {adults + children} traveller{adults + children !== 1 ? "s" : ""} {"\u00B7"} <TIcon size={13} className="text-white/50" /> {transport}
             </span>
           </div>
           <ChevronDown size={14} className={`text-white/40 ml-2 transition-transform ${activeTab === "who" ? "rotate-180" : ""}`} />
@@ -312,7 +312,7 @@ export default function GlassSearch() {
                     >
                       <div className="flex flex-col min-w-0">
                         <span className="text-sm font-bold text-brand-evergreen group-hover:text-brand-gold transition-colors truncate">{loc.name}</span>
-                        <span className="text-[11px] text-gray-400">{loc.region}, {loc.country} · {loc.type}</span>
+                        <span className="text-[11px] text-gray-400">{loc.region}, {loc.country} {"\u00B7"} {loc.type}</span>
                       </div>
                       {loc.code && (
                         <span className="ml-3 shrink-0 text-[11px] font-mono bg-brand-evergreen/5 px-2 py-0.5 rounded-md text-brand-evergreen/50 border border-brand-evergreen/10">

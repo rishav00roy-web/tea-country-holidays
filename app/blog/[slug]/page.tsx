@@ -432,6 +432,9 @@ export async function generateMetadata({
   return {
     title: `${post.title} | Tea Country Holidays Blog`,
     description: post.content.trim().split("\n").filter(Boolean)[0]?.substring(0, 155) + "...",
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
   }
 }
 
@@ -459,6 +462,8 @@ export default async function BlogDetailPage({
           alt={post.title}
           fill
           priority
+          quality={75}
+          sizes="(max-width: 1200px) 100vw, 1200px"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t 

@@ -16,7 +16,7 @@ const features = [
   },
   {
     icon: MapPin,
-    title: "15+ Destinations",
+    title: "50+ Destinations",
     desc: "From the peaks of Northeast India to the vibrant streets of Dubai, we cover it all.",
   },
   {

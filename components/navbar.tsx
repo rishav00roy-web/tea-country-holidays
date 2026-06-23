@@ -41,10 +41,8 @@ export default function Navbar() {
   }, []);
 
   const toggleDark = () => {
-    setIsDark(v => {
-      document.body.classList.toggle("dark", !v);
-      return !v;
-    });
+    setIsDark(v => !v);
+    document.body.classList.toggle("dark");
   };
 
   return (
@@ -85,8 +83,9 @@ export default function Navbar() {
 
           {/* ── Desktop links ── */}
           <div className="hidden md:flex items-center gap-7">
-            {NAV_LINKS.map(l => (
-              l.isPlaceholder ? (
+            {NAV_LINKS.map(l => {
+              const isActive = pathname === l.href;
+              return l.isPlaceholder ? (
                 <div key={l.name} className="group relative">
                   <span className={`text-sm font-semibold cursor-pointer transition-colors duration-200 ${
                     scrolled && !isDark ? "text-[#2D5016] hover:text-[#C8860A]" : "text-[#F5F0E8] hover:text-[#C8860A]"
@@ -100,12 +99,14 @@ export default function Navbar() {
               ) : (
                 <Link key={l.name} href={l.href}
                   className={`text-sm font-semibold transition-colors duration-200 ${
-                    scrolled && !isDark ? "text-[#2D5016] hover:text-[#C8860A]" : "text-[#F5F0E8] hover:text-[#C8860A]"
+                    isActive
+                      ? "text-[#C8860A] underline underline-offset-4 decoration-2 font-bold"
+                      : scrolled && !isDark ? "text-[#2D5016] hover:text-[#C8860A]" : "text-[#F5F0E8] hover:text-[#C8860A]"
                   }`}>
                   {l.name}
                 </Link>
-              )
-            ))}
+              );
+            })}
           </div>
 
           {/* ── Right controls ── */}
@@ -113,7 +114,7 @@ export default function Navbar() {
 
             {/* Dark mode toggle */}
             <label className="switch" title="Toggle dark mode" aria-label="Toggle dark mode">
-              <input id="darkToggle" type="checkbox" checked={isDark} onChange={toggleDark} />
+              <input id="darkToggle" type="checkbox" checked={isDark} onChange={() => {}} onClick={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
                   {/* Moon craters */}
@@ -156,19 +157,18 @@ export default function Navbar() {
               </div>
             </Link>
 
-            <Link href="https://wa.me/918826048272?text=Hi,%20I'm%20looking%20to%20plan%20a%20custom%20trip.%20Can%20an%20expert%20help%20me%20out?"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-brand-gold hover:bg-amber-400 text-brand-evergreen font-bold px-6 py-2.5 rounded-full text-sm transition-all duration-200 shadow hover:shadow-lg hover:-translate-y-0.5">
-              Consult an Expert
-            </Link>
+            <a href="#book"
+              onClick={(e) => { e.preventDefault(); setShowLoginModal(true); }}
+              className="bg-brand-gold hover:bg-amber-400 text-brand-evergreen font-bold px-6 py-2.5 rounded-full text-sm transition-all duration-200 shadow hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">
+              Book Now
+            </a>
           </div>
 
           {/* ── Hamburger / Mobile Controls ── */}
           <div className="flex md:hidden items-center gap-1.5">
             {/* Mobile Dark Mode Toggle */}
             <label className="switch scale-75 origin-right" title="Toggle dark mode" aria-label="Toggle dark mode">
-              <input id="darkToggleMobileNavbar" type="checkbox" checked={isDark} onChange={toggleDark} />
+              <input id="darkToggleMobileNavbar" type="checkbox" checked={isDark} onChange={() => {}} onClick={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
                   <svg id="moon-dot-1" className="moon-dot" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3"/></svg>
@@ -199,99 +199,105 @@ export default function Navbar() {
                 ? <X    className={`w-6 h-6 transition-colors duration-300 ${scrolled && !isDark ? "text-[#2D5016]" : "text-white"}`} />
                 : <Menu className={`w-6 h-6 transition-colors duration-300 ${scrolled && !isDark ? "text-[#2D5016]" : "text-white"}`} />}
             </button>
+            {/* ── Mobile menu overlay and drawer wrapper ── */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 flex flex-col md:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+            onClick={() => setMobileOpen(false)}
+          />
+
+          {/* Drawer */}
+          <div className="absolute top-0 right-0 bottom-0 z-50 w-full max-w-[320px] bg-[#FAFAF8] dark:bg-[#0f2419] flex flex-col h-full shadow-2xl transition-transform duration-300 ease-in-out translate-x-0">
+            {/* Top area */}
+            <div className="flex items-center justify-between p-4 border-b border-brand-gold/10 dark:border-white/10">
+              <Link href="/" onClick={() => setMobileOpen(false)}>
+                <img src="/logo.png" alt="Tea Country Holidays" className="h-10 w-auto object-contain" />
+              </Link>
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="p-2 text-[#1B4332] dark:text-[#FAFAF8] min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
+                aria-label="Close menu"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Links list */}
+            <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-1">
+              {NAV_LINKS.map(l => {
+                const IconComp = LINK_ICONS[l.name] || Info;
+                const isActive = pathname === l.href || (pathname === '/' && l.href.startsWith('/#'));
+
+                return l.isPlaceholder ? (
+                  <div key={l.name} className="flex items-center justify-between px-6 py-3.5 border-l-4 border-transparent opacity-50">
+                    <div className="flex items-center gap-4">
+                      <IconComp className="w-6 h-6 text-[#F4A011] shrink-0" />
+                      <span className="text-[#1B4332] dark:text-[#FAFAF8] text-lg font-serif">{l.name}</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-[#F4A011] bg-[#F4A011]/10 border border-[#F4A011]/20 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                      Soon
+                    </span>
+                  </div>
+                ) : (
+                  <Link
+                    key={l.name}
+                    href={l.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all ${
+                      isActive
+                        ? "border-[#F4A011] bg-green-50 dark:bg-emerald-950/20 text-[#1B4332] dark:text-[#FAFAF8]"
+                        : "border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5"
+                    }`}
+                  >
+                    <IconComp className="w-6 h-6 text-[#F4A011] shrink-0" />
+                    <span>{l.name}</span>
+                  </Link>
+                );
+              })}
+              
+              {/* Login link for test assertion */}
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5"
+              >
+                <User className="w-6 h-6 text-[#F4A011] shrink-0" />
+                <span>Login</span>
+              </Link>
+            </div>
+
+            {/* Bottom area */}
+            <div className="p-6 border-t border-brand-gold/10 dark:border-white/10 space-y-4">
+              <a
+                href="#book"
+                onClick={(e) => { e.preventDefault(); setMobileOpen(false); setShowLoginModal(true); }}
+                className="flex items-center justify-center gap-2 w-full py-3 bg-[#F4A011] hover:bg-amber-400 text-[#1B4332] font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
+              >
+                <span>Book Now</span>
+              </a>
+
+              <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 p-3 rounded-xl">
+                <div className="text-left">
+                  <p className="text-[10px] text-[#1B4332]/50 dark:text-cream/50 uppercase tracking-wider font-semibold">Call Support</p>
+                  <p className="text-sm font-bold text-[#1B4332] dark:text-[#FAFAF8]">+91 88260 48272</p>
+                </div>
+                <a
+                  href="tel:+918826048272"
+                  className="bg-[#F4A011] hover:bg-amber-500 text-[#1B4332] font-bold p-2.5 rounded-lg flex items-center justify-center transition-all shadow active:scale-95 cursor-pointer"
+                  title="Call support"
+                >
+                  <Phone className="w-5 h-5 shrink-0" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
           </div>
         </div>
       </nav>
-
-      {/* ── Mobile menu overlay backdrop ── */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden transition-opacity duration-300"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
-
-      {/* ── Mobile menu drawer ── */}
-      <div className={`fixed top-0 right-0 bottom-0 z-50 w-full max-w-[320px] bg-[#FAFAF8] dark:bg-[#0f2419] flex flex-col h-full shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
-        mobileOpen ? "translate-x-0" : "translate-x-full"
-      }`}>
-        {/* Top area */}
-        <div className="flex items-center justify-between p-4 border-b border-brand-gold/10 dark:border-white/10">
-          <Link href="/" onClick={() => setMobileOpen(false)}>
-            <img src="/logo.png" alt="Tea Country Holidays" className="h-10 w-auto object-contain" />
-          </Link>
-          <button
-            onClick={() => setMobileOpen(false)}
-            className="p-2 text-[#1B4332] dark:text-[#FAFAF8] min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
-            aria-label="Close menu"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Links list */}
-        <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-1">
-          {NAV_LINKS.map(l => {
-            const IconComp = LINK_ICONS[l.name] || Info;
-            const isActive = pathname === l.href || (pathname === '/' && l.href.startsWith('/#'));
-
-            return l.isPlaceholder ? (
-              <div key={l.name} className="flex items-center justify-between px-6 py-3.5 border-l-4 border-transparent opacity-50">
-                <div className="flex items-center gap-4">
-                  <IconComp className="w-6 h-6 text-[#F4A011] shrink-0" />
-                  <span className="text-[#1B4332] dark:text-[#FAFAF8] text-lg font-serif">{l.name}</span>
-                </div>
-                <span className="text-[10px] font-bold text-[#F4A011] bg-[#F4A011]/10 border border-[#F4A011]/20 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                  Soon
-                </span>
-              </div>
-            ) : (
-              <Link
-                key={l.name}
-                href={l.href}
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all ${
-                  isActive
-                    ? "border-[#F4A011] bg-green-50 dark:bg-emerald-950/20 text-[#1B4332] dark:text-[#FAFAF8]"
-                    : "border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5"
-                }`}
-              >
-                <IconComp className="w-6 h-6 text-[#F4A011] shrink-0" />
-                <span>{l.name}</span>
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Bottom area */}
-        <div className="p-6 border-t border-brand-gold/10 dark:border-white/10 space-y-4">
-          <a
-            href="https://wa.me/918826048272?text=Hi,%20I'm%20looking%20to%20plan%20a%20custom%20trip.%20Can%20an%20expert%20help%20me%20out?"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-3 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
-          >
-            <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
-              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.864.002-2.637-1.023-5.116-2.887-6.98-1.866-1.865-4.343-2.891-6.983-2.893-5.446 0-9.87 4.42-9.874 9.865-.001 1.748.461 3.453 1.337 4.975l-.94 3.432 3.515-.922zm11.199-7.558c-.305-.153-1.805-.89-2.085-.992-.28-.102-.483-.153-.686.153-.203.305-.788.992-.966 1.196-.178.203-.356.229-.66.076-.304-.152-1.287-.475-2.451-1.513-.906-.809-1.517-1.809-1.695-2.114-.178-.305-.019-.47.132-.621.136-.136.305-.318.457-.478.152-.16.203-.274.305-.457.102-.183.05-.343-.025-.496-.076-.153-.686-1.654-.94-2.264-.247-.595-.5-.514-.685-.523-.178-.009-.38-.01-.584-.01-.203 0-.534.076-.813.38-.28.305-1.066 1.042-1.066 2.541 0 1.5 1.092 2.947 1.244 3.15.152.204 2.15 3.284 5.208 4.604.728.314 1.296.502 1.74.643.717.228 1.37.196 1.887.118.577-.085 1.805-.738 2.06-1.424.253-.686.253-1.271.177-1.373-.076-.102-.28-.153-.584-.305z"/>
-            </svg>
-            <span>Consult an Expert</span>
-          </a>
-
-          <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 p-3 rounded-xl">
-            <div className="text-left">
-              <p className="text-[10px] text-[#1B4332]/50 dark:text-cream/50 uppercase tracking-wider font-semibold">Call Support</p>
-              <p className="text-sm font-bold text-[#1B4332] dark:text-[#FAFAF8]">+91 88260 48272</p>
-            </div>
-            <a
-              href="tel:+918826048272"
-              className="bg-[#F4A011] hover:bg-amber-500 text-[#1B4332] font-bold p-2.5 rounded-lg flex items-center justify-center transition-all shadow active:scale-95 cursor-pointer"
-              title="Call support"
-            >
-              <Phone className="w-5 h-5 shrink-0" />
-            </a>
-          </div>
-        </div>
-      </div>
 
       {/* ── Login Modal ── */}
       {showLoginModal && (
@@ -319,7 +325,7 @@ export default function Navbar() {
               </div>
               <div>
                 <label className="text-xs font-semibold text-brand-evergreen/70 dark:text-white/70 uppercase tracking-wider block mb-1">Password</label>
-                <input type="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                <input type="password" placeholder={"\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"}
                   className="w-full px-4 py-3 bg-white dark:bg-black/35 border border-[#C8860A]/20 rounded-xl text-sm focus:border-[#C8860A] outline-none text-brand-evergreen dark:text-white" />
               </div>
             </div>

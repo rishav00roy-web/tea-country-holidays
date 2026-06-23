@@ -13,7 +13,7 @@ const pillars = [
 const STATS = [
   ["500+", "Tours Crafted"],
   ["4.9★", "Google Rating"],
-  ["15+",  "Destinations"],
+  ["50+",  "Destinations"],
 ];
 
 export default function WhoWeAre() {
