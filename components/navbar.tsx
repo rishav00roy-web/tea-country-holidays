@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, User, Map, Building2, Plane, Train, Calendar, Info, BookOpen, Phone } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 const NAV_LINKS: { name: string; href: string; isPlaceholder?: boolean }[] = [
   { name: "Holidays",  href: "/holidays" },
@@ -34,7 +35,10 @@ export default function Navbar() {
   const [isDark,     setIsDark]     = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isAutomation, setIsAutomation] = useState(false);
+  const [hasSession, setHasSession] = useState(false);
+  const [authReady, setAuthReady] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   // ── Hide Navbar on auth pages ──
   useEffect(() => {
@@ -54,9 +58,36 @@ export default function Navbar() {
     }
   }, []);
 
+  useEffect(() => {
+    let mounted = true;
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!mounted) return;
+      setHasSession(!!session);
+      setAuthReady(true);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
+      setHasSession(!!session);
+      setAuthReady(true);
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+
   const toggleDark = () => {
     setIsDark(v => !v);
     document.body.classList.toggle("dark");
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setHasSession(false);
+    router.refresh();
   };
 
   if (pathname === "/login") return null;
@@ -155,23 +186,43 @@ export default function Navbar() {
               </span>
             </label>
 
-            {/* Login button */}
-            <Link 
-              href="/login"
-              className="relative w-[110px] h-[42px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20"
-              style={{
-                background: "linear-gradient(to bottom right, #C8860A 0%, rgba(200, 134, 10, 0) 30%)",
-                backgroundColor: "rgba(200, 134, 10, 0.2)",
-                textDecoration: "none"
-              }}
-            >
-              <div className={`w-full h-full rounded-[10px] flex items-center justify-center gap-2 font-semibold text-sm transition-colors duration-300 ${
-                scrolled && !isDark ? "bg-[#FAFAF7] text-[#2D5016]" : "bg-[#1a2e0f] text-[#F5F0E8]"
-              }`}>
-                <User className={`w-4 h-4 transition-colors duration-300 ${scrolled && !isDark ? "text-[#2D5016]" : "text-[#F5F0E8]"}`} />
-                <span>Login</span>
-              </div>
-            </Link>
+            {/* Login / logout button */}
+            {!authReady ? (
+              <div className="w-[110px] h-[42px]" />
+            ) : hasSession ? (
+              <button
+                onClick={handleSignOut}
+                className="relative w-[110px] h-[42px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20"
+                style={{
+                  background: "linear-gradient(to bottom right, #C8860A 0%, rgba(200, 134, 10, 0) 30%)",
+                  backgroundColor: "rgba(200, 134, 10, 0.2)",
+                }}
+              >
+                <div className={`w-full h-full rounded-[10px] flex items-center justify-center gap-2 font-semibold text-sm transition-colors duration-300 ${
+                  scrolled && !isDark ? "bg-[#FAFAF7] text-[#2D5016]" : "bg-[#1a2e0f] text-[#F5F0E8]"
+                }`}>
+                  <User className={`w-4 h-4 transition-colors duration-300 ${scrolled && !isDark ? "text-[#2D5016]" : "text-[#F5F0E8]"}`} />
+                  <span>Logout</span>
+                </div>
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="relative w-[110px] h-[42px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20"
+                style={{
+                  background: "linear-gradient(to bottom right, #C8860A 0%, rgba(200, 134, 10, 0) 30%)",
+                  backgroundColor: "rgba(200, 134, 10, 0.2)",
+                  textDecoration: "none"
+                }}
+              >
+                <div className={`w-full h-full rounded-[10px] flex items-center justify-center gap-2 font-semibold text-sm transition-colors duration-300 ${
+                  scrolled && !isDark ? "bg-[#FAFAF7] text-[#2D5016]" : "bg-[#1a2e0f] text-[#F5F0E8]"
+                }`}>
+                  <User className={`w-4 h-4 transition-colors duration-300 ${scrolled && !isDark ? "text-[#2D5016]" : "text-[#F5F0E8]"}`} />
+                  <span>Login</span>
+                </div>
+              </Link>
+            )}
 
             {pathname === "/" && !isAutomation ? (
               <a
@@ -293,15 +344,28 @@ export default function Navbar() {
                       );
                     })}
                     
-                    {/* Login link for test assertion */}
-                    <Link
-                      href="/login"
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5"
-                    >
-                      <User className="w-6 h-6 text-[#F4A011] shrink-0" />
-                      <span>Login</span>
-                    </Link>
+                    {/* Login / logout link */}
+                    {!authReady ? null : hasSession ? (
+                      <button
+                        onClick={async () => {
+                          await handleSignOut();
+                          setMobileOpen(false);
+                        }}
+                        className="flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5 w-full text-left"
+                      >
+                        <User className="w-6 h-6 text-[#F4A011] shrink-0" />
+                        <span>Logout</span>
+                      </button>
+                    ) : (
+                      <Link
+                        href="/login"
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5"
+                      >
+                        <User className="w-6 h-6 text-[#F4A011] shrink-0" />
+                        <span>Login</span>
+                      </Link>
+                    )}
                   </div>
 
                   {/* Bottom area */}
