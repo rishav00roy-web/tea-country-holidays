@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Calendar, Users, Train } from "lucide-react"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 import TravelAutocomplete from "@/components/travel-autocomplete"
-import { RAILWAY_SUGGESTIONS } from "@/lib/travel-locations"
 
 export default function RailwaysContent() {
   const { gatedWhatsApp } = useAuthGate()
@@ -42,21 +41,19 @@ export default function RailwaysContent() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <TravelAutocomplete
-                label="From Station"
-                placeholder="Search station or code"
-                value={from}
-                onChange={setFrom}
-                icon={Train}
-                suggestions={RAILWAY_SUGGESTIONS}
-              />
-              <TravelAutocomplete
-                label="To Station"
-                placeholder="Search station or code"
-                value={to}
-                onChange={setTo}
-                icon={Train}
-                suggestions={RAILWAY_SUGGESTIONS}
-              />
+              label="From Station"
+              placeholder="Search station or code"
+              value={from}
+              onChange={setFrom}
+              icon={Train}
+            />
+            <TravelAutocomplete
+              label="To Station"
+              placeholder="Search station or code"
+              value={to}
+              onChange={setTo}
+              icon={Train}
+            />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

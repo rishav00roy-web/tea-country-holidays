@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ComponentType } from "react";
-import { ChevronDown } from "lucide-react";
-import type { TravelSuggestion } from "@/lib/travel-locations";
+import { useEffect, useRef, useState, type ComponentType } from "react";
+import { ChevronDown, Loader2 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 type TravelAutocompleteProps = {
   label: string;
@@ -11,14 +11,25 @@ type TravelAutocompleteProps = {
   onChange: (value: string) => void;
   icon: ComponentType<{ className?: string; size?: number }>;
   iconClassName?: string;
-  suggestions: TravelSuggestion[];
 };
 
-function normalize(input: string) {
-  return input
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+type Suggestion = {
+  id: number;
+  name: string;
+  code: string;
+  type: string;
+  region: string;
+  country: string;
+};
+
+const cache = new Map<string, Suggestion[]>();
+
+function escapeLike(value: string) {
+  return value.replace(/[%_\\]/g, "\\$&").replace(/\s+/g, " ").trim();
+}
+
+function buildLabel(item: Suggestion) {
+  return item.code ? `${item.name} (${item.code})` : item.name;
 }
 
 export default function TravelAutocomplete({
@@ -28,10 +39,12 @@ export default function TravelAutocomplete({
   onChange,
   icon: Icon,
   iconClassName,
-  suggestions,
 }: TravelAutocompleteProps) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const requestIdRef = useRef(0);
 
   useEffect(() => {
     const onDocClick = (event: MouseEvent) => {
@@ -44,20 +57,43 @@ export default function TravelAutocomplete({
     return () => document.removeEventListener("mousedown", onDocClick);
   }, []);
 
-  const filtered = useMemo(() => {
-    const q = normalize(value.trim());
-    const list = q
-      ? suggestions.filter((item) => {
-          const haystack = normalize(`${item.label} ${item.code} ${item.hint}`);
-          return haystack.includes(q);
-        })
-      : suggestions;
+  useEffect(() => {
+    if (!open) return;
 
-    return list.slice(0, 8);
-  }, [suggestions, value]);
+    const query = value.trim();
+    if (query.length < 2) return;
 
-  const pick = (item: TravelSuggestion) => {
-    onChange(`${item.label} (${item.code})`);
+    const cached = cache.get(query.toLowerCase());
+    if (cached) {
+      const cachedTimer = window.setTimeout(() => {
+        setSuggestions(cached);
+        setLoading(false);
+      }, 0);
+      return () => window.clearTimeout(cachedTimer);
+    }
+
+    const requestId = ++requestIdRef.current;
+    const timer = window.setTimeout(async () => {
+      const q = escapeLike(query);
+      const { data, error } = await supabase
+        .from("locations")
+        .select("id,name,code,type,region,country")
+        .or(`name.ilike.%${q}%,code.ilike.%${q}%,search_terms.ilike.%${q}%`)
+        .limit(10);
+
+      if (requestIdRef.current !== requestId) return;
+
+      const next = (!error && data ? data : []) as Suggestion[];
+      cache.set(query.toLowerCase(), next);
+      setSuggestions(next);
+      setLoading(false);
+    }, 160);
+
+    return () => window.clearTimeout(timer);
+  }, [open, value]);
+
+  const pick = (item: Suggestion) => {
+    onChange(buildLabel(item));
     setOpen(false);
   };
 
@@ -72,7 +108,14 @@ export default function TravelAutocomplete({
           type="text"
           value={value}
           onChange={(event) => {
-            onChange(event.target.value);
+            const nextValue = event.target.value;
+            onChange(nextValue);
+            if (nextValue.trim().length < 2) {
+              setSuggestions([]);
+              setLoading(false);
+            } else {
+              setLoading(true);
+            }
             setOpen(true);
           }}
           onFocus={() => setOpen(true)}
@@ -80,16 +123,22 @@ export default function TravelAutocomplete({
           autoCorrect="off"
           autoComplete="off"
           spellCheck={false}
-          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
+          className="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
         />
-        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/35" />
+        <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+          {loading ? (
+            <Loader2 className="h-4 w-4 animate-spin text-[#1B4332]/35" />
+          ) : (
+            <ChevronDown className="h-4 w-4 text-[#1B4332]/35" />
+          )}
+        </div>
       </div>
 
-      {open && filtered.length > 0 && (
+      {open && suggestions.length > 0 && (
         <div className="absolute z-30 mt-2 w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
-          {filtered.map((item) => (
+          {suggestions.map((item) => (
             <button
-              key={`${item.code}-${item.label}`}
+              key={item.id}
               type="button"
               onMouseDown={(event) => {
                 event.preventDefault();
@@ -98,8 +147,8 @@ export default function TravelAutocomplete({
               className="w-full px-4 py-3 text-left hover:bg-[#1B4332]/5 flex items-start justify-between gap-4"
             >
               <div className="min-w-0">
-                <div className="text-sm font-semibold text-[#1B4332] truncate">{item.label}</div>
-                <div className="text-xs text-[#1C1C1E]/50 truncate">{item.hint}</div>
+                <div className="text-sm font-semibold text-[#1B4332] truncate">{item.name}</div>
+                <div className="text-xs text-[#1C1C1E]/50 truncate">{item.region}, {item.country}</div>
               </div>
               <span className="shrink-0 rounded-md bg-[#D8F3DC] px-2 py-1 text-[11px] font-bold text-[#1B4332]">
                 {item.code}
@@ -109,7 +158,7 @@ export default function TravelAutocomplete({
         </div>
       )}
 
-      {open && value.trim().length > 0 && filtered.length === 0 && (
+      {open && !loading && value.trim().length >= 2 && suggestions.length === 0 && (
         <div className="absolute z-30 mt-2 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#1C1C1E]/50 shadow-xl">
           No matches found.
         </div>

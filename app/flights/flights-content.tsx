@@ -5,7 +5,6 @@ import { Plane, Calendar, Users } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 import TravelAutocomplete from "@/components/travel-autocomplete"
-import { AIRPORT_SUGGESTIONS } from "@/lib/travel-locations"
 
 function FlightsPageContent() {
   const { gatedWhatsApp } = useAuthGate()
@@ -74,23 +73,21 @@ function FlightsPageContent() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <TravelAutocomplete
-                label="From"
-                placeholder="Search city or airport"
-                value={from}
-                onChange={setFrom}
-                icon={Plane}
-                iconClassName="rotate-45"
-                suggestions={AIRPORT_SUGGESTIONS}
-              />
-              <TravelAutocomplete
-                label="To"
-                placeholder="Search city or airport"
-                value={to}
-                onChange={setTo}
-                icon={Plane}
-                iconClassName="-rotate-45"
-                suggestions={AIRPORT_SUGGESTIONS}
-              />
+              label="From"
+              placeholder="Search city or airport"
+              value={from}
+              onChange={setFrom}
+              icon={Plane}
+              iconClassName="rotate-45"
+            />
+            <TravelAutocomplete
+              label="To"
+              placeholder="Search city or airport"
+              value={to}
+              onChange={setTo}
+              icon={Plane}
+              iconClassName="-rotate-45"
+            />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
