@@ -109,10 +109,10 @@ export default function Hero() {
     setWordIndex((prev) => (prev + 1) % WORDS.length);
   };
 
-  // Clear prevIndex after transition completes
+  // Keep the previous destination around briefly so the fade feels smooth.
   useEffect(() => {
     if (prevIndex === null) return;
-    const t = setTimeout(() => setPrevIndex(null), 700);
+    const t = setTimeout(() => setPrevIndex(null), 900);
     return () => clearTimeout(t);
   }, [prevIndex]);
 
@@ -162,9 +162,9 @@ export default function Hero() {
               quality={isFirst ? 80 : 65}
               className="absolute inset-0 w-full h-full object-cover"
               style={{
-                opacity: isCurrent ? 0.82 : isPrev ? 0.82 : 0,
+                opacity: isCurrent ? 0.86 : isPrev ? 0.86 : 0,
                 zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
-                transition: isCurrent ? "opacity 600ms ease-in-out" : "none",
+                transition: "opacity 900ms ease-in-out",
               }}
             />
           );
