@@ -1,9 +1,10 @@
 "use client"
+
 import { useState } from "react"
 import { Calendar, Users, Train } from "lucide-react"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
 import { useAuthGate } from "@/hooks/use-auth-gate"
+import TravelAutocomplete from "@/components/travel-autocomplete"
+import { RAILWAY_SUGGESTIONS } from "@/lib/travel-locations"
 
 export default function RailwaysContent() {
   const { gatedWhatsApp } = useAuthGate()
@@ -22,9 +23,6 @@ export default function RailwaysContent() {
 
   return (
     <main className="min-h-screen bg-[#FAFAF8]">
-      <Navbar />
-
-      {/* Hero Banner */}
       <div className="bg-[#1B4332] pt-32 pb-16 px-4">
         <div className="mx-auto max-w-7xl">
           <span className="text-[#F4A011] font-semibold text-xs tracking-[0.25em] uppercase mb-4 block">
@@ -39,44 +37,26 @@ export default function RailwaysContent() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-xl px-4 py-16">
+      <div className="mx-auto max-w-2xl px-4 py-16">
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">From Station</label>
-                <div className="relative">
-                  <Train className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50" />
-                  <input
-                    type="text"
-                    required
-                    placeholder="New Delhi (NDLS)"
-                    value={from}
-                    onChange={e => setFrom(e.target.value)}
-                    autoCorrect="on"
-                    autoComplete="on"
-                    spellCheck={true}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">To Station</label>
-                <div className="relative">
-                  <Train className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50" />
-                  <input
-                    type="text"
-                    required
-                    placeholder="Guwahati (GHY)"
-                    value={to}
-                    onChange={e => setTo(e.target.value)}
-                    autoCorrect="on"
-                    autoComplete="on"
-                    spellCheck={true}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
-                  />
-                </div>
-              </div>
+              <TravelAutocomplete
+                label="From Station"
+                placeholder="Search station or code"
+                value={from}
+                onChange={setFrom}
+                icon={Train}
+                suggestions={RAILWAY_SUGGESTIONS}
+              />
+              <TravelAutocomplete
+                label="To Station"
+                placeholder="Search station or code"
+                value={to}
+                onChange={setTo}
+                icon={Train}
+                suggestions={RAILWAY_SUGGESTIONS}
+              />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -136,9 +116,6 @@ export default function RailwaysContent() {
           </p>
         </div>
       </div>
-
-
-      <Footer />
     </main>
   )
 }

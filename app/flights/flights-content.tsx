@@ -1,8 +1,11 @@
 "use client"
+
 import { useState, Suspense } from "react"
 import { Plane, Calendar, Users } from "lucide-react"
-import { useAuthGate } from "@/hooks/use-auth-gate"
 import { useSearchParams } from "next/navigation"
+import { useAuthGate } from "@/hooks/use-auth-gate"
+import TravelAutocomplete from "@/components/travel-autocomplete"
+import { AIRPORT_SUGGESTIONS } from "@/lib/travel-locations"
 
 function FlightsPageContent() {
   const { gatedWhatsApp } = useAuthGate()
@@ -45,7 +48,7 @@ function FlightsPageContent() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-xl px-4 py-16">
+      <div className="mx-auto max-w-2xl px-4 py-16">
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
           <div className="flex gap-4 mb-6 border-b border-gray-100 pb-4">
             <button
@@ -70,44 +73,24 @@ function FlightsPageContent() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="flight-from" className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">From</label>
-                <div className="relative">
-                  <Plane className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50 rotate-45" />
-                  <input
-                    id="flight-from"
-                    type="text"
-                    name="origin"
-                    required
-                    placeholder="Delhi (DEL)"
-                    value={from}
-                    onChange={e => setFrom(e.target.value)}
-                    autoComplete="off"
-                    autoCorrect="on"
-                    spellCheck={true}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="flight-to" className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">To</label>
-                <div className="relative">
-                  <Plane className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50 -rotate-45" />
-                  <input
-                    id="flight-to"
-                    type="text"
-                    name="destination"
-                    required
-                    placeholder="Guwahati (GAU)"
-                    value={to}
-                    onChange={e => setTo(e.target.value)}
-                    autoComplete="off"
-                    autoCorrect="on"
-                    spellCheck={true}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
-                  />
-                </div>
-              </div>
+              <TravelAutocomplete
+                label="From"
+                placeholder="Search city or airport"
+                value={from}
+                onChange={setFrom}
+                icon={Plane}
+                iconClassName="rotate-45"
+                suggestions={AIRPORT_SUGGESTIONS}
+              />
+              <TravelAutocomplete
+                label="To"
+                placeholder="Search city or airport"
+                value={to}
+                onChange={setTo}
+                icon={Plane}
+                iconClassName="-rotate-45"
+                suggestions={AIRPORT_SUGGESTIONS}
+              />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
