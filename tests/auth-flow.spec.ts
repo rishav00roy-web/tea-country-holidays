@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('callback handler redirects to homepage on invalid code without crashing', async ({ page }) => {
   // Go to callback route with an invalid code
-  const response = await page.goto('/auth/callback?code=invalid-test-code');
+  await page.goto('/auth/callback?code=invalid-test-code');
   
   // Verify it redirects back to the home page (origin)
   await expect(page).toHaveURL('/');

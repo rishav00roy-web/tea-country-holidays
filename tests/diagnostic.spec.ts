@@ -1,12 +1,9 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 
 test('diagnostic test', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
   await page.goto('/');
   
-  const htmlBox = await page.locator('html').boundingBox();
-  const bodyBox = await page.locator('body').boundingBox();
-  const navBox = await page.locator('nav').first().boundingBox();
   const desktopLinks = page.locator('.hidden.md\\:flex.items-center.gap-7').first();
   const desktopLinksBox = await desktopLinks.boundingBox();
   const desktopLinksDisplay = await desktopLinks.evaluate((el: HTMLElement) => window.getComputedStyle(el).display);

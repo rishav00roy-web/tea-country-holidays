@@ -183,7 +183,6 @@ test.describe('Tier 2: Interactive Touch Controls & Modals Boundary', () => {
     await hamburger.dispatchEvent('click');
     
     // The drawer state should end up closed or at least should not crash the page
-    const drawer = page.locator('.fixed.inset-0.z-40.flex.flex-col');
     // Ensure page didn't crash
     const logo = page.locator('nav img[alt="Tea Country Holidays"]').first();
     await expect(logo).toBeVisible();

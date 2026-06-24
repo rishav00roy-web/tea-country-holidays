@@ -37,8 +37,6 @@ export default function Navbar() {
   const pathname = usePathname();
 
   // ── Hide Navbar on auth pages ──
-  if (pathname === "/login") return null;
-
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", fn, { passive: true });
@@ -60,6 +58,8 @@ export default function Navbar() {
     setIsDark(v => !v);
     document.body.classList.toggle("dark");
   };
+
+  if (pathname === "/login") return null;
 
   return (
     <>
