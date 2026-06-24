@@ -176,13 +176,13 @@ export default function Hero() {
               className="absolute inset-0 w-full h-full object-cover"
               style={{
                 opacity: isCurrent
-                  ? (isCrossfading ? 1 : 0)
+                  ? (prevIndex === null ? 1 : (isCrossfading ? 1 : 0))
                   : isPrev
                     ? (isCrossfading ? 0 : 1)
                     : 0,
                 zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
                 transform: isCurrent
-                  ? (isCrossfading ? "scale(1)" : "scale(1.035)")
+                  ? (prevIndex === null ? "scale(1)" : (isCrossfading ? "scale(1)" : "scale(1.035)"))
                   : isPrev
                     ? (isCrossfading ? "scale(1.01)" : "scale(1)")
                     : "scale(1)",
