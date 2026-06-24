@@ -3,8 +3,6 @@ import { useState } from "react"
 import Image from "next/image"
 import { Clock, ArrowRight, Search } from "lucide-react"
 import { cn } from "@/lib/utils"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 
 import { Package } from "@/lib/packages-data"
@@ -45,8 +43,6 @@ export default function HolidaysContent({
 
   return (
     <main className="min-h-screen bg-white">
-      <Navbar />
-      
       {/* Hero Banner */}
       <div className="bg-[#1B4332] pt-32 pb-16 px-4">
         <div className="mx-auto max-w-7xl">
@@ -120,7 +116,15 @@ export default function HolidaysContent({
             {filtered.map(pkg => (
               <div key={pkg.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col">
                 <div className="relative h-56 overflow-hidden">
-                  <Image src={optimizeUnsplashUrl(pkg.image)} alt={pkg.title} fill loading="lazy" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" quality={65} className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <Image
+                    src={optimizeUnsplashUrl(pkg.image)}
+                    alt={pkg.title}
+                    fill
+                    loading="lazy"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    quality={65}
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                   <div className="absolute top-4 left-4 bg-[#F4A011] text-white text-xs font-semibold px-3 py-1 rounded-full">
                     {pkg.theme}
                   </div>
@@ -158,8 +162,6 @@ export default function HolidaysContent({
           </div>
         )}
       </div>
-
-      <Footer />
     </main>
   )
 }

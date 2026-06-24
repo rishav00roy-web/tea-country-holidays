@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { MapPin, Calendar, Users, Plane, Train, Car, Navigation, Check, ChevronDown } from "lucide-react";
+import { MapPin, Calendar, Users, Plane, Train, Car, Navigation, Check, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 type TransportMode = "Flight" | "Train" | "Road";
@@ -20,13 +20,17 @@ const TRANSPORT_ICONS = {
   Road: Car,
 } as const;
 
+const MONTH_NAMES = [
+  "January","February","March","April","May","June",
+  "July","August","September","October","November","December",
+];
+const DAY_HEADERS = ["Su","Mo","Tu","We","Th","Fr","Sa"];
+
 // ─── Custom Hooks ──────────────────────────────────────────────────────────
 
 function useOnClickOutside(ref: React.RefObject<HTMLElement | null>, handler: () => void) {
   const handlerRef = useRef(handler);
-  useEffect(() => {
-    handlerRef.current = handler;
-  });
+  useEffect(() => { handlerRef.current = handler; });
 
   useEffect(() => {
     const listener = (e: MouseEvent | TouchEvent) => {
@@ -40,6 +44,17 @@ function useOnClickOutside(ref: React.RefObject<HTMLElement | null>, handler: ()
       document.removeEventListener("touchstart", listener);
     };
   }, [ref]);
+}
+
+// ─── Calendar helpers ──────────────────────────────────────────────────────
+
+function buildCalendarDays(year: number, month: number): (number | null)[] {
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const days: (number | null)[] = [];
+  for (let i = 0; i < firstDay; i++) days.push(null);
+  for (let d = 1; d <= daysInMonth; d++) days.push(d);
+  return days;
 }
 
 // ─── Sub-components ────────────────────────────────────────────────────────
@@ -91,32 +106,68 @@ function LocationInput({
 // ─── Main Component ────────────────────────────────────────────────────────
 
 export default function GlassSearch() {
-  const [activeTab, setActiveTab] = useState<"where" | "who" | null>(null);
+  const [activeTab, setActiveTab] = useState<"where" | "when" | "who" | null>(null);
 
   // Form state
-  const [origin, setOrigin] = useState("");
+  const [origin, setOrigin]           = useState("");
   const [destination, setDestination] = useState("");
-  const [checkin, setCheckin] = useState("");
-  const [adults, setAdults] = useState(2);
-  const [children, setChildren] = useState(0);
-  const [transport, setTransport] = useState<TransportMode>("Flight");
+  const [checkin, setCheckin]         = useState("");
+  const [adults, setAdults]           = useState(2);
+  const [children, setChildren]       = useState(0);
+  const [transport, setTransport]     = useState<TransportMode>("Flight");
+
+  // Calendar state
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const [viewYear, setViewYear]   = useState(today.getFullYear());
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
 
   // Autocomplete state
-  const [activeInput, setActiveInput] = useState<"origin" | "destination" | null>(null);
-  const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<LocationRow[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
+  const [activeInput, setActiveInput]   = useState<"origin" | "destination" | null>(null);
+  const [query, setQuery]               = useState("");
+  const [suggestions, setSuggestions]   = useState<LocationRow[]>([]);
+  const [isSearching, setIsSearching]   = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(containerRef, () => setActiveTab(null));
 
-  // Close "where" dropdown also clears active input
   const closeWhere = useCallback(() => {
     setActiveTab(null);
     setActiveInput(null);
     setQuery("");
     setSuggestions([]);
   }, []);
+
+  // ── Calendar helpers ───────────────────────────────────────────────────
+  const calDays = buildCalendarDays(viewYear, viewMonth);
+
+  const prevMonth = () => {
+    if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1); }
+    else setViewMonth(m => m - 1);
+  };
+  const nextMonth = () => {
+    if (viewMonth === 11) { setViewMonth(0); setViewYear(y => y + 1); }
+    else setViewMonth(m => m + 1);
+  };
+
+  const isPast = (day: number) =>
+    new Date(viewYear, viewMonth, day) < today;
+
+  const isToday = (day: number) =>
+    new Date(viewYear, viewMonth, day).toDateString() === today.toDateString();
+
+  const isSelected = (day: number) => {
+    if (!checkin) return false;
+    return new Date(viewYear, viewMonth, day).toDateString() ===
+      new Date(checkin + "T00:00:00").toDateString();
+  };
+
+  const handleDateSelect = (day: number) => {
+    if (isPast(day)) return;
+    const dateStr = `${viewYear}-${String(viewMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    setCheckin(dateStr);
+    setActiveTab(null);
+  };
 
   // ── Debounced Supabase search ──────────────────────────────────────────
   useEffect(() => {
@@ -126,20 +177,17 @@ export default function GlassSearch() {
     }
     const timer = setTimeout(async () => {
       setIsSearching(true);
-      // Search across name, code, AND search_terms for the best coverage
       const { data, error } = await supabase
         .from("locations")
         .select("id,name,code,type,region,country")
         .or(`name.ilike.%${query}%,code.ilike.%${query}%,search_terms.ilike.%${query}%`)
         .limit(7);
-
       if (!error && data) setSuggestions(data);
       setIsSearching(false);
     }, 280);
     return () => clearTimeout(timer);
   }, [query]);
 
-  // When user focuses an input, pre-populate the query with current value
   const handleFocus = (which: "origin" | "destination") => {
     setActiveInput(which);
     setQuery(which === "origin" ? origin : destination);
@@ -148,7 +196,6 @@ export default function GlassSearch() {
   const handleChange = (which: "origin" | "destination", val: string) => {
     setActiveInput(which);
     setQuery(val);
-    // Also update the real field so it reflects the typed text until a suggestion is picked
     if (which === "origin") setOrigin(val);
     else setDestination(val);
   };
@@ -157,14 +204,8 @@ export default function GlassSearch() {
     const displayName = loc.code ? `${loc.name} (${loc.code})` : loc.name;
     if (activeInput === "origin") {
       setOrigin(displayName);
-      // Auto-focus destination if still empty
-      if (!destination) {
-        setActiveInput("destination");
-        setQuery("");
-      } else {
-        setActiveInput(null);
-        setSuggestions([]);
-      }
+      if (!destination) { setActiveInput("destination"); setQuery(""); }
+      else { setActiveInput(null); setSuggestions([]); }
     } else {
       setDestination(displayName);
       setActiveInput(null);
@@ -172,17 +213,19 @@ export default function GlassSearch() {
     }
   };
 
-  // ── WhatsApp message generator ─────────────────────────────────────────
+  // ── WhatsApp message ───────────────────────────────────────────────────
   const handleSearch = () => {
-    const originText  = origin || "my city";
-    const destText    = destination || "anywhere";
-    const dateText    = checkin ? new Date(checkin).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : "flexible dates";
-    const kidsText    = children > 0 ? ` and ${children} child${children > 1 ? "ren" : ""}` : "";
-    const message     = `Hi! I'm planning a trip from ${originText} to ${destText} around ${dateText}. We are ${adults} adult${adults > 1 ? "s" : ""}${kidsText}, looking to travel via ${transport}. Can an expert help me out?`;
+    const originText = origin || "my city";
+    const destText   = destination || "anywhere";
+    const dateText   = checkin
+      ? new Date(checkin).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })
+      : "flexible dates";
+    const kidsText  = children > 0 ? ` and ${children} child${children > 1 ? "ren" : ""}` : "";
+    const message   = `Hi! I'm planning a trip from ${originText} to ${destText} around ${dateText}. We are ${adults} adult${adults > 1 ? "s" : ""}${kidsText}, looking to travel via ${transport}. Can an expert help me out?`;
     window.open(`https://wa.me/918826048272?text=${encodeURIComponent(message)}`, "_blank");
   };
 
-  // ── Derived display values ─────────────────────────────────────────────
+  // ── Derived labels ─────────────────────────────────────────────────────
   const whereLabel = origin || destination
     ? `${origin || "Anywhere"} → ${destination || "Anywhere"}`
     : "Select destinations";
@@ -221,34 +264,23 @@ export default function GlassSearch() {
 
         <div className="hidden sm:block w-px h-9 bg-white/15 self-center" />
 
-        {/* WHEN — inline date picker, no extra dropdown needed */}
-        <div className="flex-1 px-5 py-3.5 rounded-xl hover:bg-white/10 transition-all flex flex-col gap-0.5 cursor-pointer relative">
-          <label htmlFor="gs-checkin" className="text-[#F4A011] text-[10px] font-bold uppercase tracking-widest cursor-pointer">
-            When?
-          </label>
-          <div className="flex items-center gap-2">
-            <Calendar size={13} className="text-white/50 pointer-events-none shrink-0" />
-            <span className={`text-sm font-medium ${checkin ? "text-white" : "text-white/50"} pointer-events-none select-none`}>
+        {/* WHEN — custom calendar toggle */}
+        <button
+          type="button"
+          onClick={() => setActiveTab(activeTab === "when" ? null : "when")}
+          className={`flex-1 flex items-center justify-between px-5 py-3.5 rounded-xl transition-all text-left ${
+            activeTab === "when" ? "bg-white/20 shadow-inner" : "hover:bg-white/10 active:bg-white/15"
+          }`}
+        >
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[#F4A011] text-[10px] font-bold uppercase tracking-widest">When?</span>
+            <span className="text-white font-medium text-sm flex items-center gap-1.5">
+              <Calendar size={13} className="text-white/50" />
               {whenLabel}
             </span>
           </div>
-          {/* Invisible date input covers the whole tile for the native picker */}
-          <input
-            id="gs-checkin"
-            type="date"
-            value={checkin}
-            min={new Date().toISOString().split("T")[0]}
-            onChange={(e) => setCheckin(e.target.value)}
-            onClick={(e) => {
-              try {
-                e.currentTarget.showPicker();
-              } catch (err) {
-                console.error("showPicker failed:", err);
-              }
-            }}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          />
-        </div>
+          <ChevronDown size={14} className={`text-white/40 ml-2 transition-transform ${activeTab === "when" ? "rotate-180" : ""}`} />
+        </button>
 
         <div className="hidden sm:block w-px h-9 bg-white/15 self-center" />
 
@@ -307,7 +339,6 @@ export default function GlassSearch() {
             />
           </div>
 
-          {/* Suggestions list */}
           {showSuggestions && (
             <div className="mt-4 border-t border-gray-100 pt-3 max-h-[220px] overflow-y-auto">
               {isSearching ? (
@@ -341,7 +372,6 @@ export default function GlassSearch() {
             </div>
           )}
 
-          {/* Done button */}
           <button
             type="button"
             onMouseDown={(e) => { e.preventDefault(); closeWhere(); }}
@@ -352,13 +382,108 @@ export default function GlassSearch() {
         </div>
       )}
 
+      {/* ── WHEN — Custom Calendar Dropdown ── */}
+      {activeTab === "when" && (
+        <div
+          className="absolute left-4 right-4 sm:left-[calc(33%-16px)] sm:right-auto sm:w-[320px] mt-3 rounded-2xl shadow-2xl overflow-hidden"
+          style={{
+            zIndex: 60,
+            background: "rgba(1, 50, 32, 0.97)",
+            backdropFilter: "blur(16px)",
+            border: "1px solid rgba(244, 160, 17, 0.25)",
+          }}
+        >
+          {/* Month navigation */}
+          <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+            <button
+              type="button"
+              onClick={prevMonth}
+              className="w-8 h-8 rounded-full flex items-center justify-center text-white/60 hover:text-[#F4A011] hover:bg-white/10 transition-all"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <span className="text-[#F4A011] font-bold text-sm tracking-wide">
+              {MONTH_NAMES[viewMonth]} {viewYear}
+            </span>
+            <button
+              type="button"
+              onClick={nextMonth}
+              className="w-8 h-8 rounded-full flex items-center justify-center text-white/60 hover:text-[#F4A011] hover:bg-white/10 transition-all"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+
+          <div className="px-4 py-3">
+            {/* Day headers */}
+            <div className="grid grid-cols-7 mb-2">
+              {DAY_HEADERS.map(d => (
+                <div key={d} className="text-center text-[10px] font-bold text-white/30 uppercase py-1">
+                  {d}
+                </div>
+              ))}
+            </div>
+
+            {/* Day cells */}
+            <div className="grid grid-cols-7 gap-y-1">
+              {calDays.map((day, i) => {
+                if (!day) return <div key={`empty-${i}`} />;
+
+                const past     = isPast(day);
+                const todayDay = isToday(day);
+                const selected = isSelected(day);
+
+                return (
+                  <button
+                    key={day}
+                    type="button"
+                    disabled={past}
+                    onClick={() => handleDateSelect(day)}
+                    className={`
+                      w-9 h-9 mx-auto rounded-full text-sm font-medium transition-all flex items-center justify-center
+                      ${past
+                        ? "text-white/20 cursor-not-allowed"
+                        : selected
+                          ? "bg-[#F4A011] text-[#013220] font-bold shadow-lg"
+                          : todayDay
+                            ? "border border-[#F4A011]/70 text-[#F4A011] hover:bg-[#F4A011]/20"
+                            : "text-white hover:bg-white/15 cursor-pointer"
+                      }
+                    `}
+                  >
+                    {day}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Footer actions */}
+          <div className="flex items-center justify-between px-5 py-3 border-t border-white/10">
+            <button
+              type="button"
+              onClick={() => { setCheckin(""); }}
+              className="text-xs text-white/40 hover:text-white/70 transition-colors font-medium"
+            >
+              Clear
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab(null)}
+              className="flex items-center gap-1.5 text-xs font-bold text-[#F4A011] hover:text-amber-400 transition-colors"
+            >
+              <Check size={14} /> Done
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* ── WHO & HOW Dropdown ── */}
       {activeTab === "who" && (
         <div
           className="absolute right-4 left-4 sm:left-auto sm:right-0 sm:w-[340px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 mt-3"
           style={{ zIndex: 60 }}
         >
-          {/* Travellers */}
           <h4 className="text-[10px] font-bold text-brand-evergreen/50 uppercase tracking-wider mb-4">Travellers</h4>
           <div className="space-y-4 mb-5">
             {[
@@ -375,16 +500,12 @@ export default function GlassSearch() {
                     onClick={() => setCount(Math.max(min, count - 1))}
                     className="w-9 h-9 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold text-brand-evergreen font-bold text-lg transition-all cursor-pointer disabled:opacity-30"
                     disabled={count <= min}
-                  >
-                    −
-                  </button>
+                  >−</button>
                   <span className="w-5 text-center text-sm font-bold text-brand-ink">{count}</span>
                   <button
                     onClick={() => setCount(count + 1)}
                     className="w-9 h-9 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold text-brand-evergreen font-bold text-lg transition-all cursor-pointer"
-                  >
-                    +
-                  </button>
+                  >+</button>
                 </div>
               </div>
             ))}
@@ -392,7 +513,6 @@ export default function GlassSearch() {
 
           <hr className="border-gray-100 mb-5" />
 
-          {/* Transport mode */}
           <h4 className="text-[10px] font-bold text-brand-evergreen/50 uppercase tracking-wider mb-3">Preferred Transport</h4>
           <div className="grid grid-cols-3 gap-2 mb-5">
             {(["Flight", "Train", "Road"] as TransportMode[]).map((mode) => {
@@ -415,7 +535,6 @@ export default function GlassSearch() {
             })}
           </div>
 
-          {/* Done */}
           <button
             type="button"
             onClick={() => setActiveTab(null)}

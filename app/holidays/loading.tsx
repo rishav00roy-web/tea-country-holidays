@@ -1,11 +1,6 @@
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
-
 export default function Loading() {
   return (
     <main className="min-h-screen bg-white flex flex-col w-full">
-      <Navbar />
-      
       {/* Hero Banner */}
       <div className="bg-[#1B4332] pt-32 pb-16 px-4">
         <div className="mx-auto max-w-7xl">
@@ -19,7 +14,7 @@ export default function Loading() {
             Handpicked packages across India and the world. 
             Get a personalised quote from our travel experts.
           </p>
-          
+
           {/* Search bar skeleton */}
           <div className="mt-8 flex gap-3 max-w-lg animate-pulse">
             <div className="h-12 bg-white/20 rounded-lg w-full" />
@@ -49,8 +44,6 @@ export default function Loading() {
           ))}
         </div>
       </div>
-
-      <Footer />
     </main>
   );
 }

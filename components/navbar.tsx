@@ -65,10 +65,10 @@ export default function Navbar() {
           className="max-w-7xl mx-auto px-3 md:px-6 py-3 md:py-2.5 rounded-none md:rounded-full flex items-center justify-between gap-2 md:gap-6 pointer-events-auto border-b border-x-0 border-t-0 md:border transition-all duration-300 w-full"
           style={{
             background: scrolled
-              ? (isDark ? "#1B4332" : "#FAFAF8")
+              ? (isDark ? "rgba(13, 31, 26, 0.88)" : "rgba(250, 250, 248, 0.82)")
               : (isDark ? "rgba(13, 31, 26, 0.25)" : "rgba(255, 255, 255, 0.08)"),
-            backdropFilter: scrolled ? "none" : "blur(16px)",
-            WebkitBackdropFilter: scrolled ? "none" : "blur(16px)",
+            backdropFilter: "blur(20px) saturate(180%)",
+            WebkitBackdropFilter: "blur(20px) saturate(180%)",
             borderColor: scrolled
               ? (isDark ? "rgba(200, 134, 10, 0.3)" : "rgba(45, 80, 22, 0.25)")
               : "rgba(255, 255, 255, 0.15)",
