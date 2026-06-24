@@ -102,11 +102,19 @@ const Typewriter = memo(function Typewriter({
 
 export default function Hero() {
   const [wordIndex, setWordIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState<number | null>(null);
 
-  const advanceWord = () =>
+  const advanceWord = () => {
+    setPrevIndex(wordIndex);
     setWordIndex((prev) => (prev + 1) % WORDS.length);
+  };
 
-  const nextIndex = (wordIndex + 1) % DESTINATIONS.length;
+  // Clear prevIndex after transition completes
+  useEffect(() => {
+    if (prevIndex === null) return;
+    const t = setTimeout(() => setPrevIndex(null), 700);
+    return () => clearTimeout(t);
+  }, [prevIndex]);
 
   return (
     <>
@@ -119,10 +127,6 @@ export default function Hero() {
           0%, 100% { opacity: 1; }
           50%       { opacity: 0; }
         }
-        @keyframes scrollBounce {
-          0%, 100% { transform: translateY(0); }
-          50%       { transform: translateY(8px); }
-        }
         @keyframes radialPulse {
           0%, 100% { opacity: 0.18; }
           50%       { opacity: 0.32; }
@@ -134,19 +138,18 @@ export default function Hero() {
         {/* Deep Green Base */}
         <div
           className="absolute inset-0 z-0"
-          style={{
-            background: "linear-gradient(160deg, #01291a 0%, #013220 40%, #001f14 100%)",
-          }}
+          style={{ background: "linear-gradient(160deg, #01291a 0%, #013220 40%, #001f14 100%)" }}
           aria-hidden="true"
         />
 
-        {/* Destination slideshow — faster crossfade (500ms vs 1000ms) */}
+        {/* Slideshow — previous slide stays visible (z-1) while new one fades in on top (z-2) */}
         {DESTINATIONS.map((dest, idx) => {
           const isCurrent = idx === wordIndex;
-          const isNext    = idx === nextIndex;
+          const isPrev    = idx === prevIndex;
           const isFirst   = idx === 0;
 
-          if (!isFirst && !isCurrent && !isNext) return null;
+          // Only render current, previous, and first (LCP)
+          if (!isFirst && !isCurrent && !isPrev) return null;
 
           return (
             <Image
@@ -157,10 +160,11 @@ export default function Hero() {
               sizes="100vw"
               priority={isFirst}
               quality={isFirst ? 80 : 65}
-              className="absolute inset-0 w-full h-full object-cover z-0"
+              className="absolute inset-0 w-full h-full object-cover"
               style={{
-                opacity: isCurrent ? 0.75 : 0,
-                transition: "opacity 500ms ease-in-out",
+                opacity: isCurrent ? 0.82 : isPrev ? 0.82 : 0,
+                zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
+                transition: isCurrent ? "opacity 600ms ease-in-out" : "none",
               }}
             />
           );
@@ -168,13 +172,13 @@ export default function Hero() {
 
         {/* Vignette */}
         <div
-          className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80 z-0"
+          className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/75 z-[3]"
           aria-hidden="true"
         />
 
         {/* Golden radial glow */}
         <div
-          className="absolute inset-0 pointer-events-none z-0"
+          className="absolute inset-0 pointer-events-none z-[3]"
           aria-hidden="true"
           style={{
             background: "radial-gradient(ellipse 70% 55% at 50% 48%, rgba(212,175,55,0.22) 0%, transparent 70%)",
@@ -183,11 +187,11 @@ export default function Hero() {
         />
 
         {/* Hero content */}
-        <div className="relative z-10 flex flex-col items-center text-center px-4 gap-4 select-none w-full max-w-6xl mx-auto">
+        <div className="relative z-[4] flex flex-col items-center text-center px-4 gap-4 select-none w-full max-w-6xl mx-auto">
 
           <p
             className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-20 sm:pt-0"
-            style={{ animation: "fadeUp 0.8s ease both 0.1s", opacity: 1 }}
+            style={{ animation: "fadeUp 0.8s ease both 0.1s" }}
           >
             Tea Country Holidays
           </p>
@@ -235,8 +239,8 @@ export default function Hero() {
 
         </div>
 
-        {/* Wave curve into next section */}
-        <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden leading-none" aria-hidden="true">
+        {/* Wave */}
+        <div className="absolute bottom-0 left-0 right-0 z-[5] overflow-hidden leading-none" aria-hidden="true">
           <svg
             viewBox="0 0 1440 60"
             xmlns="http://www.w3.org/2000/svg"
