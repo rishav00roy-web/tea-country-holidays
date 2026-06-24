@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -10,22 +11,16 @@ export default function Footer() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
-          {/* â”€â”€ Brand column â”€â”€ */}
+          {/* ── Brand column ── */}
           <div className="space-y-6">
             <Link href="/" className="flex items-center w-fit">
-              <img
+              <Image
                 src="/logo.png"
                 alt="Tea Country Holidays"
-                style={{
-                  background: 'transparent',
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  boxShadow: 'none',
-                  padding: 0,
-                  height: '48px',
-                  width: 'auto',
-                  objectFit: 'contain'
-                }}
+                width={205}
+                height={37}
+                sizes="205px"
+                className="h-12 w-auto object-contain"
               />
             </Link>
             <p className="text-white/55 text-sm leading-relaxed max-w-xs">
@@ -90,7 +85,8 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          {/* â”€â”€ Contact â”€â”€ */}
+
+          {/* ── Contact ── */}
           <div>
             <h4 className="font-serif text-xl font-bold text-white mb-6 border-b border-brand-gold/15 pb-4">Contact Us</h4>
             <ul className="space-y-4 text-sm text-white/55">

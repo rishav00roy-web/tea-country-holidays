@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import Navbar   from "@/components/navbar";
 import Hero     from "@/components/hero";
 import { BackToTop } from "@/components/back-to-top";
 
@@ -14,13 +13,10 @@ const OfferBanner         = dynamic(() => import("@/components/offer-banner"));
 const MasonryTestimonials = dynamic(() => import("@/components/masonry-testimonials"));
 const ReviewsMarquee      = dynamic(() => import("@/components/reviews-marquee"));
 const BlogsSection        = dynamic(() => import("@/components/blogs-section"));
-const Footer              = dynamic(() => import("@/components/footer"));
 
 export default function Home() {
   return (
     <>
-      <Navbar />
-
       <main className="flex-1 flex flex-col w-full overflow-hidden">
         <Hero />
         <WhoWeAre />
@@ -33,7 +29,6 @@ export default function Home() {
         <BlogsSection />
       </main>
 
-      <Footer />
       <BackToTop />
     </>
   );

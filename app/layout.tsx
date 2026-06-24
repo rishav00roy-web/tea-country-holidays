@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import StickyCTA from "@/components/sticky-cta";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 import "./globals.css";
 
 const playfairDisplay = Playfair_Display({
@@ -75,18 +77,16 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
         {/* Wikipedia images */}
         <link rel="dns-prefetch" href="https://upload.wikimedia.org" />
-        {/* Supabase — preconnect for faster data fetch */}
-        <link
-          rel="preconnect"
-          href="https://lnrkqyxiwbkvkazyzcbe.supabase.co"
-          crossOrigin="anonymous"
-        />
-        {/* NOTE: fonts.googleapis.com preconnect removed — 
-            next/font/google self-hosts fonts, Google servers 
+        {/* Supabase preconnect removed — data fetching is server-side only;
+            a client preconnect gives no benefit and triggers Lighthouse warning */}
+        {/* NOTE: fonts.googleapis.com preconnect removed —
+            next/font/google self-hosts fonts, Google servers
             are never contacted at runtime */}
       </head>
       <body className="font-sans text-brand-ink antialiased bg-brand-floral min-h-screen flex flex-col overflow-x-hidden max-w-full">
+        <Navbar />
         {children}
+        <Footer />
         <StickyCTA />
         <WhatsAppButton />
       </body>

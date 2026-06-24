@@ -1,39 +1,47 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 const WHATSAPP_OFFER = "https://wa.me/918826048272?text=Hi%2C%20I%27d%20like%20to%20claim%20the%20Early%20Bird%20discount%20offer.";
 const WHATSAPP_DEALS = "https://wa.me/918826048272?text=Hi%2C%20can%20you%20share%20your%20current%20holiday%20deals%20and%20offers%3F";
 
 export default function OfferBanner() {
-  const bannerRef = useRef<HTMLDivElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!bannerRef.current) return;
-      const rect = bannerRef.current.getBoundingClientRect();
+      if (!parallaxRef.current) return;
+      const rect = parallaxRef.current.parentElement?.getBoundingClientRect();
+      if (!rect) return;
       const offset = (rect.top / window.innerHeight) * 30;
-      bannerRef.current.style.setProperty("--parallax-offset", `${offset}px`);
+      parallaxRef.current.style.transform = `translateY(${offset}px)`;
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <section
-      ref={bannerRef}
-      className="relative py-24 md:py-36 overflow-hidden"
-    >
-      {/* Parallax BG image — served as WebP via Unsplash auto-format */}
+    <section className="relative py-24 md:py-36 overflow-hidden">
+
+      {/* Parallax wrapper — inset-[-40px] gives bleed room for the parallax shift */}
       <div
-        className="absolute inset-[-40px] bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=1600&q=65&auto=format&fm=webp')",
-          transform: "translateY(var(--parallax-offset, 0px))",
-          transition: "transform 0.05s linear",
-        }}
-      />
+        ref={parallaxRef}
+        className="absolute inset-[-40px]"
+        style={{ transition: "transform 0.05s linear", willChange: "transform" }}
+      >
+        <Image
+          src="https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=1600&q=65&auto=format&fm=webp"
+          alt=""
+          fill
+          sizes="100vw"
+          quality={65}
+          className="object-cover object-center"
+          // This image is below the fold — do NOT set priority.
+          // Next.js will lazy-load it correctly via default behaviour.
+        />
+      </div>
+
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-brand-evergreen/80" />
       {/* Gold tint */}
@@ -42,7 +50,7 @@ export default function OfferBanner() {
       {/* Content */}
       <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
         <span className="text-brand-gold font-bold text-xs tracking-[0.3em] uppercase block mb-4 animate-pulse">
-          Limited Time Offer
+          ✦ Limited Time Offer ✦
         </span>
         <h2 className="font-serif text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
           Early Bird Discounts<br />

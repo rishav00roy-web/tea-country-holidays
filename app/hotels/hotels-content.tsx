@@ -2,8 +2,6 @@
 import { useState, Suspense } from "react"
 import Image from "next/image"
 import { MapPin, Calendar, Users, Star } from "lucide-react"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 import { useSearchParams } from "next/navigation"
 
@@ -37,8 +35,6 @@ function HotelsPageContent() {
 
   return (
     <main className="min-h-screen bg-white">
-      <Navbar />
-
       {/* Hero Banner */}
       <div className="bg-[#1B4332] pt-32 pb-16 px-4">
         <div className="mx-auto max-w-7xl">
@@ -149,9 +145,6 @@ function HotelsPageContent() {
           </div>
         )}
       </div>
-
-
-      <Footer />
     </main>
   )
 }

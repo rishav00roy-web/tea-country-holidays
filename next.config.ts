@@ -1,4 +1,9 @@
 import type { NextConfig } from "next";
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 const nextConfig: NextConfig = {
   images: {
@@ -23,6 +28,15 @@ const nextConfig: NextConfig = {
     root: __dirname,
   },
   deploymentId: process.env.VERCEL_DEPLOYMENT_ID,
+  experimental: {
+    // Tree-shake named imports from these packages automatically.
+    // No code changes needed in components — Next.js rewrites the imports
+    // at build time so only the icons/components actually used are bundled.
+    optimizePackageImports: [
+      "lucide-react",
+      "react-fast-marquee",
+    ],
+  },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

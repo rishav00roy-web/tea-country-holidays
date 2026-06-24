@@ -28,9 +28,6 @@ const DESTINATIONS = [
 ];
 
 // ─── Isolated Typewriter ───────────────────────────────────────────────────
-// All high-frequency state (displayed text) lives ONLY here.
-// The parent hero re-renders just once per word change (every 3-4 s),
-// not every 45 ms, massively reducing TBT.
 const Typewriter = memo(function Typewriter({
   wordIndex,
   onWordComplete,
@@ -41,7 +38,6 @@ const Typewriter = memo(function Typewriter({
   const [displayed, setDisplayed] = useState(WORDS[wordIndex]);
   const [phase, setPhase] = useState<"typing" | "pausing" | "erasing" | "waiting">("pausing");
 
-  // Reset when parent advances the word
   useEffect(() => {
     const timer = setTimeout(() => {
       setDisplayed("");
@@ -147,13 +143,20 @@ export default function Hero() {
           aria-hidden="true"
         />
 
-        {/* Blended Destination Background Slideshow
-            Only render the current slide + the next slide (pre-fetch).
-            All others stay unmounted → no wasted bandwidth.                */}
+        {/* Destination Background Slideshow
+            - Index 0 (Meghalaya) is ALWAYS rendered so it is discoverable in
+              initial HTML and qualifies for fetchpriority=high via priority prop.
+            - Subsequent slides are rendered only when current or upcoming,
+              keeping bandwidth use the same as before.                          */}
         {DESTINATIONS.map((dest, idx) => {
           const isCurrent = idx === wordIndex;
           const isNext    = idx === nextIndex;
-          if (!isCurrent && !isNext) return null;
+          const isFirst   = idx === 0;
+
+          // Always keep index 0 in the DOM (LCP image must be in initial HTML).
+          // Skip all others unless they are current or next.
+          if (!isFirst && !isCurrent && !isNext) return null;
+
           return (
             <Image
               key={dest.name}
@@ -161,9 +164,14 @@ export default function Hero() {
               alt=""
               fill
               sizes="100vw"
-              priority={idx === 0}
-              loading={idx === 0 ? "eager" : "lazy"}
-              quality={idx === 0 ? 80 : 65}
+              // Only the first image gets priority (fetchpriority=high + preload).
+              // Never set priority on slides that are merely "next" — that would
+              // preload images the user may never see.
+              priority={isFirst}
+              // Do NOT set loading="lazy" on the priority image — Next.js ignores
+              // it but Lighthouse still flags the attribute on the element.
+              // Non-priority images default to lazy automatically.
+              quality={isFirst ? 80 : 65}
               className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out z-0"
               style={{
                 opacity: isCurrent ? 0.7 : 0,
@@ -200,7 +208,7 @@ export default function Hero() {
             Tea Country Holidays
           </p>
 
-          {/* Main headline — parent only re-renders when wordIndex changes */}
+          {/* Main headline */}
           <h1
             className="font-serif text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-snug md:leading-tight"
             style={{ animation: "fadeUp 0.8s ease both 0.35s", opacity: 0, animationFillMode: "both" }}
@@ -223,7 +231,7 @@ export default function Hero() {
             style={{ animation: "fadeUp 0.8s ease both 0.8s", opacity: 0 }}
           />
 
-          {/* Search bar — 48px gap from subtitle */}
+          {/* Search bar */}
           <div
             className="w-full pt-8 relative z-20"
             style={{ animation: "fadeUp 0.8s ease both 1s", opacity: 0 }}
@@ -245,7 +253,6 @@ export default function Hero() {
             <span className="text-white/20">|</span>
             <span>10 Years of Excellence</span>
           </div>
-
 
         </div>
 
