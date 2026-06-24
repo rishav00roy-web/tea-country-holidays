@@ -103,17 +103,30 @@ const Typewriter = memo(function Typewriter({
 export default function Hero() {
   const [wordIndex, setWordIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const [isCrossfading, setIsCrossfading] = useState(false);
 
   const advanceWord = () => {
+    setIsCrossfading(false);
     setPrevIndex(wordIndex);
     setWordIndex((prev) => (prev + 1) % WORDS.length);
   };
 
-  // Keep the previous destination around briefly so the fade feels smooth.
+  // Let the old slide render for one frame, then fade between slides.
   useEffect(() => {
     if (prevIndex === null) return;
-    const t = setTimeout(() => setPrevIndex(null), 650);
-    return () => clearTimeout(t);
+    const frame = window.requestAnimationFrame(() => {
+      setIsCrossfading(true);
+    });
+
+    const t = window.setTimeout(() => {
+      setPrevIndex(null);
+      setIsCrossfading(false);
+    }, 950);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(t);
+    };
   }, [prevIndex]);
 
   return (
@@ -162,10 +175,18 @@ export default function Hero() {
               quality={isFirst ? 80 : 65}
               className="absolute inset-0 w-full h-full object-cover"
               style={{
-                opacity: isCurrent ? 1 : isPrev ? 0 : 0,
+                opacity: isCurrent
+                  ? (isCrossfading ? 1 : 0)
+                  : isPrev
+                    ? (isCrossfading ? 0 : 1)
+                    : 0,
                 zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
-                transform: isCurrent ? "scale(1)" : "scale(1.04)",
-                transition: "opacity 650ms ease-in-out, transform 650ms ease-in-out",
+                transform: isCurrent
+                  ? (isCrossfading ? "scale(1)" : "scale(1.035)")
+                  : isPrev
+                    ? (isCrossfading ? "scale(1.01)" : "scale(1)")
+                    : "scale(1)",
+                transition: "opacity 950ms ease-in-out, transform 950ms ease-in-out",
               }}
             />
           );
