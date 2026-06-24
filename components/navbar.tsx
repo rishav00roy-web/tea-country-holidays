@@ -87,7 +87,7 @@ export default function Navbar() {
               alt="Tea Country Holidays"
               width={205}
               height={37}
-              sizes="205px"
+              sizes="(max-width: 768px) 160px, 205px"
               priority
               className="h-9 md:h-12 w-auto object-contain"
             />
@@ -247,6 +247,7 @@ export default function Navbar() {
                         width={160}
                         height={29}
                         sizes="160px"
+                        priority
                         className="h-10 w-auto object-contain"
                       />
                     </Link>
