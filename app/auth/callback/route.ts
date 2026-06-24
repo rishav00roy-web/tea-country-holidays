@@ -8,8 +8,6 @@ export async function GET(request: Request) {
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/";
 
-  // Supabase sends `error` and `error_description` in the URL if something
-  // went wrong on their side (e.g. expired link, already confirmed, etc.)
   const error = searchParams.get("error");
   const errorDescription = searchParams.get("error_description");
 
@@ -21,7 +19,6 @@ export async function GET(request: Request) {
   }
 
   if (!code) {
-    // No code means this isn't a valid OAuth/email-confirm callback
     return NextResponse.redirect(`${origin}/login?error=missing_code`);
   }
 
@@ -35,9 +32,9 @@ export async function GET(request: Request) {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]) {
           cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options);
+            cookieStore.set(name, value, options as Parameters<typeof cookieStore.set>[2]);
           });
         },
       },
@@ -53,8 +50,6 @@ export async function GET(request: Request) {
     );
   }
 
-  // Sanitise the redirect target — only allow relative paths so we can't be
-  // used as an open redirect
   const safeNext = next.startsWith("/") ? next : "/";
 
   return NextResponse.redirect(`${origin}${safeNext}`);
