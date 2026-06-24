@@ -1,7 +1,7 @@
 "use client"
 import { useState, Suspense } from "react"
 import Image from "next/image"
-import { MapPin, Calendar, Users, Star } from "lucide-react"
+import { MapPin, Calendar, Users, Star, MessageCircle } from "lucide-react"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 import { useSearchParams } from "next/navigation"
 
@@ -35,7 +35,6 @@ function HotelsPageContent() {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero Banner */}
       <div className="bg-[#1B4332] pt-32 pb-16 px-4">
         <div className="mx-auto max-w-7xl">
           <span className="text-[#F4A011] font-semibold text-xs tracking-[0.25em] uppercase mb-4 block">
@@ -49,17 +48,21 @@ function HotelsPageContent() {
             Get exclusive rates and availability managed by our team.
           </p>
 
-          {/* Search form */}
-          <form className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/10">
+          <form
+            role="search"
+            className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/10"
+            onSubmit={e => e.preventDefault()}
+          >
             <div className="relative">
               <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#F4A011]" />
               <input
-                type="text"
-                placeholder="Enter city or hotel name"
+                type="search"
+                name="city"
+                placeholder="City or hotel name"
                 defaultValue={cityParam}
                 onChange={e => setCity(e.target.value)}
+                autoComplete="address-level2"
                 autoCorrect="on"
-                autoComplete="on"
                 spellCheck={true}
                 className="w-full pl-10 pr-4 py-3 bg-white border border-transparent rounded-lg text-sm text-[#1C1C1E] focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20"
               />
@@ -68,8 +71,10 @@ function HotelsPageContent() {
               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#F4A011]" />
               <input
                 type="date"
+                name="checkin"
                 value={checkin}
                 onChange={e => setCheckin(e.target.value)}
+                autoComplete="off"
                 className="w-full pl-10 pr-4 py-3 bg-white border border-transparent rounded-lg text-sm text-[#1C1C1E] focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20"
               />
             </div>
@@ -77,14 +82,17 @@ function HotelsPageContent() {
               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#F4A011]" />
               <input
                 type="date"
+                name="checkout"
                 value={checkout}
                 onChange={e => setCheckout(e.target.value)}
+                autoComplete="off"
                 className="w-full pl-10 pr-4 py-3 bg-white border border-transparent rounded-lg text-sm text-[#1C1C1E] focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20"
               />
             </div>
             <div className="relative">
               <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#F4A011]" />
               <select
+                name="guests"
                 value={guests}
                 onChange={e => setGuests(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-white border border-transparent rounded-lg text-sm text-[#1C1C1E] focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 appearance-none"
@@ -100,15 +108,29 @@ function HotelsPageContent() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         {filtered.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-[#1C1C1E]/60 text-lg mb-2">No hotels found.</p>
-            <p className="text-[#1C1C1E]/40 text-sm mb-6">Let us find the right hotel availability for you.</p>
+          <div className="text-center py-20 max-w-md mx-auto">
+            <div className="w-16 h-16 rounded-full bg-[#1B4332]/8 flex items-center justify-center mx-auto mb-5">
+              <MapPin className="w-7 h-7 text-[#1B4332]/40" />
+            </div>
+            <h3 className="font-serif text-2xl text-[#1B4332] mb-2">
+              No hotels found{city ? ` in "${city}"` : ""}
+            </h3>
+            <p className="text-[#1C1C1E]/50 text-sm mb-2">
+              We don&apos;t have a listed property here yet — but Sharon works with a wide network of hotels across India and abroad.
+            </p>
+            <p className="text-[#1C1C1E]/40 text-sm mb-8">
+              Send her a message and she&apos;ll check availability, negotiate rates, and handle the booking for you.
+            </p>
             <button
-              onClick={() => gatedWhatsApp(`Hi, I'm looking for hotel bookings. Please help me find availability.`)}
-              className="bg-[#F4A011] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#F4A011]/90 transition-colors cursor-pointer"
+              onClick={() => gatedWhatsApp(
+                `Hi Sharon, I searched for hotels in "${city || "a location"}" on your website but couldn't find a match. Can you help me find and book a hotel there?`
+              )}
+              className="inline-flex items-center gap-2 bg-[#1B4332] text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors cursor-pointer shadow-sm"
             >
-              Request Hotel Help
+              <MessageCircle className="w-4 h-4" />
+              Message Sharon on WhatsApp
             </button>
+            <p className="text-[#1C1C1E]/30 text-xs mt-4">Replies within minutes · No booking fees</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

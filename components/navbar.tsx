@@ -36,6 +36,9 @@ export default function Navbar() {
   const [isAutomation, setIsAutomation] = useState(false);
   const pathname = usePathname();
 
+  // ── Hide Navbar on auth pages ──
+  if (pathname === "/login") return null;
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", fn, { passive: true });

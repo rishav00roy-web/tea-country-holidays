@@ -26,8 +26,6 @@ const MONTH_NAMES = [
 ];
 const DAY_HEADERS = ["Su","Mo","Tu","We","Th","Fr","Sa"];
 
-// ─── Custom Hooks ──────────────────────────────────────────────────────────
-
 function useOnClickOutside(ref: React.RefObject<HTMLElement | null>, handler: () => void) {
   const handlerRef = useRef(handler);
   useEffect(() => { handlerRef.current = handler; });
@@ -46,8 +44,6 @@ function useOnClickOutside(ref: React.RefObject<HTMLElement | null>, handler: ()
   }, [ref]);
 }
 
-// ─── Calendar helpers ──────────────────────────────────────────────────────
-
 function buildCalendarDays(year: number, month: number): (number | null)[] {
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -57,7 +53,13 @@ function buildCalendarDays(year: number, month: number): (number | null)[] {
   return days;
 }
 
-// ─── Sub-components ────────────────────────────────────────────────────────
+// Shared glass dropdown style — same look as calendar
+const GLASS_DROPDOWN: React.CSSProperties = {
+  background: "rgba(1, 50, 32, 0.97)",
+  backdropFilter: "blur(20px)",
+  WebkitBackdropFilter: "blur(20px)",
+  border: "1px solid rgba(244, 160, 17, 0.25)",
+};
 
 function LocationInput({
   label,
@@ -78,11 +80,11 @@ function LocationInput({
 }) {
   return (
     <div>
-      <label className="text-[10px] font-bold text-brand-evergreen/50 uppercase tracking-wider block mb-1.5">
+      <label className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider block mb-1.5">
         {label}
       </label>
       <div className="relative">
-        <Icon size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-evergreen/40 pointer-events-none" />
+        <Icon size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
         <input
           type="text"
           value={value}
@@ -92,23 +94,21 @@ function LocationInput({
           autoCorrect="on"
           autoComplete="on"
           spellCheck={true}
-          className={`w-full pl-9 pr-4 py-3 bg-gray-50 rounded-xl text-sm font-medium outline-none transition-all text-brand-ink border ${
+          className={`w-full pl-9 pr-4 py-3 rounded-xl text-sm font-medium outline-none transition-all text-white placeholder:text-white/30 border ${
             isActive
-              ? "border-brand-gold ring-2 ring-brand-gold/20 bg-white"
-              : "border-gray-200 hover:border-gray-300"
+              ? "bg-white/15 border-[#F4A011]/60 ring-2 ring-[#F4A011]/20"
+              : "bg-white/8 border-white/10 hover:border-white/20"
           }`}
+          style={{ background: isActive ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)" }}
         />
       </div>
     </div>
   );
 }
 
-// ─── Main Component ────────────────────────────────────────────────────────
-
 export default function GlassSearch() {
   const [activeTab, setActiveTab] = useState<"where" | "when" | "who" | null>(null);
 
-  // Form state
   const [origin, setOrigin]           = useState("");
   const [destination, setDestination] = useState("");
   const [checkin, setCheckin]         = useState("");
@@ -116,13 +116,11 @@ export default function GlassSearch() {
   const [children, setChildren]       = useState(0);
   const [transport, setTransport]     = useState<TransportMode>("Flight");
 
-  // Calendar state
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const [viewYear, setViewYear]   = useState(today.getFullYear());
   const [viewMonth, setViewMonth] = useState(today.getMonth());
 
-  // Autocomplete state
   const [activeInput, setActiveInput]   = useState<"origin" | "destination" | null>(null);
   const [query, setQuery]               = useState("");
   const [suggestions, setSuggestions]   = useState<LocationRow[]>([]);
@@ -138,7 +136,6 @@ export default function GlassSearch() {
     setSuggestions([]);
   }, []);
 
-  // ── Calendar helpers ───────────────────────────────────────────────────
   const calDays = buildCalendarDays(viewYear, viewMonth);
 
   const prevMonth = () => {
@@ -150,12 +147,8 @@ export default function GlassSearch() {
     else setViewMonth(m => m + 1);
   };
 
-  const isPast = (day: number) =>
-    new Date(viewYear, viewMonth, day) < today;
-
-  const isToday = (day: number) =>
-    new Date(viewYear, viewMonth, day).toDateString() === today.toDateString();
-
+  const isPast     = (day: number) => new Date(viewYear, viewMonth, day) < today;
+  const isToday    = (day: number) => new Date(viewYear, viewMonth, day).toDateString() === today.toDateString();
   const isSelected = (day: number) => {
     if (!checkin) return false;
     return new Date(viewYear, viewMonth, day).toDateString() ===
@@ -169,7 +162,6 @@ export default function GlassSearch() {
     setActiveTab(null);
   };
 
-  // ── Debounced Supabase search ──────────────────────────────────────────
   useEffect(() => {
     if (!query || query.length < 1) {
       const timer = setTimeout(() => setSuggestions([]), 0);
@@ -213,7 +205,6 @@ export default function GlassSearch() {
     }
   };
 
-  // ── WhatsApp message ───────────────────────────────────────────────────
   const handleSearch = () => {
     const originText = origin || "my city";
     const destText   = destination || "anywhere";
@@ -225,7 +216,6 @@ export default function GlassSearch() {
     window.open(`https://wa.me/918826048272?text=${encodeURIComponent(message)}`, "_blank");
   };
 
-  // ── Derived labels ─────────────────────────────────────────────────────
   const whereLabel = origin || destination
     ? `${origin || "Anywhere"} → ${destination || "Anywhere"}`
     : "Select destinations";
@@ -235,7 +225,6 @@ export default function GlassSearch() {
     : "Any date";
 
   const TIcon = TRANSPORT_ICONS[transport];
-
   const showSuggestions = activeInput && (query.length >= 1 || suggestions.length > 0);
 
   return (
@@ -244,15 +233,22 @@ export default function GlassSearch() {
       ref={containerRef}
       style={{ position: "relative", zIndex: 50 }}
     >
-      {/* ── Main Glass Bar ── */}
-      <div className="backdrop-blur-md bg-[#1B4332]/90 border border-[#F4A011]/30 rounded-2xl shadow-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-
+      {/* ── Main Glass Bar — true frosted glass ── */}
+      <div
+        className="border border-white/20 rounded-2xl shadow-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
+        style={{
+          background: "rgba(255, 255, 255, 0.08)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12)",
+        }}
+      >
         {/* WHERE */}
         <button
           type="button"
           onClick={() => setActiveTab(activeTab === "where" ? null : "where")}
           className={`flex-1 flex items-center justify-between px-5 py-3.5 rounded-xl transition-all text-left ${
-            activeTab === "where" ? "bg-white/20 shadow-inner" : "hover:bg-white/10 active:bg-white/15"
+            activeTab === "where" ? "bg-white/15 shadow-inner" : "hover:bg-white/10 active:bg-white/15"
           }`}
         >
           <div className="flex flex-col gap-0.5">
@@ -264,12 +260,12 @@ export default function GlassSearch() {
 
         <div className="hidden sm:block w-px h-9 bg-white/15 self-center" />
 
-        {/* WHEN — custom calendar toggle */}
+        {/* WHEN */}
         <button
           type="button"
           onClick={() => setActiveTab(activeTab === "when" ? null : "when")}
           className={`flex-1 flex items-center justify-between px-5 py-3.5 rounded-xl transition-all text-left ${
-            activeTab === "when" ? "bg-white/20 shadow-inner" : "hover:bg-white/10 active:bg-white/15"
+            activeTab === "when" ? "bg-white/15 shadow-inner" : "hover:bg-white/10 active:bg-white/15"
           }`}
         >
           <div className="flex flex-col gap-0.5">
@@ -289,7 +285,7 @@ export default function GlassSearch() {
           type="button"
           onClick={() => setActiveTab(activeTab === "who" ? null : "who")}
           className={`flex-1 flex items-center justify-between px-5 py-3.5 rounded-xl transition-all text-left ${
-            activeTab === "who" ? "bg-white/20 shadow-inner" : "hover:bg-white/10 active:bg-white/15"
+            activeTab === "who" ? "bg-white/15 shadow-inner" : "hover:bg-white/10 active:bg-white/15"
           }`}
         >
           <div className="flex flex-col gap-0.5">
@@ -306,17 +302,17 @@ export default function GlassSearch() {
         <button
           type="button"
           onClick={handleSearch}
-          className="w-full sm:w-auto shrink-0 bg-[#F4A011] hover:bg-amber-400 active:bg-amber-500 text-[#1B4332] font-bold text-sm px-7 py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap shadow-lg active:scale-95"
+          className="w-full sm:w-auto shrink-0 bg-[#F4A011] hover:bg-amber-400 active:bg-amber-500 text-[#013220] font-bold text-sm px-7 py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap shadow-lg active:scale-95"
         >
           Plan My Trip ✈
         </button>
       </div>
 
-      {/* ── WHERE Dropdown ── */}
+      {/* ── WHERE Dropdown — dark glass ── */}
       {activeTab === "where" && (
         <div
-          className="absolute left-4 right-4 sm:left-0 sm:right-auto sm:w-[440px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 mt-3"
-          style={{ zIndex: 60 }}
+          className="absolute left-4 right-4 sm:left-0 sm:right-auto sm:w-[440px] mt-3 rounded-2xl shadow-2xl overflow-hidden p-5"
+          style={{ zIndex: 60, ...GLASS_DROPDOWN }}
         >
           <div className="space-y-4">
             <LocationInput
@@ -340,11 +336,11 @@ export default function GlassSearch() {
           </div>
 
           {showSuggestions && (
-            <div className="mt-4 border-t border-gray-100 pt-3 max-h-[220px] overflow-y-auto">
+            <div className="mt-4 border-t border-white/10 pt-3 max-h-[220px] overflow-y-auto">
               {isSearching ? (
                 <div className="flex items-center gap-2 px-1 py-3">
-                  <div className="w-4 h-4 border-2 border-brand-gold/30 border-t-brand-gold rounded-full animate-spin" />
-                  <span className="text-xs text-gray-400">Searching your database…</span>
+                  <div className="w-4 h-4 border-2 border-[#F4A011]/30 border-t-[#F4A011] rounded-full animate-spin" />
+                  <span className="text-xs text-white/40">Searching your database…</span>
                 </div>
               ) : suggestions.length > 0 ? (
                 <ul className="space-y-0.5">
@@ -352,14 +348,14 @@ export default function GlassSearch() {
                     <li
                       key={loc.id}
                       onMouseDown={(e) => { e.preventDefault(); handleSelect(loc); }}
-                      className="px-3 py-2.5 hover:bg-brand-varden rounded-xl cursor-pointer flex items-center justify-between group transition-colors"
+                      className="px-3 py-2.5 hover:bg-white/10 rounded-xl cursor-pointer flex items-center justify-between group transition-colors"
                     >
                       <div className="flex flex-col min-w-0">
-                        <span className="text-sm font-bold text-brand-evergreen group-hover:text-brand-gold transition-colors truncate">{loc.name}</span>
-                        <span className="text-[11px] text-gray-400">{loc.region}, {loc.country} {"\u00B7"} {loc.type}</span>
+                        <span className="text-sm font-bold text-white group-hover:text-[#F4A011] transition-colors truncate">{loc.name}</span>
+                        <span className="text-[11px] text-white/40">{loc.region}, {loc.country} {"\u00B7"} {loc.type}</span>
                       </div>
                       {loc.code && (
-                        <span className="ml-3 shrink-0 text-[11px] font-mono bg-brand-evergreen/5 px-2 py-0.5 rounded-md text-brand-evergreen/50 border border-brand-evergreen/10">
+                        <span className="ml-3 shrink-0 text-[11px] font-mono bg-white/10 px-2 py-0.5 rounded-md text-white/50 border border-white/10">
                           {loc.code}
                         </span>
                       )}
@@ -367,7 +363,7 @@ export default function GlassSearch() {
                   ))}
                 </ul>
               ) : (
-                <p className="text-xs text-gray-400 px-1 py-2">No results found. Try a different name or code.</p>
+                <p className="text-xs text-white/40 px-1 py-2">No results found. Try a different name or code.</p>
               )}
             </div>
           )}
@@ -375,25 +371,19 @@ export default function GlassSearch() {
           <button
             type="button"
             onMouseDown={(e) => { e.preventDefault(); closeWhere(); }}
-            className="mt-4 w-full py-2.5 bg-brand-evergreen hover:bg-brand-green text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+            className="mt-4 w-full py-2.5 bg-[#F4A011] hover:bg-amber-400 text-[#013220] text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
           >
             <Check size={16} /> Done
           </button>
         </div>
       )}
 
-      {/* ── WHEN — Custom Calendar Dropdown ── */}
+      {/* ── WHEN — Calendar Dropdown (unchanged) ── */}
       {activeTab === "when" && (
         <div
           className="absolute left-4 right-4 sm:left-[calc(33%-16px)] sm:right-auto sm:w-[320px] mt-3 rounded-2xl shadow-2xl overflow-hidden"
-          style={{
-            zIndex: 60,
-            background: "rgba(1, 50, 32, 0.97)",
-            backdropFilter: "blur(16px)",
-            border: "1px solid rgba(244, 160, 17, 0.25)",
-          }}
+          style={{ zIndex: 60, ...GLASS_DROPDOWN }}
         >
-          {/* Month navigation */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
             <button
               type="button"
@@ -415,7 +405,6 @@ export default function GlassSearch() {
           </div>
 
           <div className="px-4 py-3">
-            {/* Day headers */}
             <div className="grid grid-cols-7 mb-2">
               {DAY_HEADERS.map(d => (
                 <div key={d} className="text-center text-[10px] font-bold text-white/30 uppercase py-1">
@@ -423,16 +412,12 @@ export default function GlassSearch() {
                 </div>
               ))}
             </div>
-
-            {/* Day cells */}
             <div className="grid grid-cols-7 gap-y-1">
               {calDays.map((day, i) => {
                 if (!day) return <div key={`empty-${i}`} />;
-
                 const past     = isPast(day);
                 const todayDay = isToday(day);
                 const selected = isSelected(day);
-
                 return (
                   <button
                     key={day}
@@ -458,7 +443,6 @@ export default function GlassSearch() {
             </div>
           </div>
 
-          {/* Footer actions */}
           <div className="flex items-center justify-between px-5 py-3 border-t border-white/10">
             <button
               type="button"
@@ -478,13 +462,14 @@ export default function GlassSearch() {
         </div>
       )}
 
-      {/* ── WHO & HOW Dropdown ── */}
+      {/* ── WHO & HOW Dropdown — dark glass ── */}
       {activeTab === "who" && (
         <div
-          className="absolute right-4 left-4 sm:left-auto sm:right-0 sm:w-[340px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 mt-3"
-          style={{ zIndex: 60 }}
+          className="absolute right-4 left-4 sm:left-auto sm:right-0 sm:w-[340px] mt-3 rounded-2xl shadow-2xl overflow-hidden p-5"
+          style={{ zIndex: 60, ...GLASS_DROPDOWN }}
         >
-          <h4 className="text-[10px] font-bold text-brand-evergreen/50 uppercase tracking-wider mb-4">Travellers</h4>
+          <h4 className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider mb-4">Travellers</h4>
+
           <div className="space-y-4 mb-5">
             {[
               { label: "Adults", sub: "Age 12+", count: adults, setCount: setAdults, min: 1 },
@@ -492,28 +477,28 @@ export default function GlassSearch() {
             ].map(({ label, sub, count, setCount, min }) => (
               <div key={label} className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-bold text-brand-ink">{label}</p>
-                  <p className="text-[11px] text-gray-400">{sub}</p>
+                  <p className="text-sm font-bold text-white">{label}</p>
+                  <p className="text-[11px] text-white/40">{sub}</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setCount(Math.max(min, count - 1))}
-                    className="w-9 h-9 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold text-brand-evergreen font-bold text-lg transition-all cursor-pointer disabled:opacity-30"
                     disabled={count <= min}
+                    className="w-9 h-9 rounded-full border-2 border-white/20 flex items-center justify-center hover:border-[#F4A011] hover:text-[#F4A011] text-white font-bold text-lg transition-all cursor-pointer disabled:opacity-30"
                   >−</button>
-                  <span className="w-5 text-center text-sm font-bold text-brand-ink">{count}</span>
+                  <span className="w-5 text-center text-sm font-bold text-white">{count}</span>
                   <button
                     onClick={() => setCount(count + 1)}
-                    className="w-9 h-9 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold text-brand-evergreen font-bold text-lg transition-all cursor-pointer"
+                    className="w-9 h-9 rounded-full border-2 border-white/20 flex items-center justify-center hover:border-[#F4A011] hover:text-[#F4A011] text-white font-bold text-lg transition-all cursor-pointer"
                   >+</button>
                 </div>
               </div>
             ))}
           </div>
 
-          <hr className="border-gray-100 mb-5" />
+          <div className="border-t border-white/10 mb-5" />
 
-          <h4 className="text-[10px] font-bold text-brand-evergreen/50 uppercase tracking-wider mb-3">Preferred Transport</h4>
+          <h4 className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider mb-3">Preferred Transport</h4>
           <div className="grid grid-cols-3 gap-2 mb-5">
             {(["Flight", "Train", "Road"] as TransportMode[]).map((mode) => {
               const MIcon = TRANSPORT_ICONS[mode];
@@ -524,8 +509,8 @@ export default function GlassSearch() {
                   onClick={() => setTransport(mode)}
                   className={`py-3 rounded-xl border-2 flex flex-col items-center gap-1.5 transition-all cursor-pointer ${
                     active
-                      ? "border-brand-gold bg-amber-50 text-brand-gold scale-[1.03] shadow-sm"
-                      : "border-gray-200 bg-white text-gray-400 hover:border-gray-300"
+                      ? "border-[#F4A011] bg-[#F4A011]/15 text-[#F4A011] scale-[1.03] shadow-sm"
+                      : "border-white/15 bg-white/5 text-white/50 hover:border-white/30 hover:text-white/80"
                   }`}
                 >
                   <MIcon size={22} />
@@ -538,7 +523,7 @@ export default function GlassSearch() {
           <button
             type="button"
             onClick={() => setActiveTab(null)}
-            className="w-full py-2.5 bg-brand-evergreen hover:bg-brand-green text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+            className="w-full py-2.5 bg-[#F4A011] hover:bg-amber-400 text-[#013220] text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
           >
             <Check size={16} /> Done
           </button>

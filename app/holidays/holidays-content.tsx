@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import Image from "next/image"
-import { Clock, ArrowRight, Search } from "lucide-react"
+import { Clock, ArrowRight, Search, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 
@@ -43,7 +43,6 @@ export default function HolidaysContent({
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero Banner */}
       <div className="bg-[#1B4332] pt-32 pb-16 px-4">
         <div className="mx-auto max-w-7xl">
           <span className="text-[#F4A011] font-semibold text-xs tracking-[0.25em] uppercase mb-4 block">
@@ -57,27 +56,26 @@ export default function HolidaysContent({
             Get a personalised quote from our travel experts.
           </p>
           
-          {/* Search bar */}
-          <div className="mt-8 flex gap-3 max-w-lg">
+          <form role="search" className="mt-8 flex gap-3 max-w-lg" onSubmit={e => e.preventDefault()}>
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#1B4332]/50" />
               <input
-                type="text"
+                type="search"
+                name="destination"
                 placeholder="Search destinations or themes..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
+                autoComplete="destination"
                 autoCorrect="on"
-                autoComplete="on"
                 spellCheck={true}
                 className="w-full pl-10 pr-4 py-3 border border-gray-400 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30 focus:border-[#1B4332] shadow-sm text-gray-900 placeholder:text-gray-500 font-medium"
               />
             </div>
-          </div>
+          </form>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        {/* Filter tabs */}
         <div className="flex flex-wrap gap-2 mb-10">
           {filters.map(f => (
             <button
@@ -95,21 +93,31 @@ export default function HolidaysContent({
           ))}
         </div>
 
-        {/* Package grid */}
         {filtered.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-[#1C1C1E]/60 text-lg mb-2">No packages found.</p>
-            <p className="text-[#1C1C1E]/40 text-sm mb-6">
-              Let us create a custom itinerary for you.
+          <div className="text-center py-20 max-w-md mx-auto">
+            <div className="w-16 h-16 rounded-full bg-[#1B4332]/8 flex items-center justify-center mx-auto mb-5">
+              <Search className="w-7 h-7 text-[#1B4332]/40" />
+            </div>
+            <h3 className="font-serif text-2xl text-[#1B4332] mb-2">
+              No packages found{search ? ` for "${search}"` : ""}
+            </h3>
+            <p className="text-[#1C1C1E]/50 text-sm mb-2">
+              We may not have a listed package for this destination yet —
+              but that doesn&apos;t mean we can&apos;t make it happen.
+            </p>
+            <p className="text-[#1C1C1E]/40 text-sm mb-8">
+              Sharon and the team specialise in custom itineraries. Tell us where you want to go and we&apos;ll build the perfect trip around you.
             </p>
             <button
               onClick={() => gatedWhatsApp(
-                `Hi, I'm looking for a custom holiday package. Can you help me plan my trip?`
+                `Hi Sharon, I searched for "${search || "a destination"}" on your holidays page but couldn't find a matching package. Can you help me plan a custom trip?`
               )}
-              className="bg-[#F4A011] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#F4A011]/90 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 bg-[#1B4332] text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors cursor-pointer shadow-sm"
             >
-              Get Custom Quote
+              <MessageCircle className="w-4 h-4" />
+              Message Sharon on WhatsApp
             </button>
+            <p className="text-[#1C1C1E]/30 text-xs mt-4">Replies within minutes · No booking fees</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

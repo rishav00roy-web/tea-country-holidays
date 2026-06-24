@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { supabase } from "@/lib/supabase";
+import { createBrowserClient } from "@supabase/ssr";
 import { Mail, Lock, User } from "lucide-react";
 
 const authDestinations = [
@@ -64,6 +64,13 @@ export default function LoginContent() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
 
+  // Create Supabase client directly here to avoid any module-level
+  // initialisation timing issues with the shared singleton
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % authDestinations.length);
@@ -73,6 +80,7 @@ export default function LoginContent() {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return; // guard against double-submit
     setIsLoading(true);
     setError(null);
     setSuccess(null);
@@ -93,7 +101,7 @@ export default function LoginContent() {
         if (signUpError) {
           setError(signUpError.message);
         } else {
-          // If auto-confirm is enabled and we got a session, redirect immediately
+          // Check if Supabase auto-confirmed the session (when email confirm is disabled)
           const { data: { session } } = await supabase.auth.getSession();
           if (session) {
             setSuccess("Registration successful! Redirecting...");
@@ -102,7 +110,7 @@ export default function LoginContent() {
               router.refresh();
             }, 1000);
           } else {
-            setSuccess("Registration successful! Please check your email for the confirmation link.");
+            setSuccess("Account created! Check your email for a confirmation link.");
           }
         }
       } else {
@@ -125,11 +133,13 @@ export default function LoginContent() {
       const message = err instanceof Error ? err.message : "An unexpected error occurred.";
       setError(message);
     } finally {
+      // Always release the loading state so the button never stays stuck
       setIsLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
+    if (isLoading) return;
     setIsLoading(true);
     setError(null);
     setSuccess(null);
@@ -146,6 +156,10 @@ export default function LoginContent() {
         setError(oauthError.message);
         setIsLoading(false);
       }
+      // Note: on success Supabase redirects the browser away, so we
+      // intentionally do NOT call setIsLoading(false) here — keeping the
+      // button showing "Please wait..." while the redirect is in-flight
+      // gives the user clear feedback that something is happening.
     } catch (err) {
       const message = err instanceof Error ? err.message : "An unexpected error occurred during Google sign-in.";
       setError(message);
@@ -464,20 +478,22 @@ export default function LoginContent() {
             {error && <div className="alert-message alert-error">{error}</div>}
             {success && <div className="alert-message alert-success">{success}</div>}
 
-            <form onSubmit={handleAuth}>
+            <form onSubmit={handleAuth} noValidate>
               {mode === "signup" && (
                 <div className="form-group">
-                  <label className="form-label">Full Name</label>
+                  <label htmlFor="auth-name" className="form-label">Full Name</label>
                   <div className="input-wrapper">
                     <User className="input-icon" size={18} />
                     <input
+                      id="auth-name"
+                      name="name"
                       type="text"
                       className="form-input"
                       placeholder="John Doe"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      autoCorrect="on"
                       autoComplete="name"
+                      autoCorrect="on"
                       spellCheck={true}
                       required
                     />
@@ -486,10 +502,12 @@ export default function LoginContent() {
               )}
 
               <div className="form-group">
-                <label className="form-label">Email Address</label>
+                <label htmlFor="auth-email" className="form-label">Email Address</label>
                 <div className="input-wrapper">
                   <Mail className="input-icon" size={18} />
                   <input
+                    id="auth-email"
+                    name="email"
                     type="email"
                     className="form-input"
                     placeholder="you@example.com"
@@ -502,15 +520,18 @@ export default function LoginContent() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Password</label>
+                <label htmlFor="auth-password" className="form-label">Password</label>
                 <div className="input-wrapper">
                   <Lock className="input-icon" size={18} />
                   <input
+                    id="auth-password"
+                    name="password"
                     type="password"
                     className="form-input"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    autoComplete={mode === "signup" ? "new-password" : "current-password"}
                     required
                   />
                 </div>
@@ -523,8 +544,13 @@ export default function LoginContent() {
 
             <div className="oauth-divider">or</div>
 
-            <button className="google-btn" onClick={handleGoogleLogin} disabled={isLoading}>
-              <svg className="google-icon" viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+            <button
+              type="button"
+              className="google-btn"
+              onClick={handleGoogleLogin}
+              disabled={isLoading}
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22c-.87-2.6-2.87-4.53-5.01-4.53z" fill="#FBBC05"/>

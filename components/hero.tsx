@@ -27,7 +27,6 @@ const DESTINATIONS = [
   { name: "Maldives",  img: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1920&q=75" },
 ];
 
-// ─── Isolated Typewriter ───────────────────────────────────────────────────
 const Typewriter = memo(function Typewriter({
   wordIndex,
   onWordComplete,
@@ -101,7 +100,6 @@ const Typewriter = memo(function Typewriter({
   );
 });
 
-// ─── Hero ─────────────────────────────────────────────────────────────────
 export default function Hero() {
   const [wordIndex, setWordIndex] = useState(0);
 
@@ -133,28 +131,21 @@ export default function Hero() {
 
       <section className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center pb-16 bg-[#013220]">
 
-        {/* Deep Green Base Background Gradient */}
+        {/* Deep Green Base */}
         <div
           className="absolute inset-0 z-0"
           style={{
-            background:
-              "linear-gradient(160deg, #01291a 0%, #013220 40%, #001f14 100%)",
+            background: "linear-gradient(160deg, #01291a 0%, #013220 40%, #001f14 100%)",
           }}
           aria-hidden="true"
         />
 
-        {/* Destination Background Slideshow
-            - Index 0 (Meghalaya) is ALWAYS rendered so it is discoverable in
-              initial HTML and qualifies for fetchpriority=high via priority prop.
-            - Subsequent slides are rendered only when current or upcoming,
-              keeping bandwidth use the same as before.                          */}
+        {/* Destination slideshow — faster crossfade (500ms vs 1000ms) */}
         {DESTINATIONS.map((dest, idx) => {
           const isCurrent = idx === wordIndex;
           const isNext    = idx === nextIndex;
           const isFirst   = idx === 0;
 
-          // Always keep index 0 in the DOM (LCP image must be in initial HTML).
-          // Skip all others unless they are current or next.
           if (!isFirst && !isCurrent && !isNext) return null;
 
           return (
@@ -164,23 +155,18 @@ export default function Hero() {
               alt=""
               fill
               sizes="100vw"
-              // Only the first image gets priority (fetchpriority=high + preload).
-              // Never set priority on slides that are merely "next" — that would
-              // preload images the user may never see.
               priority={isFirst}
-              // Do NOT set loading="lazy" on the priority image — Next.js ignores
-              // it but Lighthouse still flags the attribute on the element.
-              // Non-priority images default to lazy automatically.
               quality={isFirst ? 80 : 65}
-              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out z-0"
+              className="absolute inset-0 w-full h-full object-cover z-0"
               style={{
-                opacity: isCurrent ? 0.7 : 0,
+                opacity: isCurrent ? 0.75 : 0,
+                transition: "opacity 500ms ease-in-out",
               }}
             />
           );
         })}
 
-        {/* Vignette & Contrast Overlay */}
+        {/* Vignette */}
         <div
           className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80 z-0"
           aria-hidden="true"
@@ -191,8 +177,7 @@ export default function Hero() {
           className="absolute inset-0 pointer-events-none z-0"
           aria-hidden="true"
           style={{
-            background:
-              "radial-gradient(ellipse 70% 55% at 50% 48%, rgba(212,175,55,0.22) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse 70% 55% at 50% 48%, rgba(212,175,55,0.22) 0%, transparent 70%)",
             animation: "radialPulse 5s ease-in-out infinite",
           }}
         />
@@ -200,7 +185,6 @@ export default function Hero() {
         {/* Hero content */}
         <div className="relative z-10 flex flex-col items-center text-center px-4 gap-4 select-none w-full max-w-6xl mx-auto">
 
-          {/* Eyebrow */}
           <p
             className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-20 sm:pt-0"
             style={{ animation: "fadeUp 0.8s ease both 0.1s", opacity: 1 }}
@@ -208,7 +192,6 @@ export default function Hero() {
             Tea Country Holidays
           </p>
 
-          {/* Main headline */}
           <h1
             className="font-serif text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-snug md:leading-tight"
             style={{ animation: "fadeUp 0.8s ease both 0.35s", opacity: 0, animationFillMode: "both" }}
@@ -217,7 +200,6 @@ export default function Hero() {
             <Typewriter wordIndex={wordIndex} onWordComplete={advanceWord} />
           </h1>
 
-          {/* Sub-line */}
           <p
             className="font-serif italic text-brand-cream/90 tracking-[0.1em] text-lg sm:text-xl md:text-2xl font-medium"
             style={{ animation: "fadeUp 0.8s ease both 0.6s", animationFillMode: "both", opacity: 0 }}
@@ -225,13 +207,11 @@ export default function Hero() {
             Northeast India, Curated. Since 2014.
           </p>
 
-          {/* Decorative divider */}
           <div
             className="w-16 h-px bg-[#F4A011]/50 mt-2"
             style={{ animation: "fadeUp 0.8s ease both 0.8s", opacity: 0 }}
           />
 
-          {/* Search bar */}
           <div
             className="w-full pt-8 relative z-20"
             style={{ animation: "fadeUp 0.8s ease both 1s", opacity: 0 }}
@@ -239,7 +219,6 @@ export default function Hero() {
             <GlassSearch />
           </div>
 
-          {/* Stats Bar */}
           <div
             className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[#F5F0E8] font-sans text-[13px] tracking-[0.05em] mt-4 opacity-0 relative z-10"
             style={{ animation: "fadeUp 0.8s ease both 1.2s" }}
@@ -256,7 +235,7 @@ export default function Hero() {
 
         </div>
 
-        {/* Smooth transition curve into next section */}
+        {/* Wave curve into next section */}
         <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden leading-none" aria-hidden="true">
           <svg
             viewBox="0 0 1440 60"

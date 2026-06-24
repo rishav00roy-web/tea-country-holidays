@@ -1,8 +1,6 @@
 "use client"
 import { useState, Suspense } from "react"
 import { Plane, Calendar, Users } from "lucide-react"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 import { useSearchParams } from "next/navigation"
 
@@ -10,7 +8,6 @@ function FlightsPageContent() {
   const { gatedWhatsApp } = useAuthGate()
   const searchParams = useSearchParams()
 
-  // Read URL params
   const fromParam = searchParams.get("from") || ""
   const toParam = searchParams.get("to") || ""
   const dateParam = searchParams.get("date") || ""
@@ -34,9 +31,6 @@ function FlightsPageContent() {
 
   return (
     <main className="min-h-screen bg-[#FAFAF8]">
-      <Navbar />
-
-      {/* Hero Banner */}
       <div className="bg-[#1B4332] pt-32 pb-16 px-4">
         <div className="mx-auto max-w-7xl">
           <span className="text-[#F4A011] font-semibold text-xs tracking-[0.25em] uppercase mb-4 block">
@@ -53,8 +47,6 @@ function FlightsPageContent() {
 
       <div className="mx-auto max-w-xl px-4 py-16">
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
-          
-          {/* Trip Type Toggle */}
           <div className="flex gap-4 mb-6 border-b border-gray-100 pb-4">
             <button
               type="button"
@@ -76,38 +68,41 @@ function FlightsPageContent() {
             </button>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">From</label>
+                <label htmlFor="flight-from" className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">From</label>
                 <div className="relative">
                   <Plane className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50 rotate-45" />
                   <input
+                    id="flight-from"
                     type="text"
+                    name="origin"
                     required
                     placeholder="Delhi (DEL)"
                     value={from}
                     onChange={e => setFrom(e.target.value)}
+                    autoComplete="off"
                     autoCorrect="on"
-                    autoComplete="on"
                     spellCheck={true}
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">To</label>
+                <label htmlFor="flight-to" className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">To</label>
                 <div className="relative">
                   <Plane className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50 -rotate-45" />
                   <input
+                    id="flight-to"
                     type="text"
+                    name="destination"
                     required
                     placeholder="Guwahati (GAU)"
                     value={to}
                     onChange={e => setTo(e.target.value)}
+                    autoComplete="off"
                     autoCorrect="on"
-                    autoComplete="on"
                     spellCheck={true}
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
                   />
@@ -117,28 +112,34 @@ function FlightsPageContent() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">Departure Date</label>
+                <label htmlFor="flight-date" className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">Departure Date</label>
                 <div className="relative">
                   <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50" />
                   <input
+                    id="flight-date"
                     type="date"
+                    name="departure"
                     required
                     value={date}
                     onChange={e => setDate(e.target.value)}
+                    autoComplete="off"
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
                   />
                 </div>
               </div>
               {tripType === "round-trip" && (
                 <div>
-                  <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">Return Date</label>
+                  <label htmlFor="flight-return" className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">Return Date</label>
                   <div className="relative">
                     <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50" />
                     <input
+                      id="flight-return"
                       type="date"
+                      name="return"
                       required
                       value={returnDate}
                       onChange={e => setReturnDate(e.target.value)}
+                      autoComplete="off"
                       className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
                     />
                   </div>
@@ -147,10 +148,12 @@ function FlightsPageContent() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">Travellers</label>
+              <label htmlFor="flight-travellers" className="block text-xs font-bold text-[#1B4332] uppercase tracking-wider mb-2">Travellers</label>
               <div className="relative">
                 <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B4332]/50" />
                 <select
+                  id="flight-travellers"
+                  name="travellers"
                   value={travellers}
                   onChange={e => setTravellers(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E] appearance-none"
@@ -164,10 +167,7 @@ function FlightsPageContent() {
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="btn-pill mt-6"
-            >
+            <button type="submit" className="btn-pill mt-6">
               Find Flights via Tea Country
             </button>
           </form>
@@ -177,9 +177,6 @@ function FlightsPageContent() {
           </p>
         </div>
       </div>
-
-
-      <Footer />
     </main>
   )
 }
