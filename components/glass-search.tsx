@@ -213,7 +213,8 @@ export default function GlassSearch() {
       : "flexible dates";
     const kidsText  = children > 0 ? ` and ${children} child${children > 1 ? "ren" : ""}` : "";
     const message   = `Hi! I'm planning a trip from ${originText} to ${destText} around ${dateText}. We are ${adults} adult${adults > 1 ? "s" : ""}${kidsText}, looking to travel via ${transport}. Can an expert help me out?`;
-    window.open(`https://wa.me/918826048272?text=${encodeURIComponent(message)}`, "_blank");
+    const url = `https://wa.me/918826048272?text=${encodeURIComponent(message)}`;
+    window.location.assign(url);
   };
 
   const whereLabel = origin || destination
