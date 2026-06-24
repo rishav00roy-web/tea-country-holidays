@@ -237,7 +237,7 @@ export default function GlassSearch() {
       <div
         className="border border-white/20 rounded-2xl shadow-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
         style={{
-          background: "rgba(255, 255, 255, 0.22)",
+          background: "rgba(255, 255, 255, 0.35)",
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
           boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12)",

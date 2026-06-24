@@ -112,7 +112,7 @@ export default function Hero() {
   // Keep the previous destination around briefly so the fade feels smooth.
   useEffect(() => {
     if (prevIndex === null) return;
-    const t = setTimeout(() => setPrevIndex(null), 900);
+    const t = setTimeout(() => setPrevIndex(null), 650);
     return () => clearTimeout(t);
   }, [prevIndex]);
 
@@ -162,9 +162,10 @@ export default function Hero() {
               quality={isFirst ? 80 : 65}
               className="absolute inset-0 w-full h-full object-cover"
               style={{
-                opacity: isCurrent ? 0.86 : isPrev ? 0.86 : 0,
+                opacity: isCurrent ? 1 : isPrev ? 0 : 0,
                 zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
-                transition: "opacity 900ms ease-in-out",
+                transform: isCurrent ? "scale(1)" : "scale(1.04)",
+                transition: "opacity 650ms ease-in-out, transform 650ms ease-in-out",
               }}
             />
           );
