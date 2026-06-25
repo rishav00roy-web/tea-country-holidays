@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { createBrowserClient } from "@supabase/ssr";
+import { createBrowserClient } from "@/lib/supabase";
 import { Mail, Lock, User } from "lucide-react";
 
 const authDestinations = [
@@ -66,10 +66,7 @@ export default function LoginContent() {
 
   // Create Supabase client directly here to avoid any module-level
   // initialisation timing issues with the shared singleton
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabase = createBrowserClient();
 
   useEffect(() => {
     const timer = setInterval(() => {

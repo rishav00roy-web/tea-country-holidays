@@ -45,9 +45,7 @@ export async function GET(request: Request) {
 
   if (exchangeError) {
     console.error("[auth/callback] exchangeCodeForSession error:", exchangeError.message);
-    return NextResponse.redirect(
-      `${origin}/login?error=${encodeURIComponent(exchangeError.message)}`
-    );
+    return NextResponse.redirect(`${origin}/`);
   }
 
   const safeNext = next.startsWith("/") ? next : "/";
