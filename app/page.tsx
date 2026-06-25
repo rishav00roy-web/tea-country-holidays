@@ -13,6 +13,7 @@ const OfferBanner         = dynamic(() => import("@/components/offer-banner"));
 const MasonryTestimonials = dynamic(() => import("@/components/masonry-testimonials"));
 const ReviewsMarquee      = dynamic(() => import("@/components/reviews-marquee"));
 const BlogsSection        = dynamic(() => import("@/components/blogs-section"));
+const HomeFAQ             = dynamic(() => import("@/components/home-faq"));
 
 export default function Home() {
   return (
@@ -27,6 +28,7 @@ export default function Home() {
         <MasonryTestimonials />
         <ReviewsMarquee />
         <BlogsSection />
+        <HomeFAQ />
       </main>
 
       <BackToTop />
