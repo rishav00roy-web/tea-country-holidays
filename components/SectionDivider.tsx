@@ -16,7 +16,15 @@ export default function SectionDivider({ topColor, bottomColor, curve = "down", 
   const path = curve === "down" ? PATH_DOWN : PATH_UP;
 
   return (
-    <div style={{ background: bg, marginBottom: "-1px" }}>
+    <div 
+      style={{ 
+        background: bg, 
+        marginTop: "-1px",
+        marginBottom: "-1px", 
+        position: "relative", 
+        zIndex: 10 
+      }}
+    >
       <svg
         viewBox="0 0 1440 60"
         preserveAspectRatio="none"

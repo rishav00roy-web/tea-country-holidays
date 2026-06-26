@@ -19,11 +19,29 @@ export default function ScrollRevealInit() {
       { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
     );
 
-    document.querySelectorAll(".reveal, .reveal-stagger").forEach((el) => {
-      observer.observe(el);
+    const observeElements = () => {
+      document.querySelectorAll(".reveal:not(.revealed), .reveal-stagger:not(.revealed)").forEach((el) => {
+        observer.observe(el);
+      });
+    };
+
+    // Initial check
+    observeElements();
+
+    // Watch for dynamically added DOM elements (next/dynamic, routing transitions, etc.)
+    const mutationObserver = new MutationObserver(() => {
+      observeElements();
+    });
+    
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
     });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      mutationObserver.disconnect();
+    };
   }, [pathname]);
 
   return null;
