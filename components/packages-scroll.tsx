@@ -82,7 +82,7 @@ export default function PackagesScroll() {
               Trending Packages
             </h2>
             <p className="mt-2 text-brand-evergreen/60 dark:text-[#faf8f3]/65 text-base">
-              Explore ✦ handpicked journeys curated just for you
+              Explore handpicked journeys curated just for you
             </p>
           </div>
 

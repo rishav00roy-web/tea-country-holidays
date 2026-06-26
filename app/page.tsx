@@ -3,9 +3,6 @@ import Hero          from "@/components/hero";
 import SectionDivider from "@/components/SectionDivider";
 import { BackToTop } from "@/components/back-to-top";
 
-// Below-fold sections: code-split and lazy-loaded so they don't
-// block the hero from painting. Each gets a null fallback (no
-// skeleton flash) since they all start off-screen.
 const WhoWeAre            = dynamic(() => import("@/components/who-we-are"));
 const PackagesScroll      = dynamic(() => import("@/components/packages-scroll"));
 const BentoWhyUs          = dynamic(() => import("@/components/bento-why-us"));
@@ -21,42 +18,42 @@ export default function Home() {
     <>
       <main className="flex-1 flex flex-col w-full overflow-hidden">
 
-        {/* dark */}
+        {/* #013220 (brand-evergreen) */}
         <Hero />
 
-        {/* dark → cream */}
-        <SectionDivider from="dark" />
+        {/* hero (#013220) → WhoWeAre (#FEFAEF) */}
+        <SectionDivider from="hero" />
         <WhoWeAre />
 
-        {/* cream → dark */}
+        {/* cream (#FEFAEF) → PackagesScroll (#FEF0D5 varden) */}
         <SectionDivider from="cream" />
         <PackagesScroll />
 
-        {/* dark → dark (mesh-bg); no divider needed */}
+        {/* varden (#FEF0D5) → BentoWhyUs (mesh #0A2E1D) */}
+        <SectionDivider from="varden" />
         <BentoWhyUs />
 
-        {/* dark → cream */}
-        <SectionDivider from="dark" />
+        {/* mesh (#0A2E1D) → Destinations (#FEFAEF) */}
+        <SectionDivider from="mesh" />
         <Destinations />
 
-        {/* cream → dark */}
+        {/* cream (#FEFAEF) → OfferBanner (dark #013220 overlay) */}
         <SectionDivider from="cream" />
         <OfferBanner />
 
-        {/* dark → cream */}
+        {/* dark (#013220) → MasonryTestimonials (cream) */}
         <SectionDivider from="dark" />
         <MasonryTestimonials />
 
-        {/* cream → dark */}
+        {/* cream (#FEFAEF) → ReviewsMarquee (#013220) */}
         <SectionDivider from="cream" />
         <ReviewsMarquee />
 
-        {/* dark → cream */}
+        {/* dark (#013220) → BlogsSection (cream) */}
         <SectionDivider from="dark" />
         <BlogsSection />
 
-        {/* cream → dark */}
-        <SectionDivider from="cream" />
+        {/* cream (#FEFAEF) → HomeFAQ (#fafaf7) — both light, no divider needed */}
         <HomeFAQ />
 
       </main>

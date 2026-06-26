@@ -29,7 +29,7 @@ export default function Destinations() {
 
         {/* Header */}
         <div className="reveal text-center mb-12">
-          <span className="section-label">
+          <span className="section-label text-brand-gold">
             Where do you want to go?
           </span>
           <h2 className="reveal font-serif text-4xl md:text-5xl font-bold text-brand-evergreen dark:text-white">
