@@ -34,7 +34,7 @@ export default function Home() {
         <BentoWhyUs />
 
         {/* mesh (#0A2E1D) → Destinations (#FEFAEF) */}
-        <SectionDivider topColor="#0A2E1D" bottomColor="#FEFAEF" curve="down" />
+        <SectionDivider topColor="#0A2E1D" bottomColor="#FEFAEF" curve="down" className="mesh-bg" />
         <Destinations />
 
         {/* cream (#FEFAEF) → OfferBanner (dark #013220 overlay) */}

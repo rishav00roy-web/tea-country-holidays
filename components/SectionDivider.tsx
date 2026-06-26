@@ -19,11 +19,12 @@ export default function SectionDivider({ topColor, bottomColor, curve = "down", 
     <div 
       style={{ 
         background: bg, 
-        marginTop: "-1px",
-        marginBottom: "-1px", 
+        marginTop: "-2px",
+        marginBottom: "-2px", 
         position: "relative", 
         zIndex: 10 
       }}
+      className={className}
     >
       <svg
         viewBox="0 0 1440 60"
