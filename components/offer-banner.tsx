@@ -48,8 +48,8 @@ export default function OfferBanner() {
       <div className="absolute inset-0 bg-gradient-to-r from-brand-evergreen/60 via-transparent to-brand-evergreen/60" />
 
       {/* Content */}
-      <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
-        <span className="text-brand-gold font-bold text-xs tracking-[0.3em] uppercase block mb-4 animate-pulse">
+      <div className="relative z-10 text-center max-w-3xl mx-auto px-4 reveal">
+        <span className="section-label text-brand-gold block mb-4 animate-pulse">
           ✦ Limited Time Offer ✦
         </span>
         <h2 className="font-serif text-4xl md:text-6xl font-bold text-white leading-tight mb-6">

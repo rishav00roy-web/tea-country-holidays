@@ -1,6 +1,5 @@
 "use client";
 
-import { useInView } from "@/hooks/useAnimations";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { fallbackTestimonials } from "@/lib/reviews-data";
@@ -156,22 +155,16 @@ function FlipCard({ data, index }: { data: Testimonial; index: number }) {
 }
 
 export default function MasonryTestimonials({ initialTestimonials }: { initialTestimonials?: Testimonial[] }) {
-  const [ref, inView] = useInView({ threshold: 0.1 });
   const testimonials = initialTestimonials && initialTestimonials.length > 0
     ? initialTestimonials
     : fallbackTestimonials;
 
   return (
     <section className="py-20 md:py-28 bg-[#FAFAF7] dark:bg-[#0d1f1a]">
-      <div
-        ref={ref}
-        className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
-          inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-      >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-14">
-          <span className="inline-block text-[#C8860A] text-xs font-semibold uppercase tracking-[0.2em] mb-3">
+        <div className="text-center mb-14 reveal">
+          <span className="section-label inline-block text-[#C8860A] mb-3">
             CUSTOMER STORIES
           </span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-[#2D5016] dark:text-white">
@@ -180,7 +173,7 @@ export default function MasonryTestimonials({ initialTestimonials }: { initialTe
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="reveal-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <FlipCard key={t.id || i} data={t} index={i} />
           ))}

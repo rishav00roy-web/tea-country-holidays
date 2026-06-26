@@ -42,7 +42,16 @@ export default function Navbar() {
 
   // ── Hide Navbar on auth pages ──
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 50);
+    let ticking = false;
+    const fn = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 50);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
@@ -102,10 +111,10 @@ export default function Navbar() {
             background: scrolled
               ? (isDark ? "rgba(13, 31, 26, 0.88)" : "rgba(250, 250, 248, 0.82)")
               : (isDark ? "rgba(13, 31, 26, 0.25)" : "rgba(255, 255, 255, 0.08)"),
-            backdropFilter: "blur(20px) saturate(180%)",
-            WebkitBackdropFilter: "blur(20px) saturate(180%)",
+            backdropFilter: scrolled ? "blur(24px) saturate(1.2)" : "blur(16px) saturate(1.1)",
+            WebkitBackdropFilter: scrolled ? "blur(24px) saturate(1.2)" : "blur(16px) saturate(1.1)",
             borderColor: scrolled
-              ? (isDark ? "rgba(200, 134, 10, 0.3)" : "rgba(45, 80, 22, 0.25)")
+              ? (isDark ? "rgba(200, 134, 10, 0.3)" : "rgba(212, 175, 55, 0.12)")
               : "rgba(255, 255, 255, 0.15)",
             boxShadow: scrolled ? "0 4px 20px rgba(0, 0, 0, 0.15)" : "none",
           }}

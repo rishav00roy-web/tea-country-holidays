@@ -3,9 +3,26 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ─── Kentish Display Font ─── */
+/* Copy KentishVol1.otf and KentishVol2.otf into your public/fonts/ folder */
+@font-face {
+  font-family: "Kentish";
+  src: url("/fonts/KentishVol1.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Kentish";
+  src: url("/fonts/KentishVol2.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ─── Brand Tokens ─── */
 @theme {
-  /* New premium palette */
+  /* Palette */
   --color-brand-evergreen: #013220;
   --color-brand-gold:      #D4AF37;
   --color-brand-red:       #E8232A;
@@ -18,8 +35,9 @@
   --color-brand-cream:     #F7F5F0;
 
   /* Typography */
-  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-sans:  var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif:   var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans:    var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Kentish", var(--font-playfair), ui-serif, Georgia, serif;
 }
 
 /* ─── Base ─── */
@@ -32,13 +50,15 @@
   }
 
   /* Custom scrollbar */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar       { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--color-brand-varden); }
   ::-webkit-scrollbar-thumb { background: var(--color-brand-gold); border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--color-brand-evergreen); }
 
+  /* TASK 6: line-height 1.5 → 1.7, keep 14px base */
   body {
-    @apply text-[14px] leading-[1.6] font-sans;
+    @apply text-[14px] font-sans;
+    line-height: 1.7;
     color: var(--color-brand-ink);
     background: var(--color-brand-floral);
     transition: background 0.3s ease, color 0.3s ease;
@@ -46,11 +66,16 @@
 
   /* Dark mode */
   body.dark {
-    --color-brand-floral:  #0d1f1a;
-    --color-brand-varden:  #12291f;
-    --color-brand-ink:     #f0e8d5;
+    --color-brand-floral: #0d1f1a;
+    --color-brand-varden: #12291f;
+    --color-brand-ink:    #f0e8d5;
     background: #0d1f1a;
     color: #f0e8d5;
+  }
+
+  /* TASK 6: H2 headings — subtle negative tracking */
+  h2 {
+    letter-spacing: -0.01em;
   }
 }
 
@@ -72,22 +97,177 @@
   50%       { opacity: 0; }
 }
 
+/* TASK 3: CTA button shimmer */
+@keyframes shimmer-sweep {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* TASK 7: Gradient mesh drift */
+@keyframes mesh-pulse {
+  0%   { background-position: 0%   0%,   100% 100%, center; }
+  100% { background-position: 10%  20%,  90%  80%,  center; }
+}
+
 /* ─── Utilities ─── */
 .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 
-/* â”€â”€â”€ Uiverse Dark Mode Toggle â”€â”€â”€ */
+/* ─── TASK 6: Section label style ─── */
+/* Apply class="section-label" to the small uppercase spans above headings */
+.section-label {
+  font-family: "Kentish", var(--font-playfair), serif;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 400;           /* Kentish Vol 1 — light, elegant */
+  font-size: 0.78rem;
+}
+
+/* TASK 6: Stat numbers — tighter tracking, tabular */
+.stat-number {
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── TASK 1: Scroll-Reveal ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity   0.7s cubic-bezier(0.25, 0.1, 0.25, 1.0),
+    transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity   0.6s cubic-bezier(0.25, 0.1, 0.25, 1.0),
+    transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+}
+.reveal-stagger.revealed > *:nth-child(1) { transition-delay: 0.00s; }
+.reveal-stagger.revealed > *:nth-child(2) { transition-delay: 0.10s; }
+.reveal-stagger.revealed > *:nth-child(3) { transition-delay: 0.20s; }
+.reveal-stagger.revealed > *:nth-child(4) { transition-delay: 0.30s; }
+.reveal-stagger.revealed > *:nth-child(5) { transition-delay: 0.40s; }
+.reveal-stagger.revealed > *:nth-child(6) { transition-delay: 0.50s; }
+.reveal-stagger.revealed > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── TASK 3: Plan My Trip button shimmer ─── */
+.btn-plan-trip {
+  position: relative;
+  overflow: hidden;
+}
+.btn-plan-trip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.15) 45%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.15) 55%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-sweep 5s ease-in-out infinite;
+  animation-delay: 2s;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ─── TASK 5: Navbar scroll polish ─── */
+.navbar {
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  background: rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid transparent;
+  transition:
+    backdrop-filter 0.4s ease,
+    background      0.4s ease,
+    border-color    0.4s ease,
+    box-shadow      0.4s ease;
+}
+.navbar--scrolled {
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  background: rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+}
+
+/* ─── TASK 7: Gradient mesh on dark sections ─── */
+/* Apply class="mesh-bg" to WhyChooseUs and CTABanner section containers */
+.mesh-bg {
+  background:
+    radial-gradient(ellipse 600px 400px at 15% 30%, rgba(26, 77, 58, 0.5), transparent),
+    radial-gradient(ellipse 500px 500px at 85% 70%, rgba(20, 100, 60, 0.3), transparent),
+    #0A2E1D;
+  animation: mesh-pulse 20s ease-in-out infinite alternate;
+}
+
+/* ─── TASK 8: Testimonials gold border ─── */
+/* Apply class="testimonial-card" to each testimonial card */
+.testimonial-card {
+  border-top: 2px solid rgba(212, 175, 55, 0.30);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.testimonial-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.60) 30%,
+    rgba(212, 175, 55, 0.80) 50%,
+    rgba(212, 175, 55, 0.60) 70%,
+    transparent
+  );
+}
+.testimonial-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ─── prefers-reduced-motion: disable all decorative animations ─── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .btn-plan-trip::after {
+    animation: none;
+    display: none;
+  }
+  .mesh-bg {
+    animation: none;
+  }
+}
+
+/* ─── Dark Mode Toggle ─── */
 .switch {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
 }
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+.switch input { opacity: 0; width: 0; height: 0; }
 .slider {
   position: absolute;
   cursor: pointer;
@@ -107,7 +287,7 @@
   transition: 0.4s;
 }
 .switch input:checked + .slider { background-color: #0d1f1a; }
-.switch input:focus  + .slider { box-shadow: 0 0 1px #2196f3; }
+.switch input:focus  + .slider  { box-shadow: 0 0 1px #2196f3; }
 .switch input:checked + .slider .sun-moon {
   transform: translateX(26px);
   background-color: white;
@@ -115,19 +295,19 @@
 }
 .moon-dot { opacity: 0; transition: 0.4s; fill: gray; }
 .switch input:checked + .slider .sun-moon .moon-dot { opacity: 1; }
-.slider.round { border-radius: 34px; }
-.slider.round .sun-moon { border-radius: 50%; }
+.slider.round             { border-radius: 34px; }
+.slider.round .sun-moon   { border-radius: 50%; }
 #moon-dot-1 { left:10px; top:3px;  position:absolute; width:6px;  height:6px;  z-index:4; }
 #moon-dot-2 { left:2px;  top:10px; position:absolute; width:10px; height:10px; z-index:4; }
 #moon-dot-3 { left:16px; top:18px; position:absolute; width:3px;  height:3px;  z-index:4; }
-#light-ray-1 { left:-8px; top:-8px; position:absolute; width:43px; height:43px; z-index:-1; fill:white; opacity:10%; }
-#light-ray-2 { left:-50%; top:-50%; position:absolute; width:55px; height:55px; z-index:-1; fill:white; opacity:10%; }
-#light-ray-3 { left:-18px;top:-18px;position:absolute; width:60px; height:60px; z-index:-1; fill:white; opacity:10%; }
+#light-ray-1 { left:-8px;  top:-8px;  position:absolute; width:43px; height:43px; z-index:-1; fill:white; opacity:10%; }
+#light-ray-2 { left:-50%;  top:-50%;  position:absolute; width:55px; height:55px; z-index:-1; fill:white; opacity:10%; }
+#light-ray-3 { left:-18px; top:-18px; position:absolute; width:60px; height:60px; z-index:-1; fill:white; opacity:10%; }
 .cloud-light { position:absolute; fill:#eee; animation: cloud-move 6s infinite; }
 .cloud-dark  { position:absolute; fill:#ccc; animation: cloud-move 6s infinite; animation-delay:1s; }
-#cloud-1{left:30px;top:15px;width:40px;}#cloud-2{left:44px;top:10px;width:20px;}
-#cloud-3{left:18px;top:24px;width:30px;}#cloud-4{left:36px;top:18px;width:40px;}
-#cloud-5{left:48px;top:14px;width:20px;}#cloud-6{left:22px;top:26px;width:30px;}
+#cloud-1{left:30px;top:15px;width:40px;} #cloud-2{left:44px;top:10px;width:20px;}
+#cloud-3{left:18px;top:24px;width:30px;} #cloud-4{left:36px;top:18px;width:40px;}
+#cloud-5{left:48px;top:14px;width:20px;} #cloud-6{left:22px;top:26px;width:30px;}
 @keyframes cloud-move { 0%{transform:translateX(0px)} 40%{transform:translateX(4px)} 80%{transform:translateX(-4px)} 100%{transform:translateX(0px)} }
 .stars { transform:translateY(-32px); opacity:0; transition:0.4s; }
 .star  { fill:white; position:absolute; transition:0.4s; animation:star-twinkle 2s infinite; }
@@ -136,10 +316,10 @@
 #star-2{width:6px;top:16px;left:3px;}
 #star-3{width:12px;top:20px;left:10px;animation-delay:.6s;}
 #star-4{width:18px;top:0px;left:18px;animation-delay:1.3s;}
-@keyframes star-twinkle { 0%{transform:scale(1)} 40%{transform:scale(1.2)} 80%{transform:scale(0.8)} 100%{transform:scale(1)} }
-@keyframes rotate-center { 0%{transform:translateX(26px) rotate(0deg)} 100%{transform:translateX(26px) rotate(360deg)} }
+@keyframes star-twinkle    { 0%{transform:scale(1)} 40%{transform:scale(1.2)} 80%{transform:scale(0.8)} 100%{transform:scale(1)} }
+@keyframes rotate-center   { 0%{transform:translateX(26px) rotate(0deg)} 100%{transform:translateX(26px) rotate(360deg)} }
 
-/* â”€â”€â”€ Uiverse Payment Button â”€â”€â”€ */
+/* ─── Payment Button ─── */
 .pay-btn {
   position:relative; padding:12px 24px; font-size:16px;
   background:#013220; color:white; border:none; border-radius:8px;
@@ -149,133 +329,76 @@
 .icon-container { position:relative; width:24px; height:24px; }
 .icon { position:absolute; top:0; left:0; width:24px; height:24px; color:#D4AF37; opacity:0; visibility:hidden; }
 .default-icon { opacity:1; visibility:visible; }
-.pay-btn:hover .wallet-icon { opacity:0; visibility:hidden; }
+.pay-btn:hover .wallet-icon  { opacity:0; visibility:hidden; }
 .pay-btn:hover .card-icon    { animation:iconRotate 2.5s infinite; animation-delay:0s; }
 .pay-btn:hover .payment-icon { animation:iconRotate 2.5s infinite; animation-delay:.5s; }
 .pay-btn:hover .dollar-icon  { animation:iconRotate 2.5s infinite; animation-delay:1s; }
 .pay-btn:hover .check-icon   { animation:iconRotate 2.5s infinite; animation-delay:1.5s; }
-.pay-btn:active .icon { animation:none; opacity:0; visibility:hidden; transition:all .3s ease; }
-.pay-btn:active .check-icon { animation:checkmarkAppear .6s ease forwards; visibility:visible; }
+.pay-btn:active .icon        { animation:none; opacity:0; visibility:hidden; transition:all .3s ease; }
+.pay-btn:active .check-icon  { animation:checkmarkAppear .6s ease forwards; visibility:visible; }
 .btn-text { font-weight:600; font-family:system-ui,-apple-system,sans-serif; }
 @keyframes iconRotate {
-  0%{opacity:0;visibility:hidden;transform:translateY(10px) scale(.5)}
-  5%{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
-  15%{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
-  20%{opacity:0;visibility:hidden;transform:translateY(-10px) scale(.5)}
-  100%{opacity:0;visibility:hidden;transform:translateY(-10px) scale(.5)}
+  0%  { opacity:0; visibility:hidden; transform:translateY(10px) scale(.5) }
+  5%  { opacity:1; visibility:visible; transform:translateY(0) scale(1) }
+  15% { opacity:1; visibility:visible; transform:translateY(0) scale(1) }
+  20% { opacity:0; visibility:hidden; transform:translateY(-10px) scale(.5) }
+  100%{ opacity:0; visibility:hidden; transform:translateY(-10px) scale(.5) }
 }
 @keyframes checkmarkAppear {
-  0%{opacity:0;transform:scale(.5) rotate(-45deg)}
-  50%{opacity:.5;transform:scale(1.2) rotate(0deg)}
-  100%{opacity:1;transform:scale(1) rotate(0deg)}
+  0%  { opacity:0; transform:scale(.5) rotate(-45deg) }
+  50% { opacity:.5; transform:scale(1.2) rotate(0deg) }
+  100%{ opacity:1; transform:scale(1) rotate(0deg) }
 }
 
-/* â”€â”€â”€ Social Icons â”€â”€â”€ */
+/* ─── Social Icons ─── */
 ul.example-2 {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  padding: 0; margin: 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
-
-ul.example-2 li {
-  position: relative;
-}
-
+ul.example-2 li { position: relative; }
 ul.example-2 li::after {
-  content: "";
-  display: block;
-  height: 0px;
-  transition: height 0.3s ease-in-out;
-  pointer-events: none;
+  content: ""; display: block; height: 0px;
+  transition: height 0.3s ease-in-out; pointer-events: none;
 }
-
-ul.example-2 li:hover::after {
-  height: 10px;
-}
-
-.example-2 .icon-content {
-  margin: 0 10px 0 0;
-  position: relative;
-}
+ul.example-2 li:hover::after { height: 10px; }
+.example-2 .icon-content { margin: 0 10px 0 0; position: relative; }
 .example-2 .icon-content .tooltip {
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 5px;
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+  position: absolute; bottom: -30px; left: 50%;
+  transform: translateX(-50%); color: #fff;
+  padding: 6px 10px; border-radius: 5px;
+  opacity: 0; pointer-events: none; visibility: hidden;
+  font-size: 14px; transition: all 0.3s ease; white-space: nowrap;
 }
-.example-2 .icon-content:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-  bottom: -40px;
-}
+.example-2 .icon-content:hover .tooltip { opacity: 1; visibility: visible; bottom: -40px; }
 .example-2 .icon-content a {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  color: #4d4d4d;
-  background-color: #fff;
+  position: relative; overflow: hidden;
+  display: flex; justify-content: center; align-items: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  color: #4d4d4d; background-color: #fff;
   transition: all 0.3s ease-in-out;
 }
-.example-2 .icon-content a:hover {
-  box-shadow: 3px 2px 45px 0px rgba(0, 0, 0, 0.12);
-}
-.example-2 .icon-content a svg {
-  position: relative;
-  z-index: 1;
-  width: 22px;
-  height: 22px;
-}
-.example-2 .icon-content a:hover {
-  color: white;
-}
+.example-2 .icon-content a:hover { box-shadow: 3px 2px 45px 0px rgba(0,0,0,0.12); }
+.example-2 .icon-content a svg   { position: relative; z-index: 1; width: 22px; height: 22px; }
+.example-2 .icon-content a:hover { color: white; }
 .example-2 .icon-content a .filled {
-  position: absolute;
-  top: auto;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background-color: #000;
-  transition: all 0.3s ease-in-out;
+  position: absolute; top: auto; bottom: 0; left: 0;
+  width: 100%; height: 0;
+  background-color: #000; transition: all 0.3s ease-in-out;
 }
-.example-2 .icon-content a:hover .filled {
-  height: 100%;
-}
+.example-2 .icon-content a:hover .filled { height: 100%; }
 .example-2 .icon-content a[data-social="facebook"] .filled,
-.example-2 .icon-content a[data-social="facebook"] ~ .tooltip {
-  background-color: #1877f2;
-}
+.example-2 .icon-content a[data-social="facebook"] ~ .tooltip { background-color: #1877f2; }
 .example-2 .icon-content a[data-social="instagram"] .filled,
-.example-2 .icon-content a[data-social="instagram"] ~ .tooltip {
-  background-color: #e4405f;
-}
+.example-2 .icon-content a[data-social="instagram"] ~ .tooltip { background-color: #e4405f; }
 .example-2 .icon-content a[data-social="youtube"] .filled,
-.example-2 .icon-content a[data-social="youtube"] ~ .tooltip {
-  background-color: #ff0000;
-}
+.example-2 .icon-content a[data-social="youtube"] ~ .tooltip { background-color: #ff0000; }
 .example-2 .icon-content a[data-social="twitter"] .filled,
-.example-2 .icon-content a[data-social="twitter"] ~ .tooltip {
-  background-color: #000000;
-}
+.example-2 .icon-content a[data-social="twitter"] ~ .tooltip { background-color: #000000; }
 
-/* â”€â”€â”€ Skeleton Loader â”€â”€â”€ */
+/* ─── Skeleton Loader ─── */
 .skeleton {
   background: linear-gradient(90deg, #e8e0d0 25%, #f5f0e8 50%, #e8e0d0 75%);
   background-size: 200% 100%;
@@ -283,8 +406,8 @@ ul.example-2 li:hover::after {
   border-radius: 8px;
 }
 @keyframes skeleton-pulse {
-  0%  { background-position: 200% 0; }
-  100%{ background-position: -200% 0; }
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
 }
 body.dark .skeleton {
   background: linear-gradient(90deg, #1a2e24 25%, #22402f 50%, #1a2e24 75%);
@@ -292,7 +415,7 @@ body.dark .skeleton {
   animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
 
-/* â”€â”€â”€ Marquee â”€â”€â”€ */
+/* ─── Marquee ─── */
 @keyframes marquee-left {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -304,161 +427,103 @@ body.dark .skeleton {
 }
 .marquee-track:hover { animation-play-state: paused; }
 
-/* â”€â”€â”€ Hide scrollbar utility â”€â”€â”€ */
+/* ─── Utilities ─── */
 @utility bg-gradient-radial {
   background-image: radial-gradient(var(--tw-gradient-stops));
 }
-
 @layer utilities {
   .hide-scrollbar::-webkit-scrollbar { display: none; }
-  .hide-scrollbar { -ms-overflow-style:none; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 }
 
-/* â”€â”€â”€ 3D Flip Card â”€â”€â”€ */
+/* ─── 3D Flip Card ─── */
 .review-flip-card-container {
   perspective: 1000px;
-  width: 100%;
-  max-width: 380px;
-  height: 250px;
+  width: 100%; max-width: 380px; height: 250px;
   cursor: pointer;
   transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
 }
-.review-flip-card-container:hover {
-  transform: scale(1.05);
-}
-
+.review-flip-card-container:hover { transform: scale(1.05); }
 .review-flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: relative; width: 100%; height: 100%;
   text-align: center;
   transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
   transform-style: preserve-3d;
 }
-
-.review-flip-card-container:hover .review-flip-card-inner {
-  transform: rotateY(180deg);
-}
-
+.review-flip-card-container:hover .review-flip-card-inner { transform: rotateY(180deg); }
 .review-flip-card-front,
 .review-flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+  position: absolute; width: 100%; height: 100%;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   border: 1px solid rgba(200, 134, 10, 0.15);
 }
-
 .review-flip-card-front {
   background: linear-gradient(-45deg, #2D5016 0%, #C8860A 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: white; z-index: 2;
   transform: rotateY(0deg) translateZ(1px);
   -webkit-font-smoothing: antialiased;
 }
-
 .review-flip-card-back {
   background-color: #FAFAF7;
   transform: rotateY(180deg) translateZ(1px);
   -webkit-font-smoothing: antialiased;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
-  text-align: center;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 24px; text-align: center;
 }
-
 @keyframes slide-crossfade {
   0%, 100% { opacity: 0; }
-  10%, 40% { opacity: 0.25; }
-  50%, 90% { opacity: 0; }
+  10%, 40%  { opacity: 0.25; }
+  50%, 90%  { opacity: 0; }
 }
 
 /* ─── Navbar Right Section & Login Button ─── */
 @media (min-width: 768px) {
   .navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-left: auto; /* pushes everything to the far right */
+    display: flex; align-items: center;
+    gap: 12px; margin-left: auto;
   }
 }
-
 .user-profile {
-  width: 110px;
-  height: 42px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.3s ease;
-  background: linear-gradient(
-    to bottom right,
-    #C8860A 0%,
-    rgba(200, 134, 10, 0) 30%
-  );
+  width: 110px; height: 42px; border-radius: 12px;
+  cursor: pointer; transition: 0.3s ease;
+  background: linear-gradient(to bottom right, #C8860A 0%, rgba(200,134,10,0) 30%);
   background-color: rgba(200, 134, 10, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  outline: none;
+  display: flex; align-items: center; justify-content: center;
+  border: none; outline: none;
 }
 .user-profile:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(200, 134, 10, 0.4);
 }
 .user-profile-inner {
-  width: 106px;
-  height: 38px;
-  border-radius: 10px;
+  width: 106px; height: 38px; border-radius: 10px;
   background-color: #1a2e0f;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: #F5F0E8;
-  font-weight: 600;
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; color: #F5F0E8; font-weight: 600;
+  font-size: 14px; font-family: 'Inter', sans-serif;
 }
-.user-profile-inner svg {
-  width: 18px;
-  height: 18px;
-  fill: #F5F0E8;
-}
+.user-profile-inner svg { width: 18px; height: 18px; fill: #F5F0E8; }
 
-/* UIverse Pill Button */
+/* ─── Pill Button ─── */
 .btn-pill {
-  padding: 0.9em 2em;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 600;
-  color: #1B4332;
-  background-color: #fff;
-  border: 2px solid #F4A011;
+  padding: 0.9em 2em; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 2.5px;
+  font-weight: 600; color: #1B4332;
+  background-color: #fff; border: 2px solid #F4A011;
   border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 8px 15px rgba(0,0,0,0.08);
   transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-  width: 100%;
+  cursor: pointer; outline: none; width: 100%;
 }
 .btn-pill:hover {
-  background-color: #1B4332;
-  border-color: #1B4332;
-  box-shadow: 0px 15px 20px rgba(27, 67, 50, 0.35);
-  color: #fff;
-  transform: translateY(-5px);
+  background-color: #1B4332; border-color: #1B4332;
+  box-shadow: 0px 15px 20px rgba(27,67,50,0.35);
+  color: #fff; transform: translateY(-5px);
 }
-.btn-pill:active {
-  transform: translateY(-1px);
-}
+.btn-pill:active { transform: translateY(-1px); }

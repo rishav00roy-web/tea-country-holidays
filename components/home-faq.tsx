@@ -29,8 +29,8 @@ export default function HomeFAQ() {
   return (
     <section className="py-20 px-4 bg-[#fafaf7]">
       {/* heading */}
-      <div className="max-w-3xl mx-auto text-center mb-12">
-        <p className="text-[#c9a84c] text-xs font-semibold tracking-widest uppercase mb-3 font-sans">
+      <div className="max-w-3xl mx-auto text-center mb-12 reveal">
+        <p className="section-label text-[#c9a84c] mb-3 font-sans">
           Got Questions?
         </p>
         <h2 className="text-3xl md:text-4xl font-bold text-[#1a3c2e] font-serif leading-tight">
@@ -42,7 +42,7 @@ export default function HomeFAQ() {
       </div>
 
       {/* 3 accordion items */}
-      <div className="max-w-3xl mx-auto space-y-3">
+      <div className="reveal-stagger max-w-3xl mx-auto space-y-3">
         {FAQS.map((faq, i) => (
           <div
             key={i}

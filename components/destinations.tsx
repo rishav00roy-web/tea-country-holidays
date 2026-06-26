@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useInView } from "@/hooks/useAnimations";
 
 const PILLS = [
   "All","Meghalaya","Sikkim","Bhutan","Assam","Kerala","Rajasthan","Dubai","Bali",
@@ -21,7 +20,6 @@ const IMAGES = [
 
 export default function Destinations() {
   const [active, setActive] = useState("All");
-  const [ref, visible] = useInView();
 
   const filtered = active === "All" ? IMAGES : IMAGES.filter(i => i.cat === active);
 
@@ -30,20 +28,17 @@ export default function Destinations() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div ref={ref} className="text-center mb-12">
-          <span className="text-brand-red font-bold text-sm tracking-[0.2em] uppercase block mb-3 opacity-0"
-            style={{ animation: visible ? "fadeUp 0.7s ease both 0s" : "none" }}>
+        <div className="reveal text-center mb-12">
+          <span className="section-label">
             Where do you want to go?
           </span>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-brand-evergreen dark:text-white opacity-0"
-            style={{ animation: visible ? "fadeUp 0.7s ease both 0.12s" : "none" }}>
+          <h2 className="reveal font-serif text-4xl md:text-5xl font-bold text-brand-evergreen dark:text-white">
             Explore by Destination
           </h2>
         </div>
 
         {/* Filter pills */}
-        <div className="flex overflow-x-auto pb-4 -mx-4 px-4 hide-scrollbar gap-2.5 snap-x opacity-0"
-          style={{ animation: visible ? "fadeUp 0.7s ease both 0.24s" : "none" }}>
+        <div className="reveal flex overflow-x-auto pb-4 -mx-4 px-4 hide-scrollbar gap-2.5 snap-x">
           {PILLS.map(d => (
             <button key={d} onClick={() => setActive(d)}
               className={`whitespace-nowrap px-5 py-2.5 rounded-full font-semibold text-sm snap-center border-2 transition-all duration-200 ${
@@ -57,22 +52,21 @@ export default function Destinations() {
         </div>
 
         {/* Image grid */}
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {filtered.map((img, i) => (
+        <div className="reveal-stagger mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {filtered.map((img) => (
             <div key={img.id}
               className="group relative overflow-hidden rounded-2xl cursor-pointer"
               style={{
-                aspectRatio:"3/4",
-                animation:`fadeUp 0.5s ease both ${i * 0.07}s`,
-                boxShadow:"10px 10px 24px rgba(1,20,10,0.22),-2px -2px 10px rgba(8,50,25,0.1)",
+                aspectRatio: "3/4",
+                boxShadow: "10px 10px 24px rgba(1,20,10,0.22),-2px -2px 10px rgba(8,50,25,0.1)",
               }}>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-evergreen/90 via-brand-evergreen/15 to-transparent z-10 opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-evergreen/90 via-brand-evergreen/30 to-transparent z-10 opacity-80 md:opacity-60 md:group-hover:opacity-90 transition-opacity duration-500" />
 
               <Image src={img.src} alt={img.name}
                 fill
                 quality={65}
-                sizes="(max-width: 640px) 100vw, 50vw"
+                sizes="(max-width: 640px) 50vw, 25vw"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 loading="lazy" />
 
@@ -80,11 +74,11 @@ export default function Destinations() {
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-brand-gold/60 rounded-2xl transition-colors duration-300 z-20 pointer-events-none" />
 
               <div className="absolute bottom-0 left-0 w-full p-4 z-30">
-                <p className="text-brand-gold text-xs font-bold uppercase tracking-wider mb-0.5 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0 transition-all duration-300">
+                <p className="text-brand-gold text-xs font-bold uppercase tracking-wider mb-0.5 md:opacity-0 md:group-hover:opacity-100 md:-translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
                   Explore →
                 </p>
                 <h3 className="text-white font-bold text-sm md:text-base drop-shadow-lg">{img.name}</h3>
-                <p className="text-white/50 text-xs mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">{img.cat}</p>
+                <p className="text-white/50 text-xs mt-0.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">{img.cat}</p>
               </div>
             </div>
           ))}

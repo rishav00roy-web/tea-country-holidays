@@ -96,10 +96,13 @@ function LocationInput({
           spellCheck={true}
           className={`w-full pl-9 pr-4 py-3 rounded-xl text-sm font-medium outline-none transition-all text-white placeholder:text-white/30 border ${
             isActive
-              ? "bg-white/15 border-[#F4A011]/60 ring-2 ring-[#F4A011]/20"
-              : "bg-white/8 border-white/10 hover:border-white/20"
+              ? "bg-white/15 border-[rgba(212,175,55,0.35)]"
+              : "bg-white/8 border-white/10 hover:border-[rgba(212,175,55,0.35)]"
           }`}
-          style={{ background: isActive ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)" }}
+          style={{
+            background: isActive ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)",
+            boxShadow: isActive ? "0 0 0 2px rgba(212,175,55,0.25)" : undefined,
+          }}
         />
       </div>
     </div>
@@ -238,10 +241,13 @@ export default function GlassSearch() {
       <div
         className="border border-white/20 rounded-2xl shadow-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
         style={{
-          background: "rgba(255, 255, 255, 0.35)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12)",
+          background: "rgba(255, 255, 255, 0.10)",
+          backdropFilter: "blur(24px) saturate(1.2)",
+          WebkitBackdropFilter: "blur(24px) saturate(1.2)",
+          border: "1px solid rgba(255, 255, 255, 0.15)",
+          borderRadius: "16px",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.08)",
+          transition: "box-shadow 0.3s ease, border-color 0.3s ease",
         }}
       >
         {/* WHERE */}
@@ -303,7 +309,7 @@ export default function GlassSearch() {
         <button
           type="button"
           onClick={handleSearch}
-          className="w-full sm:w-auto shrink-0 bg-[#F4A011] hover:bg-amber-400 active:bg-amber-500 text-[#013220] font-bold text-sm px-7 py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap shadow-lg active:scale-95"
+          className="btn-plan-trip w-full sm:w-auto shrink-0 bg-[#F4A011] hover:bg-amber-400 active:bg-amber-500 text-[#013220] font-bold text-sm px-7 py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap shadow-lg active:scale-95"
         >
           Plan My Trip ✈
         </button>

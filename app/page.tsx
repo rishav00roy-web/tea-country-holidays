@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
-import Hero     from "@/components/hero";
+import Hero          from "@/components/hero";
+import SectionDivider from "@/components/SectionDivider";
 import { BackToTop } from "@/components/back-to-top";
 
 // Below-fold sections: code-split and lazy-loaded so they don't
@@ -19,16 +20,45 @@ export default function Home() {
   return (
     <>
       <main className="flex-1 flex flex-col w-full overflow-hidden">
+
+        {/* dark */}
         <Hero />
+
+        {/* dark → cream */}
+        <SectionDivider from="dark" />
         <WhoWeAre />
+
+        {/* cream → dark */}
+        <SectionDivider from="cream" />
         <PackagesScroll />
+
+        {/* dark → dark (mesh-bg); no divider needed */}
         <BentoWhyUs />
+
+        {/* dark → cream */}
+        <SectionDivider from="dark" />
         <Destinations />
+
+        {/* cream → dark */}
+        <SectionDivider from="cream" />
         <OfferBanner />
+
+        {/* dark → cream */}
+        <SectionDivider from="dark" />
         <MasonryTestimonials />
+
+        {/* cream → dark */}
+        <SectionDivider from="cream" />
         <ReviewsMarquee />
+
+        {/* dark → cream */}
+        <SectionDivider from="dark" />
         <BlogsSection />
+
+        {/* cream → dark */}
+        <SectionDivider from="cream" />
         <HomeFAQ />
+
       </main>
 
       <BackToTop />

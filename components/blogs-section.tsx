@@ -64,9 +64,9 @@ export default function BlogsSection() {
     <section id="blogs" className="bg-brand-sand dark:bg-brand-dark py-24 relative z-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-16">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-16 reveal">
           <div className="max-w-2xl">
-            <span className="inline-block text-brand-gold font-medium tracking-wider uppercase text-sm mb-3">
+            <span className="section-label inline-block text-brand-gold mb-3">
               Stories & Guides
             </span>
             <h2 className="font-serif text-4xl sm:text-5xl font-normal text-brand-evergreen dark:text-brand-sand">
@@ -76,7 +76,7 @@ export default function BlogsSection() {
         </div>
 
         {/* Blog Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="reveal-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.map((blog) => (
             <Link
               key={blog.id}

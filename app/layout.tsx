@@ -4,6 +4,7 @@ import StickyCTA from "@/components/sticky-cta";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import ScrollRevealInit from "@/components/scroll-reveal-init";
 import "./globals.css";
 
 const playfairDisplay = Playfair_Display({
@@ -89,6 +90,7 @@ export default function RootLayout({
         <Footer />
         <StickyCTA />
         <WhatsAppButton />
+        <ScrollRevealInit />
       </body>
     </html>
   );
