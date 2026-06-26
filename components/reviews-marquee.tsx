@@ -258,7 +258,7 @@ export default function ReviewsMarquee({ initialReviews }: { initialReviews?: Re
   ];
 
   return (
-    <section className="py-16 bg-brand-evergreen overflow-hidden border-t border-brand-gold/10">
+    <section className="py-16 bg-brand-evergreen overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
           <span className="text-brand-gold font-bold text-xs tracking-[0.2em] uppercase block mb-2">

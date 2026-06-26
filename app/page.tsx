@@ -22,35 +22,35 @@ export default function Home() {
         <Hero />
 
         {/* hero (#013220) → WhoWeAre (#FEFAEF) */}
-        <SectionDivider from="hero" />
+        <SectionDivider topColor="#013220" bottomColor="#FEFAEF" curve="down" />
         <WhoWeAre />
 
         {/* cream (#FEFAEF) → PackagesScroll (#FEF0D5 varden) */}
-        <SectionDivider from="cream" />
+        <SectionDivider topColor="#FEFAEF" bottomColor="#FEF0D5" curve="up" />
         <PackagesScroll />
 
         {/* varden (#FEF0D5) → BentoWhyUs (mesh #0A2E1D) */}
-        <SectionDivider from="varden" />
+        <SectionDivider topColor="#FEF0D5" bottomColor="#0A2E1D" curve="up" />
         <BentoWhyUs />
 
         {/* mesh (#0A2E1D) → Destinations (#FEFAEF) */}
-        <SectionDivider from="mesh" />
+        <SectionDivider topColor="#0A2E1D" bottomColor="#FEFAEF" curve="down" />
         <Destinations />
 
         {/* cream (#FEFAEF) → OfferBanner (dark #013220 overlay) */}
-        <SectionDivider from="cream" />
+        <SectionDivider topColor="#FEFAEF" bottomColor="#013220" curve="up" />
         <OfferBanner />
 
         {/* dark (#013220) → MasonryTestimonials (cream) */}
-        <SectionDivider from="dark" />
+        <SectionDivider topColor="#013220" bottomColor="#FEFAEF" curve="down" />
         <MasonryTestimonials />
 
         {/* cream (#FEFAEF) → ReviewsMarquee (#013220) */}
-        <SectionDivider from="cream" />
+        <SectionDivider topColor="#FEFAEF" bottomColor="#013220" curve="up" />
         <ReviewsMarquee />
 
         {/* dark (#013220) → BlogsSection (cream) */}
-        <SectionDivider from="dark" />
+        <SectionDivider topColor="#013220" bottomColor="#FEFAEF" curve="down" />
         <BlogsSection />
 
         {/* cream (#FEFAEF) → HomeFAQ (#fafaf7) — both light, no divider needed */}
