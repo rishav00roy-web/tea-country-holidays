@@ -4,7 +4,14 @@ import { useRef } from "react";
 import Image from "next/image";
 import { useAuthGate } from "@/hooks/use-auth-gate";
 
-const packages = [
+export interface CarouselPackage {
+  name: string;
+  duration: string;
+  destination: string;
+  imageUrl: string;
+}
+
+export const fallbackPackages: CarouselPackage[] = [
   {
     name: "Meghalaya Explorer",
     duration: "5N/6D",
@@ -55,7 +62,7 @@ const packages = [
   },
 ];
 
-export default function PackagesScroll() {
+export default function PackagesScroll({ initialPackages = fallbackPackages }: { initialPackages?: CarouselPackage[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { gatedWhatsApp } = useAuthGate();
 
@@ -111,7 +118,7 @@ export default function PackagesScroll() {
           className="w-full overflow-x-auto pb-8 hide-scrollbar snap-x snap-mandatory scroll-smooth"
         >
           <div className="flex gap-6 w-full">
-            {packages.map((pkg) => (
+            {initialPackages.map((pkg) => (
               <div
                 key={pkg.name}
                 className="shrink-0 w-[85%] md:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] snap-start bg-brand-floral rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-brand-gold/10 hover:border-brand-gold/30"

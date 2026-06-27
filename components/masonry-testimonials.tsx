@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { fallbackTestimonials } from "@/lib/reviews-data";
 
-interface Testimonial {
+export interface Testimonial {
   id?: number | string;
   name: string;
   rating: string | number;
@@ -35,7 +35,7 @@ function InitialsAvatar({ name }: { name: string }) {
   const words = name.trim().split(/\s+/);
   const initials = words.length > 1 
     ? (words[0][0] + words[words.length - 1][0]).toUpperCase()
-    : words[0][0].toUpperCase();
+    : words[0][0] ? words[0][0].toUpperCase() : "";
 
   return (
     <div className="w-20 h-20 rounded-full flex items-center justify-center font-bold text-xl border-2 border-[#C8860A] bg-[#013220] text-[#D4AF37] shadow-md select-none shrink-0 mb-4">
@@ -154,11 +154,7 @@ function FlipCard({ data, index }: { data: Testimonial; index: number }) {
   );
 }
 
-export default function MasonryTestimonials({ initialTestimonials }: { initialTestimonials?: Testimonial[] }) {
-  const testimonials = initialTestimonials && initialTestimonials.length > 0
-    ? initialTestimonials
-    : fallbackTestimonials;
-
+export default function MasonryTestimonials({ initialTestimonials = fallbackTestimonials }: { initialTestimonials?: Testimonial[] }) {
   return (
     <section className="py-20 md:py-28 bg-[#FAFAF7] dark:bg-[#0d1f1a]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -174,7 +170,7 @@ export default function MasonryTestimonials({ initialTestimonials }: { initialTe
 
         {/* Grid */}
         <div className="reveal-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonials.map((t, i) => (
+          {initialTestimonials.map((t, i) => (
             <FlipCard key={t.id || i} data={t} index={i} />
           ))}
         </div>

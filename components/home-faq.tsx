@@ -3,7 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const FAQS = [
+export interface FAQ {
+  id?: string | number;
+  question: string;
+  answer: string;
+  sort_order?: number;
+}
+
+export const fallbackFAQs: FAQ[] = [
   {
     question: "What is the best time to visit Northeast India?",
     answer:
@@ -21,7 +28,7 @@ const FAQS = [
   },
 ];
 
-export default function HomeFAQ() {
+export default function HomeFAQ({ initialFAQs = fallbackFAQs }: { initialFAQs?: FAQ[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
@@ -41,11 +48,11 @@ export default function HomeFAQ() {
         </p>
       </div>
 
-      {/* 3 accordion items */}
+      {/* accordion items */}
       <div className="reveal-stagger max-w-3xl mx-auto space-y-3">
-        {FAQS.map((faq, i) => (
+        {initialFAQs.map((faq, i) => (
           <div
-            key={i}
+            key={faq.id || i}
             className="border border-gray-200 rounded-xl bg-white overflow-hidden shadow-sm"
           >
             <button

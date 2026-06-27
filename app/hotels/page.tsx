@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
-import HotelsContent from "./hotels-content"
+import { createClient } from "@/lib/supabase-server"
+import HotelsContent, { Hotel, fallbackHotels } from "./hotels-content"
 
 export const metadata: Metadata = {
   title: "Book Hotels & Resorts | Tea Country Holidays",
@@ -10,6 +11,25 @@ export const metadata: Metadata = {
   },
 }
 
-export default function HotelsPage() {
-  return <HotelsContent />
+export const dynamic = "force-dynamic";
+
+export default async function HotelsPage() {
+  let hotels: Hotel[] = fallbackHotels;
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from("hotels")
+      .select("*")
+      .eq("published", true)
+
+    if (!error && data && data.length > 0) {
+      hotels = data as unknown as Hotel[];
+    } else if (error) {
+      console.warn("Failed to fetch hotels from Supabase, using fallback hotels:", error.message)
+    }
+  } catch (e) {
+    console.error("Error connecting to Supabase or fetching hotels:", e)
+  }
+
+  return <HotelsContent initialHotels={hotels} />
 }

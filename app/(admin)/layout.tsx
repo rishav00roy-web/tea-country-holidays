@@ -25,7 +25,7 @@ export default async function AdminLayout({
   const { data: { session } } = await supabase.auth.getSession();
   
   if (!session) {
-    redirect("/login");
+    redirect("/login?redirect=/admin");
   }
 
   // Fetch user profile to check if they are an admin

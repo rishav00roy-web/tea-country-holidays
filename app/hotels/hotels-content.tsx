@@ -1,11 +1,23 @@
 "use client"
+
 import { useState, Suspense } from "react"
 import Image from "next/image"
 import { MapPin, Calendar, Users, Star, MessageCircle } from "lucide-react"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 import { useSearchParams } from "next/navigation"
 
-const hotels = [
+export interface Hotel {
+  id: string | number;
+  name: string;
+  city: string;
+  image: string;
+  price: number;
+  rating: number;
+  description: string;
+  published?: boolean;
+}
+
+export const fallbackHotels: Hotel[] = [
   { id: 1, name: "Vivanta Dal View", city: "Srinagar", image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80", price: 8500, rating: 5, description: "Luxury stay overlooking the scenic Dal Lake and surrounding mountain ranges." },
   { id: 2, name: "DoubleTree by Hilton", city: "Goa", image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80", price: 7200, rating: 5, description: "Modern comfort and leisure close to Goa's most vibrant beaches." },
   { id: 3, name: "Hotel Kalka Royal", city: "Jaipur", image: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&q=80", price: 4200, rating: 4, description: "Traditional heritage stay with exceptional Rajasthani hospitality." },
@@ -14,7 +26,7 @@ const hotels = [
   { id: 6, name: "Misty Valleys Resort", city: "Manali", image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80", price: 5800, rating: 4, description: "Cozy retreat surrounded by pine woods and crisp mountain air." }
 ]
 
-function HotelsPageContent() {
+function HotelsPageContent({ initialHotels }: { initialHotels: Hotel[] }) {
   const { gatedWhatsApp } = useAuthGate()
   const searchParams = useSearchParams()
 
@@ -28,7 +40,7 @@ function HotelsPageContent() {
   const [checkout, setCheckout] = useState(checkoutParam)
   const [guests, setGuests] = useState(guestsParam)
 
-  const filtered = hotels.filter(hotel => {
+  const filtered = initialHotels.filter(hotel => {
     const searchStr = (city || cityParam).toLowerCase()
     return !searchStr ? true : hotel.city.toLowerCase().includes(searchStr) || hotel.name.toLowerCase().includes(searchStr)
   })
@@ -95,7 +107,7 @@ function HotelsPageContent() {
                 name="guests"
                 value={guests}
                 onChange={e => setGuests(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white border border-transparent rounded-lg text-sm text-[#1C1C1E] focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 appearance-none"
+                className="w-full pl-10 pr-4 py-3 bg-white border border-transparent rounded-lg text-sm text-[#1C1C1E] focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 appearance-none bg-no-repeat"
               >
                 {[1,2,3,4,5,6].map(g => (
                   <option key={g} value={g}>{g} {g === 1 ? "Guest" : "Guests"}</option>
@@ -137,7 +149,7 @@ function HotelsPageContent() {
             {filtered.map(hotel => (
               <div key={hotel.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col">
                 <div className="relative h-56 overflow-hidden">
-                  <Image src={hotel.image} alt={hotel.name} fill loading="lazy" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" quality={65} className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <Image src={hotel.image || "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80"} alt={hotel.name} fill loading="lazy" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" quality={65} className="object-cover group-hover:scale-105 transition-transform duration-300" />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[#1C1C1E] text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
                     <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                     {hotel.rating}
@@ -171,10 +183,10 @@ function HotelsPageContent() {
   )
 }
 
-export default function HotelsContent() {
+export default function HotelsContent({ initialHotels = fallbackHotels }: { initialHotels?: Hotel[] }) {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-white text-[#1B4332] font-semibold">Loading Hotels...</div>}>
-      <HotelsPageContent />
+      <HotelsPageContent initialHotels={initialHotels} />
     </Suspense>
   )
 }

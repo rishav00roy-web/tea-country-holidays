@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-interface Review {
+export interface Review {
   id: number | string;
   name: string;
   rating: number;
@@ -35,7 +35,7 @@ export function InitialsAvatar({ name }: { name: string }) {
   const words = name.trim().split(/\s+/);
   const initials = words.length > 1 
     ? (words[0][0] + words[words.length - 1][0]).toUpperCase()
-    : words[0][0].toUpperCase();
+    : words[0][0] ? words[0][0].toUpperCase() : "";
 
   return (
     <div className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm border-2 border-brand-gold/30 bg-[#013220] text-[#D4AF37] select-none shrink-0">
@@ -44,10 +44,8 @@ export function InitialsAvatar({ name }: { name: string }) {
   );
 }
 
-// Google Reviews for TeaCountryHolidays, Guwahati
-// These 12 reviews are representative of the real Google reviews linked at
-// https://share.google/ggnXHWED8S8LQwO5D
-const reviews = [
+// Google Reviews fallback list
+export const fallbackReviews: Review[] = [
   {
     id: 1,
     name: "Sanjay Bedi",
@@ -93,7 +91,7 @@ const reviews = [
     name: "Dipsikha Das",
     rating: 5,
     date: "Recent",
-    text: "Thank you Manami for your wonderful and hassle free arrangements \u2014 trip to Darjeeling from pick up till dropping along with the accommodation and transportation was really a great experience.",
+    text: "Thank you Manami for your wonderful and hassle free arrangements — trip to Darjeeling from pick up till dropping along with the accommodation and transportation was really a great experience.",
     tour: "Darjeeling Trip",
     hasPhoto: false,
     photoUrl: null,
@@ -123,7 +121,7 @@ const reviews = [
     name: "Vishal Khurana",
     rating: 5,
     date: "Recent",
-    text: "I would like to express my sincere thanks for the amazing experience in Madurai, Rameshwaram, Kanyakumari trip. Everything was hassle free \u2014 air ticket, cab, hotels, sightseeing. The best part was your continued support throughout the trip.",
+    text: "I would like to express my sincere thanks for the amazing experience in Madurai, Rameshwaram, Kanyakumari trip. Everything was hassle free — air ticket, cab, hotels, sightseeing. The best part was your continued support throughout the trip.",
     tour: "South India Trip",
     hasPhoto: false,
     photoUrl: null,
@@ -197,7 +195,7 @@ function ReviewCard({ review }: { review: Review }) {
             alt={review.name}
             width={48}
             height={48}
-            className="w-12 h-12 rounded-full border-2 border-brand-gold/30 object-cover"
+            className="w-12 h-12 rounded-full border-2 border-brand-gold/30 object-cover bg-slate-50"
             loading="lazy"
           />
         ) : (
@@ -249,12 +247,11 @@ function ReviewCard({ review }: { review: Review }) {
   );
 }
 
-export default function ReviewsMarquee({ initialReviews }: { initialReviews?: Review[] }) {
+export default function ReviewsMarquee({ initialReviews = fallbackReviews }: { initialReviews?: Review[] }) {
   // Duplicate for seamless infinite loop — prefix keys to avoid collisions
-  const baseReviews = initialReviews && initialReviews.length > 0 ? initialReviews : reviews;
   const doubled = [
-    ...baseReviews.map(r => ({ ...r, _key: `a-${r.id}` })),
-    ...baseReviews.map(r => ({ ...r, _key: `b-${r.id}` })),
+    ...initialReviews.map(r => ({ ...r, _key: `a-${r.id}` })),
+    ...initialReviews.map(r => ({ ...r, _key: `b-${r.id}` })),
   ];
 
   return (

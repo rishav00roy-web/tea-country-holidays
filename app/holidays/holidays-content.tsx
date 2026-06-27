@@ -1,11 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import { Clock, ArrowRight, Search, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuthGate } from "@/hooks/use-auth-gate"
-import { createBrowserClient } from "@/lib/supabase"
 import { Package } from "@/lib/packages-data"
 
 function optimizeUnsplashUrl(url: string) {
@@ -29,33 +28,11 @@ export default function HolidaysContent({
   initialDestination?: string
   initialPackages: Package[]
 }) {
-  const supabase = createBrowserClient()
-  const [packages, setPackages] = useState<Package[]>(initialPackages)
   const [activeFilter, setActiveFilter] = useState("All")
   const [search, setSearch] = useState(initialDestination)
   const { gatedWhatsApp } = useAuthGate()
 
-  useEffect(() => {
-    async function loadPackages() {
-      try {
-        const { data, error } = await supabase
-          .from("packages")
-          .select("*")
-          .eq("published", true)
-          .order("created_at", { ascending: false })
-
-        if (!error && data && data.length > 0) {
-          // Map properties if needed (e.g. mapping string ids to match typescript definition)
-          setPackages(data as unknown as Package[])
-        }
-      } catch (err) {
-        console.error("Error fetching packages from Supabase client:", err)
-      }
-    }
-    loadPackages()
-  }, [])
-
-  const filtered = packages.filter(pkg => {
+  const filtered = initialPackages.filter(pkg => {
     // Handle both array categories (fallback data) and string categories (Supabase data)
     const cat = pkg.category as any
     let matchesFilter = false
