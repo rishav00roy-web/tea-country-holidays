@@ -311,139 +311,139 @@ export default function Navbar() {
                 ? <X    className={`w-6 h-6 transition-colors duration-300 ${scrolled && !isDark ? "text-[#2D5016]" : "text-white"}`} />
                 : <Menu className={`w-6 h-6 transition-colors duration-300 ${scrolled && !isDark ? "text-[#2D5016]" : "text-white"}`} />}
             </button>
-
-            {/* ── Mobile menu overlay and drawer wrapper ── */}
-            {mobileOpen && (
-              <div className="fixed inset-0 z-[80] flex flex-col md:hidden">
-                {/* Backdrop */}
-                <div
-                  className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
-                  onClick={() => setMobileOpen(false)}
-                />
-
-                {/* Drawer */}
-                <div className="absolute top-0 right-0 bottom-0 z-50 w-full max-w-[320px] bg-brand-floral flex flex-col h-full shadow-2xl transition-transform duration-300 ease-in-out translate-x-0">
-                  {/* Top area */}
-                  <div className="flex items-center justify-between p-4 border-b border-brand-gold/10 dark:border-white/10">
-                    <Link href="/" onClick={() => setMobileOpen(false)}>
-                      <Image
-                        src="/logo.png"
-                        alt="Tea Country Holidays"
-                        width={160}
-                        height={29}
-                        sizes="160px"
-                        priority
-                        className="h-10 w-auto object-contain"
-                      />
-                    </Link>
-                    <button
-                      onClick={() => setMobileOpen(false)}
-                      className="p-2 text-[#1B4332] dark:text-[#FAFAF8] min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
-                      aria-label="Close menu"
-                    >
-                      <X className="w-6 h-6" />
-                    </button>
-                  </div>
-
-                  {/* Links list */}
-                  <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-1">
-                    {NAV_LINKS.map(l => {
-                      const IconComp = LINK_ICONS[l.name] || Info;
-                      const isActive = pathname === l.href;
-
-                      return l.isPlaceholder ? (
-                        <div key={l.name} className="flex items-center justify-between px-6 py-3.5 border-l-4 border-transparent opacity-50">
-                          <div className="flex items-center gap-4">
-                            <IconComp className="w-6 h-6 text-[#F4A011] shrink-0" />
-                            <span className="text-[#1B4332] dark:text-[#FAFAF8] text-lg font-serif">{l.name}</span>
-                          </div>
-                          <span className="text-[10px] font-bold text-[#F4A011] bg-[#F4A011]/10 border border-[#F4A011]/20 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                            Soon
-                          </span>
-                        </div>
-                      ) : (
-                        <Link
-                          key={l.name}
-                          href={l.href}
-                          onClick={() => setMobileOpen(false)}
-                          className={`flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all ${
-                            isActive
-                              ? "border-[#F4A011] bg-green-50 dark:bg-emerald-950/20 text-[#1B4332] dark:text-[#FAFAF8]"
-                              : "border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5"
-                          }`}
-                        >
-                          <IconComp className="w-6 h-6 text-[#F4A011] shrink-0" />
-                          <span>{l.name}</span>
-                        </Link>
-                      );
-                    })}
-                    
-                    {/* Login / logout link */}
-                    {!authReady ? null : hasSession ? (
-                      <button
-                        onClick={async () => {
-                          await handleSignOut();
-                          setMobileOpen(false);
-                        }}
-                        className="flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5 w-full text-left"
-                      >
-                        <User className="w-6 h-6 text-[#F4A011] shrink-0" />
-                        <span>Logout</span>
-                      </button>
-                    ) : (
-                      <Link
-                        href="/login"
-                        onClick={() => setMobileOpen(false)}
-                        className="flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5"
-                      >
-                        <User className="w-6 h-6 text-[#F4A011] shrink-0" />
-                        <span>Login</span>
-                      </Link>
-                    )}
-                  </div>
-
-                  {/* Bottom area */}
-                  <div className="p-6 border-t border-brand-gold/10 dark:border-white/10 space-y-4">
-                    {pathname === "/" && !isAutomation ? (
-                      <a
-                        href="https://wa.me/918826048272?text=Hi%2C%20I%27d%20like%20to%20book%20a%20holiday%20package."
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => setMobileOpen(false)}
-                        className="flex items-center justify-center gap-2 w-full py-3 bg-[#F4A011] hover:bg-amber-400 text-[#1B4332] font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
-                      >
-                        <span>Book Now</span>
-                      </a>
-                    ) : (
-                      <a
-                        href="#book"
-                        onClick={(e) => { e.preventDefault(); setMobileOpen(false); setShowLoginModal(true); }}
-                        className="flex items-center justify-center gap-2 w-full py-3 bg-[#F4A011] hover:bg-amber-400 text-[#1B4332] font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
-                      >
-                        <span>Book Now</span>
-                      </a>
-                    )}
-
-                    <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 p-3 rounded-xl">
-                      <div className="text-left">
-                        <p className="text-[10px] text-[#1B4332]/50 dark:text-cream/50 uppercase tracking-wider font-semibold">Call Support</p>
-                        <p className="text-sm font-bold text-[#1B4332] dark:text-[#FAFAF8]">+91 88260 48272</p>
-                      </div>
-                      <a
-                        href="tel:+918826048272"
-                        className="bg-[#F4A011] hover:bg-amber-500 text-[#1B4332] font-bold p-2.5 rounded-lg flex items-center justify-center transition-all shadow active:scale-95 cursor-pointer"
-                        title="Call support"
-                      >
-                        <Phone className="w-5 h-5 shrink-0" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </nav>
+
+      {/* ── Mobile menu overlay and drawer wrapper ── */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-[80] flex flex-col md:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+            onClick={() => setMobileOpen(false)}
+          />
+
+          {/* Drawer */}
+          <div className="absolute top-0 right-0 bottom-0 z-50 w-full max-w-[320px] bg-brand-floral flex flex-col h-full shadow-2xl transition-transform duration-300 ease-in-out translate-x-0">
+            {/* Top area */}
+            <div className="flex items-center justify-between p-4 border-b border-brand-gold/10 dark:border-white/10">
+              <Link href="/" onClick={() => setMobileOpen(false)}>
+                <Image
+                  src="/logo.png"
+                  alt="Tea Country Holidays"
+                  width={160}
+                  height={29}
+                  sizes="160px"
+                  priority
+                  className="h-10 w-auto object-contain"
+                />
+              </Link>
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="p-2 text-[#1B4332] dark:text-[#FAFAF8] min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
+                aria-label="Close menu"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Links list */}
+            <div className="flex-1 overflow-y-auto py-4 flex flex-col gap-1">
+              {NAV_LINKS.map(l => {
+                const IconComp = LINK_ICONS[l.name] || Info;
+                const isActive = pathname === l.href;
+
+                return l.isPlaceholder ? (
+                  <div key={l.name} className="flex items-center justify-between px-6 py-3.5 border-l-4 border-transparent opacity-50">
+                    <div className="flex items-center gap-4">
+                      <IconComp className="w-6 h-6 text-[#F4A011] shrink-0" />
+                      <span className="text-[#1B4332] dark:text-[#FAFAF8] text-lg font-serif">{l.name}</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-[#F4A011] bg-[#F4A011]/10 border border-[#F4A011]/20 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                      Soon
+                    </span>
+                  </div>
+                ) : (
+                  <Link
+                    key={l.name}
+                    href={l.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all ${
+                      isActive
+                        ? "border-[#F4A011] bg-green-50 dark:bg-emerald-950/20 text-[#1B4332] dark:text-[#FAFAF8]"
+                        : "border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5"
+                    }`}
+                  >
+                    <IconComp className="w-6 h-6 text-[#F4A011] shrink-0" />
+                    <span>{l.name}</span>
+                  </Link>
+                );
+              })}
+              
+              {/* Login / logout link */}
+              {!authReady ? null : hasSession ? (
+                <button
+                  onClick={async () => {
+                    await handleSignOut();
+                    setMobileOpen(false);
+                  }}
+                  className="flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5 w-full text-left"
+                >
+                  <User className="w-6 h-6 text-[#F4A011] shrink-0" />
+                  <span>Logout</span>
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-4 px-6 py-3.5 border-l-4 font-serif text-lg transition-all border-transparent text-[#1B4332] dark:text-[#FAFAF8] hover:bg-black/5 dark:hover:bg-white/5"
+                >
+                  <User className="w-6 h-6 text-[#F4A011] shrink-0" />
+                  <span>Login</span>
+                </Link>
+              )}
+            </div>
+
+            {/* Bottom area */}
+            <div className="p-6 border-t border-brand-gold/10 dark:border-white/10 space-y-4">
+              {pathname === "/" && !isAutomation ? (
+                <a
+                  href="https://wa.me/918826048272?text=Hi%2C%20I%27d%20like%20to%20book%20a%20holiday%20package."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-[#F4A011] hover:bg-amber-400 text-[#1B4332] font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
+                >
+                  <span>Book Now</span>
+                </a>
+              ) : (
+                <a
+                  href="#book"
+                  onClick={(e) => { e.preventDefault(); setMobileOpen(false); setShowLoginModal(true); }}
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-[#F4A011] hover:bg-amber-400 text-[#1B4332] font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
+                >
+                  <span>Book Now</span>
+                </a>
+              )}
+
+              <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 p-3 rounded-xl">
+                <div className="text-left">
+                  <p className="text-[10px] text-[#1B4332]/50 dark:text-cream/50 uppercase tracking-wider font-semibold">Call Support</p>
+                  <p className="text-sm font-bold text-[#1B4332] dark:text-[#FAFAF8]">+91 88260 48272</p>
+                </div>
+                <a
+                  href="tel:+918826048272"
+                  className="bg-[#F4A011] hover:bg-amber-500 text-[#1B4332] font-bold p-2.5 rounded-lg flex items-center justify-center transition-all shadow active:scale-95 cursor-pointer"
+                  title="Call support"
+                >
+                  <Phone className="w-5 h-5 shrink-0" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Login Modal ── */}
       {showLoginModal && (
