@@ -1,14 +1,15 @@
 "use client"
-import { useState } from "react"
+
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Clock, ArrowRight, Search, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuthGate } from "@/hooks/use-auth-gate"
-
+import { createBrowserClient } from "@/lib/supabase"
 import { Package } from "@/lib/packages-data"
 
 function optimizeUnsplashUrl(url: string) {
-  if (url.includes("images.unsplash.com")) {
+  if (url && url.includes("images.unsplash.com")) {
     try {
       const baseUrl = url.split("?")[0];
       return `${baseUrl}?w=400&q=65&auto=format`;
@@ -16,7 +17,7 @@ function optimizeUnsplashUrl(url: string) {
       return url;
     }
   }
-  return url;
+  return url || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&q=65&auto=format";
 }
 
 const filters = ["All", "Domestic", "International", "Beach", "Honeymoon", "Adventure", "Pilgrimage"]
@@ -28,16 +29,50 @@ export default function HolidaysContent({
   initialDestination?: string
   initialPackages: Package[]
 }) {
+  const supabase = createBrowserClient()
+  const [packages, setPackages] = useState<Package[]>(initialPackages)
   const [activeFilter, setActiveFilter] = useState("All")
   const [search, setSearch] = useState(initialDestination)
   const { gatedWhatsApp } = useAuthGate()
 
-  const filtered = initialPackages.filter(pkg => {
-    const matchesFilter = activeFilter === "All" || pkg.category.includes(activeFilter)
+  useEffect(() => {
+    async function loadPackages() {
+      try {
+        const { data, error } = await supabase
+          .from("packages")
+          .select("*")
+          .eq("published", true)
+          .order("created_at", { ascending: false })
+
+        if (!error && data && data.length > 0) {
+          // Map properties if needed (e.g. mapping string ids to match typescript definition)
+          setPackages(data as unknown as Package[])
+        }
+      } catch (err) {
+        console.error("Error fetching packages from Supabase client:", err)
+      }
+    }
+    loadPackages()
+  }, [])
+
+  const filtered = packages.filter(pkg => {
+    // Handle both array categories (fallback data) and string categories (Supabase data)
+    const cat = pkg.category as any
+    let matchesFilter = false
+    if (activeFilter === "All") {
+      matchesFilter = true
+    } else if (Array.isArray(cat)) {
+      matchesFilter = cat.includes(activeFilter)
+    } else if (typeof cat === "string") {
+      matchesFilter = cat.toLowerCase().includes(activeFilter.toLowerCase())
+    }
+
     const matchesSearch = !search
       ? true
       : pkg.title.toLowerCase().includes(search.toLowerCase()) ||
-        pkg.theme.toLowerCase().includes(search.toLowerCase())
+        (pkg.theme && pkg.theme.toLowerCase().includes(search.toLowerCase())) ||
+        (pkg.description && pkg.description.toLowerCase().includes(search.toLowerCase()))
+
     return matchesFilter && matchesSearch
   })
 
