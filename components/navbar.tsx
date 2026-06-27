@@ -322,7 +322,7 @@ export default function Navbar() {
                 />
 
                 {/* Drawer */}
-                <div className="absolute top-0 right-0 bottom-0 z-50 w-full max-w-[320px] bg-[#FAFAF8] dark:bg-[#0f2419] flex flex-col h-full shadow-2xl transition-transform duration-300 ease-in-out translate-x-0">
+                <div className="absolute top-0 right-0 bottom-0 z-50 w-full max-w-[320px] bg-brand-floral flex flex-col h-full shadow-2xl transition-transform duration-300 ease-in-out translate-x-0">
                   {/* Top area */}
                   <div className="flex items-center justify-between p-4 border-b border-brand-gold/10 dark:border-white/10">
                     <Link href="/" onClick={() => setMobileOpen(false)}>
