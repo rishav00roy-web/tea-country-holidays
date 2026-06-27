@@ -113,9 +113,14 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const toggleDark = () => {
-    setIsDark(v => !v);
-    document.body.classList.toggle("dark");
+  const toggleDark = (e: React.MouseEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>) => {
+    const nextDark = e.currentTarget.checked;
+    setIsDark(nextDark);
+    if (nextDark) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
   };
 
   const handleSignOut = async () => {
@@ -195,7 +200,7 @@ export default function Navbar() {
 
             {/* Dark mode toggle */}
             <label className="switch" title="Toggle dark mode" aria-label="Toggle dark mode">
-              <input id="darkToggle" type="checkbox" checked={isDark} onChange={toggleDark} />
+              <input id="darkToggle" type="checkbox" checked={isDark} onChange={toggleDark} onClick={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
                   {/* Moon craters */}
@@ -280,7 +285,7 @@ export default function Navbar() {
           <div className="flex md:hidden items-center gap-1.5">
             {/* Mobile Dark Mode Toggle */}
             <label className="switch scale-75 origin-right" title="Toggle dark mode" aria-label="Toggle dark mode">
-              <input id="darkToggleMobileNavbar" type="checkbox" checked={isDark} onChange={toggleDark} />
+              <input id="darkToggleMobileNavbar" type="checkbox" checked={isDark} onChange={toggleDark} onClick={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
                   <svg id="moon-dot-1" className="moon-dot" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3"/></svg>
@@ -317,7 +322,7 @@ export default function Navbar() {
 
       {/* ── Mobile menu overlay and drawer wrapper ── */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-[80] flex flex-col md:hidden">
+        <div className="fixed inset-0 z-40 flex flex-col md:hidden" style={{ zIndex: 80 }}>
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
