@@ -52,7 +52,7 @@ function HotelsPageContent({ initialHotels }: { initialHotels: Hotel[] }) {
           <span className="text-[#F4A011] font-semibold text-xs tracking-[0.25em] uppercase mb-4 block">
             EXPLORE HOTELS
           </span>
-          <h1 className="font-serif text-4xl sm:text-5xl font-normal text-white mb-4 leading-tight">
+          <h1 className="font-display text-4xl sm:text-5xl font-normal text-white mb-4 leading-tight">
             Find the Perfect <span className="italic text-[#F4A011]">Stay</span>
           </h1>
           <p className="text-white/70 max-w-xl">

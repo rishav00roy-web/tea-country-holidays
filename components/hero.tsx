@@ -83,7 +83,7 @@ const Typewriter = memo(function Typewriter({
   }, [displayed, phase, wordIndex, onWordComplete]);
 
   return (
-    <span className="text-[#F4A011] inline-block min-w-[6ch]">
+    <span className="text-[#F4A011] inline-block min-w-[6ch] font-display">
       {displayed}
       <span
         style={{

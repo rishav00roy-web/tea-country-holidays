@@ -163,7 +163,7 @@ export default function MasonryTestimonials({ initialTestimonials = fallbackTest
           <span className="section-label inline-block text-[#C8860A] mb-3">
             CUSTOMER STORIES
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-[#2D5016] dark:text-white">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-[#2D5016] dark:text-white">
             Travellers Love Us
           </h2>
         </div>

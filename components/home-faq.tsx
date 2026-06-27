@@ -40,7 +40,7 @@ export default function HomeFAQ({ initialFAQs = fallbackFAQs }: { initialFAQs?: 
         <p className="section-label text-[#c9a84c] mb-3 font-sans">
           Got Questions?
         </p>
-        <h2 className="text-3xl md:text-4xl font-bold text-[#1a3c2e] font-serif leading-tight">
+        <h2 className="text-3xl md:text-4xl font-bold text-[#1a3c2e] font-display leading-tight">
           Frequently Asked Questions
         </h2>
         <p className="text-gray-500 mt-3 text-sm font-sans">
