@@ -40,7 +40,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // ── Hide Navbar on auth pages ──
+  // ── Scroll position listener ──
   useEffect(() => {
     let ticking = false;
     const fn = () => {
@@ -56,6 +56,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  // ── Detect automation environments ──
   useEffect(() => {
     if (typeof window !== "undefined") {
       const isAutomated = !!(
@@ -67,6 +68,7 @@ export default function Navbar() {
     }
   }, []);
 
+  // ── Session state management ──
   useEffect(() => {
     let mounted = true;
 
@@ -86,6 +88,29 @@ export default function Navbar() {
       mounted = false;
       subscription.unsubscribe();
     };
+  }, []);
+
+  // ── Lock body scroll when drawer/modal is open ──
+  useEffect(() => {
+    if (mobileOpen || showLoginModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen, showLoginModal]);
+
+  // ── Close mobile drawer on desktop resize ──
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMobileOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleDark = () => {
@@ -170,7 +195,7 @@ export default function Navbar() {
 
             {/* Dark mode toggle */}
             <label className="switch" title="Toggle dark mode" aria-label="Toggle dark mode">
-              <input id="darkToggle" type="checkbox" checked={isDark} onChange={() => {}} onClick={toggleDark} />
+              <input id="darkToggle" type="checkbox" checked={isDark} onChange={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
                   {/* Moon craters */}
@@ -255,7 +280,7 @@ export default function Navbar() {
           <div className="flex md:hidden items-center gap-1.5">
             {/* Mobile Dark Mode Toggle */}
             <label className="switch scale-75 origin-right" title="Toggle dark mode" aria-label="Toggle dark mode">
-              <input id="darkToggleMobileNavbar" type="checkbox" checked={isDark} onChange={() => {}} onClick={toggleDark} />
+              <input id="darkToggleMobileNavbar" type="checkbox" checked={isDark} onChange={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
                   <svg id="moon-dot-1" className="moon-dot" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3"/></svg>
@@ -289,7 +314,7 @@ export default function Navbar() {
 
             {/* ── Mobile menu overlay and drawer wrapper ── */}
             {mobileOpen && (
-              <div className="fixed inset-0 z-40 flex flex-col md:hidden">
+              <div className="fixed inset-0 z-[80] flex flex-col md:hidden">
                 {/* Backdrop */}
                 <div
                   className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
@@ -384,6 +409,7 @@ export default function Navbar() {
                         href="https://wa.me/918826048272?text=Hi%2C%20I%27d%20like%20to%20book%20a%20holiday%20package."
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => setMobileOpen(false)}
                         className="flex items-center justify-center gap-2 w-full py-3 bg-[#F4A011] hover:bg-amber-400 text-[#1B4332] font-bold rounded-xl transition-all shadow-md active:scale-95 text-base cursor-pointer"
                       >
                         <span>Book Now</span>
