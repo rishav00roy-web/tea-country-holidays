@@ -172,7 +172,7 @@ export default function Hero() {
               fill
               sizes="100vw"
               priority={isFirst}
-              quality={isFirst ? 80 : 65}
+              quality={isFirst ? 70 : 60}
               className="absolute inset-0 w-full h-full object-cover"
               style={{
                 opacity: isCurrent

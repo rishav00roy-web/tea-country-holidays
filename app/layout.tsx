@@ -73,6 +73,9 @@ export default function RootLayout({
     >
       <head>
         <meta charSet="utf-8" />
+        {/* Preload custom brand fonts to prevent FOIT/FOUT */}
+        <link rel="preload" href="/fonts/KentishVol1.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/KentishVol2.otf" as="font" type="font/otf" crossOrigin="anonymous" />
         {/* Unsplash images — preconnect cuts DNS+TLS time */}
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />

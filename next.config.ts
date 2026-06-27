@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 2592000,
     // Breakpoints that Next.js uses to choose srcset widths.
     // Keep this tight — only widths we actually use.
-    deviceSizes: [390, 640, 750, 1080, 1920],
+    deviceSizes: [360, 390, 412, 430, 640, 750, 1080, 1920],
     imageSizes: [32, 48, 64, 96, 128, 256, 384],
   },
   // Suppress the lockfile warning

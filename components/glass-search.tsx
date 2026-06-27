@@ -241,12 +241,12 @@ export default function GlassSearch() {
       <div
         className="border border-white/20 rounded-2xl shadow-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
         style={{
-          background: "rgba(255, 255, 255, 0.10)",
-          backdropFilter: "blur(24px) saturate(1.2)",
-          WebkitBackdropFilter: "blur(24px) saturate(1.2)",
-          border: "1px solid rgba(255, 255, 255, 0.15)",
+          background: "rgba(1, 40, 26, 0.58)", // Brand dark evergreen for high-contrast visibility against bright waterfalls
+          backdropFilter: "blur(24px) saturate(1.3)",
+          WebkitBackdropFilter: "blur(24px) saturate(1.3)",
+          border: "1px solid rgba(212, 175, 55, 0.35)", // Subtle brand gold border for premium feel and clear boundary definition
           borderRadius: "16px",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.08)",
+          boxShadow: "0 12px 40px rgba(1, 32, 20, 0.45), inset 0 1px 0 rgba(255,255,255,0.05)",
           transition: "box-shadow 0.3s ease, border-color 0.3s ease",
         }}
       >
