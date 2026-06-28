@@ -28,10 +28,16 @@ export default function WhoWeAre() {
               Who We <span className="text-brand-gold italic">Are</span>
             </h2>
             <p className="text-brand-ink/65 text-lg leading-relaxed mb-5">
-              Founded in the lush heartland of Assam, <strong className="text-brand-evergreen dark:text-brand-gold">TeaCountryHolidays</strong> is more than a travel agency — we are storytellers who connect travellers with the soul of Northeast India and the world beyond.
+              Founded in the lush heartland of Assam, <strong className="text-brand-evergreen dark:text-brand-gold">TeaCountryHolidays</strong> is more than a travel agency — we are storytellers, dreamweavers, and trusted travel partners who connect travellers with the soul of Northeast India and destinations across the globe.
+            </p>
+            <p className="text-brand-ink/65 text-lg leading-relaxed mb-5">
+              Under the vision of <strong className="text-brand-evergreen dark:text-brand-gold">Manami</strong>, our founder and IATA-accredited travel expert, Tea Country Holidays has grown into Assam&apos;s most trusted name for curated holiday packages, custom tour itineraries, and end-to-end travel services.
+            </p>
+            <p className="text-brand-ink/65 text-lg leading-relaxed mb-5">
+              From the mist-covered peaks of Sikkim and the sacred monasteries of Bhutan, to the golden sands of the Maldives and the futuristic skyline of Dubai — we transform every travel dream into a perfectly crafted journey. Our team handles international and domestic flights, visa assistance, hand-picked hotels, private transfers, and luxury cruises — all under one roof.
             </p>
             <p className="text-brand-ink/65 text-lg leading-relaxed mb-8">
-              From the mist-covered peaks of Sikkim and ancient monasteries of Bhutan, to the golden sands of Maldives and the futuristic skyline of Dubai — we bring every dream destination to your doorstep. Our IATA-accredited team handles flights, visas, hotels, transfers, and cruises under one roof.
+              Whether you&apos;re planning your first trip to Kaziranga or a royal Rajasthan circuit, Tea Country Holidays brings the expertise, local knowledge, and personal care that turns a holiday into a memory for life.
             </p>
 
             <div className="flex items-center gap-4 mb-8">

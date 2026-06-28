@@ -2,7 +2,7 @@
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import { useAuthGate } from "@/hooks/use-auth-gate"
-import { Sparkles, Users, FileText, User } from "lucide-react"
+import { Sparkles, Users, FileText, User, MapPin, Compass } from "lucide-react"
 
 export default function EventsContent() {
   const { gatedWhatsApp } = useAuthGate()
@@ -44,11 +44,15 @@ export default function EventsContent() {
               
               {/* Words separated by -- lines */}
               <div className="text-sm sm:text-base font-semibold text-[#F4A011] uppercase tracking-wider mb-8 leading-loose border-y border-[#F4A011]/20 py-4">
-                Corporate Retreats -- Destination Weddings -- Private Parties -- Bespoke Itineraries
+                Corporate Retreats ·· Destination Weddings ·· Private Parties ·· Bespoke Itineraries
               </div>
 
               <p className="text-brand-ink/75 text-base leading-relaxed mb-6">
-                Sharon and the Tea Country team specialise in organizing unique events tailored specifically to your group&apos;s desires. We coordinate premium stays, immersive local experiences, and logistics down to the last detail.
+                <strong className="text-brand-evergreen">Manami</strong> and the Tea Country Holidays team specialise in crafting extraordinary group and private experiences tailored to your vision. Whether it&apos;s an intimate destination wedding in a colonial tea bungalow, a high-impact corporate retreat in the Himalayan foothills, or a luxury bespoke itinerary for discerning travellers — we coordinate every detail so you don&apos;t have to.
+              </p>
+              
+              <p className="text-brand-ink/75 text-base leading-relaxed mb-6">
+                We are Assam&apos;s go-to travel partner for exclusive group tours, honeymoon packages, pilgrimage circuits, and adventure expeditions across Northeast India and beyond.
               </p>
             </div>
 
@@ -59,7 +63,7 @@ export default function EventsContent() {
                 </div>
                 <div>
                   <h4 className="font-bold text-brand-evergreen text-lg mb-1">Handpicked Venues</h4>
-                  <p className="text-brand-ink/65 text-sm">Access to exclusive colonial tea bungalows, private mountain lodges, and stunning waterfront resorts.</p>
+                  <p className="text-brand-ink/65 text-sm">Exclusive access to colonial tea bungalows, heritage river lodges, private mountain retreats, and award-winning waterfront resorts across Northeast India and beyond.</p>
                 </div>
               </div>
 
@@ -69,7 +73,27 @@ export default function EventsContent() {
                 </div>
                 <div>
                   <h4 className="font-bold text-brand-evergreen text-lg mb-1">End-to-End Coordination</h4>
-                  <p className="text-brand-ink/65 text-sm">From guest transfers, meals, and accommodations to local sightseeing and specialized themed activities.</p>
+                  <p className="text-brand-ink/65 text-sm">From guest transfers, curated meals, and premium accommodations to local sightseeing, cultural immersions, and specialised themed activities — we handle it all.</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-start">
+                <div className="p-3 rounded-xl bg-brand-evergreen/10 text-brand-evergreen">
+                  <MapPin className="h-6 w-6" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-brand-evergreen text-lg mb-1">Local Expertise</h4>
+                  <p className="text-brand-ink/65 text-sm">With deep roots in Assam and Northeast India, Manami&apos;s team brings insider knowledge of hidden gems, cultural nuances, and travel logistics that only true locals can offer.</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-start">
+                <div className="p-3 rounded-xl bg-brand-evergreen/10 text-brand-evergreen">
+                  <Compass className="h-6 w-6" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-brand-evergreen text-lg mb-1">Custom Itineraries</h4>
+                  <p className="text-brand-ink/65 text-sm">Every trip is designed from scratch around your group&apos;s interests, pace, and budget — no cookie-cutter packages, ever.</p>
                 </div>
               </div>
             </div>

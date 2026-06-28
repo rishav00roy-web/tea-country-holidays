@@ -27,9 +27,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  title: "Tea Country Holidays — Northeast India Tours",
+  title: "Tea Country Holidays | Best Travel Agency in Assam | Tour Packages Northeast India",
   description:
-    "Northeast India's #1 Travel Partner. Crafted boutique holidays, hotels, flights, and customized tours across Assam, Meghalaya, Arunachal, and Bhutan since 2014.",
+    "Tea Country Holidays — Assam's trusted IATA-accredited travel agency offering curated tour packages across Northeast India, Rajasthan, Kerala, Ladakh, Goa, Kashmir & international destinations. Founded by Manami in Guwahati.",
   keywords: [
     "travel agency Guwahati",
     "Northeast India tours",
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
     "Sikkim packages",
   ],
   openGraph: {
-    title: "Tea Country Holidays — Northeast India Tours",
+    title: "Tea Country Holidays | Best Travel Agency in Assam | Tour Packages Northeast India",
     description:
-      "Northeast India's #1 Travel Partner. Crafted boutique holidays, hotels, flights, and customized tours across Assam, Meghalaya, Arunachal, and Bhutan since 2014.",
+      "Tea Country Holidays — Assam's trusted IATA-accredited travel agency offering curated tour packages across Northeast India, Rajasthan, Kerala, Ladakh, Goa, Kashmir & international destinations. Founded by Manami in Guwahati.",
     url: siteUrl,
     siteName: "Tea Country Holidays",
     images: [
@@ -56,9 +56,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tea Country Holidays — Northeast India Tours",
+    title: "Tea Country Holidays | Best Travel Agency in Assam | Tour Packages Northeast India",
     description:
-      "Northeast India's #1 Travel Partner. Crafted boutique holidays since 2014.",
+      "Tea Country Holidays — Assam's trusted IATA-accredited travel agency offering curated tour packages across Northeast India, Rajasthan, Kerala, Ladakh, Goa, Kashmir & international destinations. Founded by Manami in Guwahati.",
     images: ["/og-image.png"],
   },
 };

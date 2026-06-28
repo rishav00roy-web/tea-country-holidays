@@ -8,14 +8,14 @@ const PILLS = [
 ];
 
 const IMAGES = [
-  { id:1, name:"Cherrapunji",    cat:"Meghalaya", src:"https://images.unsplash.com/photo-1568535459885-b4fc72e035a4?w=600&q=75" },
-  { id:2, name:"Gangtok, Sikkim",cat:"Sikkim",    src:"https://images.unsplash.com/photo-1622308644420-b20142dc993c?w=600&q=75" },
-  { id:3, name:"Paro, Bhutan",   cat:"Bhutan",    src:"https://images.unsplash.com/photo-1578556881786-851d4b79cb73?w=600&q=75" },
-  { id:4, name:"Kaziranga",      cat:"Assam",     src:"https://images.unsplash.com/photo-1637391783805-f1393be00fcf?w=600&q=75" },
-  { id:5, name:"Alleppey",       cat:"Kerala",    src:"https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=600&q=75" },
-  { id:6, name:"Jaipur",         cat:"Rajasthan", src:"https://images.unsplash.com/photo-1477587458883-47145ed94245?w=600&q=75" },
-  { id:7, name:"Dubai Marina",   cat:"Dubai",     src:"https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=600&q=75" },
-  { id:8, name:"Ubud, Bali",     cat:"Bali",      src:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=75" },
+  { id:1, name:"Cherrapunji",    cat:"Meghalaya", src:"https://images.unsplash.com/photo-1609276804051-8c5e906cc430?w=800&q=80&auto=format&fit=crop" },
+  { id:2, name:"Gangtok, Sikkim",cat:"Sikkim",    src:"https://images.unsplash.com/photo-1748722873181-03b100cfd883?w=800&q=80&auto=format&fit=crop" },
+  { id:3, name:"Paro, Bhutan",   cat:"Bhutan",    src:"https://images.unsplash.com/photo-1598869012638-f5351b49498f?w=800&q=80&auto=format&fit=crop" },
+  { id:4, name:"Kaziranga",      cat:"Assam",     src:"https://images.unsplash.com/photo-1613725194245-d8e21cf5d42e?w=800&q=80&auto=format&fit=crop" },
+  { id:5, name:"Alleppey",       cat:"Kerala",    src:"https://images.unsplash.com/photo-1609828913552-f9138ed9e42d?w=800&q=80&auto=format&fit=crop" },
+  { id:6, name:"Jaipur",         cat:"Rajasthan", src:"https://images.unsplash.com/photo-1524229321985-1e1989075d9b?w=800&q=80&auto=format&fit=crop" },
+  { id:7, name:"Dubai Marina",   cat:"Dubai",     src:"https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=800&q=80&auto=format&fit=crop" },
+  { id:8, name:"Ubud, Bali",     cat:"Bali",      src:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fit=crop" },
 ];
 
 export default function Destinations() {

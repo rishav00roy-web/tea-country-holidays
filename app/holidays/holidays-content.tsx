@@ -118,16 +118,16 @@ export default function HolidaysContent({
               but that doesn&apos;t mean we can&apos;t make it happen.
             </p>
             <p className="text-[#1C1C1E]/40 text-sm mb-8">
-              Sharon and the team specialise in custom itineraries. Tell us where you want to go and we&apos;ll build the perfect trip around you.
+              Manami and the team specialise in custom itineraries. Tell us where you want to go and we&apos;ll build the perfect trip around you.
             </p>
             <button
               onClick={() => gatedWhatsApp(
-                `Hi Sharon, I searched for "${search || "a destination"}" on your holidays page but couldn't find a matching package. Can you help me plan a custom trip?`
+                `Hi Manami, I searched for "${search || "a destination"}" on your holidays page but couldn't find a matching package. Can you help me plan a custom trip?`
               )}
               className="inline-flex items-center gap-2 bg-[#1B4332] text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors cursor-pointer shadow-sm"
             >
               <MessageCircle className="w-4 h-4" />
-              Message Sharon on WhatsApp
+              Message Manami on WhatsApp
             </button>
             <p className="text-[#1C1C1E]/30 text-xs mt-4">Replies within minutes · No booking fees</p>
           </div>
@@ -138,7 +138,7 @@ export default function HolidaysContent({
                 <div className="relative h-56 overflow-hidden">
                   <Image
                     src={optimizeUnsplashUrl(pkg.image)}
-                    alt={pkg.title}
+                    alt={pkg.alt || pkg.title}
                     fill
                     loading="lazy"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

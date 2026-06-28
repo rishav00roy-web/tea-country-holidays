@@ -128,19 +128,19 @@ function HotelsPageContent({ initialHotels }: { initialHotels: Hotel[] }) {
               No hotels found{city ? ` in "${city}"` : ""}
             </h3>
             <p className="text-[#1C1C1E]/50 text-sm mb-2">
-              We don&apos;t have a listed property here yet — but Sharon works with a wide network of hotels across India and abroad.
+              We don&apos;t have a listed property here yet — but Manami works with a wide network of hotels across India and abroad.
             </p>
             <p className="text-[#1C1C1E]/40 text-sm mb-8">
               Send her a message and she&apos;ll check availability, negotiate rates, and handle the booking for you.
             </p>
             <button
               onClick={() => gatedWhatsApp(
-                `Hi Sharon, I searched for hotels in "${city || "a location"}" on your website but couldn't find a match. Can you help me find and book a hotel there?`
+                `Hi Manami, I searched for hotels in "${city || "a location"}" on your website but couldn't find a match. Can you help me find and book a hotel there?`
               )}
               className="inline-flex items-center gap-2 bg-[#1B4332] text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors cursor-pointer shadow-sm"
             >
               <MessageCircle className="w-4 h-4" />
-              Message Sharon on WhatsApp
+              Message Manami on WhatsApp
             </button>
             <p className="text-[#1C1C1E]/30 text-xs mt-4">Replies within minutes · No booking fees</p>
           </div>
