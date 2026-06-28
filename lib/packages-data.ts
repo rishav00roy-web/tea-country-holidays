@@ -356,7 +356,7 @@ export const fallbackPackages: Package[] = [
     images: [
       "https://images.unsplash.com/photo-1635998973462-1bdda50a13df?w=800&q=80&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1712055196088-9bc6da4ffbce?w=800&q=80&auto=format&fit=crop",
-      "https://upload.wikimedia.org/wikipedia/commons/4/4b/Kisama_main_arena_Hornbill_Festival_2019.jpg"
+      "https://upload.wikimedia.org/wikipedia/commons/9/93/Kisama_main_arena_Hornbill_Festival_2019.jpg"
     ],
     duration: "6 Days / 5 Nights", 
     price: 16999, 
