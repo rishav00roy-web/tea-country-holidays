@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Clock, ArrowRight, Search, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -8,7 +8,7 @@ import { useAuthGate } from "@/hooks/use-auth-gate"
 import { Package } from "@/lib/packages-data"
 
 function optimizeUnsplashUrl(url: string) {
-  if (url && url.includes("images.unsplash.com")) {
+  if (url && (url.includes("images.unsplash.com") || url.includes("plus.unsplash.com"))) {
     try {
       const baseUrl = url.split("?")[0];
       return `${baseUrl}?w=400&q=65&auto=format`;
@@ -17,6 +17,97 @@ function optimizeUnsplashUrl(url: string) {
     }
   }
   return url || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&q=65&auto=format";
+}
+
+function PackageCard({ pkg, gatedWhatsApp }: { pkg: Package; gatedWhatsApp: (msg: string) => void }) {
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [hovered, setHovered] = useState(false);
+
+  const imagesList = pkg.images && pkg.images.length > 0 ? pkg.images : [pkg.image];
+
+  useEffect(() => {
+    if (!hovered || imagesList.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentIdx((prev) => (prev + 1) % imagesList.length);
+    }, 1500);
+    return () => clearInterval(interval);
+  }, [hovered, imagesList]);
+
+  const handleMouseEnter = () => setHovered(true);
+  const handleMouseLeave = () => {
+    setHovered(false);
+    setCurrentIdx(0);
+  };
+
+  return (
+    <div 
+      className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="relative h-56 overflow-hidden bg-gray-50">
+        {imagesList.map((img, idx) => (
+          <Image
+            key={img}
+            src={optimizeUnsplashUrl(img)}
+            alt={pkg.alt || pkg.title}
+            fill
+            loading="lazy"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            quality={65}
+            className={cn(
+              "object-cover transition-all duration-700 absolute inset-0 w-full h-full",
+              idx === currentIdx ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+            )}
+          />
+        ))}
+        <div className="absolute top-4 left-4 bg-[#F4A011] text-white text-xs font-semibold px-3 py-1 rounded-full z-10">
+          {pkg.theme}
+        </div>
+        <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm text-[#1C1C1E] text-xs font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5 z-10">
+          <Clock className="h-3.5 w-3.5" />
+          {pkg.duration}
+        </div>
+        {imagesList.length > 1 && (
+          <div className="absolute bottom-4 right-4 flex gap-1 z-10">
+            {imagesList.map((_, idx) => (
+              <div 
+                key={idx} 
+                className={cn(
+                  "h-1.5 w-3 rounded-full transition-all duration-300",
+                  idx === currentIdx ? "bg-[#F4A011] w-5" : "bg-white/50"
+                )}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="p-5 flex-grow flex flex-col justify-between">
+        <div>
+          <h3 className="font-serif text-xl font-semibold text-[#1B4332] mb-2">{pkg.title}</h3>
+          <p className="text-[#1C1C1E]/60 text-sm mb-4 line-clamp-3">{pkg.description}</p>
+        </div>
+        <div className="flex gap-3 mt-auto">
+          <button
+            onClick={() => gatedWhatsApp(
+              `Hi, I'd like to know more about the ${pkg.title} package (${pkg.duration}). Please share the full itinerary and pricing.`
+            )}
+            className="flex-1 bg-[#1B4332] text-white text-sm font-medium py-2.5 rounded-lg hover:bg-[#1B4332]/90 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+          >
+            View Details <ArrowRight className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => gatedWhatsApp(
+              `Hi, I'm interested in the ${pkg.title} package. Please send me a quote.`
+            )}
+            className="btn-pill flex-1"
+          >
+            Get Quote
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 const filters = ["All", "Domestic", "International", "Beach", "Honeymoon", "Adventure", "Pilgrimage"]
@@ -134,50 +225,7 @@ export default function HolidaysContent({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map(pkg => (
-              <div key={pkg.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col">
-                <div className="relative h-56 overflow-hidden">
-                  <Image
-                    src={optimizeUnsplashUrl(pkg.image)}
-                    alt={pkg.alt || pkg.title}
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    quality={65}
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-4 left-4 bg-[#F4A011] text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    {pkg.theme}
-                  </div>
-                  <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm text-[#1C1C1E] text-xs font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                    <Clock className="h-3.5 w-3.5" />
-                    {pkg.duration}
-                  </div>
-                </div>
-                <div className="p-5 flex-grow flex flex-col justify-between">
-                  <div>
-                    <h3 className="font-serif text-xl font-semibold text-[#1B4332] mb-2">{pkg.title}</h3>
-                    <p className="text-[#1C1C1E]/60 text-sm mb-4">{pkg.description}</p>
-                  </div>
-                  <div className="flex gap-3 mt-auto">
-                    <button
-                      onClick={() => gatedWhatsApp(
-                        `Hi, I'd like to know more about the ${pkg.title} package (${pkg.duration}). Please share the full itinerary and pricing.`
-                      )}
-                      className="flex-1 bg-[#1B4332] text-white text-sm font-medium py-2.5 rounded-lg hover:bg-[#1B4332]/90 transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      View Details <ArrowRight className="h-4 w-4" />
-                    </button>
-                    <button
-                      onClick={() => gatedWhatsApp(
-                        `Hi, I'm interested in the ${pkg.title} package. Please send me a quote.`
-                      )}
-                      className="btn-pill flex-1"
-                    >
-                      Get Quote
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <PackageCard key={pkg.id} pkg={pkg} gatedWhatsApp={gatedWhatsApp} />
             ))}
           </div>
         )}

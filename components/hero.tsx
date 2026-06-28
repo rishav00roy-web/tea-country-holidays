@@ -11,6 +11,12 @@ const WORDS = [
   "Dubai",
   "Bhutan",
   "Maldives",
+  "Switzerland",
+  "France",
+  "Uzbekistan",
+  "Bali",
+  "Thailand",
+  "Kashmir",
 ];
 
 const TYPEWRITER_SPEED = 80;
@@ -25,6 +31,12 @@ const DESTINATIONS = [
   { name: "Dubai",     img: "https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=1920&q=75" },
   { name: "Bhutan",    img: "https://images.unsplash.com/photo-1578556881786-851d4b79cb73?w=1920&q=75" },
   { name: "Maldives",  img: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1920&q=75" },
+  { name: "Switzerland", img: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=1920&q=75" },
+  { name: "France",    img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1920&q=75" },
+  { name: "Uzbekistan", img: "https://images.unsplash.com/photo-1528154291023-a6525fabe5b4?w=1920&q=75" },
+  { name: "Bali",      img: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920&q=75" },
+  { name: "Thailand",  img: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=1920&q=75" },
+  { name: "Kashmir",   img: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?w=1920&q=75" },
 ];
 
 const Typewriter = memo(function Typewriter({

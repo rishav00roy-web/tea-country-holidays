@@ -16,7 +16,7 @@ export const fallbackPackages: CarouselPackage[] = [
     name: "Meghalaya Explorer",
     duration: "5N/6D",
     destination: "Northeast India",
-    imageUrl: "https://images.unsplash.com/photo-1609276804051-8c5e906cc430?w=800&q=80&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1648998017341-b7ec15989902?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Bhutan Royal Tour",
