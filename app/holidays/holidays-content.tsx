@@ -110,7 +110,7 @@ function PackageCard({ pkg, gatedWhatsApp }: { pkg: Package; gatedWhatsApp: (msg
   );
 }
 
-const filters = ["All", "Domestic", "International", "Beach", "Honeymoon", "Adventure", "Pilgrimage"]
+const filters = ["All", "Domestic", "International", "Beach", "Honeymoon", "Adventure", "Pilgrimage", "Heritage", "Nature"]
 
 export default function HolidaysContent({ 
   initialDestination = "", 

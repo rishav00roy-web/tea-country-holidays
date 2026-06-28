@@ -33,7 +33,7 @@ const DESTINATIONS = [
   { name: "Maldives",  img: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1920&q=75" },
   { name: "Switzerland", img: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=1920&q=75" },
   { name: "France",    img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1920&q=75" },
-  { name: "Uzbekistan", img: "https://images.unsplash.com/photo-1528154291023-a6525fabe5b4?w=1920&q=75" },
+  { name: "Uzbekistan", img: "https://images.unsplash.com/photo-1664541553869-b8e6cc3f42b7?w=1920&q=80&auto=format&fit=crop" },
   { name: "Bali",      img: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920&q=75" },
   { name: "Thailand",  img: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=1920&q=75" },
   { name: "Kashmir",   img: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?w=1920&q=75" },
@@ -184,6 +184,8 @@ export default function Hero() {
               fill
               sizes="100vw"
               priority={isFirst}
+              loading={isFirst ? "eager" : "lazy"}
+              fetchPriority={isFirst ? "high" : "low"}
               quality={isFirst ? 70 : 60}
               className="absolute inset-0 w-full h-full object-cover"
               style={{

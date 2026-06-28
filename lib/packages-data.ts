@@ -176,13 +176,13 @@ export const fallbackPackages: Package[] = [
   { 
     id: 15, 
     title: "Vaishno Devi (Jammu & Kashmir)", 
-    image: "https://images.unsplash.com/photo-1614056965546-42fbe24eb36c?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1719377678477-0fb3638ec482?w=800&q=80&auto=format&fit=crop", 
     duration: "4 Days / 3 Nights", 
     price: 7999, 
     theme: "Pilgrimage", 
     category: ["Domestic", "Pilgrimage"], 
     description: "Seek blessings at the sacred cave shrine in Trikuta Mountains, Katra J&K.",
-    alt: "Srinagar Dal Lake Kashmir houseboat travel India"
+    alt: "Vaishno Devi temple Jammu Kashmir India pilgrimage"
   },
   { 
     id: 16, 

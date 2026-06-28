@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "plus.unsplash.com" },
       { protocol: "https", hostname: "lnrkqyxiwbkvkazyzcbe.supabase.co" },
       { protocol: "https", hostname: "*.googleusercontent.com" },
       { protocol: "https", hostname: "ui-avatars.com" },
@@ -20,8 +21,8 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 2592000,
     // Breakpoints that Next.js uses to choose srcset widths.
     // Keep this tight — only widths we actually use.
-    deviceSizes: [360, 390, 412, 430, 640, 750, 1080, 1920],
-    imageSizes: [32, 48, 64, 96, 128, 256, 384],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   // Suppress the lockfile warning
   turbopack: {
