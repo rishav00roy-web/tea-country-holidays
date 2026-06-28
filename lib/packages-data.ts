@@ -16,18 +16,18 @@ export const fallbackPackages: Package[] = [
   { 
     id: 1, 
     title: "Meghalaya Explorer", 
-    image: "https://images.unsplash.com/photo-1648998017341-b7ec15989902?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=800&q=80&auto=format&fit=crop", 
     duration: "5 Days / 4 Nights", 
     price: 12999, 
     theme: "Adventure", 
     category: ["Domestic", "Adventure"], 
     description: "Explore Cherrapunji falls, living root bridges, and pristine caves.",
-    alt: "Dawki River crystal clear emerald green water with floating boat Meghalaya India"
+    alt: "Seven Sisters waterfalls cascading down lush green cliff in Cherrapunji Meghalaya India"
   },
   { 
     id: 2, 
     title: "Kaziranga Wild Safari", 
-    image: "https://images.unsplash.com/photo-1613725194245-d8e21cf5d42e?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1637391783805-f1393be00fcf?w=800&q=80&auto=format&fit=crop", 
     duration: "4 Days / 3 Nights", 
     price: 14999, 
     theme: "Adventure", 
@@ -38,18 +38,18 @@ export const fallbackPackages: Package[] = [
   { 
     id: 3, 
     title: "Tawang Monastery Journey", 
-    image: "https://images.unsplash.com/photo-1626761627604-f27d98885f4b?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1628443266300-e8490ee38875?w=800&q=80&auto=format&fit=crop", 
     duration: "7 Days / 6 Nights", 
     price: 24999, 
     theme: "Pilgrimage", 
     category: ["Domestic", "Pilgrimage", "Adventure"], 
     description: "Scenic high-mountain pass travel to the historic Tawang Monastery.",
-    alt: "Tawang Sela Pass Arunachal Pradesh India travel"
+    alt: "Tawang Monastery golden roof Arunachal Pradesh India travel"
   },
   { 
     id: 4, 
     title: "Darjeeling & Gangtok Retreat", 
-    image: "https://images.unsplash.com/photo-1692600366864-50e63fcdcbee?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1698753864905-a447aa362ec9?w=800&q=80&auto=format&fit=crop", 
     duration: "6 Days / 5 Nights", 
     price: 18999, 
     theme: "Honeymoon", 
@@ -271,9 +271,9 @@ export const fallbackPackages: Package[] = [
   { 
     id: 22, 
     title: "Udaipur & Royal Rajasthan", 
-    image: "https://images.unsplash.com/photo-1504803184203-dd2dba6aa00e?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1623851293886-e9b3618ae902?w=800&q=80&auto=format&fit=crop", 
     images: [
-      "https://images.unsplash.com/photo-1504803184203-dd2dba6aa00e?w=800&q=80&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1623851293886-e9b3618ae902?w=800&q=80&auto=format&fit=crop"
     ],
     duration: "8 Days / 7 Nights", 
     price: 22999, 
