@@ -26,7 +26,7 @@ export const fallbackPackages: Package[] = [
   { 
     id: 2, 
     title: "Kaziranga Wild Safari", 
-    image: "https://images.unsplash.com/photo-1613725194245-d8e21cf5d42e?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1637391783805-f1393be00fcf?w=800&q=80&auto=format&fit=crop", 
     duration: "4 Days / 3 Nights", 
     price: 14999, 
     theme: "Adventure", 
@@ -37,18 +37,18 @@ export const fallbackPackages: Package[] = [
   { 
     id: 3, 
     title: "Tawang Monastery Journey", 
-    image: "https://images.unsplash.com/photo-1626761627604-f27d98885f4b?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1628443266300-e8490ee38875?w=800&q=80&auto=format&fit=crop", 
     duration: "7 Days / 6 Nights", 
     price: 24999, 
     theme: "Pilgrimage", 
     category: ["Domestic", "Pilgrimage", "Adventure"], 
     description: "Scenic high-mountain pass travel to the historic Tawang Monastery.",
-    alt: "Tawang Sela Pass Arunachal Pradesh India travel"
+    alt: "Tawang Monastery Journey Arunachal Pradesh India travel"
   },
   { 
     id: 4, 
     title: "Darjeeling & Gangtok Retreat", 
-    image: "https://images.unsplash.com/photo-1692600366864-50e63fcdcbee?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1698753864905-a447aa362ec9?w=800&q=80&auto=format&fit=crop", 
     duration: "6 Days / 5 Nights", 
     price: 18999, 
     theme: "Honeymoon", 
@@ -94,7 +94,7 @@ export const fallbackPackages: Package[] = [
   { 
     id: 8, 
     title: "Kashmir Paradise", 
-    image: "https://images.unsplash.com/photo-1614056965546-42fbe24eb36c?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?w=800&q=80&auto=format&fit=crop", 
     duration: "6 Days / 5 Nights", 
     price: 24999, 
     theme: "Honeymoon", 
@@ -153,7 +153,7 @@ export const fallbackPackages: Package[] = [
   { 
     id: 13, 
     title: "The Char Dham Yatra (Uttarakhand)", 
-    image: "https://images.unsplash.com/photo-1607406374368-809f8ec7f118?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1698574996391-73f103113f60?w=800&q=80&auto=format&fit=crop", 
     duration: "10 Days / 9 Nights", 
     price: 29999, 
     theme: "Pilgrimage", 
@@ -164,7 +164,7 @@ export const fallbackPackages: Package[] = [
   { 
     id: 14, 
     title: "Tirupati Balaji (Andhra Pradesh)", 
-    image: "https://images.unsplash.com/photo-1733805569204-41768c7d8c0f?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&q=80&auto=format&fit=crop", 
     duration: "3 Days / 2 Nights", 
     price: 6999, 
     theme: "Pilgrimage", 
@@ -175,7 +175,7 @@ export const fallbackPackages: Package[] = [
   { 
     id: 15, 
     title: "Vaishno Devi (Jammu & Kashmir)", 
-    image: "https://images.unsplash.com/photo-1614056965546-42fbe24eb36c?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1773965040894-330722d21ffd?w=800&q=80&auto=format&fit=crop", 
     duration: "4 Days / 3 Nights", 
     price: 7999, 
     theme: "Pilgrimage", 
@@ -197,7 +197,7 @@ export const fallbackPackages: Package[] = [
   { 
     id: 17, 
     title: "Jagannath Temple (Odisha)", 
-    image: "https://images.unsplash.com/photo-1597505686823-233a95175f40?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1706790574525-d218c4c52b5c?w=800&q=80&auto=format&fit=crop", 
     duration: "4 Days / 3 Nights", 
     price: 9999, 
     theme: "Pilgrimage", 
@@ -208,7 +208,7 @@ export const fallbackPackages: Package[] = [
   { 
     id: 18, 
     title: "Rameshwaram (Tamil Nadu)", 
-    image: "https://images.unsplash.com/photo-1683665446527-0bfa0d7a8822?w=800&q=80&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&q=80&auto=format&fit=crop", 
     duration: "4 Days / 3 Nights", 
     price: 11999, 
     theme: "Pilgrimage", 

@@ -9,8 +9,8 @@ const PILLS = [
 
 const IMAGES = [
   { id:1, name:"Cherrapunji",    cat:"Meghalaya", src:"https://images.unsplash.com/photo-1609276804051-8c5e906cc430?w=800&q=80&auto=format&fit=crop" },
-  { id:2, name:"Gangtok, Sikkim",cat:"Sikkim",    src:"https://images.unsplash.com/photo-1748722873181-03b100cfd883?w=800&q=80&auto=format&fit=crop" },
-  { id:3, name:"Paro, Bhutan",   cat:"Bhutan",    src:"https://images.unsplash.com/photo-1598869012638-f5351b49498f?w=800&q=80&auto=format&fit=crop" },
+  { id:2, name:"Gangtok, Sikkim",cat:"Sikkim",    src:"https://images.unsplash.com/photo-1622308644420-b20142dc993c?w=800&q=80&auto=format&fit=crop" },
+  { id:3, name:"Paro, Bhutan",   cat:"Bhutan",    src:"https://images.unsplash.com/photo-1578556881786-851d4b79cb73?w=800&q=80&auto=format&fit=crop" },
   { id:4, name:"Kaziranga",      cat:"Assam",     src:"https://images.unsplash.com/photo-1613725194245-d8e21cf5d42e?w=800&q=80&auto=format&fit=crop" },
   { id:5, name:"Alleppey",       cat:"Kerala",    src:"https://images.unsplash.com/photo-1609828913552-f9138ed9e42d?w=800&q=80&auto=format&fit=crop" },
   { id:6, name:"Jaipur",         cat:"Rajasthan", src:"https://images.unsplash.com/photo-1524229321985-1e1989075d9b?w=800&q=80&auto=format&fit=crop" },

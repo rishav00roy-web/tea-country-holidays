@@ -22,7 +22,7 @@ export const fallbackPackages: CarouselPackage[] = [
     name: "Bhutan Royal Tour",
     duration: "7N/8D",
     destination: "Bhutan",
-    imageUrl: "https://images.unsplash.com/photo-1598869012638-f5351b49498f?w=800&q=80&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1578556881786-851d4b79cb73?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Kerala Backwaters",
@@ -40,7 +40,7 @@ export const fallbackPackages: CarouselPackage[] = [
     name: "Sikkim Circuit",
     duration: "6N/7D",
     destination: "Sikkim",
-    imageUrl: "https://images.unsplash.com/photo-1748722873181-03b100cfd883?w=800&q=80&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1622308644420-b20142dc993c?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Rajasthan Heritage",
