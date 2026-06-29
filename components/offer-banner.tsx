@@ -22,12 +22,19 @@ export default function OfferBanner() {
   }, []);
 
   return (
-    <section className="relative py-24 md:py-36 overflow-hidden">
+    /*
+      Key fix: Remove overflow-hidden from <section> so the background image
+      fills flush against the wave dividers above and below.
+      Use isolate + z-0 so stacking context is self-contained.
+      The parallax wrapper uses inset-[-60px] to bleed beyond the section edges,
+      ensuring no gap is visible at the wave seam on any screen width.
+    */
+    <section className="relative py-24 md:py-36 isolate" style={{ background: "#013220" }}>
 
-      {/* Parallax wrapper — inset-[-40px] gives bleed room for the parallax shift */}
+      {/* Parallax wrapper — inset-[-60px] gives generous bleed room for both parallax shift and wave overlap */}
       <div
         ref={parallaxRef}
-        className="absolute inset-[-40px]"
+        className="absolute inset-[-60px] overflow-hidden"
         style={{ transition: "transform 0.05s linear", willChange: "transform" }}
       >
         <Image
@@ -37,8 +44,6 @@ export default function OfferBanner() {
           sizes="100vw"
           quality={65}
           className="object-cover object-center"
-          // This image is below the fold — do NOT set priority.
-          // Next.js will lazy-load it correctly via default behaviour.
         />
       </div>
 

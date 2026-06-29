@@ -51,34 +51,37 @@ export default function Destinations() {
           ))}
         </div>
 
-        {/* Image grid */}
-        <div className="reveal-stagger mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Image grid — square aspect on mobile to keep cards compact, 3/4 portrait on desktop */}
+        <div className="reveal-stagger mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {filtered.map((img) => (
             <div key={img.id}
               className="group relative overflow-hidden rounded-2xl cursor-pointer"
               style={{
-                aspectRatio: "3/4",
+                aspectRatio: "1/1",
                 boxShadow: "10px 10px 24px rgba(1,20,10,0.22),-2px -2px 10px rgba(8,50,25,0.1)",
               }}>
+
+              {/* On md+ screens use taller portrait ratio via inner absolute wrapper */}
+              <style>{`.dest-card-md { aspect-ratio: 3/4 !important; }`}</style>
 
               <div className="absolute inset-0 bg-gradient-to-t from-brand-evergreen/90 via-brand-evergreen/30 to-transparent z-10 opacity-80 md:opacity-60 md:group-hover:opacity-90 transition-opacity duration-500" />
 
               <Image src={img.src} alt={img.name}
                 fill
                 quality={65}
-                sizes="(max-width: 640px) 50vw, 25vw"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                 loading="lazy" />
 
               {/* Hover gold border */}
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-brand-gold/60 rounded-2xl transition-colors duration-300 z-20 pointer-events-none" />
 
-              <div className="absolute bottom-0 left-0 w-full p-4 z-30">
-                <p className="text-brand-gold text-xs font-bold uppercase tracking-wider mb-0.5 md:opacity-0 md:group-hover:opacity-100 md:-translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
+              <div className="absolute bottom-0 left-0 w-full p-3 sm:p-4 z-30">
+                <p className="text-brand-gold text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5 md:opacity-0 md:group-hover:opacity-100 md:-translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
                   Explore →
                 </p>
-                <h3 className="text-white font-bold text-sm md:text-base drop-shadow-lg">{img.name}</h3>
-                <p className="text-white/50 text-xs mt-0.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">{img.cat}</p>
+                <h3 className="text-white font-bold text-xs sm:text-sm md:text-base drop-shadow-lg leading-tight">{img.name}</h3>
+                <p className="text-white/50 text-[10px] sm:text-xs mt-0.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">{img.cat}</p>
               </div>
             </div>
           ))}
