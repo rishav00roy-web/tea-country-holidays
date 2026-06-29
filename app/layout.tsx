@@ -5,6 +5,7 @@ import { WhatsAppButton } from "@/components/whatsapp-button";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ScrollRevealInit from "@/components/scroll-reveal-init";
+import CookieBanner from "@/components/cookie-banner";
 import "./globals.css";
 
 const playfairDisplay = Playfair_Display({
@@ -94,6 +95,7 @@ export default function RootLayout({
         <StickyCTA />
         <WhatsAppButton />
         <ScrollRevealInit />
+        <CookieBanner />
       </body>
     </html>
   );

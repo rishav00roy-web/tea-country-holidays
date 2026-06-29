@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { Clock, ArrowRight, Search, MessageCircle } from "lucide-react"
+import { Clock, ArrowRight, Search, MessageCircle, X, CheckCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { openWhatsApp } from "@/lib/whatsapp"
 import { Package } from "@/lib/packages-data"
@@ -19,9 +19,254 @@ function optimizeUnsplashUrl(url: string) {
   return url || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&q=65&auto=format";
 }
 
+function getPackageHighlights(pkg: Package): string[] {
+  const title = pkg.title.toLowerCase();
+  const theme = pkg.theme.toLowerCase();
+  
+  if (title.includes("meghalaya")) {
+    return [
+      "Trek to the Double Decker Living Root Bridge in Nongriat",
+      "Explore the limestone caves of Mawsmai and Arwah",
+      "Witness Nohkalikai and Seven Sisters waterfalls cascading down green cliffs",
+      "Enjoy crystal-clear water boating at Dawki on Umngot River"
+    ];
+  }
+  if (title.includes("kaziranga")) {
+    return [
+      "Elephant Safari / Jeep Safari in Kaziranga National Park",
+      "Spot the endangered Indian One-Horned Rhinoceros",
+      "Explore local Orchid Park and experience traditional Assamese culture",
+      "Bird watching and river sightseeing along the Brahmaputra"
+    ];
+  }
+  if (title.includes("tawang")) {
+    return [
+      "Visit the iconic Tawang Monastery (second largest in the world)",
+      "Cross the scenic, snow-covered Sela Pass at 13,700 feet",
+      "Explore Madhuri Lake and witness the majestic Nuranang Falls",
+      "Pay tribute at the historic Jaswant Garh War Memorial"
+    ];
+  }
+  if (title.includes("darjeeling") || title.includes("gangtok")) {
+    return [
+      "Spectacular sunrise views over Mt. Kanchenjunga from Tiger Hill",
+      "Joyride on the historic UNESCO-listed Himalayan Toy Train",
+      "Visit world-famous lush green Darjeeling tea gardens",
+      "Explore peaceful Tibetan Buddhist monasteries in Gangtok"
+    ];
+  }
+  if (title.includes("kerala")) {
+    return [
+      "Overnight cruise on a traditional luxury houseboat in Alleppey backwaters",
+      "Walk through the sprawling tea estates and misty hills of Munnar",
+      "Spot wildlife at Periyar Lake National Park in Thekkady",
+      "Sunbathe and relax on the golden shores of Kovalam Beach"
+    ];
+  }
+  if (title.includes("dubai")) {
+    return [
+      "Burj Khalifa observation deck entry with stunning panoramic views",
+      "Thrilling Red Dune Desert Safari with BBQ Dinner & Tanoura Show",
+      "Shop at Dubai Mall and watch the majestic Fountain Show",
+      "Dhow Cruise Marina dinner with glittering skyscraper backdrops"
+    ];
+  }
+  if (title.includes("bali")) {
+    return [
+      "Visit cliffside Uluwatu Temple and iconic Tanah Lot sea temple",
+      "Tour Ubud's sacred monkey forest and Tegalalang rice terraces",
+      "Sunset seafood dinner on the white sand shores of Jimbaran Bay",
+      "Explore traditional Balinese art villages and local markets"
+    ];
+  }
+  if (title.includes("rajasthan") || title.includes("jaipur") || title.includes("udaipur") || title.includes("ranthambore") || title.includes("triangle")) {
+    return [
+      "Guided tours of Amber Fort, Hawa Mahal, and Jaipur City Palace",
+      "Thrilling tiger safari in Ranthambore National Park (if in package)",
+      "Romantic sunset boat cruise on Lake Pichola in Udaipur",
+      "Camel ride and desert camping under the stars in Jaisalmer"
+    ];
+  }
+  if (theme.includes("pilgrimage") || title.includes("temple") || title.includes("yatra") || title.includes("devi")) {
+    return [
+      "Seamless VIP darshan arrangements at holy shrines",
+      "Participation in evening Ganga Aarti / temple prayers",
+      "Comfortable lodging located close to temple premises",
+      "Explore sacred nearby historical and spiritual landmarks"
+    ];
+  }
+  
+  // Default highlights
+  return [
+    "Curated sightseeing itineraries with experienced local drivers/guides",
+    "Handpicked hotels and accommodations with complimentary breakfast",
+    "Private air-conditioned vehicle for all transfers and excursions",
+    "24/7 on-trip support from Tea Country Holidays experts"
+  ];
+}
+
+interface PackageModalProps {
+  pkg: Package;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function PackageModal({ pkg, isOpen, onClose }: PackageModalProps) {
+  const [currentImgIdx, setCurrentImgIdx] = useState(0);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  const imagesList = pkg.images && pkg.images.length > 0 ? pkg.images : [pkg.image];
+  const highlights = getPackageHighlights(pkg);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-300 animate-in fade-in">
+      {/* Modal Container */}
+      <div className="bg-white dark:bg-[#12291f] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-w-4xl w-full max-h-[90vh] md:max-h-[85vh] relative animate-in zoom-in-95 duration-200 border border-[#F4A011]/25">
+        
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-30 p-2 bg-black/40 hover:bg-black/60 md:bg-[#D8F3DC] md:hover:bg-[#1B4332] md:text-[#1B4332] md:hover:text-white text-white rounded-full transition-all shadow-md cursor-pointer"
+          aria-label="Close modal"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
+        {/* Left Side: Package Image / Carousel */}
+        <div className="w-full md:w-1/2 relative bg-gray-50 flex flex-col justify-center min-h-[220px] md:min-h-[400px]">
+          <div className="relative w-full h-full min-h-[220px] md:min-h-[400px] overflow-hidden">
+            <Image
+              src={optimizeUnsplashUrl(imagesList[currentImgIdx])}
+              alt={pkg.alt || pkg.title}
+              fill
+              className="object-cover transition-all duration-500"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={80}
+              priority
+            />
+            {/* Theme tag */}
+            <div className="absolute top-4 left-4 bg-[#F4A011] text-white text-xs font-semibold px-3 py-1 rounded-full z-10 shadow-sm">
+              {pkg.theme}
+            </div>
+
+            {/* Navigation Arrows */}
+            {imagesList.length > 1 && (
+              <>
+                <button
+                  onClick={() => setCurrentImgIdx((prev) => (prev === 0 ? imagesList.length - 1 : prev - 1))}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-all z-10 cursor-pointer text-sm font-bold"
+                >
+                  &larr;
+                </button>
+                <button
+                  onClick={() => setCurrentImgIdx((prev) => (prev === imagesList.length - 1 ? 0 : prev + 1))}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-all z-10 cursor-pointer text-sm font-bold"
+                >
+                  &rarr;
+                </button>
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                  {imagesList.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentImgIdx(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        idx === currentImgIdx ? "bg-[#F4A011] w-5" : "bg-white/50 w-1.5"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Right Side: Package details */}
+        <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-between overflow-y-auto max-h-[60vh] md:max-h-full">
+          <div>
+            <div className="flex items-center gap-2 mb-2 text-xs">
+              <span className="font-semibold text-[#F4A011] uppercase tracking-widest">{pkg.theme}</span>
+              <span className="text-gray-300 dark:text-gray-600">•</span>
+              <span className="font-medium text-gray-500 dark:text-gray-400">{pkg.duration}</span>
+            </div>
+
+            <h2 className="font-serif text-2xl md:text-3xl font-bold text-[#1B4332] dark:text-[#faf8f3] mb-3 leading-tight">
+              {pkg.title}
+            </h2>
+
+            <div className="mb-5 bg-[#1B4332]/5 dark:bg-white/5 p-4 rounded-2xl border border-[#1B4332]/10 dark:border-white/10 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] text-gray-500 dark:text-gray-400 block uppercase font-bold tracking-wider">Starting Price</span>
+                <span className="text-[#F4A011] text-2xl font-black">₹{pkg.price.toLocaleString("en-IN")}</span>
+                <span className="text-gray-500 dark:text-gray-400 text-xs font-semibold"> / person</span>
+              </div>
+              <div className="bg-[#D8F3DC] text-[#1B4332] text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">
+                {pkg.duration}
+              </div>
+            </div>
+
+            <p className="text-gray-600 dark:text-white/70 text-sm mb-6 leading-relaxed">
+              {pkg.description}
+            </p>
+
+            <div className="mb-6">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#1B4332] dark:text-[#F4A011] mb-3.5 flex items-center gap-1.5">
+                <span>Highlights & Sightseeing</span>
+              </h4>
+              <ul className="space-y-3">
+                {highlights.map((highlight, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5 text-xs text-gray-600 dark:text-white/80 leading-relaxed">
+                    <CheckCircle className="h-4.5 w-4.5 text-[#F4A011] shrink-0 mt-0.5" />
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mb-4 border-t border-gray-100 dark:border-white/10 pt-5">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#1B4332] dark:text-white/60 mb-3">Inclusions</h4>
+              <div className="grid grid-cols-2 gap-y-2.5 gap-x-4 text-xs text-gray-500 dark:text-white/50 font-semibold">
+                <div className="flex items-center gap-1.5">✓ Hotels & Lodging</div>
+                <div className="flex items-center gap-1.5">✓ Daily Breakfast</div>
+                <div className="flex items-center gap-1.5">✓ Private AC Cab</div>
+                <div className="flex items-center gap-1.5">✓ Toll & Driver Allowances</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-5 border-t border-gray-100 dark:border-white/10 flex flex-col gap-3">
+            <a
+              href={`https://wa.me/918826048272?text=${encodeURIComponent(
+                `Hi, I'm interested in the ${pkg.title} package (${pkg.duration}). Please send me a quote and detailed itinerary.`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full bg-[#1B4332] hover:bg-[#1B4332]/95 active:bg-[#1B4332] text-white text-xs font-bold py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider text-center"
+            >
+              Get Quote
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PackageCard({ pkg }: { pkg: Package }) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [hovered, setHovered] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const imagesList = pkg.images && pkg.images.length > 0 ? pkg.images : [pkg.image];
 
@@ -40,77 +285,81 @@ function PackageCard({ pkg }: { pkg: Package }) {
   };
 
   return (
-    <div 
-      className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="relative h-56 overflow-hidden bg-gray-50">
-        {imagesList.map((img, idx) => (
-          <Image
-            key={img}
-            src={optimizeUnsplashUrl(img)}
-            alt={pkg.alt || pkg.title}
-            fill
-            loading="lazy"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            quality={65}
-            className={cn(
-              "object-cover transition-all duration-700 absolute inset-0 w-full h-full",
-              idx === currentIdx ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
-            )}
-          />
-        ))}
-        <div className="absolute top-4 left-4 bg-[#F4A011] text-white text-xs font-semibold px-3 py-1 rounded-full z-10">
-          {pkg.theme}
-        </div>
-        <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm text-[#1C1C1E] text-xs font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5 z-10">
-          <Clock className="h-3.5 w-3.5" />
-          {pkg.duration}
-        </div>
-        {imagesList.length > 1 && (
-          <div className="absolute bottom-4 right-4 flex gap-1 z-10">
-            {imagesList.map((_, idx) => (
-              <div 
-                key={idx} 
-                className={cn(
-                  "h-1.5 w-3 rounded-full transition-all duration-300",
-                  idx === currentIdx ? "bg-[#F4A011] w-5" : "bg-white/50"
-                )}
-              />
-            ))}
+    <>
+      <div 
+        className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="relative h-56 overflow-hidden bg-gray-50">
+          {imagesList.map((img, idx) => (
+            <Image
+              key={img}
+              src={optimizeUnsplashUrl(img)}
+              alt={pkg.alt || pkg.title}
+              fill
+              loading="lazy"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              quality={65}
+              className={cn(
+                "object-cover transition-all duration-700 absolute inset-0 w-full h-full",
+                idx === currentIdx ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+              )}
+            />
+          ))}
+          <div className="absolute top-4 left-4 bg-[#F4A011] text-white text-xs font-semibold px-3 py-1 rounded-full z-10">
+            {pkg.theme}
           </div>
-        )}
-      </div>
-      <div className="p-5 flex-grow flex flex-col justify-between">
-        <div>
-          <h3 className="font-serif text-xl font-semibold text-[#1B4332] mb-2">{pkg.title}</h3>
-          <p className="text-[#1C1C1E]/60 text-sm mb-4 line-clamp-3">{pkg.description}</p>
+          <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm text-[#1C1C1E] text-xs font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5 z-10">
+            <Clock className="h-3.5 w-3.5" />
+            {pkg.duration}
+          </div>
+          {imagesList.length > 1 && (
+            <div className="absolute bottom-4 right-4 flex gap-1 z-10">
+              {imagesList.map((_, idx) => (
+                <div 
+                  key={idx} 
+                  className={cn(
+                    "h-1.5 w-3 rounded-full transition-all duration-300",
+                    idx === currentIdx ? "bg-[#F4A011] w-5" : "bg-white/50"
+                  )}
+                />
+              ))}
+            </div>
+          )}
         </div>
-        <div className="flex flex-col sm:flex-row gap-2.5 mt-auto">
-          <a
-            href={`https://wa.me/918826048272?text=${encodeURIComponent(
-              `Hi, I'd like to know more about the ${pkg.title} package (${pkg.duration}). Please share the full itinerary and pricing.`
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 bg-[#1B4332] text-white text-sm font-medium py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332]/90 active:bg-[#1B4332] transition-colors flex items-center justify-center gap-2 cursor-pointer min-h-[44px] text-center"
-          >
-            Get More Info <ArrowRight className="h-4 w-4 shrink-0" />
-          </a>
-          <a
-            href={`https://wa.me/918826048272?text=${encodeURIComponent(
-              `Hi, I'm interested in the ${pkg.title} package. Please send me a quote.`
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 bg-white text-[#1B4332] border-2 border-[#F4A011] text-sm font-semibold py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332] hover:text-white hover:border-[#1B4332] transition-all cursor-pointer min-h-[44px] uppercase tracking-wide flex items-center justify-center text-center"
-          >
-            Get Quote
-          </a>
+        <div className="p-5 flex-grow flex flex-col justify-between">
+          <div>
+            <h3 className="font-serif text-xl font-semibold text-[#1B4332] mb-2">{pkg.title}</h3>
+            <p className="text-[#1C1C1E]/60 text-sm mb-4 line-clamp-3">{pkg.description}</p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-2.5 mt-auto">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex-1 bg-[#1B4332] text-white text-sm font-medium py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332]/90 active:bg-[#1B4332] transition-colors flex items-center justify-center gap-2 cursor-pointer min-h-[44px] text-center"
+            >
+              Get More Info <ArrowRight className="h-4 w-4 shrink-0" />
+            </button>
+            <a
+              href={`https://wa.me/918826048272?text=${encodeURIComponent(
+                `Hi, I'm interested in the ${pkg.title} package. Please send me a quote.`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-white text-[#1B4332] border-2 border-[#F4A011] text-sm font-semibold py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332] hover:text-white hover:border-[#1B4332] transition-all cursor-pointer min-h-[44px] uppercase tracking-wide flex items-center justify-center text-center"
+            >
+              Get Quote
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+
+      <PackageModal 
+        pkg={pkg}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
   );
 }
 
