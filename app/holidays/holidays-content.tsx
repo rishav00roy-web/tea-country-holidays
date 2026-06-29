@@ -205,17 +205,6 @@ function PackageModal({ pkg, isOpen, onClose }: PackageModalProps) {
               {pkg.title}
             </h2>
 
-            <div className="mb-5 bg-[#1B4332]/5 dark:bg-white/5 p-4 rounded-2xl border border-[#1B4332]/10 dark:border-white/10 flex items-center justify-between">
-              <div>
-                <span className="text-[10px] text-gray-500 dark:text-gray-400 block uppercase font-bold tracking-wider">Starting Price</span>
-                <span className="text-[#F4A011] text-2xl font-black">₹{pkg.price.toLocaleString("en-IN")}</span>
-                <span className="text-gray-500 dark:text-gray-400 text-xs font-semibold"> / person</span>
-              </div>
-              <div className="bg-[#D8F3DC] text-[#1B4332] text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">
-                {pkg.duration}
-              </div>
-            </div>
-
             <p className="text-gray-600 dark:text-white/70 text-sm mb-6 leading-relaxed">
               {pkg.description}
             </p>
