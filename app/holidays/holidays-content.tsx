@@ -88,22 +88,26 @@ function PackageCard({ pkg }: { pkg: Package }) {
           <p className="text-[#1C1C1E]/60 text-sm mb-4 line-clamp-3">{pkg.description}</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2.5 mt-auto">
-          <button
-            onClick={() => openWhatsApp(
+          <a
+            href={`https://wa.me/918826048272?text=${encodeURIComponent(
               `Hi, I'd like to know more about the ${pkg.title} package (${pkg.duration}). Please share the full itinerary and pricing.`
-            )}
-            className="flex-1 bg-[#1B4332] text-white text-sm font-medium py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332]/90 active:bg-[#1B4332] transition-colors flex items-center justify-center gap-2 cursor-pointer min-h-[44px]"
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 bg-[#1B4332] text-white text-sm font-medium py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332]/90 active:bg-[#1B4332] transition-colors flex items-center justify-center gap-2 cursor-pointer min-h-[44px] text-center"
           >
             Get More Info <ArrowRight className="h-4 w-4 shrink-0" />
-          </button>
-          <button
-            onClick={() => openWhatsApp(
+          </a>
+          <a
+            href={`https://wa.me/918826048272?text=${encodeURIComponent(
               `Hi, I'm interested in the ${pkg.title} package. Please send me a quote.`
-            )}
-            className="flex-1 bg-white text-[#1B4332] border-2 border-[#F4A011] text-sm font-semibold py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332] hover:text-white hover:border-[#1B4332] transition-all cursor-pointer min-h-[44px] uppercase tracking-wide"
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 bg-white text-[#1B4332] border-2 border-[#F4A011] text-sm font-semibold py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332] hover:text-white hover:border-[#1B4332] transition-all cursor-pointer min-h-[44px] uppercase tracking-wide flex items-center justify-center text-center"
           >
             Get Quote
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -211,15 +215,17 @@ export default function HolidaysContent({
             <p className="text-[#1C1C1E]/40 text-sm mb-8">
               Manami and the team specialise in custom itineraries. Tell us where you want to go and we&apos;ll build the perfect trip around you.
             </p>
-            <button
-              onClick={() => openWhatsApp(
+            <a
+              href={`https://wa.me/918826048272?text=${encodeURIComponent(
                 `Hi Manami, I searched for "${search || "a destination"}" on your holidays page but couldn't find a matching package. Can you help me plan a custom trip?`
-              )}
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#1B4332] text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors cursor-pointer shadow-sm min-h-[44px]"
             >
               <MessageCircle className="w-4 h-4" />
               Message Manami on WhatsApp
-            </button>
+            </a>
             <p className="text-[#1C1C1E]/30 text-xs mt-4">Replies within minutes · No booking fees</p>
           </div>
         ) : (

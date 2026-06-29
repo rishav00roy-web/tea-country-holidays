@@ -318,7 +318,7 @@ export default function GlassSearch() {
       {/* ── WHERE Dropdown — dark glass ── */}
       {activeTab === "where" && (
         <div
-          className="absolute left-4 right-4 sm:left-0 sm:right-auto sm:w-[440px] mt-3 rounded-2xl shadow-2xl overflow-hidden p-5"
+          className="absolute left-0 right-0 sm:left-0 sm:right-auto sm:w-[440px] top-full mt-2 rounded-2xl shadow-2xl overflow-hidden p-5"
           style={{ zIndex: 60, ...GLASS_DROPDOWN }}
         >
           <div className="space-y-4">
@@ -388,7 +388,7 @@ export default function GlassSearch() {
       {/* ── WHEN — Calendar Dropdown (unchanged) ── */}
       {activeTab === "when" && (
         <div
-          className="absolute left-4 right-4 sm:left-1/4 sm:right-auto sm:w-[320px] mt-3 rounded-2xl shadow-2xl overflow-hidden"
+          className="absolute left-0 right-0 sm:left-1/4 sm:right-auto sm:w-[320px] top-full mt-2 rounded-2xl shadow-2xl overflow-hidden"
           style={{ zIndex: 60, ...GLASS_DROPDOWN }}
         >
           <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
@@ -472,7 +472,7 @@ export default function GlassSearch() {
       {/* ── WHO & HOW Dropdown — dark glass ── */}
       {activeTab === "who" && (
         <div
-          className="absolute right-4 left-4 sm:left-auto sm:right-0 sm:w-[340px] mt-3 rounded-2xl shadow-2xl overflow-hidden p-5"
+          className="absolute left-0 right-0 sm:left-auto sm:right-0 sm:w-[340px] top-full mt-2 rounded-2xl shadow-2xl overflow-hidden p-5"
           style={{ zIndex: 60, ...GLASS_DROPDOWN }}
         >
           <h4 className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider mb-4">Travellers</h4>

@@ -157,14 +157,16 @@ export default function PackagesScroll({ initialPackages = fallbackPackages }: {
                   </div>
 
                   {/* Glowing CTA */}
-                  <button 
-                    onClick={() => openWhatsApp(
+                  <a 
+                    href={`https://wa.me/918826048272?text=${encodeURIComponent(
                       `Hi, I'm interested in the ${pkg.name} package (${pkg.duration}). Please share more details.`
-                    )}
-                    className="group relative w-full h-12 bg-[#1a3a2a] border border-brand-gold/20 text-left p-3 text-white text-sm font-bold rounded-xl overflow-hidden transition-all duration-500 hover:border-[#b8960c] hover:text-[#d4a017] before:absolute before:w-12 before:h-12 before:content-[''] before:right-1 before:top-1 before:z-10 before:bg-[#2d6a4f] before:rounded-full before:blur-lg before:transition-all before:duration-500 after:absolute after:z-10 after:w-20 after:h-20 after:content-[''] after:bg-[#b8960c] after:right-8 after:top-3 after:rounded-full after:blur-lg after:transition-all after:duration-500 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:before:[box-shadow:_20px_20px_20px_30px_#b8960c] hover:after:-right-8 cursor-pointer"
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative w-full h-12 bg-[#1a3a2a] border border-brand-gold/20 text-left p-3 text-white text-sm font-bold rounded-xl overflow-hidden transition-all duration-500 hover:border-[#b8960c] hover:text-[#d4a017] before:absolute before:w-12 before:h-12 before:content-[''] before:right-1 before:top-1 before:z-10 before:bg-[#2d6a4f] before:rounded-full before:blur-lg before:transition-all before:duration-500 after:absolute after:z-10 after:w-20 after:h-20 after:content-[''] after:bg-[#b8960c] after:right-8 after:top-3 after:rounded-full after:blur-lg after:transition-all after:duration-500 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:before:[box-shadow:_20px_20px_20px_30px_#b8960c] hover:after:-right-8 cursor-pointer flex items-center"
                   >
                     <span className="relative z-20">Enquire Now</span>
-                  </button>
+                  </a>
                 </div>
               </div>
             ))}
