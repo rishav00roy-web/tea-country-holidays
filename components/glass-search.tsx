@@ -239,7 +239,7 @@ export default function GlassSearch() {
     >
       {/* ── Main Glass Bar — true frosted glass ── */}
       <div
-        className="border border-white/20 rounded-2xl shadow-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
+        className="relative border border-white/20 rounded-2xl shadow-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
         style={{
           background: "rgba(1, 40, 26, 0.58)", // Brand dark evergreen for high-contrast visibility against bright waterfalls
           backdropFilter: "blur(24px) saturate(1.3)",
@@ -313,9 +313,8 @@ export default function GlassSearch() {
         >
           Plan My Trip ✈
         </button>
-      </div>
 
-      {/* ── WHERE Dropdown — dark glass ── */}
+        {/* ── WHERE Dropdown — dark glass ── */}
       {activeTab === "where" && (
         <div
           className="absolute left-0 right-0 sm:left-0 sm:right-auto sm:w-[440px] top-full mt-2 rounded-2xl shadow-2xl overflow-hidden p-5"
@@ -536,6 +535,7 @@ export default function GlassSearch() {
           </button>
         </div>
       )}
+      </div>{/* end glass bar */}
     </div>
   );
 }
