@@ -226,7 +226,7 @@ export default function Hero() {
         <div className="relative z-[4] flex flex-col items-center text-center px-4 gap-4 select-none w-full max-w-6xl mx-auto">
 
           <p
-            className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-20 sm:pt-0"
+            className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-24 sm:pt-0"
             style={{ animation: "fadeUp 0.8s ease both 0.1s" }}
           >
             Tea Country Holidays
@@ -260,7 +260,7 @@ export default function Hero() {
           </div>
 
           <div
-            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[#F5F0E8] font-sans text-[13px] tracking-[0.05em] mt-4 opacity-0 relative z-10"
+            className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 sm:gap-x-4 sm:gap-y-2 text-[#F5F0E8] font-sans text-[11px] sm:text-[13px] tracking-[0.05em] mt-4 opacity-0 relative z-10"
             style={{ animation: "fadeUp 0.8s ease both 1.2s" }}
           >
             <span className="text-[#C8860A]">✦</span>

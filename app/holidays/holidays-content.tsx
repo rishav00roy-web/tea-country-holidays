@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Clock, ArrowRight, Search, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useAuthGate } from "@/hooks/use-auth-gate"
+import { openWhatsApp } from "@/lib/whatsapp"
 import { Package } from "@/lib/packages-data"
 
 function optimizeUnsplashUrl(url: string) {
@@ -19,7 +19,7 @@ function optimizeUnsplashUrl(url: string) {
   return url || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&q=65&auto=format";
 }
 
-function PackageCard({ pkg, gatedWhatsApp }: { pkg: Package; gatedWhatsApp: (msg: string) => void }) {
+function PackageCard({ pkg }: { pkg: Package }) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [hovered, setHovered] = useState(false);
 
@@ -87,20 +87,20 @@ function PackageCard({ pkg, gatedWhatsApp }: { pkg: Package; gatedWhatsApp: (msg
           <h3 className="font-serif text-xl font-semibold text-[#1B4332] mb-2">{pkg.title}</h3>
           <p className="text-[#1C1C1E]/60 text-sm mb-4 line-clamp-3">{pkg.description}</p>
         </div>
-        <div className="flex gap-3 mt-auto">
+        <div className="flex flex-col sm:flex-row gap-2.5 mt-auto">
           <button
-            onClick={() => gatedWhatsApp(
+            onClick={() => openWhatsApp(
               `Hi, I'd like to know more about the ${pkg.title} package (${pkg.duration}). Please share the full itinerary and pricing.`
             )}
-            className="flex-1 bg-[#1B4332] text-white text-sm font-medium py-2.5 rounded-lg hover:bg-[#1B4332]/90 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            className="flex-1 bg-[#1B4332] text-white text-sm font-medium py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332]/90 active:bg-[#1B4332] transition-colors flex items-center justify-center gap-2 cursor-pointer min-h-[44px]"
           >
-            View Details <ArrowRight className="h-4 w-4" />
+            Get More Info <ArrowRight className="h-4 w-4 shrink-0" />
           </button>
           <button
-            onClick={() => gatedWhatsApp(
+            onClick={() => openWhatsApp(
               `Hi, I'm interested in the ${pkg.title} package. Please send me a quote.`
             )}
-            className="btn-pill flex-1"
+            className="flex-1 bg-white text-[#1B4332] border-2 border-[#F4A011] text-sm font-semibold py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332] hover:text-white hover:border-[#1B4332] transition-all cursor-pointer min-h-[44px] uppercase tracking-wide"
           >
             Get Quote
           </button>
@@ -109,6 +109,7 @@ function PackageCard({ pkg, gatedWhatsApp }: { pkg: Package; gatedWhatsApp: (msg
     </div>
   );
 }
+
 
 const filters = ["All", "Domestic", "International", "Beach", "Honeymoon", "Adventure", "Pilgrimage", "Heritage", "Nature"]
 
@@ -121,7 +122,6 @@ export default function HolidaysContent({
 }) {
   const [activeFilter, setActiveFilter] = useState("All")
   const [search, setSearch] = useState(initialDestination)
-  const { gatedWhatsApp } = useAuthGate()
 
   const filtered = initialPackages.filter(pkg => {
     // Handle both array categories (fallback data) and string categories (Supabase data)
@@ -212,10 +212,10 @@ export default function HolidaysContent({
               Manami and the team specialise in custom itineraries. Tell us where you want to go and we&apos;ll build the perfect trip around you.
             </p>
             <button
-              onClick={() => gatedWhatsApp(
+              onClick={() => openWhatsApp(
                 `Hi Manami, I searched for "${search || "a destination"}" on your holidays page but couldn't find a matching package. Can you help me plan a custom trip?`
               )}
-              className="inline-flex items-center gap-2 bg-[#1B4332] text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors cursor-pointer shadow-sm"
+              className="inline-flex items-center gap-2 bg-[#1B4332] text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-[#1B4332]/90 transition-colors cursor-pointer shadow-sm min-h-[44px]"
             >
               <MessageCircle className="w-4 h-4" />
               Message Manami on WhatsApp
@@ -225,7 +225,7 @@ export default function HolidaysContent({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map(pkg => (
-              <PackageCard key={pkg.id} pkg={pkg} gatedWhatsApp={gatedWhatsApp} />
+              <PackageCard key={pkg.id} pkg={pkg} />
             ))}
           </div>
         )}

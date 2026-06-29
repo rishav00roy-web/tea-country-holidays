@@ -288,20 +288,20 @@ export default function Navbar() {
               <input id="darkToggleMobileNavbar" type="checkbox" checked={isDark} onChange={toggleDark} onClick={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
-                  <svg id="moon-dot-1" className="moon-dot" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3"/></svg>
-                  <svg id="moon-dot-2" className="moon-dot" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
-                  <svg id="moon-dot-3" className="moon-dot" viewBox="0 0 3 3"><circle cx="1.5" cy="1.5" r="1.5"/></svg>
-                  <svg id="light-ray-1" viewBox="0 0 43 43"><circle cx="21.5" cy="21.5" r="21.5"/></svg>
-                  <svg id="light-ray-2" viewBox="0 0 55 55"><circle cx="27.5" cy="27.5" r="27.5"/></svg>
-                  <svg id="light-ray-3" viewBox="0 0 60 60"><circle cx="30" cy="30" r="30"/></svg>
+                  <svg id="m-moon-dot-1" className="moon-dot" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3"/></svg>
+                  <svg id="m-moon-dot-2" className="moon-dot" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+                  <svg id="m-moon-dot-3" className="moon-dot" viewBox="0 0 3 3"><circle cx="1.5" cy="1.5" r="1.5"/></svg>
+                  <svg id="m-light-ray-1" viewBox="0 0 43 43"><circle cx="21.5" cy="21.5" r="21.5"/></svg>
+                  <svg id="m-light-ray-2" viewBox="0 0 55 55"><circle cx="27.5" cy="27.5" r="27.5"/></svg>
+                  <svg id="m-light-ray-3" viewBox="0 0 60 60"><circle cx="30" cy="30" r="30"/></svg>
                 </span>
-                <svg id="cloud-1" className="cloud-light" viewBox="0 0 40 20"><ellipse cx="20" cy="14" rx="18" ry="8"/><ellipse cx="14" cy="10" rx="10" ry="7"/><ellipse cx="26" cy="10" rx="8" ry="6"/></svg>
-                <svg id="cloud-3" className="cloud-dark"  viewBox="0 0 30 16"><ellipse cx="15" cy="11" rx="13" ry="6"/><ellipse cx="10" cy="7"  rx="7"  ry="5"/><ellipse cx="20" cy="7"  rx="6"  ry="4"/></svg>
+                <svg id="m-cloud-1" className="cloud-light" viewBox="0 0 40 20"><ellipse cx="20" cy="14" rx="18" ry="8"/><ellipse cx="14" cy="10" rx="10" ry="7"/><ellipse cx="26" cy="10" rx="8" ry="6"/></svg>
+                <svg id="m-cloud-3" className="cloud-dark"  viewBox="0 0 30 16"><ellipse cx="15" cy="11" rx="13" ry="6"/><ellipse cx="10" cy="7"  rx="7"  ry="5"/><ellipse cx="20" cy="7"  rx="6"  ry="4"/></svg>
                 <span className="stars">
-                  <svg id="star-1" className="star" viewBox="0 0 20 20"><polygon points="10,2 12,8 18,8 13,12 15,18 10,14 5,18 7,12 2,8 8,8"/></svg>
-                  <svg id="star-2" className="star" viewBox="0 0 6 6"><polygon points="3,0 3.7,2.3 6,2.3 4.1,3.7 4.8,6 3,4.6 1.2,6 1.9,3.7 0,2.3 2.3,2.3"/></svg>
-                  <svg id="star-3" className="star" viewBox="0 0 12 12"><polygon points="6,1 7.4,4.6 11,4.6 8.2,7 9.3,11 6,8.6 2.7,11 3.8,7 1,4.6 4.6,4.6"/></svg>
-                  <svg id="star-4" className="star" viewBox="0 0 18 18"><polygon points="9,1 11,7 17,7 12,10.5 14,17 9,13 4,17 6,10.5 1,7 7,7"/></svg>
+                  <svg id="m-star-1" className="star" viewBox="0 0 20 20"><polygon points="10,2 12,8 18,8 13,12 15,18 10,14 5,18 7,12 2,8 8,8"/></svg>
+                  <svg id="m-star-2" className="star" viewBox="0 0 6 6"><polygon points="3,0 3.7,2.3 6,2.3 4.1,3.7 4.8,6 3,4.6 1.2,6 1.9,3.7 0,2.3 2.3,2.3"/></svg>
+                  <svg id="m-star-3" className="star" viewBox="0 0 12 12"><polygon points="6,1 7.4,4.6 11,4.6 8.2,7 9.3,11 6,8.6 2.7,11 3.8,7 1,4.6 4.6,4.6"/></svg>
+                  <svg id="m-star-4" className="star" viewBox="0 0 18 18"><polygon points="9,1 11,7 17,7 12,10.5 14,17 9,13 4,17 6,10.5 1,7 7,7"/></svg>
                 </span>
               </span>
             </label>
@@ -482,12 +482,12 @@ export default function Navbar() {
             </div>
             <button 
               onClick={() => {
-                alert("Demo Login successful!");
                 setShowLoginModal(false);
+                router.push('/login');
               }}
               className="w-full mt-6 bg-[#C8860A] hover:bg-amber-500 text-brand-evergreen font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-xl font-sans"
             >
-              Login
+              Go to Login
             </button>
             <p className="text-xs text-brand-evergreen/40 dark:text-white/40 mt-4">
               Don&apos;t have an account? <span className="text-[#C8860A] cursor-pointer hover:underline">Sign up</span>

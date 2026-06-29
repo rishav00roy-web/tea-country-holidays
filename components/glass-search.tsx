@@ -388,7 +388,7 @@ export default function GlassSearch() {
       {/* ── WHEN — Calendar Dropdown (unchanged) ── */}
       {activeTab === "when" && (
         <div
-          className="absolute left-4 right-4 sm:left-[calc(33%-16px)] sm:right-auto sm:w-[320px] mt-3 rounded-2xl shadow-2xl overflow-hidden"
+          className="absolute left-4 right-4 sm:left-1/4 sm:right-auto sm:w-[320px] mt-3 rounded-2xl shadow-2xl overflow-hidden"
           style={{ zIndex: 60, ...GLASS_DROPDOWN }}
         >
           <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
