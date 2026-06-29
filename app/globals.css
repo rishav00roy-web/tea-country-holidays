@@ -503,3 +503,15 @@ body.dark .skeleton {
   color: #fff; transform: translateY(-5px);
 }
 .btn-pill:active { transform: translateY(-1px); }
+
+/* ── Glass Search Bar — Mobile Dropdown Clamp ── */
+/* Prevents all search bar dropdowns from overflowing viewport on small screens */
+@media (max-width: 639px) {
+  .gs-dropdown {
+    left: 0 !important;
+    right: 0 !important;
+    width: auto !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+}
+

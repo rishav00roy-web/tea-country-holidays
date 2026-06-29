@@ -90,15 +90,21 @@ export default function Navbar() {
     };
   }, []);
 
-  // ── Lock body scroll when drawer/modal is open ──
+  // ── Lock body scroll when drawer/modal is open (iOS Safari compatible) ──
   useEffect(() => {
     if (mobileOpen || showLoginModal) {
       document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
     } else {
       document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
     }
     return () => {
       document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
     };
   }, [mobileOpen, showLoginModal]);
 
@@ -321,16 +327,32 @@ export default function Navbar() {
       </nav>
 
       {/* ── Mobile menu overlay and drawer wrapper ── */}
+      {/* Slide-in animation keyframe injected once */}
+      <style>{`
+        @keyframes slideInRight {
+          from { transform: translateX(100%); }
+          to   { transform: translateX(0); }
+        }
+        .drawer-slide-in { animation: slideInRight 0.28s cubic-bezier(0.22,1,0.36,1) both; }
+      `}</style>
+
       {mobileOpen && (
         <div className="fixed inset-0 z-40 flex flex-col md:hidden" style={{ zIndex: 80 }}>
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
           />
 
-          {/* Drawer */}
-          <div className="absolute top-0 right-0 bottom-0 z-50 w-full max-w-[320px] bg-brand-floral flex flex-col h-full shadow-2xl transition-transform duration-300 ease-in-out translate-x-0">
+          {/* Drawer — max-w clamps to 85vw so it works even on 320px screens */}
+          <div
+            className="drawer-slide-in absolute top-0 right-0 bottom-0 z-50 w-full flex flex-col h-full shadow-2xl"
+            style={{
+              maxWidth: "min(320px, 85vw)",
+              background: isDark ? "#0d1f1a" : "#FEFAEF",
+            }}
+          >
             {/* Top area */}
             <div className="flex items-center justify-between p-4 border-b border-brand-gold/10 dark:border-white/10">
               <Link href="/" onClick={() => setMobileOpen(false)}>

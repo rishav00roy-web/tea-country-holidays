@@ -237,12 +237,6 @@ export default function GlassSearch() {
       ref={containerRef}
       style={{ position: "relative", zIndex: 50 }}
     >
-      {/* Prevent dropdowns from overflowing the viewport on mobile */}
-      <style>{`
-        @media (max-width: 639px) {
-          .gs-dropdown { left: 0 !important; right: 0 !important; width: auto !important; max-width: calc(100vw - 32px) !important; }
-        }
-      `}</style>
       {/* ── Main Glass Bar — true frosted glass ── */}
       <div
         className="relative border border-white/20 rounded-2xl shadow-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
