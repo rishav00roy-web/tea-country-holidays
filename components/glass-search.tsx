@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { MapPin, Calendar, Users, Plane, Train, Car, Navigation, Check, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
@@ -26,13 +27,20 @@ const MONTH_NAMES = [
 ];
 const DAY_HEADERS = ["Su","Mo","Tu","We","Th","Fr","Sa"];
 
-function useOnClickOutside(ref: React.RefObject<HTMLElement | null>, handler: () => void) {
+// Avoids the "useLayoutEffect does nothing on the server" warning under Next.js SSR.
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+function useOnClickOutside(refs: React.RefObject<HTMLElement | null>[], handler: () => void) {
   const handlerRef = useRef(handler);
   useEffect(() => { handlerRef.current = handler; });
+  const refsRef = useRef(refs);
+  refsRef.current = refs;
 
   useEffect(() => {
     const listener = (e: MouseEvent | TouchEvent) => {
-      if (!ref.current || ref.current.contains(e.target as Node)) return;
+      const target = e.target as Node;
+      const isInside = refsRef.current.some((r) => r.current && r.current.contains(target));
+      if (isInside) return;
       handlerRef.current();
     };
     document.addEventListener("mousedown", listener);
@@ -41,7 +49,7 @@ function useOnClickOutside(ref: React.RefObject<HTMLElement | null>, handler: ()
       document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
     };
-  }, [ref]);
+  }, []);
 }
 
 function buildCalendarDays(year: number, month: number): (number | null)[] {
@@ -130,7 +138,61 @@ export default function GlassSearch() {
   const [isSearching, setIsSearching]   = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  useOnClickOutside(containerRef, () => setActiveTab(null));
+  const barRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside([containerRef, dropdownRef], () => setActiveTab(null));
+
+  // Dropdowns render through a portal (see below) so the hero section's
+  // overflow:hidden / wave-divider clipping can never cut them off on mobile.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const [dropdownPos, setDropdownPos] = useState<{
+    top: number; left: number; width: number; maxHeight: number;
+  } | null>(null);
+
+  const updateDropdownPos = useCallback((tab: "where" | "when" | "who") => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const rect = bar.getBoundingClientRect();
+    const isDesktop = window.innerWidth >= 640; // Tailwind `sm` breakpoint
+    const margin = 16;
+
+    let left = rect.left;
+    let width = rect.width;
+
+    if (isDesktop) {
+      if (tab === "where") {
+        width = 440;
+        left = rect.left;
+      } else if (tab === "when") {
+        width = 320;
+        left = rect.left + rect.width / 4;
+      } else {
+        width = 340;
+        left = rect.right - width;
+      }
+      if (left + width > window.innerWidth - margin) left = window.innerWidth - margin - width;
+      if (left < margin) left = margin;
+    }
+
+    const top = rect.bottom + 8;
+    const maxHeight = Math.max(160, window.innerHeight - top - margin);
+    setDropdownPos({ top, left, width, maxHeight });
+  }, []);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!activeTab) { setDropdownPos(null); return; }
+    const tab = activeTab;
+    updateDropdownPos(tab);
+    const onReflow = () => updateDropdownPos(tab);
+    window.addEventListener("resize", onReflow);
+    window.addEventListener("scroll", onReflow, true);
+    return () => {
+      window.removeEventListener("resize", onReflow);
+      window.removeEventListener("scroll", onReflow, true);
+    };
+  }, [activeTab, updateDropdownPos]);
 
   const closeWhere = useCallback(() => {
     setActiveTab(null);
@@ -239,6 +301,7 @@ export default function GlassSearch() {
     >
       {/* ── Main Glass Bar — true frosted glass ── */}
       <div
+        ref={barRef}
         className="relative border border-white/20 rounded-2xl shadow-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
         style={{
           background: "rgba(1, 40, 26, 0.58)", // Brand dark evergreen for high-contrast visibility against bright waterfalls
@@ -313,12 +376,29 @@ export default function GlassSearch() {
         >
           Plan My Trip ✈
         </button>
+      </div>{/* end glass bar */}
+
+      {/* Dropdowns render through a portal straight into <body>, so they can
+          never be clipped by the hero's overflow-hidden wave divider. */}
+      {mounted && activeTab && dropdownPos && createPortal(
+        <div
+          ref={dropdownRef}
+          style={{
+            position: "fixed",
+            top: dropdownPos.top,
+            left: dropdownPos.left,
+            width: dropdownPos.width,
+            maxHeight: dropdownPos.maxHeight,
+            overflowY: "auto",
+            zIndex: 9999,
+          }}
+        >
 
         {/* ── WHERE Dropdown — dark glass ── */}
       {activeTab === "where" && (
         <div
-          className="gs-dropdown absolute left-0 right-0 sm:left-0 sm:right-auto sm:w-[440px] top-full mt-2 rounded-2xl shadow-2xl overflow-hidden p-5"
-          style={{ zIndex: 60, ...GLASS_DROPDOWN }}
+          className="gs-dropdown rounded-2xl shadow-2xl overflow-hidden p-5"
+          style={GLASS_DROPDOWN}
         >
           <div className="space-y-4">
             <LocationInput
@@ -387,8 +467,8 @@ export default function GlassSearch() {
       {/* ── WHEN — Calendar Dropdown ── */}
       {activeTab === "when" && (
         <div
-          className="gs-dropdown absolute left-0 right-0 sm:left-1/4 sm:right-auto sm:w-[320px] top-full mt-2 rounded-2xl shadow-2xl overflow-hidden"
-          style={{ zIndex: 60, ...GLASS_DROPDOWN }}
+          className="gs-dropdown rounded-2xl shadow-2xl overflow-hidden"
+          style={GLASS_DROPDOWN}
         >
           <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
             <button
@@ -471,8 +551,8 @@ export default function GlassSearch() {
       {/* ── WHO & HOW Dropdown — dark glass ── */}
       {activeTab === "who" && (
         <div
-          className="gs-dropdown absolute left-0 right-0 sm:left-auto sm:right-0 sm:w-[340px] top-full mt-2 rounded-2xl shadow-2xl overflow-hidden p-5"
-          style={{ zIndex: 60, ...GLASS_DROPDOWN }}
+          className="gs-dropdown rounded-2xl shadow-2xl overflow-hidden p-5"
+          style={GLASS_DROPDOWN}
         >
           <h4 className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider mb-4">Travellers</h4>
 
@@ -535,7 +615,9 @@ export default function GlassSearch() {
           </button>
         </div>
       )}
-      </div>{/* end glass bar */}
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
