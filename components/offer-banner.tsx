@@ -44,10 +44,10 @@ export default function OfferBanner() {
     */
     <section className="relative py-24 md:py-36 isolate" style={{ background: "#013220" }}>
 
-      {/* Parallax wrapper — inset-[-60px] gives generous bleed room for both parallax shift and wave overlap */}
+      {/* Parallax wrapper — -inset-[60px] gives generous bleed room for both parallax shift and wave overlap */}
       <div
         ref={parallaxRef}
-        className="absolute inset-[-60px] overflow-hidden"
+        className="absolute -inset-[60px] overflow-hidden"
         style={{ willChange: "transform" }}
       >
         <Image
@@ -88,7 +88,7 @@ export default function OfferBanner() {
             className="px-9 py-4 bg-brand-gold hover:bg-amber-400 text-brand-evergreen font-bold rounded-full transition-all hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(212,175,55,0.4)] text-base relative overflow-hidden group inline-flex items-center justify-center"
           >
             <span className="relative z-10">Claim Offer Now</span>
-            <span className="absolute inset-0 bg-white/20 translate-x-[-100%] skew-x-[-15deg] group-hover:translate-x-[120%] transition-transform duration-500" />
+            <span className="absolute inset-0 bg-white/20 -translate-x-full -skew-x-[15deg] group-hover:translate-x-[120%] transition-transform duration-500" />
           </a>
           <a
             href={WHATSAPP_DEALS}

@@ -108,11 +108,11 @@ export default async function Home() {
         <PackagesScroll initialPackages={carouselPackages} />
 
         {/* varden (#FEF0D5) → BentoWhyUs (mesh #0A2E1D) */}
-        <SectionDivider topColor="#FEF0D5" bottomColor="#0A2E1D" curve="up" className="mesh-bg" />
+        <SectionDivider topColor="#FEF0D5" bottomColor="#0A2E1D" curve="up" className="bg-transparent" />
         <BentoWhyUs />
 
         {/* mesh (#0A2E1D) → Destinations (#FEFAEF) */}
-        <SectionDivider topColor="#0A2E1D" bottomColor="#FEFAEF" curve="down" className="mesh-bg" />
+        <SectionDivider topColor="#0A2E1D" bottomColor="#FEFAEF" curve="down" className="bg-transparent" />
         <Destinations />
 
         {/* cream (#FEFAEF) → OfferBanner (dark #013220 overlay) */}

@@ -35,7 +35,10 @@ const features = [
 
 export default function BentoWhyUs() {
   return (
-    <section className="relative py-20 md:py-28 mesh-bg overflow-hidden">
+    <section className="relative py-20 md:py-28 overflow-hidden bg-transparent isolate">
+      {/* Background bleed container */}
+      <div className="absolute -inset-x-0 -inset-y-[60px] mesh-bg -z-10" />
+
       {/* Ambient glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-gold/10 rounded-full blur-[100px] pointer-events-none" />
 
