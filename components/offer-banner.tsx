@@ -12,23 +12,38 @@ export default function OfferBanner() {
   useEffect(() => {
     let ticking = false;
 
+    const updatePosition = () => {
+      // Reactive check for prefers-reduced-motion
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        if (parallaxRef.current) {
+          parallaxRef.current.style.transform = 'none';
+        }
+        return;
+      }
+
+      if (parallaxRef.current) {
+        const rect = parallaxRef.current.parentElement?.getBoundingClientRect();
+        if (rect) {
+          const offset = (rect.top / window.innerHeight) * 30;
+          // Clamp translation to +/- 50px
+          const clampedOffset = Math.max(-50, Math.min(50, offset));
+          parallaxRef.current.style.transform = `translateY(${clampedOffset}px)`;
+        }
+      }
+    };
+
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          if (parallaxRef.current) {
-            const rect = parallaxRef.current.parentElement?.getBoundingClientRect();
-            if (rect) {
-              const offset = (rect.top / window.innerHeight) * 30;
-              // Clamp translation to +/- 50px so it never exceeds the 60px bleed boundary
-              const clampedOffset = Math.max(-50, Math.min(50, offset));
-              parallaxRef.current.style.transform = `translateY(${clampedOffset}px)`;
-            }
-          }
+          updatePosition();
           ticking = false;
         });
         ticking = true;
       }
     };
+
+    // Run initial update on mount (respecting prefers-reduced-motion)
+    updatePosition();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -44,10 +59,10 @@ export default function OfferBanner() {
     */
     <section className="relative py-24 md:py-36 isolate" style={{ background: "#013220" }}>
 
-      {/* Parallax wrapper — -inset-[60px] gives generous bleed room for both parallax shift and wave overlap */}
+      {/* Parallax wrapper — -inset-x-0 -inset-y-[110px] gives generous bleed room for both parallax shift and wave overlap */}
       <div
         ref={parallaxRef}
-        className="absolute -inset-[60px] overflow-hidden"
+        className="absolute -inset-x-0 -inset-y-[110px] overflow-hidden"
         style={{ willChange: "transform" }}
       >
         <Image
@@ -56,7 +71,7 @@ export default function OfferBanner() {
           fill
           sizes="100vw"
           quality={65}
-          className="object-cover object-center"
+          className="object-cover object-center scale-[1.02]"
         />
       </div>
 

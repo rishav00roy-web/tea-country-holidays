@@ -116,11 +116,11 @@ export default async function Home() {
         <Destinations />
 
         {/* cream (#FEFAEF) → OfferBanner (dark #013220 overlay) */}
-        <SectionDivider topColor="#FEFAEF" bottomColor="#013220" curve="up" className="bg-transparent" />
-        <OfferBanner />
-
-        {/* dark (#013220) → MasonryTestimonials (cream) */}
-        <SectionDivider topColor="#013220" bottomColor="#FEFAEF" curve="down" className="bg-transparent" />
+        <div id="offer-banner-wrapper" className="relative">
+          <SectionDivider topColor="#FEFAEF" bottomColor="#013220" curve="up" className="bg-transparent" />
+          <OfferBanner />
+          <SectionDivider topColor="#013220" bottomColor="#FEFAEF" curve="down" className="bg-transparent" />
+        </div>
         <MasonryTestimonials initialTestimonials={testimonialsList} />
 
         {/* cream (#FEFAEF) → ReviewsMarquee (#013220) */}
