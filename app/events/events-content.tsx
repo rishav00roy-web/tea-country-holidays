@@ -59,7 +59,7 @@ export default function EventsContent() {
                   <Sparkles className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-brand-evergreen text-lg mb-1">Handpicked Venues</h4>
+                  <h3 className="font-bold text-brand-evergreen text-lg mb-1">Handpicked Venues</h3>
                   <p className="text-brand-ink/65 text-sm">Exclusive access to colonial tea bungalows, heritage river lodges, private mountain retreats, and award-winning waterfront resorts across Northeast India and beyond.</p>
                 </div>
               </div>
@@ -69,7 +69,7 @@ export default function EventsContent() {
                   <Users className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-brand-evergreen text-lg mb-1">End-to-End Coordination</h4>
+                  <h3 className="font-bold text-brand-evergreen text-lg mb-1">End-to-End Coordination</h3>
                   <p className="text-brand-ink/65 text-sm">From guest transfers, curated meals, and premium accommodations to local sightseeing, cultural immersions, and specialised themed activities — we handle it all.</p>
                 </div>
               </div>
@@ -79,7 +79,7 @@ export default function EventsContent() {
                   <MapPin className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-brand-evergreen text-lg mb-1">Local Expertise</h4>
+                  <h3 className="font-bold text-brand-evergreen text-lg mb-1">Local Expertise</h3>
                   <p className="text-brand-ink/65 text-sm">With deep roots in Assam and Northeast India, Manami&apos;s team brings insider knowledge of hidden gems, cultural nuances, and travel logistics that only true locals can offer.</p>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function EventsContent() {
                   <Compass className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-brand-evergreen text-lg mb-1">Custom Itineraries</h4>
+                  <h3 className="font-bold text-brand-evergreen text-lg mb-1">Custom Itineraries</h3>
                   <p className="text-brand-ink/65 text-sm">Every trip is designed from scratch around your group&apos;s interests, pace, and budget — no cookie-cutter packages, ever.</p>
                 </div>
               </div>

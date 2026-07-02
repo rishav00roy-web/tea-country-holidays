@@ -31,7 +31,7 @@ export default function Footer() {
                 className="h-12 w-auto object-contain"
               />
             </Link>
-            <p className="text-white/55 text-sm leading-relaxed max-w-xs">
+            <p className="text-white/75 text-sm leading-relaxed max-w-xs">
               Crafting unforgettable travel experiences across Northeast India and the globe. Rooted in Guwahati, trusted across India.
             </p>
             {/* Social links */}
@@ -57,14 +57,14 @@ export default function Footer() {
 
           {/* ── Quick links ── */}
           <div>
-            <h4 className="font-serif text-xl font-bold text-white mb-6 border-b border-brand-gold/15 pb-4">Quick Links</h4>
+            <h3 className="font-serif text-xl font-bold text-white mb-6 border-b border-brand-gold/15 pb-4">Quick Links</h3>
             <ul className="space-y-3">
               {[
                 { label: "About Us", href: "/#who-we-are" },
                 { label: "Contact Us", href: "/#footer" },
               ].map(link => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-white/55 hover:text-brand-gold transition-colors text-sm flex items-center gap-2">
+                  <Link href={link.href} className="text-white/75 hover:text-brand-gold transition-colors text-sm flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-gold/35 shrink-0" />
                     {link.label}
                   </Link>
@@ -75,7 +75,7 @@ export default function Footer() {
 
           {/* ── Services ── */}
           <div>
-            <h4 className="font-serif text-xl font-bold text-white mb-6 border-b border-brand-gold/15 pb-4">Our Services</h4>
+            <h3 className="font-serif text-xl font-bold text-white mb-6 border-b border-brand-gold/15 pb-4">Our Services</h3>
             <ul className="space-y-3">
               {[
                 { label: "Holidays", href: "/holidays" },
@@ -85,7 +85,7 @@ export default function Footer() {
                 { label: "Events", href: "/events" },
               ].map(link => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-white/55 hover:text-brand-gold transition-colors text-sm flex items-center gap-2">
+                  <Link href={link.href} className="text-white/75 hover:text-brand-gold transition-colors text-sm flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-gold/35 shrink-0" />
                     {link.label}
                   </Link>
@@ -96,8 +96,8 @@ export default function Footer() {
 
           {/* ── Contact ── */}
           <div>
-            <h4 className="font-serif text-xl font-bold text-white mb-6 border-b border-brand-gold/15 pb-4">Contact Us</h4>
-            <ul className="space-y-4 text-sm text-white/55">
+            <h3 className="font-serif text-xl font-bold text-white mb-6 border-b border-brand-gold/15 pb-4">Contact Us</h3>
+            <ul className="space-y-4 text-sm text-white/75">
               <li className="flex items-start gap-3">
                 <svg className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
@@ -126,7 +126,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-brand-gold/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/35">
+        <div className="pt-8 border-t border-brand-gold/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/70">
           <p>&copy; {new Date().getFullYear()} TeaCountryHolidays &middot; Guwahati, Assam &middot; All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="/terms" className="hover:text-brand-gold transition-colors">Terms & Conditions</Link>

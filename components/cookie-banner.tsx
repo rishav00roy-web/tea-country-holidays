@@ -38,9 +38,9 @@ export default function CookieBanner() {
           <Cookie className="h-5 w-5" />
         </div>
         <div>
-          <h4 className="font-serif text-base font-bold text-[#F4A011] mb-1">
+          <div className="font-serif text-base font-bold text-[#F4A011] mb-1">
             Cookie Consent
-          </h4>
+          </div>
           <p className="text-white/80 text-xs leading-relaxed">
             We use cookies to improve your browsing experience, analyze site traffic, and personalize travel itineraries. By clicking &ldquo;Accept&rdquo;, you consent to our use of cookies. Read our{" "}
             <Link href="/privacy" className="underline text-[#F4A011] hover:text-white transition-colors">

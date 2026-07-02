@@ -210,9 +210,9 @@ function PackageModal({ pkg, isOpen, onClose }: PackageModalProps) {
             </p>
 
             <div className="mb-6">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#1B4332] dark:text-[#F4A011] mb-3.5 flex items-center gap-1.5">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#1B4332] dark:text-[#F4A011] mb-3.5 flex items-center gap-1.5">
                 <span>Highlights & Sightseeing</span>
-              </h4>
+              </h3>
               <ul className="space-y-3">
                 {highlights.map((highlight, idx) => (
                   <li key={idx} className="flex items-start gap-2.5 text-xs text-gray-600 dark:text-white/80 leading-relaxed">
@@ -224,7 +224,7 @@ function PackageModal({ pkg, isOpen, onClose }: PackageModalProps) {
             </div>
 
             <div className="mb-4 border-t border-gray-100 dark:border-white/10 pt-5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#1B4332] dark:text-white/60 mb-3">Inclusions</h4>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#1B4332] dark:text-white/60 mb-3">Inclusions</h3>
               <div className="grid grid-cols-2 gap-y-2.5 gap-x-4 text-xs text-gray-500 dark:text-white/50 font-semibold">
                 <div className="flex items-center gap-1.5">✓ Hotels & Lodging</div>
                 <div className="flex items-center gap-1.5">✓ Daily Breakfast</div>

@@ -140,7 +140,7 @@ export default function PackagesScroll({ initialPackages = fallbackPackages }: {
                 {/* Card Body */}
                 <div className="p-5 flex flex-col gap-3">
                   {/* Destination Tag */}
-                  <span className="inline-block self-start bg-brand-gold/10 text-brand-gold text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                  <span className="inline-block self-start bg-brand-gold/10 text-[#826207] dark:text-brand-gold text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
                     {pkg.destination}
                   </span>
 
@@ -173,7 +173,7 @@ export default function PackagesScroll({ initialPackages = fallbackPackages }: {
           </div>
         </div>
         {/* Mobile swipe hint */}
-        <p className="flex md:hidden items-center justify-center gap-2 text-xs text-brand-evergreen/40 dark:text-brand-cream/30 mt-3 select-none">
+        <p className="flex md:hidden items-center justify-center gap-2 text-xs text-brand-evergreen/70 dark:text-brand-cream/70 mt-3 select-none">
           <span>←</span> Swipe to explore <span>→</span>
         </p>
       </div>

@@ -554,7 +554,7 @@ export default function GlassSearch() {
           className="gs-dropdown rounded-2xl shadow-2xl overflow-hidden p-5"
           style={GLASS_DROPDOWN}
         >
-          <h4 className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider mb-4">Travellers</h4>
+          <div className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider mb-4">Travellers</div>
 
           <div className="space-y-4 mb-5">
             {[
@@ -584,7 +584,7 @@ export default function GlassSearch() {
 
           <div className="border-t border-white/10 mb-5" />
 
-          <h4 className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider mb-3">Preferred Transport</h4>
+          <div className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider mb-3">Preferred Transport</div>
           <div className="grid grid-cols-3 gap-2 mb-5">
             {(["Flight", "Train", "Road"] as TransportMode[]).map((mode) => {
               const MIcon = TRANSPORT_ICONS[mode];
