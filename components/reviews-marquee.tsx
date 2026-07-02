@@ -250,8 +250,8 @@ function ReviewCard({ review }: { review: Review }) {
 export default function ReviewsMarquee({ initialReviews = fallbackReviews }: { initialReviews?: Review[] }) {
   // Duplicate for seamless infinite loop — prefix keys to avoid collisions
   const doubled = [
-    ...initialReviews.map(r => ({ ...r, _key: `a-${r.id}` })),
-    ...initialReviews.map(r => ({ ...r, _key: `b-${r.id}` })),
+    ...initialReviews.map(r => ({ ...r, _key: `a-${r.id}`, isDuplicate: false })),
+    ...initialReviews.map(r => ({ ...r, _key: `b-${r.id}`, isDuplicate: true })),
   ];
 
   return (
@@ -287,10 +287,18 @@ export default function ReviewsMarquee({ initialReviews = fallbackReviews }: { i
       </div>
 
       {/* Marquee */}
-      <div className="flex overflow-hidden select-none">
+      <div className="marquee-viewport flex overflow-hidden select-none">
         <div className="marquee-track py-2" aria-label="Customer reviews">
           {doubled.map((review) => (
-            <ReviewCard key={review._key} review={review} />
+            <div
+              key={review._key}
+              className={review.isDuplicate ? "review-card-duplicate shrink-0 snap-start" : "review-card-original shrink-0 snap-start"}
+            >
+              {(() => {
+                const { _key, isDuplicate, ...originalReview } = review;
+                return <ReviewCard review={originalReview} />;
+              })()}
+            </div>
           ))}
         </div>
       </div>

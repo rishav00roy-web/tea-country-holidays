@@ -126,4 +126,34 @@ test.describe('Tier 3: Cross-Feature Interactions', () => {
     const bannerAfterNav = page.locator('[data-testid="cookie-consent-banner"], .cookie-consent-banner');
     await expect(bannerAfterNav).not.toBeVisible();
   });
+
+  test('7. Prefers-Reduced-Motion: Reviews Marquee Fallback', async ({ page }) => {
+    // 1. Emulate prefers-reduced-motion
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    
+    // 2. Load page
+    await page.goto('/', { timeout: 60000 });
+
+    // 3. Verify duplicate review elements are hidden
+    const duplicates = page.locator('.review-card-duplicate');
+    for (let i = 0; i < await duplicates.count(); i++) {
+      await expect(duplicates.nth(i)).not.toBeVisible();
+    }
+
+    // 4. Verify original reviews are visible
+    const originals = page.locator('.review-card-original');
+    await expect(originals.first()).toBeVisible();
+
+    // 5. Verify the viewport is scrollable horizontally
+    const viewport = page.locator('.marquee-viewport');
+    await expect(viewport).toBeVisible();
+    const isScrollable = await viewport.evaluate((el) => {
+      const style = window.getComputedStyle(el);
+      return (
+        (style.overflowX === 'auto' || style.overflowX === 'scroll') &&
+        el.scrollWidth > el.clientWidth
+      );
+    });
+    expect(isScrollable).toBe(true);
+  });
 });

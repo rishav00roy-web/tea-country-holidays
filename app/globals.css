@@ -258,6 +258,20 @@
   .mesh-bg {
     animation: none;
   }
+  .marquee-viewport {
+    overflow-x: auto !important;
+  }
+  .marquee-track {
+    animation: none !important;
+    width: max-content !important;
+    scroll-snap-type: x mandatory;
+  }
+  .review-card-original {
+    scroll-snap-align: start;
+  }
+  .review-card-duplicate {
+    display: none !important;
+  }
 }
 
 /* ─── Dark Mode Toggle ─── */
