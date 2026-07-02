@@ -108,15 +108,17 @@ export default async function Home() {
         <PackagesScroll initialPackages={carouselPackages} />
 
         {/* varden (#FEF0D5) → BentoWhyUs (mesh #0A2E1D) */}
-        <SectionDivider topColor="#FEF0D5" bottomColor="#0A2E1D" curve="up" className="bg-transparent" />
-        <BentoWhyUs />
+        <div id="bento-why-us-wrapper" className="relative isolate overflow-hidden">
+          <SectionDivider topColor="#FEF0D5" bottomColor="#0A2E1D" curve="up" className="bg-transparent" />
+          <BentoWhyUs />
 
-        {/* mesh (#0A2E1D) → Destinations (#FEFAEF) */}
-        <SectionDivider topColor="#0A2E1D" bottomColor="#FEFAEF" curve="down" className="bg-transparent" />
+          {/* mesh (#0A2E1D) → Destinations (#FEFAEF) */}
+          <SectionDivider topColor="#0A2E1D" bottomColor="#FEFAEF" curve="down" className="bg-transparent" />
+        </div>
         <Destinations />
 
         {/* cream (#FEFAEF) → OfferBanner (dark #013220 overlay) */}
-        <div id="offer-banner-wrapper" className="relative">
+        <div id="offer-banner-wrapper" className="relative overflow-hidden">
           <SectionDivider topColor="#FEFAEF" bottomColor="#013220" curve="up" className="bg-transparent" />
           <OfferBanner />
           <SectionDivider topColor="#013220" bottomColor="#FEFAEF" curve="down" className="bg-transparent" />

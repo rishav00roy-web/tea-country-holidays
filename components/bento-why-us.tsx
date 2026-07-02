@@ -35,13 +35,12 @@ const features = [
 
 export default function BentoWhyUs() {
   return (
-    <div id="bento-why-us-wrapper" className="relative isolate">
-      {/* Background bleed container: Asymmetrical vertically to prevent top overflow into the cream section */}
-      <div className="absolute -inset-x-0 -top-[50px] -bottom-[62px] mesh-bg -z-10" />
+    <section className="relative py-20 md:py-28 overflow-hidden bg-transparent">
+      {/* Background bleed container */}
+      <div className="absolute -inset-x-0 -inset-y-[60px] mesh-bg -z-10" />
 
-      <section className="relative py-20 md:py-28 overflow-hidden bg-transparent">
-        {/* Ambient glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-gold/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* Ambient glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-gold/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 reveal">
@@ -75,7 +74,6 @@ export default function BentoWhyUs() {
           })}
         </div>
       </div>
-      </section>
-    </div>
+    </section>
   );
 }
