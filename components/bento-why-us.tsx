@@ -36,8 +36,8 @@ const features = [
 export default function BentoWhyUs() {
   return (
     <div id="bento-why-us-wrapper" className="relative isolate">
-      {/* Background bleed container */}
-      <div className="absolute -inset-x-0 -inset-y-[60px] mesh-bg -z-10" />
+      {/* Background bleed container: Asymmetrical vertically to prevent top overflow into the cream section */}
+      <div className="absolute -inset-x-0 -top-[50px] -bottom-[62px] mesh-bg -z-10" />
 
       <section className="relative py-20 md:py-28 overflow-hidden bg-transparent">
         {/* Ambient glow */}
