@@ -23,12 +23,12 @@ const inter = Inter({
 const kentish = localFont({
   src: [
     {
-      path: "../public/fonts/KentishVol1.otf",
+      path: "../public/Fonts/KentishVol1.otf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/fonts/KentishVol2.otf",
+      path: "../public/Fonts/KentishVol2.otf",
       weight: "700",
       style: "normal",
     },
