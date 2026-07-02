@@ -1,10 +1,6 @@
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
-
 export default function EventsLoading() {
   return (
     <main className="min-h-screen bg-brand-varden">
-      <Navbar />
       
       {/* Hero Banner */}
       <div className="bg-[#1B4332] pt-36 pb-20 px-4 text-center relative overflow-hidden">
@@ -50,8 +46,6 @@ export default function EventsLoading() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </main>
   )
 }

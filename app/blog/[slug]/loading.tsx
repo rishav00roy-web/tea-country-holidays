@@ -1,11 +1,8 @@
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
 import { ArrowLeft } from "lucide-react"
 
 export default function BlogSlugLoading() {
   return (
     <main className="min-h-screen bg-[#FAFAF8]">
-      <Navbar />
       
       {/* Hero Banner */}
       <div className="relative h-[400px] w-full bg-[#1a2e0f] animate-pulse" />
@@ -51,8 +48,6 @@ export default function BlogSlugLoading() {
           <div className="h-12 bg-gray-200 rounded-lg w-1/3 mx-auto mt-4" />
         </div>
       </div>
-
-      <Footer />
     </main>
   )
 }

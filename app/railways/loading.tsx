@@ -1,10 +1,6 @@
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
-
 export default function RailwaysLoading() {
   return (
     <main className="min-h-screen bg-[#FAFAF8]">
-      <Navbar />
       
       {/* Hero Banner */}
       <div className="bg-[#1B4332] pt-32 pb-16 px-4">
@@ -36,8 +32,6 @@ export default function RailwaysLoading() {
           <div className="h-12 bg-[#F4A011]/30 rounded-lg w-full mt-6" />
         </div>
       </div>
-
-      <Footer />
     </main>
   )
 }

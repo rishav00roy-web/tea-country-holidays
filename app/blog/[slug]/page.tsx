@@ -2,8 +2,6 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock } from "lucide-react"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
 import { notFound } from "next/navigation"
 
 const blogPosts = [
@@ -453,7 +451,6 @@ export default async function BlogDetailPage({
 
   return (
     <main className="min-h-screen bg-[#FAFAF7] dark:bg-[#0d1f1a]">
-      <Navbar />
 
       {/* Hero image */}
       <div className="relative h-[55vh] w-full pt-20">
@@ -561,8 +558,6 @@ export default async function BlogDetailPage({
           </a>
         </div>
       </div>
-
-      <Footer />
     </main>
   )
 }
