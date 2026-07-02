@@ -156,4 +156,77 @@ test.describe('Tier 3: Cross-Feature Interactions', () => {
     });
     expect(isScrollable).toBe(true);
   });
+
+  test('8. Mobile Floating Elements Layout Alignment', async ({ page }) => {
+    const viewports = [
+      { width: 375, height: 667 }, // iPhone SE
+      { width: 390, height: 844 }, // iPhone 12/13
+      { width: 412, height: 915 }  // Galaxy S20
+    ];
+
+    for (const vp of viewports) {
+      await page.setViewportSize(vp);
+      // Load homepage
+      await page.goto('/', { timeout: 60000 });
+
+      const cookieBanner = page.locator('.cookie-consent-banner');
+      const floatingBar = page.locator('#floating-action-bar');
+      const whatsappBtn = page.locator('#floating-action-bar .whatsapp-btn');
+      const navPill = page.locator('#floating-action-bar .mobile-nav-pill');
+
+      // Verify they are visible
+      await expect(cookieBanner).toBeVisible();
+      await expect(floatingBar).toBeVisible();
+      await expect(whatsappBtn).toBeVisible();
+      await expect(navPill).toBeVisible();
+
+      await expect(async () => {
+        // Retrieve bounding boxes inside retry loop
+        const cookieBox = await cookieBanner.boundingBox();
+        const floatingBox = await floatingBar.boundingBox();
+        const whatsappBox = await whatsappBtn.boundingBox();
+        const navBox = await navPill.boundingBox();
+
+        expect(cookieBox).not.toBeNull();
+        expect(floatingBox).not.toBeNull();
+        expect(whatsappBox).not.toBeNull();
+        expect(navBox).not.toBeNull();
+
+        if (cookieBox && floatingBox && whatsappBox && navBox) {
+          // 1. Verify WhatsApp button is above the bottom nav pill
+          expect(whatsappBox.y + whatsappBox.height).toBeLessThanOrEqual(navBox.y);
+
+          // 2. Verify Cookie Consent is positioned above the Floating Action Bar on mobile
+          // This requires the ResizeObserver to have populated --action-bar-height
+          expect(cookieBox.y + cookieBox.height).toBeLessThanOrEqual(floatingBox.y);
+
+          // 3. Verify elements are fully within the viewport bounds
+          expect(cookieBox.x).toBeGreaterThanOrEqual(0);
+          expect(cookieBox.x + cookieBox.width).toBeLessThanOrEqual(vp.width);
+          
+          // 4. Verify Cookie Banner is not clipped off the top of the viewport
+          expect(cookieBox.y).toBeGreaterThanOrEqual(0);
+
+          expect(floatingBox.x).toBeGreaterThanOrEqual(0);
+          expect(floatingBox.x + floatingBox.width).toBeLessThanOrEqual(vp.width);
+        }
+      }).toPass({ timeout: 5000 });
+
+      // 5. Test interaction: Click "Packages" link in the mobile nav pill
+      const packagesLink = page.locator('#floating-action-bar a[href="/holidays"]').first();
+      await packagesLink.click();
+      await expect(page).toHaveURL(/.*\/holidays/);
+
+      // Go back to home to test Cookie Banner
+      await page.goto('/', { timeout: 60000 });
+      
+      // Click "Accept" on the cookie banner and confirm it gets dismissed
+      const acceptBtn = page.locator('.cookie-consent-banner button:has-text("Accept")');
+      await acceptBtn.click();
+      await expect(cookieBanner).not.toBeVisible();
+
+      // Clear localStorage so the cookie consent banner shows up for the next viewport test
+      await page.evaluate(() => localStorage.removeItem('cookie-consent'));
+    }
+  });
 });

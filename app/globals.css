@@ -529,3 +529,12 @@ body.dark .skeleton {
   }
 }
 
+/* ── Cookie Consent Banner - Dynamic Bottom Stacking ── */
+.cookie-consent-banner {
+  bottom: calc(var(--action-bar-height, 0px) + 32px + env(safe-area-inset-bottom));
+}
+@media (min-width: 768px) {
+  .cookie-consent-banner {
+    bottom: 16px !important; /* bottom-4 on desktop */
+  }
+}

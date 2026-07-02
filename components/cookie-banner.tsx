@@ -31,7 +31,7 @@ export default function CookieBanner() {
   return (
     <div
       data-testid="cookie-consent-banner"
-      className="cookie-consent-banner fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md bg-[#1B4332] text-white p-5 rounded-2xl shadow-2xl border border-brand-gold/30 z-50 flex flex-col gap-4 transition-all duration-300 animate-in fade-in slide-in-from-bottom-5"
+      className="cookie-consent-banner fixed left-4 right-4 md:left-auto md:right-4 md:max-w-md bg-[#1B4332] text-white p-5 rounded-2xl shadow-2xl border border-brand-gold/30 z-[60] flex flex-col gap-4 transition-all duration-300 animate-in fade-in slide-in-from-bottom-5"
     >
       <div className="flex gap-3 items-start">
         <div className="p-2 bg-white/10 rounded-xl shrink-0 text-[#F4A011]">
