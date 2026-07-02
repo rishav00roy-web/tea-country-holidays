@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Terms & Conditions | Tea Country Holidays",
   description:
     "Read the terms and conditions governing the use of Tea Country Holidays services, holiday packages, and bookings.",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 const sections = [

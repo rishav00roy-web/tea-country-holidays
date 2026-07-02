@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "FAQ – Northeast India Travel Questions Answered | Tea Country Holidays",
   description:
     "Answers to the most common questions about Northeast India travel — permits, best time to visit, safety, costs, and booking with Tea Country Holidays.",
+  alternates: {
+    canonical: "/faq",
+  },
   keywords: [
     "Northeast India travel FAQ",
     "do I need a permit Northeast India",

@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Privacy Policy | Tea Country Holidays",
   description:
     "Learn how Tea Country Holidays collects, uses, and protects your personal information.",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 const sections = [
