@@ -10,13 +10,26 @@ export default function OfferBanner() {
   const parallaxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      if (!parallaxRef.current) return;
-      const rect = parallaxRef.current.parentElement?.getBoundingClientRect();
-      if (!rect) return;
-      const offset = (rect.top / window.innerHeight) * 30;
-      parallaxRef.current.style.transform = `translateY(${offset}px)`;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (parallaxRef.current) {
+            const rect = parallaxRef.current.parentElement?.getBoundingClientRect();
+            if (rect) {
+              const offset = (rect.top / window.innerHeight) * 30;
+              // Clamp translation to +/- 50px so it never exceeds the 60px bleed boundary
+              const clampedOffset = Math.max(-50, Math.min(50, offset));
+              parallaxRef.current.style.transform = `translateY(${clampedOffset}px)`;
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -35,7 +48,7 @@ export default function OfferBanner() {
       <div
         ref={parallaxRef}
         className="absolute inset-[-60px] overflow-hidden"
-        style={{ transition: "transform 0.05s linear", willChange: "transform" }}
+        style={{ willChange: "transform" }}
       >
         <Image
           src="https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=1600&q=65&auto=format&fm=webp"

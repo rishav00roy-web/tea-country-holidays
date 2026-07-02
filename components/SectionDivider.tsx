@@ -13,21 +13,20 @@ const PATH_UP_INV   = "M0,30 C240,60 480,60 720,30 C960,0 1200,0 1440,30 L1440,-
 
 export default function SectionDivider({ topColor, bottomColor, curve = "down", className = "" }: Props) {
   const isMesh = className.includes("mesh-bg");
+  const isTransparent = className.includes("bg-transparent") || isMesh;
 
   let bg = curve === "down" ? bottomColor : topColor;
   let fill = curve === "down" ? topColor : bottomColor;
   let path = curve === "down" ? PATH_DOWN : PATH_UP;
 
-  if (isMesh) {
-    // If we want a transition to/from mesh-bg, we set the SVG background to mesh-bg (via className).
-    // And we fill the path with the solid color (either topColor or bottomColor) for the non-mesh side.
+  if (isTransparent) {
+    // If we want a transparent background (e.g. for image or mesh transition), we set it to transparent.
+    // And we fill the path with the solid color (either topColor or bottomColor) for the non-transparent side.
     bg = "transparent";
     if (curve === "down") {
-      // Top side is mesh-bg (background). Bottom side is bottomColor (solid fill).
       fill = bottomColor;
       path = PATH_DOWN_INV;
     } else {
-      // Top side is topColor (solid fill). Bottom side is mesh-bg (background).
       fill = topColor;
       path = PATH_UP_INV;
     }
