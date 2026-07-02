@@ -184,11 +184,11 @@ export default function Hero() {
               src={dest.img}
               alt=""
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 50vw, 100vw"
               priority={isFirst}
               loading={isFirst ? "eager" : "lazy"}
               fetchPriority={isFirst ? "high" : "low"}
-              quality={isFirst ? 60 : 50}
+              quality={isFirst ? 45 : 35}
               className={`absolute inset-0 w-full h-full object-cover ${dest.pos || "object-center"}`}
               style={{
                 opacity: isCurrent

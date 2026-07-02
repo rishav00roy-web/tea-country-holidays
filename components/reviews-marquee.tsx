@@ -303,7 +303,7 @@ export default function ReviewsMarquee({ initialReviews = fallbackReviews }: { i
         </div>
       </div>
 
-      <p className="text-center text-brand-gold/75 text-xs mt-6 tracking-wider">
+      <p className="text-center text-[#E5C158] text-xs mt-6 tracking-wider">
         {"\u2605"} Verified Google Reviews {"\u00B7"} TeaCountryHolidays, Guwahati, Assam
       </p>
     </section>

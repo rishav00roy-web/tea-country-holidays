@@ -41,8 +41,9 @@ const fetchUrl = (url) => {
   
   // 3. Fetch each optimized image URL to populate Vercel edge cache
   for (const imgUrl of imageUrls) {
-    const fullUrl = `${baseUrl}/${imgUrl}`;
-    console.log(`Warming image: ${imgUrl.substring(0, 80)}...`);
+    const cleanImgUrl = imgUrl.startsWith('/') ? imgUrl : '/' + imgUrl;
+    const fullUrl = `${baseUrl}${cleanImgUrl}`;
+    console.log(`Warming image: ${cleanImgUrl.substring(0, 80)}...`);
     const imgResult = await fetchUrl(fullUrl);
     if (imgResult) {
       console.log(`  Done. Cache: ${imgResult.headers['x-vercel-cache'] || 'N/A'}, Length: ${imgResult.data.length} bytes`);
