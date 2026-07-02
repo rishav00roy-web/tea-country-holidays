@@ -76,7 +76,9 @@ const Typewriter = memo(function Typewriter({
     }
 
     if (phase === "pausing") {
-      const t = setTimeout(() => setPhase("erasing"), PAUSE_AFTER);
+      const isFirstWord = wordIndex === 0;
+      const pauseDuration = isFirstWord ? 7000 : PAUSE_AFTER;
+      const t = setTimeout(() => setPhase("erasing"), pauseDuration);
       return () => clearTimeout(t);
     }
 
@@ -229,14 +231,14 @@ export default function Hero() {
 
           <p
             className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-24 sm:pt-0"
-            style={{ animation: "fadeUp 0.8s ease both 0.1s" }}
+            style={{ animation: "fadeUp 0.8s ease both 0.05s" }}
           >
             Tea Country Holidays
           </p>
 
           <h1
             className="font-serif text-white text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-snug md:leading-tight"
-            style={{ animation: "fadeUp 0.8s ease both 0.35s", opacity: 0, animationFillMode: "both" }}
+            style={{ animation: "fadeUp 0.8s ease both 0.1s", opacity: 0, animationFillMode: "both" }}
           >
             Discover{" "}
             <Typewriter wordIndex={wordIndex} onWordComplete={advanceWord} />
@@ -244,26 +246,26 @@ export default function Hero() {
 
           <p
             className="font-serif italic text-brand-cream/90 tracking-[0.1em] text-base sm:text-xl md:text-2xl font-medium"
-            style={{ animation: "fadeUp 0.8s ease both 0.6s", animationFillMode: "both", opacity: 0 }}
+            style={{ animation: "fadeUp 0.8s ease both 0.15s", animationFillMode: "both", opacity: 0 }}
           >
             Northeast India, Curated. Since 2014.
           </p>
 
           <div
             className="w-16 h-px bg-[#F4A011]/50 mt-2"
-            style={{ animation: "fadeUp 0.8s ease both 0.8s", opacity: 0 }}
+            style={{ animation: "fadeUp 0.8s ease both 0.2s", opacity: 0 }}
           />
 
           <div
             className="w-full pt-8 relative z-20"
-            style={{ animation: "fadeUp 0.8s ease both 1s", opacity: 0 }}
+            style={{ animation: "fadeUp 0.8s ease both 0.25s", opacity: 0 }}
           >
             <GlassSearch />
           </div>
 
           <div
             className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 sm:gap-x-4 sm:gap-y-2 text-[#F5F0E8] font-sans text-[11px] sm:text-[13px] tracking-[0.05em] mt-4 opacity-0 relative z-10"
-            style={{ animation: "fadeUp 0.8s ease both 1.2s" }}
+            style={{ animation: "fadeUp 0.8s ease both 0.3s" }}
           >
             <span className="text-[#C8860A]">✦</span>
             <span>500+ Tours Crafted</span>

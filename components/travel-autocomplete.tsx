@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ComponentType } from "react";
 import { ChevronDown, Loader2 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+// supabase imported dynamically to optimize bundle load size
 
 type TravelAutocompleteProps = {
   label: string;
@@ -75,6 +75,7 @@ export default function TravelAutocomplete({
     const requestId = ++requestIdRef.current;
     const timer = window.setTimeout(async () => {
       const q = escapeLike(query);
+      const { supabase } = await import("@/lib/supabase");
       const { data, error } = await supabase
         .from("locations")
         .select("id,name,code,type,region,country")

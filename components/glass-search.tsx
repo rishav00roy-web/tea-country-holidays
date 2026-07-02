@@ -3,7 +3,7 @@
 import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { MapPin, Calendar, Users, Plane, Train, Car, Navigation, Check, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+// supabase imported dynamically to optimize bundle load size
 
 type TransportMode = "Flight" | "Train" | "Road";
 type LocationRow = {
@@ -234,6 +234,7 @@ export default function GlassSearch() {
     }
     const timer = setTimeout(async () => {
       setIsSearching(true);
+      const { supabase } = await import("@/lib/supabase");
       const { data, error } = await supabase
         .from("locations")
         .select("id,name,code,type,region,country")

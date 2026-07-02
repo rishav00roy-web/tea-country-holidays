@@ -1,5 +1,5 @@
 "use client"
-import { supabase } from "@/lib/supabase"
+// supabase imported dynamically to optimize bundle load size
 import { useRouter } from "next/navigation"
 import { openWhatsApp } from "@/lib/whatsapp"
 
@@ -12,6 +12,7 @@ export function useAuthGate() {
    * as a popup even after an async Supabase call.
    */
   const gatedWhatsApp = async (message: string, redirectPath?: string) => {
+    const { supabase } = await import("@/lib/supabase")
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) {
       const redirect = redirectPath || (typeof window !== "undefined" ? window.location.pathname : "/")

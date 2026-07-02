@@ -38,6 +38,35 @@ const nextConfig: NextConfig = {
       "react-fast-marquee",
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com https://vercel.live https://*.vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://images.unsplash.com https://plus.unsplash.com https://lnrkqyxiwbkvkazyzcbe.supabase.co https://*.googleusercontent.com https://ui-avatars.com https://upload.wikimedia.org; connect-src 'self' https://lnrkqyxiwbkvkazyzcbe.supabase.co wss://lnrkqyxiwbkvkazyzcbe.supabase.co https://vercel.live https://*.vercel.live; font-src 'self' data:; frame-src 'self'; media-src 'self';"
+          },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin"
+          },
+          {
+            key: "X-Frame-Options",
+            value: "DENY"
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff"
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin"
+          }
+        ]
+      }
+    ];
+  }
 };
 
 export default withBundleAnalyzer(nextConfig);

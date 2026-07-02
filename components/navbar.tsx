@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, User, Map, Building2, Plane, Train, Calendar, Info, BookOpen, Phone } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+// supabase imported dynamically to optimize bundle load size
 
 const NAV_LINKS: { name: string; href: string; isPlaceholder?: boolean }[] = [
   { name: "Holidays",  href: "/holidays" },
@@ -71,22 +71,30 @@ export default function Navbar() {
   // ── Session state management ──
   useEffect(() => {
     let mounted = true;
+    let subscription: any = null;
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const initAuth = async () => {
+      const { supabase } = await import("@/lib/supabase");
+      const { data: { session } } = await supabase.auth.getSession();
       if (!mounted) return;
       setHasSession(!!session);
       setAuthReady(true);
-    });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!mounted) return;
-      setHasSession(!!session);
-      setAuthReady(true);
-    });
+      const { data: { subscription: sub } } = supabase.auth.onAuthStateChange((_event, session) => {
+        if (!mounted) return;
+        setHasSession(!!session);
+        setAuthReady(true);
+      });
+      subscription = sub;
+    };
+
+    initAuth();
 
     return () => {
       mounted = false;
-      subscription.unsubscribe();
+      if (subscription) {
+        subscription.unsubscribe();
+      }
     };
   }, []);
 
@@ -130,6 +138,7 @@ export default function Navbar() {
   };
 
   const handleSignOut = async () => {
+    const { supabase } = await import("@/lib/supabase");
     await supabase.auth.signOut();
     setHasSession(false);
     router.refresh();
