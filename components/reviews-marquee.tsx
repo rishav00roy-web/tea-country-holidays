@@ -229,8 +229,8 @@ function ReviewCard({ review }: { review: Review }) {
             src={review.photoUrl}
             alt={`${review.tour} photo`}
             fill
-            quality={65}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            quality={50}
+            sizes="(max-width: 640px) 85vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover"
             loading="lazy"
           />

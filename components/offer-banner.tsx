@@ -70,7 +70,7 @@ export default function OfferBanner() {
           alt=""
           fill
           sizes="100vw"
-          quality={65}
+          quality={50}
           className="object-cover object-center scale-[1.02]"
         />
         {/* Dark overlay moved inside the wrapper to bleed and translate with the image */}

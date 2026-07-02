@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import FloatingActionBar from "@/components/FloatingActionBar";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -16,6 +17,23 @@ const playfairDisplay = Playfair_Display({
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const kentish = localFont({
+  src: [
+    {
+      path: "../public/fonts/KentishVol1.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/KentishVol2.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-kentish",
   display: "swap",
 });
 
@@ -69,13 +87,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfairDisplay.variable} ${inter.variable} scroll-smooth`}
+      className={`${playfairDisplay.variable} ${inter.variable} ${kentish.variable} scroll-smooth`}
     >
       <head>
         <meta charSet="utf-8" />
-        {/* Preload custom brand fonts to prevent FOIT/FOUT */}
-        <link rel="preload" href="/fonts/KentishVol1.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/KentishVol2.otf" as="font" type="font/otf" crossOrigin="anonymous" />
         {/* Unsplash images — preconnect cuts DNS+TLS time */}
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />

@@ -104,8 +104,8 @@ function FlipCard({ data, index }: { data: Testimonial; index: number }) {
               src={photo}
               alt=""
               fill
-              quality={65}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              quality={50}
+              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-opacity duration-1000 pointer-events-none"
               style={{
                 opacity: i === currentPhotoIndex ? 0.7 : 0,
