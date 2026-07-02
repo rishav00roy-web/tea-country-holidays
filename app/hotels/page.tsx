@@ -13,8 +13,24 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function HotelsPage() {
+interface HotelsPageProps {
+  searchParams: Promise<{
+    city?: string
+    checkin?: string
+    checkout?: string
+    guests?: string
+  }>
+}
+
+export default async function HotelsPage({ searchParams }: HotelsPageProps) {
+  const resolvedSearchParams = await searchParams
+  const cityParam = resolvedSearchParams.city || ""
+  const checkinParam = resolvedSearchParams.checkin || ""
+  const checkoutParam = resolvedSearchParams.checkout || ""
+  const guestsParam = resolvedSearchParams.guests || "2"
+
   let hotels: Hotel[] = fallbackHotels;
+  let fetchError = false;
   try {
     const supabase = await createClient()
     const { data, error } = await supabase
@@ -26,10 +42,21 @@ export default async function HotelsPage() {
       hotels = data as unknown as Hotel[];
     } else if (error) {
       console.warn("Failed to fetch hotels from Supabase, using fallback hotels:", error.message)
+      fetchError = true;
     }
   } catch (e) {
     console.error("Error connecting to Supabase or fetching hotels:", e)
+    fetchError = true;
   }
 
-  return <HotelsContent initialHotels={hotels} />
+  return (
+    <HotelsContent
+      initialHotels={hotels}
+      cityParam={cityParam}
+      checkinParam={checkinParam}
+      checkoutParam={checkoutParam}
+      guestsParam={guestsParam}
+      fetchError={fetchError}
+    />
+  )
 }

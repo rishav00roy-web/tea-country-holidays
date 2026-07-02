@@ -1,10 +1,9 @@
 "use client"
 
-import { useState, Suspense } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import { MapPin, Calendar, Users, Star, MessageCircle } from "lucide-react"
 import { useAuthGate } from "@/hooks/use-auth-gate"
-import { useSearchParams } from "next/navigation"
 
 export interface Hotel {
   id: string | number;
@@ -26,14 +25,22 @@ export const fallbackHotels: Hotel[] = [
   { id: 6, name: "Misty Valleys Resort", city: "Manali", image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80", price: 5800, rating: 4, description: "Cozy retreat surrounded by pine woods and crisp mountain air." }
 ]
 
-function HotelsPageContent({ initialHotels }: { initialHotels: Hotel[] }) {
+function HotelsPageContent({
+  initialHotels,
+  cityParam = "",
+  checkinParam = "",
+  checkoutParam = "",
+  guestsParam = "2",
+  fetchError = false,
+}: {
+  initialHotels: Hotel[]
+  cityParam?: string
+  checkinParam?: string
+  checkoutParam?: string
+  guestsParam?: string
+  fetchError?: boolean
+}) {
   const { gatedWhatsApp } = useAuthGate()
-  const searchParams = useSearchParams()
-
-  const cityParam = searchParams.get("city") || ""
-  const checkinParam = searchParams.get("checkin") || ""
-  const checkoutParam = searchParams.get("checkout") || ""
-  const guestsParam = searchParams.get("guests") || "2"
 
   const [city, setCity] = useState(cityParam)
   const [checkin, setCheckin] = useState(checkinParam)
@@ -119,6 +126,11 @@ function HotelsPageContent({ initialHotels }: { initialHotels: Hotel[] }) {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+        {fetchError && (
+          <div className="mb-8 p-4 bg-red-50 border border-red-200 rounded-xl text-red-800 text-sm text-center">
+            ⚠️ We are experiencing issues loading live rates. Showing fallback local offers.
+          </div>
+        )}
         {filtered.length === 0 ? (
           <div className="text-center py-20 max-w-md mx-auto">
             <div className="w-16 h-16 rounded-full bg-[#1B4332]/8 flex items-center justify-center mx-auto mb-5">
@@ -183,10 +195,31 @@ function HotelsPageContent({ initialHotels }: { initialHotels: Hotel[] }) {
   )
 }
 
-export default function HotelsContent({ initialHotels = fallbackHotels }: { initialHotels?: Hotel[] }) {
+interface HotelsContentProps {
+  initialHotels?: Hotel[]
+  cityParam?: string
+  checkinParam?: string
+  checkoutParam?: string
+  guestsParam?: string
+  fetchError?: boolean
+}
+
+export default function HotelsContent({
+  initialHotels = fallbackHotels,
+  cityParam = "",
+  checkinParam = "",
+  checkoutParam = "",
+  guestsParam = "2",
+  fetchError = false,
+}: HotelsContentProps) {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-white text-[#1B4332] font-semibold">Loading Hotels...</div>}>
-      <HotelsPageContent initialHotels={initialHotels} />
-    </Suspense>
+    <HotelsPageContent
+      initialHotels={initialHotels}
+      cityParam={cityParam}
+      checkinParam={checkinParam}
+      checkoutParam={checkoutParam}
+      guestsParam={guestsParam}
+      fetchError={fetchError}
+    />
   )
 }
