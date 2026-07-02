@@ -167,12 +167,10 @@ export default function LoginContent() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap');
-
         .auth-container {
           display: flex;
           min-height: 100vh;
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-dmsans), sans-serif;
           background-color: #faf8f3;
           color: #1a1a2e;
         }
@@ -228,7 +226,7 @@ export default function LoginContent() {
         }
 
         .auth-title-serif {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: var(--font-cormorant), serif;
           font-size: 3.5rem;
           font-weight: 700;
           line-height: 1.1;
@@ -250,7 +248,7 @@ export default function LoginContent() {
         }
 
         .brand-link {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: var(--font-cormorant), serif;
           font-size: 1.2rem;
           font-weight: 700;
           color: #2d5a27;
@@ -270,7 +268,7 @@ export default function LoginContent() {
         }
 
         .form-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: var(--font-cormorant), serif;
           font-size: 2.2rem;
           font-weight: 700;
           color: #2d5a27;
@@ -586,9 +584,10 @@ export default function LoginContent() {
                 src={place.image}
                 alt={place.name}
                 fill
-                unoptimized
                 className="auth-image"
                 priority={idx === 0}
+                sizes="(max-width: 900px) 1px, 50vw"
+                quality={75}
               />
               <div className="auth-overlay" />
               <div className="auth-right-content">

@@ -153,7 +153,7 @@ function PackageModal({ pkg, isOpen, onClose }: PackageModalProps) {
               fill
               className="object-cover transition-all duration-500"
               sizes="(max-width: 768px) 100vw, 50vw"
-              quality={80}
+              quality={70}
               priority
             />
             {/* Theme tag */}
