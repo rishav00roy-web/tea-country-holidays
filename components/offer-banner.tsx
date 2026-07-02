@@ -59,10 +59,10 @@ export default function OfferBanner() {
     */
     <section className="relative py-24 md:py-36 isolate" style={{ background: "#013220" }}>
 
-      {/* Parallax wrapper — -inset-x-0 -inset-y-[110px] gives generous bleed room for both parallax shift and wave overlap */}
+      {/* Parallax wrapper — -inset-x-0 -inset-y-[150px] gives generous bleed room for both parallax shift and wave overlap */}
       <div
         ref={parallaxRef}
-        className="absolute -inset-x-0 -inset-y-[110px] overflow-hidden"
+        className="absolute -inset-x-0 -inset-y-[150px] overflow-hidden -z-10"
         style={{ willChange: "transform" }}
       >
         <Image
@@ -73,12 +73,11 @@ export default function OfferBanner() {
           quality={65}
           className="object-cover object-center scale-[1.02]"
         />
+        {/* Dark overlay moved inside the wrapper to bleed and translate with the image */}
+        <div className="absolute inset-0 bg-brand-evergreen/80" />
+        {/* Gold tint moved inside the wrapper to bleed and translate with the image */}
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-evergreen/60 via-transparent to-brand-evergreen/60" />
       </div>
-
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-brand-evergreen/80" />
-      {/* Gold tint */}
-      <div className="absolute inset-0 bg-gradient-to-r from-brand-evergreen/60 via-transparent to-brand-evergreen/60" />
 
       {/* Content */}
       <div className="relative z-10 text-center max-w-3xl mx-auto px-4 reveal">
