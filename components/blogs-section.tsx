@@ -69,7 +69,7 @@ export default function BlogsSection() {
             <span className="section-label inline-block text-brand-gold mb-3">
               Stories & Guides
             </span>
-            <h2 className="font-serif text-4xl sm:text-5xl font-normal text-brand-evergreen dark:text-brand-sand">
+            <h2 className="font-serif text-3xl sm:text-5xl font-normal text-brand-evergreen dark:text-brand-sand">
               Latest from the Blog
             </h2>
           </div>

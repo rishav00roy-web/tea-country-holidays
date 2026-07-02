@@ -233,7 +233,7 @@ export default function Hero() {
           </p>
 
           <h1
-            className="font-serif text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-snug md:leading-tight"
+            className="font-serif text-white text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-snug md:leading-tight"
             style={{ animation: "fadeUp 0.8s ease both 0.35s", opacity: 0, animationFillMode: "both" }}
           >
             Discover{" "}
@@ -241,7 +241,7 @@ export default function Hero() {
           </h1>
 
           <p
-            className="font-serif italic text-brand-cream/90 tracking-[0.1em] text-lg sm:text-xl md:text-2xl font-medium"
+            className="font-serif italic text-brand-cream/90 tracking-[0.1em] text-base sm:text-xl md:text-2xl font-medium"
             style={{ animation: "fadeUp 0.8s ease both 0.6s", animationFillMode: "both", opacity: 0 }}
           >
             Northeast India, Curated. Since 2014.

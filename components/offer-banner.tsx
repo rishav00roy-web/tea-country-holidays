@@ -84,7 +84,7 @@ export default function OfferBanner() {
         <span className="section-label text-brand-gold block mb-4 animate-pulse">
           ✦ Limited Time Offer ✦
         </span>
-        <h2 className="font-serif text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
+        <h2 className="font-serif text-3xl md:text-6xl font-bold text-white leading-tight mb-6">
           Early Bird Discounts<br />
           <span className="text-brand-gold italic">Up to 25% Off</span>
         </h2>

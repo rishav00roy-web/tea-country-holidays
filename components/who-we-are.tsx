@@ -24,19 +24,19 @@ export default function WhoWeAre() {
             <span className="section-label text-brand-red block mb-4">
               Our Story
             </span>
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-brand-evergreen dark:text-white leading-[1.1] mb-6">
+            <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-brand-evergreen dark:text-white leading-[1.1] mb-6">
               Who We <span className="text-brand-gold italic">Are</span>
             </h2>
-            <p className="text-brand-ink/65 text-lg leading-relaxed mb-5">
+            <p className="text-brand-ink/65 text-sm sm:text-lg leading-relaxed mb-5">
               Founded in the lush heartland of Assam, <strong className="text-brand-evergreen dark:text-brand-gold">TeaCountryHolidays</strong> is more than a travel agency — we are storytellers, dreamweavers, and trusted travel partners who connect travellers with the soul of Northeast India and destinations across the globe.
             </p>
-            <p className="text-brand-ink/65 text-lg leading-relaxed mb-5">
+            <p className="text-brand-ink/65 text-sm sm:text-lg leading-relaxed mb-5">
               Under the vision of <strong className="text-brand-evergreen dark:text-brand-gold">Manami</strong>, our founder and IATA-accredited travel expert, Tea Country Holidays has grown into Assam&apos;s most trusted name for curated holiday packages, custom tour itineraries, and end-to-end travel services.
             </p>
-            <p className="text-brand-ink/65 text-lg leading-relaxed mb-5">
+            <p className="text-brand-ink/65 text-sm sm:text-lg leading-relaxed mb-5">
               From the mist-covered peaks of Sikkim and the sacred monasteries of Bhutan, to the golden sands of the Maldives and the futuristic skyline of Dubai — we transform every travel dream into a perfectly crafted journey. Our team handles international and domestic flights, visa assistance, hand-picked hotels, private transfers, and luxury cruises — all under one roof.
             </p>
-            <p className="text-brand-ink/65 text-lg leading-relaxed mb-8">
+            <p className="text-brand-ink/65 text-sm sm:text-lg leading-relaxed mb-8">
               Whether you&apos;re planning your first trip to Kaziranga or a royal Rajasthan circuit, Tea Country Holidays brings the expertise, local knowledge, and personal care that turns a holiday into a memory for life.
             </p>
 
@@ -49,7 +49,7 @@ export default function WhoWeAre() {
             <div className="grid grid-cols-3 gap-6">
               {STATS.map(([n, l]) => (
                 <div key={l} className="group">
-                  <span className="font-serif text-3xl font-bold text-brand-evergreen dark:text-[#faf8f3] block group-hover:text-brand-gold transition-colors duration-300">{n}</span>
+                  <span className="font-serif text-2xl sm:text-3xl font-bold text-brand-evergreen dark:text-[#faf8f3] block group-hover:text-brand-gold transition-colors duration-300">{n}</span>
                   <span className="text-xs text-brand-ink/50 uppercase tracking-wider">{l}</span>
                 </div>
               ))}

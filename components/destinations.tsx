@@ -32,7 +32,7 @@ export default function Destinations() {
           <span className="section-label text-brand-gold">
             Where do you want to go?
           </span>
-          <h2 className="reveal font-serif text-4xl md:text-5xl font-bold text-brand-evergreen dark:text-white">
+          <h2 className="reveal font-serif text-3xl md:text-5xl font-bold text-brand-evergreen dark:text-white">
             Explore by Destination
           </h2>
         </div>

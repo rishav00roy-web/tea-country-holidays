@@ -49,7 +49,7 @@ export default function BentoWhyUs() {
           <span className="section-label inline-block text-brand-gold mb-3">
             Why Choose Us
           </span>
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-white">
             Travel Smarter.{" "}
             <span className="text-brand-gold">Live Better.</span>
           </h2>
@@ -69,7 +69,7 @@ export default function BentoWhyUs() {
                 <div className="w-12 h-12 rounded-xl bg-brand-gold/10 flex items-center justify-center mb-6 text-brand-gold">
                   <Icon strokeWidth={1.5} size={24} />
                 </div>
-                <h3 className="text-white font-serif text-2xl font-bold mb-3">{item.title}</h3>
+                <h3 className="text-white font-serif text-xl md:text-2xl font-bold mb-3">{item.title}</h3>
                 <p className="text-white/60 text-sm leading-relaxed">{item.desc}</p>
               </div>
             );

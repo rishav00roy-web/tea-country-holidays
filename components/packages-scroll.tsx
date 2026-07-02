@@ -85,7 +85,7 @@ export default function PackagesScroll({ initialPackages = fallbackPackages }: {
         <div className="mb-8 flex items-end justify-between reveal">
           {/* Heading */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-brand-evergreen dark:text-[#faf8f3] font-display">
+            <h2 className="text-2xl md:text-4xl font-bold text-brand-evergreen dark:text-[#faf8f3] font-display">
               Trending Packages
             </h2>
             <p className="mt-2 text-brand-evergreen/60 dark:text-[#faf8f3]/65 text-base">
