@@ -131,14 +131,14 @@ test.describe('Tier 1: Mobile Responsiveness & Layout', () => {
   test('18. Mobile: Sticky CTA is visible on mobile viewport', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/', { timeout: 60000 });
-    const stickyCta = page.locator('div.fixed.bottom-0.left-0.right-0.md\\:hidden');
+    const stickyCta = page.locator('#floating-action-bar');
     await expect(stickyCta).toBeVisible();
   });
 
   test('19. Desktop: Sticky CTA is hidden on desktop viewport', async ({ page }) => {
     await page.setViewportSize({ width: 1200, height: 800 });
     await page.goto('/', { timeout: 60000 });
-    const stickyCta = page.locator('div.fixed.bottom-0.left-0.right-0.md\\:hidden');
+    const stickyCta = page.locator('#floating-action-bar');
     await expect(stickyCta).not.toBeVisible();
   });
 });

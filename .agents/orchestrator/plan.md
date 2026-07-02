@@ -1,48 +1,53 @@
-# Plan: Batch 3 Final Polish Pass
+# Plan: Mobile Floating Action Bar Implementation
 
-This document details the milestones and implementation plan for Batch 3 final polish pass.
+This document details the milestones and implementation plan for adding a floating iOS-style quick action bar to the mobile site view.
 
 ## Architecture & Code Layout
-- **Routes**: `app/holidays/`, `app/hotels/`, `app/events/`, `app/flights/`, `app/railways/`, `app/blog/`, `app/login/`, `app/`
-- **Components**: `components/Navbar.tsx`, `components/Footer.tsx`, card components using `<Image>` (destinations, packages, testimonials, blog cards)
+- **Target Component**: `components/FloatingActionBar.tsx` (new component)
+- **Layout Integration**: `app/layout.tsx` (persistent across pages, excluding `/admin` routes)
+- **Duplicate CTAs**:
+  - `components/whatsapp-button.tsx` (to be removed from layout/delete)
+  - `components/sticky-cta.tsx` (to be removed from layout/delete)
+- **Dependencies**: `lucide-react`, `react-icons` (check package.json and install missing)
 
 ## Milestones
 
 | Milestone | Name | Description | Status |
 |-----------|------|-------------|--------|
-| M1 | Route Loading Skeletons | Create `app/holidays/loading.tsx` and identify/create skeletons for other Supabase-connected routes. | PLANNED |
-| M2 | Image Optimizations | Scan card components using `<Image>` and add `sizes` (2-column/3-column/100vw). Set quality to 65 for card images. | PLANNED |
-| M3 | Navbar Active Link | Detect route via `usePathname()`, apply visual active styling to active links (excluding CTA). | PLANNED |
-| M4 | Footer Dead Links | Update Terms & Conditions, Privacy Policy links, remove "Pay Now", wire/remove dead '#' links. | PLANNED |
-| M5 | Verification & Audit | Run all E2E tests, execute Forensic Auditor checks, verify layout and compliance. | PLANNED |
+| M1 | Package & Setup | Check `package.json` for `lucide-react` and `react-icons` and install whichever is missing. | PLANNED |
+| M2 | Component Creation | Create `components/FloatingActionBar.tsx` with iOS pill style layout, home (`/`), packages (`/holidays`), WhatsApp, and Phone links. | PLANNED |
+| M3 | Layout Integration | Render `<FloatingActionBar />` in `app/layout.tsx` but exclude on `/admin` routes. | PLANNED |
+| M4 | Remove Duplicate CTAs | Remove `StickyCTA` and `WhatsAppButton` from `app/layout.tsx` and delete components. | PLANNED |
+| M5 | Verification & Audit | Perform build, check responsiveness, active path state, and run forensic integrity audit. | PLANNED |
 
 ## Detailed Checklist
 
-### Milestone 1: Route Loading Skeletons
-- [ ] Inspect pages (`app/hotels/page.tsx`, `app/events/page.tsx`, `app/flights/page.tsx`, `app/railways/page.tsx`, `app/page.tsx`, etc.) to see if they fetch from Supabase.
-- [ ] Create `app/holidays/loading.tsx` if missing or ensure it has correct skeleton UI.
-- [ ] For each route fetching data from Supabase, create a corresponding `loading.tsx` skeleton.
+### Milestone 1: Package & Setup
+- [ ] Inspect package.json for `lucide-react` and `react-icons`.
+- [ ] Install missing packages if any (`npm install <package>`).
 
-### Milestone 2: Responsive Image Sizing & Quality Optimizations
-- [ ] Identify all cards using Next.js `<Image>` (e.g., packages, destinations, blogs, testimonials).
-- [ ] Add `sizes` prop to cards:
-  - 3-column grid cards: `sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"`
-  - 2-column grid cards: `sizes="(max-width: 640px) 100vw, 50vw"`
-  - Full-width images: `sizes="100vw"`
-- [ ] Set `quality={65}` for card images (do not modify hero or blog post header quality).
+### Milestone 2: Create Floating Action Bar Component
+- [ ] Define FloatingActionBar component layout and design:
+  - Rounded pill style centered at bottom of viewport.
+  - Position: fixed, bottom (e.g. `bottom-4` or similar), left/right centered, `z-50`, `md:hidden` (only visible on mobile).
+  - Use `env(safe-area-inset-bottom)` to adjust bottom padding for iOS notches/home indicators.
+  - Buttons:
+    - **Home**: link to `/`, active when route is `/`, color gold (`#e8b84b`) when active.
+    - **Packages**: link to `/holidays`, active when route is `/holidays`, color gold (`#e8b84b`) when active.
+    - **WhatsApp**: link to `https://wa.me/918826048272?text=...`, styled as an elevated bubble with pulsing ring.
+    - **Call**: link to `tel:+918826048272`.
+- [ ] Restore missing `<a>` tag structures and fix syntax errors in code layout.
 
-### Milestone 3: Active Navbar Link
-- [ ] Edit the navbar component (likely `components/Navbar.tsx` or similar).
-- [ ] Retrieve current path using `usePathname()` from `next/navigation`.
-- [ ] Style active links with active class (e.g., `border-b-2 border-[#1B4332] text-[#1B4332] font-semibold`).
-- [ ] Do not apply active styling to CTA buttons.
+### Milestone 3: Layout Integration & Exclusions
+- [ ] Edit `app/layout.tsx` to import and render `<FloatingActionBar />`.
+- [ ] Implement conditional rendering or route check in `<FloatingActionBar />` or `app/layout.tsx` so it does not render on routes starting with `/admin`.
+  - Use `usePathname()` to check if route starts with `/admin`.
 
-### Milestone 4: Footer Dead Links
-- [ ] Update Terms & Conditions footer link to `/terms`.
-- [ ] Update Privacy Policy footer link to `/privacy`.
-- [ ] Remove "Pay Now" link completely.
-- [ ] Remove or wire any other `#` footer links.
+### Milestone 4: Remove Duplicate CTAs
+- [ ] Remove `<StickyCTA />` and `<WhatsAppButton />` from `app/layout.tsx`.
+- [ ] Delete or keep components but clean imports. Removing is safer to avoid confusion.
 
 ### Milestone 5: Verification & Audit
-- [ ] Run `npm run test:e2e` to verify E2E test suite passes.
-- [ ] Run forensic audit verification checks.
+- [ ] Run `npm run build` to verify there are no compilation or TypeScript errors.
+- [ ] Run E2E tests (`npm run test:e2e`).
+- [ ] Verify using auditor and challenger subagents.

@@ -87,7 +87,7 @@ Integrity mode: development
 
 ## Acceptance Criteria
 
-### Build and Compilation
+## Build and Compilation
 - [ ] The Next.js application compiles and builds successfully via `npm run build`.
 - [ ] The application starts and runs cleanly.
 
@@ -110,7 +110,7 @@ Integrity mode: development
 <USER_REQUEST>
 Add a floating iOS-style quick action bar to the mobile site view of the Tea Country Holidays website.
 
-Working directory: `C:\Users\User\.gemini\antigravity\scratch\tea-country-holidays`
+Working directory: C:\Users\User\.gemini\antigravity\scratch\tea-country-holidays
 Integrity mode: development
 
 ## Requirements

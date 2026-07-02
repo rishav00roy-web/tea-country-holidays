@@ -80,7 +80,7 @@ test.describe('Tier 4: Real-World User Journeys', () => {
     await expect(page).toHaveURL(/.*\/holidays/);
 
     // 4. Check if Sticky CTA is present on the Holidays subpage
-    const stickyCta = page.locator('div.fixed.bottom-0.left-0.right-0.md\\:hidden');
+    const stickyCta = page.locator('#floating-action-bar');
     await expect(stickyCta).toBeVisible();
 
     // 5. Verify the WhatsApp link exists and contains correct number

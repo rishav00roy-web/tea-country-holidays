@@ -73,7 +73,7 @@ test.describe('Tier 3: Cross-Feature Interactions', () => {
     await page.goto('/', { timeout: 60000 });
 
     // 2. Check if Sticky CTA is visible
-    const stickyCta = page.locator('div.fixed.bottom-0.left-0.right-0.md\\:hidden');
+    const stickyCta = page.locator('#floating-action-bar');
     await expect(stickyCta).toBeVisible();
 
     // 3. Verify the WhatsApp link inside the Sticky CTA is correct

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
-import StickyCTA from "@/components/sticky-cta";
-import { WhatsAppButton } from "@/components/whatsapp-button";
+import FloatingActionBar from "@/components/FloatingActionBar";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ScrollRevealInit from "@/components/scroll-reveal-init";
@@ -92,8 +91,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-        <StickyCTA />
-        <WhatsAppButton />
+        <FloatingActionBar />
         <ScrollRevealInit />
         <CookieBanner />
       </body>
