@@ -61,6 +61,21 @@ function buildCalendarDays(year: number, month: number): (number | null)[] {
   return days;
 }
 
+// Strips/escapes everything that has special meaning to Supabase before the
+// query ever leaves the browser:
+//  - "," and "(" / ")" are PostgREST .or() filter delimiters — left alone, a
+//    user could break out of the intended name/code/search_terms filter and
+//    inject an arbitrary extra condition (filter-injection).
+//  - "%", "_", and "\" are SQL LIKE wildcards — escaped so a literal % or _
+//    typed by the user is matched literally instead of acting as a wildcard.
+function sanitizeSearchTerm(value: string) {
+  return value
+    .replace(/[(),]/g, "")
+    .replace(/[%_\\]/g, "\\$&")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 // Shared glass dropdown style — same look as calendar
 const GLASS_DROPDOWN: React.CSSProperties = {
   background: "rgba(1, 50, 32, 0.97)",
@@ -136,6 +151,8 @@ export default function GlassSearch() {
   const [query, setQuery]               = useState("");
   const [suggestions, setSuggestions]   = useState<LocationRow[]>([]);
   const [isSearching, setIsSearching]   = useState(false);
+  const [searchError, setSearchError]   = useState(false);
+  const requestIdRef = useRef(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
@@ -199,6 +216,7 @@ export default function GlassSearch() {
     setActiveInput(null);
     setQuery("");
     setSuggestions([]);
+    setSearchError(false);
   }, []);
 
   const calDays = buildCalendarDays(viewYear, viewMonth);
@@ -229,19 +247,37 @@ export default function GlassSearch() {
 
   useEffect(() => {
     if (!query || query.length < 1) {
-      const timer = setTimeout(() => setSuggestions([]), 0);
+      const timer = setTimeout(() => { setSuggestions([]); setSearchError(false); }, 0);
       return () => clearTimeout(timer);
     }
+    const requestId = ++requestIdRef.current;
     const timer = setTimeout(async () => {
       setIsSearching(true);
-      const { supabase } = await import("@/lib/supabase");
-      const { data, error } = await supabase
-        .from("locations")
-        .select("id,name,code,type,region,country")
-        .or(`name.ilike.%${query}%,code.ilike.%${query}%,search_terms.ilike.%${query}%`)
-        .limit(7);
-      if (!error && data) setSuggestions(data);
-      setIsSearching(false);
+      const q = sanitizeSearchTerm(query);
+      try {
+        const { supabase } = await import("@/lib/supabase");
+        const { data, error } = await supabase
+          .from("locations")
+          .select("id,name,code,type,region,country")
+          .or(`name.ilike.%${q}%,code.ilike.%${q}%,search_terms.ilike.%${q}%`)
+          .limit(7);
+
+        if (requestIdRef.current !== requestId) return;
+
+        if (error) {
+          setSearchError(true);
+          setSuggestions([]);
+        } else {
+          setSearchError(false);
+          setSuggestions(data ?? []);
+        }
+      } catch {
+        if (requestIdRef.current !== requestId) return;
+        setSearchError(true);
+        setSuggestions([]);
+      } finally {
+        if (requestIdRef.current === requestId) setIsSearching(false);
+      }
     }, 280);
     return () => clearTimeout(timer);
   }, [query]);
@@ -429,6 +465,8 @@ export default function GlassSearch() {
                   <div className="w-4 h-4 border-2 border-[#F4A011]/30 border-t-[#F4A011] rounded-full animate-spin" />
                   <span className="text-xs text-white/40">Searching your database…</span>
                 </div>
+              ) : searchError ? (
+                <p className="text-xs text-red-300 px-1 py-2">Couldn&apos;t load suggestions. Please try again.</p>
               ) : suggestions.length > 0 ? (
                 <ul className="space-y-0.5">
                   {suggestions.map((loc) => (

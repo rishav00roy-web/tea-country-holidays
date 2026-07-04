@@ -24,8 +24,19 @@ type Suggestion = {
 
 const cache = new Map<string, Suggestion[]>();
 
-function escapeLike(value: string) {
-  return value.replace(/[%_\\]/g, "\\$&").replace(/\s+/g, " ").trim();
+// Strips/escapes everything that has special meaning to Supabase before the
+// query ever leaves the browser:
+//  - "," and "(" / ")" are PostgREST .or() filter delimiters — left alone, a
+//    user could break out of the intended name/code/search_terms filter and
+//    inject an arbitrary extra condition (filter-injection).
+//  - "%", "_", and "\" are SQL LIKE wildcards — escaped so a literal % or _
+//    typed by the user is matched literally instead of acting as a wildcard.
+function sanitizeSearchTerm(value: string) {
+  return value
+    .replace(/[(),]/g, "")
+    .replace(/[%_\\]/g, "\\$&")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function buildLabel(item: Suggestion) {
@@ -43,6 +54,7 @@ export default function TravelAutocomplete({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [error, setError] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const requestIdRef = useRef(0);
 
@@ -74,20 +86,35 @@ export default function TravelAutocomplete({
 
     const requestId = ++requestIdRef.current;
     const timer = window.setTimeout(async () => {
-      const q = escapeLike(query);
-      const { supabase } = await import("@/lib/supabase");
-      const { data, error } = await supabase
-        .from("locations")
-        .select("id,name,code,type,region,country")
-        .or(`name.ilike.%${q}%,code.ilike.%${q}%,search_terms.ilike.%${q}%`)
-        .limit(10);
+      const q = sanitizeSearchTerm(query);
+      try {
+        const { supabase } = await import("@/lib/supabase");
+        const { data, error: supabaseError } = await supabase
+          .from("locations")
+          .select("id,name,code,type,region,country")
+          .or(`name.ilike.%${q}%,code.ilike.%${q}%,search_terms.ilike.%${q}%`)
+          .limit(10);
 
-      if (requestIdRef.current !== requestId) return;
+        if (requestIdRef.current !== requestId) return;
 
-      const next = (!error && data ? data : []) as Suggestion[];
-      cache.set(query.toLowerCase(), next);
-      setSuggestions(next);
-      setLoading(false);
+        if (supabaseError) {
+          setError(true);
+          setSuggestions([]);
+          setLoading(false);
+          return;
+        }
+
+        const next = (data ?? []) as Suggestion[];
+        setError(false);
+        cache.set(query.toLowerCase(), next);
+        setSuggestions(next);
+        setLoading(false);
+      } catch {
+        if (requestIdRef.current !== requestId) return;
+        setError(true);
+        setSuggestions([]);
+        setLoading(false);
+      }
     }, 160);
 
     return () => window.clearTimeout(timer);
@@ -111,6 +138,7 @@ export default function TravelAutocomplete({
           onChange={(event) => {
             const nextValue = event.target.value;
             onChange(nextValue);
+            setError(false);
             if (nextValue.trim().length < 2) {
               setSuggestions([]);
               setLoading(false);
@@ -159,7 +187,13 @@ export default function TravelAutocomplete({
         </div>
       )}
 
-      {open && !loading && value.trim().length >= 2 && suggestions.length === 0 && (
+      {open && error && (
+        <div className="absolute z-30 mt-2 w-full rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600 shadow-xl">
+          Couldn&apos;t load suggestions. Please try again.
+        </div>
+      )}
+
+      {open && !loading && !error && value.trim().length >= 2 && suggestions.length === 0 && (
         <div className="absolute z-30 mt-2 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#1C1C1E]/50 shadow-xl">
           No matches found.
         </div>

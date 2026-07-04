@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createBrowserClient } from "@/lib/supabase";
+import {
+  listPackages,
+  createPackage,
+  updatePackage,
+  deletePackage,
+  togglePackagePublished,
+  type Package,
+} from "./actions";
 import { 
   Plus, 
   Search, 
@@ -13,22 +20,9 @@ import {
   AlertCircle 
 } from "lucide-react";
 
-interface Package {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-  theme: string;
-  category: string;
-  image: string;
-  published: boolean;
-  created_at: string;
-}
-
 const CATEGORIES = ["Domestic", "International", "Beach", "Honeymoon", "Adventure", "Pilgrimage"];
 
 export default function PackagesAdminPage() {
-  const supabase = createBrowserClient();
   const [packages, setPackages] = useState<Package[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -56,13 +50,8 @@ export default function PackagesAdminPage() {
     setLoading(true);
     setError(null);
     try {
-      const { data, error: fetchErr } = await supabase
-        .from("packages")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (fetchErr) throw fetchErr;
-      setPackages(data || []);
+      const data = await listPackages();
+      setPackages(data);
     } catch (err: any) {
       setError(err.message || "Failed to load packages");
     } finally {
@@ -118,27 +107,10 @@ export default function PackagesAdminPage() {
 
     try {
       if (editingId) {
-        // Update
-        const { data, error: updateErr } = await supabase
-          .from("packages")
-          .update(payload)
-          .eq("id", editingId)
-          .select()
-          .single();
-
-        if (updateErr) throw updateErr;
-        
+        const data = await updatePackage(editingId, payload);
         setPackages(prev => prev.map(p => p.id === editingId ? data : p));
       } else {
-        // Insert
-        const { data, error: insertErr } = await supabase
-          .from("packages")
-          .insert([payload])
-          .select()
-          .single();
-
-        if (insertErr) throw insertErr;
-
+        const data = await createPackage(payload);
         setPackages(prev => [data, ...prev]);
       }
       setIsOpen(false);
@@ -153,13 +125,7 @@ export default function PackagesAdminPage() {
     if (!confirm(`Are you sure you want to delete the package "${name}"?`)) return;
 
     try {
-      const { error: deleteErr } = await supabase
-        .from("packages")
-        .delete()
-        .eq("id", id);
-
-      if (deleteErr) throw deleteErr;
-
+      await deletePackage(id);
       setPackages(prev => prev.filter(p => p.id !== id));
     } catch (err: any) {
       alert(err.message || "Failed to delete package");
@@ -173,12 +139,7 @@ export default function PackagesAdminPage() {
     setPackages(prev => prev.map(p => p.id === pkg.id ? { ...p, published: updatedStatus } : p));
 
     try {
-      const { error: patchErr } = await supabase
-        .from("packages")
-        .update({ published: updatedStatus })
-        .eq("id", pkg.id);
-
-      if (patchErr) throw patchErr;
+      await togglePackagePublished(pkg.id, updatedStatus);
     } catch (err: any) {
       // Revert status on failure
       setPackages(prev => prev.map(p => p.id === pkg.id ? { ...p, published: pkg.published } : p));

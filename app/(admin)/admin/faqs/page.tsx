@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createBrowserClient } from "@/lib/supabase";
+import {
+  listFaqs,
+  createFaq,
+  updateFaq,
+  deleteFaq,
+  reorderFaqs,
+  type FAQ,
+} from "./actions";
 import { 
   Plus, 
   Search, 
@@ -15,15 +22,7 @@ import {
   ArrowDown
 } from "lucide-react";
 
-interface FAQ {
-  id: string;
-  question: string;
-  answer: string;
-  sort_order: number;
-}
-
 export default function FAQsAdminPage() {
-  const supabase = createBrowserClient();
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -46,13 +45,8 @@ export default function FAQsAdminPage() {
     setLoading(true);
     setError(null);
     try {
-      const { data, error: fetchErr } = await supabase
-        .from("faqs")
-        .select("*")
-        .order("sort_order", { ascending: true });
-
-      if (fetchErr) throw fetchErr;
-      setFaqs(data || []);
+      const data = await listFaqs();
+      setFaqs(data);
     } catch (err: any) {
       setError(err.message || "Failed to load FAQs");
     } finally {
@@ -88,30 +82,10 @@ export default function FAQsAdminPage() {
 
     try {
       if (editingId) {
-        // Update
-        const { data, error: updateErr } = await supabase
-          .from("faqs")
-          .update({ question, answer })
-          .eq("id", editingId)
-          .select()
-          .single();
-
-        if (updateErr) throw updateErr;
-        
+        const data = await updateFaq(editingId, question, answer);
         setFaqs(prev => prev.map(f => f.id === editingId ? data : f));
       } else {
-        // Find next sort order
-        const maxOrder = faqs.length > 0 ? Math.max(...faqs.map(f => f.sort_order ?? 0)) : 0;
-        
-        // Insert
-        const { data, error: insertErr } = await supabase
-          .from("faqs")
-          .insert([{ question, answer, sort_order: maxOrder + 1 }])
-          .select()
-          .single();
-
-        if (insertErr) throw insertErr;
-
+        const data = await createFaq(question, answer);
         setFaqs(prev => [...prev, data]);
       }
       setIsOpen(false);
@@ -126,13 +100,7 @@ export default function FAQsAdminPage() {
     if (!confirm(`Are you sure you want to delete the FAQ: "${qPreview.substring(0, 50)}..."?`)) return;
 
     try {
-      const { error: deleteErr } = await supabase
-        .from("faqs")
-        .delete()
-        .eq("id", id);
-
-      if (deleteErr) throw deleteErr;
-
+      await deleteFaq(id);
       setFaqs(prev => prev.filter(f => f.id !== id));
     } catch (err: any) {
       alert(err.message || "Failed to delete FAQ");
@@ -168,16 +136,12 @@ export default function FAQsAdminPage() {
     try {
       if (needsNormalization) {
         // Save all
-        await Promise.all(
-          updatedFaqs.map(faq => 
-            supabase.from("faqs").update({ sort_order: faq.sort_order }).eq("id", faq.id)
-          )
-        );
+        await reorderFaqs(updatedFaqs.map(faq => ({ id: faq.id, sort_order: faq.sort_order })));
       } else {
         // Swap values in DB
-        await Promise.all([
-          supabase.from("faqs").update({ sort_order: targetFaq.sort_order }).eq("id", currentFaq.id),
-          supabase.from("faqs").update({ sort_order: currentFaq.sort_order }).eq("id", targetFaq.id)
+        await reorderFaqs([
+          { id: currentFaq.id, sort_order: targetFaq.sort_order },
+          { id: targetFaq.id, sort_order: currentFaq.sort_order },
         ]);
       }
     } catch (err: any) {

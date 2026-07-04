@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createBrowserClient } from "@/lib/supabase";
+import {
+  listHotels,
+  createHotel,
+  updateHotel,
+  deleteHotel,
+  toggleHotelPublished,
+  type Hotel,
+} from "./actions";
 import { 
   Plus, 
   Search, 
@@ -14,19 +21,7 @@ import {
   Star
 } from "lucide-react";
 
-interface Hotel {
-  id: string;
-  name: string;
-  city: string;
-  description: string;
-  image: string;
-  price: number;
-  rating: number;
-  published: boolean;
-}
-
 export default function HotelsAdminPage() {
-  const supabase = createBrowserClient();
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,13 +49,8 @@ export default function HotelsAdminPage() {
     setLoading(true);
     setError(null);
     try {
-      const { data, error: fetchErr } = await supabase
-        .from("hotels")
-        .select("*")
-        .order("name", { ascending: true });
-
-      if (fetchErr) throw fetchErr;
-      setHotels(data || []);
+      const data = await listHotels();
+      setHotels(data);
     } catch (err: any) {
       setError(err.message || "Failed to load hotels");
     } finally {
@@ -116,27 +106,10 @@ export default function HotelsAdminPage() {
 
     try {
       if (editingId) {
-        // Update
-        const { data, error: updateErr } = await supabase
-          .from("hotels")
-          .update(payload)
-          .eq("id", editingId)
-          .select()
-          .single();
-
-        if (updateErr) throw updateErr;
-        
+        const data = await updateHotel(editingId, payload);
         setHotels(prev => prev.map(h => h.id === editingId ? data : h));
       } else {
-        // Insert
-        const { data, error: insertErr } = await supabase
-          .from("hotels")
-          .insert([payload])
-          .select()
-          .single();
-
-        if (insertErr) throw insertErr;
-
+        const data = await createHotel(payload);
         setHotels(prev => [data, ...prev]);
       }
       setIsOpen(false);
@@ -151,13 +124,7 @@ export default function HotelsAdminPage() {
     if (!confirm(`Are you sure you want to delete the hotel "${name}"?`)) return;
 
     try {
-      const { error: deleteErr } = await supabase
-        .from("hotels")
-        .delete()
-        .eq("id", id);
-
-      if (deleteErr) throw deleteErr;
-
+      await deleteHotel(id);
       setHotels(prev => prev.filter(h => h.id !== id));
     } catch (err: any) {
       alert(err.message || "Failed to delete hotel");
@@ -171,12 +138,7 @@ export default function HotelsAdminPage() {
     setHotels(prev => prev.map(h => h.id === hotel.id ? { ...h, published: updatedStatus } : h));
 
     try {
-      const { error: patchErr } = await supabase
-        .from("hotels")
-        .update({ published: updatedStatus })
-        .eq("id", hotel.id);
-
-      if (patchErr) throw patchErr;
+      await toggleHotelPublished(hotel.id, updatedStatus);
     } catch (err: any) {
       // Revert status on failure
       setHotels(prev => prev.map(h => h.id === hotel.id ? { ...h, published: hotel.published } : h));

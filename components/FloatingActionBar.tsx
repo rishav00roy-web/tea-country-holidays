@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Map, Phone } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 export default function FloatingActionBar() {
   const pathname = usePathname();
@@ -51,7 +52,7 @@ export default function FloatingActionBar() {
     >
       {/* WhatsApp bubble with pulsing ring */}
       <a
-        href="https://wa.me/918826048272?text=Hi%2C%20I'm%20looking%20to%20plan%20a%20custom%20trip.%20Can%20an%20expert%20help%20me%20out%3F"
+        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%2C%20I'm%20looking%20to%20plan%20a%20custom%20trip.%20Can%20an%20expert%20help%20me%20out%3F`}
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-btn relative flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer z-50 self-end mr-2"
@@ -88,7 +89,7 @@ export default function FloatingActionBar() {
 
         {/* Call Link */}
         <a
-          href="tel:+918826048272"
+          href={`tel:+${WHATSAPP_NUMBER}`}
           className="flex flex-col items-center gap-0.5 flex-1 text-center text-white/80 hover:text-white transition-colors duration-200"
         >
           <Phone className="w-5 h-5" />

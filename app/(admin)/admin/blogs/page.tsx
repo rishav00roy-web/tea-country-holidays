@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { createBrowserClient } from "@/lib/supabase";
+import {
+  listBlogs,
+  createBlog,
+  updateBlog,
+  deleteBlog,
+  toggleBlogPublished,
+  type BlogPost,
+} from "./actions";
 import { 
   Plus, 
   Search, 
@@ -13,19 +20,7 @@ import {
   AlertCircle 
 } from "lucide-react";
 
-interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  cover_image: string;
-  content: string;
-  published: boolean;
-  published_at: string | null;
-}
-
 export default function BlogsAdminPage() {
-  const supabase = createBrowserClient();
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -55,13 +50,8 @@ export default function BlogsAdminPage() {
     setLoading(true);
     setError(null);
     try {
-      const { data, error: fetchErr } = await supabase
-        .from("blog_posts")
-        .select("*")
-        .order("published_at", { ascending: false, nullsFirst: false });
-
-      if (fetchErr) throw fetchErr;
-      setBlogs(data || []);
+      const data = await listBlogs();
+      setBlogs(data);
     } catch (err: any) {
       setError(err.message || "Failed to load blog posts");
     } finally {
@@ -154,37 +144,10 @@ export default function BlogsAdminPage() {
 
     try {
       if (editingId) {
-        // Update
-        const { data, error: updateErr } = await supabase
-          .from("blog_posts")
-          .update(payload)
-          .eq("id", editingId)
-          .select()
-          .single();
-
-        if (updateErr) {
-          if (updateErr.code === "23505") {
-            throw new Error("This slug is already taken. Please choose a unique slug.");
-          }
-          throw updateErr;
-        }
-        
+        const data = await updateBlog(editingId, payload);
         setBlogs(prev => prev.map(b => b.id === editingId ? data : b));
       } else {
-        // Insert
-        const { data, error: insertErr } = await supabase
-          .from("blog_posts")
-          .insert([payload])
-          .select()
-          .single();
-
-        if (insertErr) {
-          if (insertErr.code === "23505") {
-            throw new Error("This slug is already taken. Please choose a unique slug.");
-          }
-          throw insertErr;
-        }
-
+        const data = await createBlog(payload);
         setBlogs(prev => [data, ...prev]);
       }
       setIsOpen(false);
@@ -199,13 +162,7 @@ export default function BlogsAdminPage() {
     if (!confirm(`Are you sure you want to delete the blog post "${name}"?`)) return;
 
     try {
-      const { error: deleteErr } = await supabase
-        .from("blog_posts")
-        .delete()
-        .eq("id", id);
-
-      if (deleteErr) throw deleteErr;
-
+      await deleteBlog(id);
       setBlogs(prev => prev.filter(b => b.id !== id));
     } catch (err: any) {
       alert(err.message || "Failed to delete blog post");
@@ -220,12 +177,7 @@ export default function BlogsAdminPage() {
     setBlogs(prev => prev.map(b => b.id === blog.id ? { ...b, published: updatedStatus, published_at } : b));
 
     try {
-      const { error: patchErr } = await supabase
-        .from("blog_posts")
-        .update({ published: updatedStatus, published_at })
-        .eq("id", blog.id);
-
-      if (patchErr) throw patchErr;
+      await toggleBlogPublished(blog.id, updatedStatus, published_at);
       
       // Refresh list to pull actual formatted updated timestamp if needed
       fetchBlogs();

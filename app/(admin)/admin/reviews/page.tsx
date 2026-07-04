@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createBrowserClient } from "@/lib/supabase";
+import {
+  listReviews,
+  createReview,
+  updateReview,
+  deleteReview,
+  toggleReviewPublished,
+  type Review,
+} from "./actions";
 import { 
   Plus, 
   Search, 
@@ -13,17 +20,7 @@ import {
   AlertCircle 
 } from "lucide-react";
 
-interface Review {
-  id: string;
-  name: string;
-  review_text: string;
-  trip_type: string;
-  photo_url: string;
-  published: boolean;
-}
-
 export default function ReviewsAdminPage() {
-  const supabase = createBrowserClient();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -49,13 +46,8 @@ export default function ReviewsAdminPage() {
     setLoading(true);
     setError(null);
     try {
-      const { data, error: fetchErr } = await supabase
-        .from("reviews")
-        .select("*")
-        .order("name", { ascending: true });
-
-      if (fetchErr) throw fetchErr;
-      setReviews(data || []);
+      const data = await listReviews();
+      setReviews(data);
     } catch (err: any) {
       setError(err.message || "Failed to load reviews");
     } finally {
@@ -114,27 +106,10 @@ export default function ReviewsAdminPage() {
 
     try {
       if (editingId) {
-        // Update
-        const { data, error: updateErr } = await supabase
-          .from("reviews")
-          .update(payload)
-          .eq("id", editingId)
-          .select()
-          .single();
-
-        if (updateErr) throw updateErr;
-        
+        const data = await updateReview(editingId, payload);
         setReviews(prev => prev.map(r => r.id === editingId ? data : r));
       } else {
-        // Insert
-        const { data, error: insertErr } = await supabase
-          .from("reviews")
-          .insert([payload])
-          .select()
-          .single();
-
-        if (insertErr) throw insertErr;
-
+        const data = await createReview(payload);
         setReviews(prev => [data, ...prev]);
       }
       setIsOpen(false);
@@ -149,13 +124,7 @@ export default function ReviewsAdminPage() {
     if (!confirm(`Are you sure you want to delete the review by "${reviewerName}"?`)) return;
 
     try {
-      const { error: deleteErr } = await supabase
-        .from("reviews")
-        .delete()
-        .eq("id", id);
-
-      if (deleteErr) throw deleteErr;
-
+      await deleteReview(id);
       setReviews(prev => prev.filter(r => r.id !== id));
     } catch (err: any) {
       alert(err.message || "Failed to delete review");
@@ -169,12 +138,7 @@ export default function ReviewsAdminPage() {
     setReviews(prev => prev.map(r => r.id === review.id ? { ...r, published: updatedStatus } : r));
 
     try {
-      const { error: patchErr } = await supabase
-        .from("reviews")
-        .update({ published: updatedStatus })
-        .eq("id", review.id);
-
-      if (patchErr) throw patchErr;
+      await toggleReviewPublished(review.id, updatedStatus);
     } catch (err: any) {
       // Revert status on failure
       setReviews(prev => prev.map(r => r.id === review.id ? { ...r, published: review.published } : r));
