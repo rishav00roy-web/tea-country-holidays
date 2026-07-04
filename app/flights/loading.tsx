@@ -14,22 +14,42 @@ export default function FlightsLoading() {
           <p className="text-white/70 max-w-xl">
             Sourcing the best airline fares and handling your booking from takeoff to landing.
           </p>
-          
-          {/* Form container skeleton */}
-          <div className="mt-8 bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-4xl border border-gray-100 animate-pulse">
-            <div className="flex gap-4 mb-6">
-              <div className="h-8 bg-gray-200 rounded-full w-24" />
-              <div className="h-8 bg-gray-200 rounded-full w-24" />
+        </div>
+      </div>
+      
+      {/* Form container skeleton - placed outside hero, matching actual box */}
+      <div className="mx-auto max-w-2xl px-4 py-16">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 animate-pulse">
+          <div className="flex gap-4 mb-6 border-b border-gray-100 pb-4">
+            <div className="h-9 bg-gray-200 rounded-lg flex-1" />
+            <div className="h-9 bg-gray-200 rounded-lg flex-1" />
+          </div>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-16" />
+                <div className="h-10 bg-gray-200 rounded-lg w-full" />
+              </div>
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-16" />
+                <div className="h-10 bg-gray-200 rounded-lg w-full" />
+              </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div className="h-10 bg-gray-200 rounded-lg w-full" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-28" />
+                <div className="h-10 bg-gray-200 rounded-lg w-full" />
+              </div>
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-28" />
+                <div className="h-10 bg-gray-200 rounded-lg w-full" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="h-4 bg-gray-200 rounded w-20" />
               <div className="h-10 bg-gray-200 rounded-lg w-full" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div className="h-10 bg-gray-200 rounded-lg w-full" />
-              <div className="h-10 bg-gray-200 rounded-lg w-full" />
-            </div>
-            <div className="h-12 bg-[#F4A011]/30 rounded-lg w-full mt-8" />
+            <div className="h-11 bg-gray-200 rounded-full w-full mt-6" />
           </div>
         </div>
       </div>
