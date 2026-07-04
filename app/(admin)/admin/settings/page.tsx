@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createBrowserClient } from "@/lib/supabase";
+import { getAdminSiteSettings, saveSiteSettings } from "./actions";
 import { 
   Save, 
   Loader2, 
@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 
 export default function SettingsAdminPage() {
-  const supabase = createBrowserClient();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,49 +35,13 @@ export default function SettingsAdminPage() {
     setLoading(true);
     setError(null);
     try {
-      const { data, error: fetchErr } = await supabase
-        .from("site_settings")
-        .select("*");
-
-      if (fetchErr) throw fetchErr;
-
-      if (data) {
-        data.forEach((row) => {
-          switch (row.key) {
-            case "phone":
-              setPhone(row.value || "");
-              break;
-            case "whatsapp":
-              setWhatsapp(row.value || "");
-              break;
-            case "address":
-              setAddress(row.value || "");
-              break;
-            case "early_bird_text":
-              setEarlyBirdText(row.value || "");
-              break;
-            case "early_bird_deadline":
-              if (row.value) {
-                try {
-                  const dateObj = new Date(row.value);
-                  if (!isNaN(dateObj.getTime())) {
-                    setEarlyBirdDeadline(dateObj.toISOString().split("T")[0]);
-                  } else {
-                    setEarlyBirdDeadline(row.value);
-                  }
-                } catch {
-                  setEarlyBirdDeadline(row.value);
-                }
-              } else {
-                setEarlyBirdDeadline("");
-              }
-              break;
-            case "early_bird_enabled":
-              setEarlyBirdEnabled(row.value === "true");
-              break;
-          }
-        });
-      }
+      const settings = await getAdminSiteSettings();
+      setPhone(settings.phone);
+      setWhatsapp(settings.whatsapp);
+      setAddress(settings.address);
+      setEarlyBirdText(settings.early_bird_text);
+      setEarlyBirdDeadline(settings.early_bird_deadline);
+      setEarlyBirdEnabled(settings.early_bird_enabled);
     } catch (err: any) {
       setError(err.message || "Failed to fetch settings.");
     } finally {
@@ -92,22 +55,16 @@ export default function SettingsAdminPage() {
     setError(null);
     setSuccess(false);
 
-    const payload = [
-      { key: "phone", value: phone },
-      { key: "whatsapp", value: whatsapp },
-      { key: "address", value: address },
-      { key: "early_bird_text", value: earlyBirdText },
-      { key: "early_bird_deadline", value: earlyBirdDeadline },
-      { key: "early_bird_enabled", value: String(earlyBirdEnabled) },
-    ];
-
     try {
-      const { error: upsertErr } = await supabase
-        .from("site_settings")
-        .upsert(payload, { onConflict: "key" });
+      await saveSiteSettings({
+        phone,
+        whatsapp,
+        address,
+        early_bird_text: earlyBirdText,
+        early_bird_deadline: earlyBirdDeadline,
+        early_bird_enabled: earlyBirdEnabled,
+      });
 
-      if (upsertErr) throw upsertErr;
-      
       setSuccess(true);
       // Auto-clear success message after 4 seconds
       setTimeout(() => setSuccess(false), 4000);

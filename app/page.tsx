@@ -3,6 +3,7 @@ import Hero          from "@/components/hero";
 import SectionDivider from "@/components/SectionDivider";
 import { BackToTop } from "@/components/back-to-top";
 import { createClient } from "@/lib/supabase-server";
+import { getSiteSettings } from "@/lib/site-settings";
 
 // Fallback data imports
 import { fallbackPackages } from "@/components/packages-scroll";
@@ -92,6 +93,8 @@ export default async function Home() {
     console.error("Failed to fetch homepage data on server:", err);
   }
 
+  const settings = await getSiteSettings();
+
   return (
     <>
       <main className="flex-1 flex flex-col w-full overflow-hidden">
@@ -118,11 +121,18 @@ export default async function Home() {
         <Destinations />
 
         {/* cream (#FEFAEF) → OfferBanner (dark #013220 overlay) */}
-        <div id="offer-banner-wrapper" className="relative overflow-hidden">
-          <SectionDivider topColor="#FEFAEF" bottomColor="#013220" curve="up" className="bg-transparent" />
-          <OfferBanner />
-          <SectionDivider topColor="#013220" bottomColor="#FEFAEF" curve="down" className="bg-transparent" />
-        </div>
+        {/* Controlled by the early_bird_enabled toggle in /admin/settings — see lib/site-settings.ts */}
+        {settings.earlyBirdEnabled && (
+          <div id="offer-banner-wrapper" className="relative overflow-hidden">
+            <SectionDivider topColor="#FEFAEF" bottomColor="#013220" curve="up" className="bg-transparent" />
+            <OfferBanner
+              whatsappNumber={settings.whatsapp}
+              bannerText={settings.earlyBirdText}
+              deadline={settings.earlyBirdDeadline}
+            />
+            <SectionDivider topColor="#013220" bottomColor="#FEFAEF" curve="down" className="bg-transparent" />
+          </div>
+        )}
         <MasonryTestimonials initialTestimonials={testimonialsList} />
 
         {/* cream (#FEFAEF) → ReviewsMarquee (#013220) */}

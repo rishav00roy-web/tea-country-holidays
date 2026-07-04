@@ -3,11 +3,34 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 
-const WHATSAPP_OFFER = "https://wa.me/918826048272?text=Hi%2C%20I%27d%20like%20to%20claim%20the%20Early%20Bird%20discount%20offer.";
-const WHATSAPP_DEALS = "https://wa.me/918826048272?text=Hi%2C%20can%20you%20share%20your%20current%20holiday%20deals%20and%20offers%3F";
+interface OfferBannerProps {
+  // Sourced from site_settings via lib/site-settings.ts, passed down from
+  // the server-rendered app/page.tsx — see item 4 in the handoff doc.
+  whatsappNumber: string;
+  bannerText: string;
+  deadline: string; // ISO date string (yyyy-mm-dd), or "" for no deadline
+}
 
-export default function OfferBanner() {
+function formatDeadline(deadline: string): string | null {
+  if (!deadline) return null;
+  const date = new Date(deadline);
+  if (isNaN(date.getTime())) return null;
+  return date.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+export default function OfferBanner({ whatsappNumber, bannerText, deadline }: OfferBannerProps) {
   const parallaxRef = useRef<HTMLDivElement>(null);
+  const formattedDeadline = formatDeadline(deadline);
+  const whatsappOfferUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+    "Hi, I'd like to claim the Early Bird discount offer."
+  )}`;
+  const whatsappDealsUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+    "Hi, can you share your current holiday deals and offers?"
+  )}`;
 
   useEffect(() => {
     let ticking = false;
@@ -86,17 +109,20 @@ export default function OfferBanner() {
         </span>
         <h2 className="font-serif text-3xl md:text-6xl font-bold text-white leading-tight mb-6">
           Early Bird Discounts<br />
-          <span className="text-brand-gold italic">Up to 25% Off</span>
+          <span className="text-brand-gold italic">Limited Time Offer</span>
         </h2>
         <p className="text-white/70 text-lg mb-10 max-w-xl mx-auto">
-          Book your dream holiday before{" "}
-          <strong className="text-white">31st July 2026</strong> and unlock
-          exclusive early-bird pricing, free travel insurance, and priority
-          support.
+          {bannerText}
+          {formattedDeadline && (
+            <>
+              {" "}Offer valid until{" "}
+              <strong className="text-white">{formattedDeadline}</strong>.
+            </>
+          )}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href={WHATSAPP_OFFER}
+            href={whatsappOfferUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="px-9 py-4 bg-brand-gold hover:bg-amber-400 text-brand-evergreen font-bold rounded-full transition-all hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(212,175,55,0.4)] text-base relative overflow-hidden group inline-flex items-center justify-center"
@@ -105,7 +131,7 @@ export default function OfferBanner() {
             <span className="absolute inset-0 bg-white/20 -translate-x-full -skew-x-[15deg] group-hover:translate-x-[120%] transition-transform duration-500" />
           </a>
           <a
-            href={WHATSAPP_DEALS}
+            href={whatsappDealsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="px-9 py-4 border-2 border-white/40 hover:border-brand-gold hover:text-brand-gold text-white rounded-full font-semibold transition-all hover:-translate-y-1.5 text-base inline-flex items-center justify-center"
