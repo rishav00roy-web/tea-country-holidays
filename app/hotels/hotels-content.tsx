@@ -28,11 +28,9 @@ export const fallbackHotels: Hotel[] = [
 import { useSearchParams } from "next/navigation"
 
 export default function HotelsPageContent({
-  initialHotels,
-  fetchError = false,
+  initialHotels = [],
 }: {
-  initialHotels: Hotel[]
-  fetchError?: boolean
+  initialHotels?: Hotel[]
 }) {
   const { gatedWhatsApp } = useAuthGate()
   const searchParams = useSearchParams()
@@ -126,11 +124,7 @@ export default function HotelsPageContent({
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        {fetchError && (
-          <div className="mb-8 p-4 bg-red-50 border border-red-200 rounded-xl text-red-800 text-sm text-center">
-            ⚠️ We are experiencing issues loading live rates. Showing fallback local offers.
-          </div>
-        )}
+
         {filtered.length === 0 ? (
           <div className="text-center py-20 max-w-md mx-auto">
             <div className="w-16 h-16 rounded-full bg-[#1B4332]/8 flex items-center justify-center mx-auto mb-5">

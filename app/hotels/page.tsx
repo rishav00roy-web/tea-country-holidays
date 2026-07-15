@@ -41,7 +41,6 @@ export default async function HotelsPage() {
     <Suspense fallback={<div>Loading hotels...</div>}>
       <HotelsContent
         initialHotels={hotels}
-        fetchError={fetchError}
       />
     </Suspense>
   )
