@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import FloatingActionBar from "@/components/FloatingActionBar";
 import Navbar from "@/components/navbar";
@@ -7,6 +8,12 @@ import FooterVisibility from "@/components/footer-visibility";
 import ScrollRevealInit from "@/components/scroll-reveal-init";
 import CookieBanner from "@/components/cookie-banner";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const kentish = localFont({
   src: [
@@ -75,7 +82,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${kentish.variable} scroll-smooth`}
+      className={`${inter.variable} ${kentish.variable} scroll-smooth`}
     >
       <head>
         <meta charSet="utf-8" />
