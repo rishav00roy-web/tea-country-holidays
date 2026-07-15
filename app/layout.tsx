@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
 import FloatingActionBar from "@/components/FloatingActionBar";
 import Navbar from "@/components/navbar";
@@ -8,6 +8,12 @@ import FooterVisibility from "@/components/footer-visibility";
 import ScrollRevealInit from "@/components/scroll-reveal-init";
 import CookieBanner from "@/components/cookie-banner";
 import "./globals.css";
+
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -82,7 +88,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${kentish.variable} scroll-smooth`}
+      className={`${inter.variable} ${playfairDisplay.variable} ${kentish.variable} scroll-smooth`}
     >
       <head>
         <meta charSet="utf-8" />

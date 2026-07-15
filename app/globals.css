@@ -23,6 +23,11 @@
   --font-display: var(--font-kentish), ui-serif, Georgia, serif;
 }
 
+/* Blog Typography Override */
+.blog-typography {
+  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
 /* ─── Base ─── */
 @layer base {
   html { scroll-behavior: smooth; }

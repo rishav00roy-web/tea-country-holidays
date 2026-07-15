@@ -450,7 +450,7 @@ export default async function BlogDetailPage({
   if (!post) notFound()
 
   return (
-    <main className="min-h-screen bg-[#FAFAF7] dark:bg-[#0d1f1a]">
+    <main className="blog-typography min-h-screen bg-[#FAFAF7] dark:bg-[#0d1f1a]">
 
       {/* Hero image */}
       <div className="relative h-[55vh] w-full pt-20">
