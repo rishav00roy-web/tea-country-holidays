@@ -143,3 +143,33 @@ Integrity mode: development
 - [ ] Home and Packages links highlight in gold (`#e8b84b`) based on the active path (`/` or `/holidays`).
 - [ ] Existing duplicate CTAs (floating WhatsApp bubble and bottom sticky banner) are removed.
 </USER_REQUEST>
+
+## Follow-up — 2026-07-14T18:43:41Z
+
+<USER_REQUEST>
+Optimize the existing Next.js site for lightning-fast performance on both mobile and desktop, and specifically fix the hero marquee component which currently lags and exposes a green background section.
+
+Working directory: `C:\Users\User\.gemini\antigravity\scratch\tea-country-holidays`
+Integrity mode: development
+
+## Requirements
+
+### R1. Performance Optimization
+The site must be heavily optimized to achieve "lightning-fast" load times on both mobile and desktop. The agent team has full freedom to decide the best approaches (e.g., asset compression, fixing hydration bottlenecks, restructuring components) to achieve this.
+
+### R2. Hero Marquee Fix
+The hero marquee component must be fixed so that it animates smoothly without lagging, and the container bounds must be properly constrained so that it no longer exposes a green background section during scroll or animation.
+
+### R3. Verification Mechanism
+The agent team must run a local Lighthouse Audit to verify the performance improvements.
+
+## Acceptance Criteria
+
+### Performance
+- [ ] A Lighthouse Audit is successfully run against the site.
+- [ ] The Lighthouse Performance score is 90 or higher for both mobile and desktop.
+
+### Marquee Bug Fix
+- [ ] The marquee animation utilizes performant CSS properties (e.g., `transform`, `will-change`) to eliminate lagging.
+- [ ] The marquee container structurally prevents any green background from being exposed during its loop.
+</USER_REQUEST>

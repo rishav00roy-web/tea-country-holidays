@@ -3,6 +3,7 @@
 import { useEffect, useState, memo, useRef } from "react";
 import Image from "next/image";
 import GlassSearch from "@/components/glass-search";
+import { useParallaxZoom } from "@/hooks/use-parallax-zoom";
 
 const WORDS = [
   "Meghalaya",
@@ -117,6 +118,8 @@ const Typewriter = memo(function Typewriter({
 });
 
 export default function Hero() {
+  const bgRef = useParallaxZoom({ speed: 0.12, zoomFrom: 1.0, zoomTo: 0.94 });
+  const contentRef = useParallaxZoom({ speed: 0.08, zoomFrom: 1.0, zoomTo: 1.0 });
   const [wordIndex, setWordIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const [isCrossfading, setIsCrossfading] = useState(false);
@@ -164,70 +167,73 @@ export default function Hero() {
 
       <section className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center pb-16 bg-[#013220]">
 
-        {/* Deep Green Base */}
-        <div
-          className="absolute inset-0 z-0"
-          style={{ background: "linear-gradient(160deg, #01291a 0%, #013220 40%, #001f14 100%)" }}
-          aria-hidden="true"
-        />
+        {/* Parallax background wrapper */}
+        <div ref={bgRef} className="absolute inset-[-30px] z-0">
+          {/* Deep Green Base */}
+          <div
+            className="absolute inset-0 z-0"
+            style={{ background: "linear-gradient(160deg, #01291a 0%, #013220 40%, #001f14 100%)" }}
+            aria-hidden="true"
+          />
 
-        {/* Slideshow — previous slide stays visible (z-1) while new one fades in on top (z-2) */}
-        {DESTINATIONS.map((dest, idx) => {
-          const isCurrent = idx === wordIndex;
-          const isPrev    = idx === prevIndex;
-          const isFirst   = idx === 0;
+          {/* Slideshow — previous slide stays visible (z-1) while new one fades in on top (z-2) */}
+          {DESTINATIONS.map((dest, idx) => {
+            const isCurrent = idx === wordIndex;
+            const isPrev    = idx === prevIndex;
+            const isFirst   = idx === 0;
 
-          // Only render current, previous, and first (LCP)
-          if (!isFirst && !isCurrent && !isPrev) return null;
+            // Only render current, previous, and first (LCP)
+            if (!isFirst && !isCurrent && !isPrev) return null;
 
-          return (
-            <Image
-              key={dest.name}
-              src={dest.img}
-              alt=""
-              fill
-              sizes="(max-width: 768px) 50vw, 100vw"
-              priority={isFirst}
-              loading={isFirst ? "eager" : "lazy"}
-              fetchPriority={isFirst ? "high" : "low"}
-              quality={isFirst ? 45 : 35}
-              className={`absolute inset-0 w-full h-full object-cover ${dest.pos || "object-center"}`}
-              style={{
-                opacity: isCurrent
-                  ? (prevIndex === null ? 1 : (isCrossfading ? 1 : 0))
-                  : isPrev
-                    ? (isCrossfading ? 0 : 1)
-                    : 0,
-                zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
-                transform: isCurrent
-                  ? (prevIndex === null ? "scale(1)" : (isCrossfading ? "scale(1)" : "scale(1.035)"))
-                  : isPrev
-                    ? (isCrossfading ? "scale(1.01)" : "scale(1)")
-                    : "scale(1)",
-                transition: "opacity 950ms ease-in-out, transform 950ms ease-in-out",
-              }}
-            />
-          );
-        })}
+            return (
+              <Image
+                key={dest.name}
+                src={dest.img}
+                alt=""
+                fill
+                sizes="100vw"
+                priority={isFirst}
+                loading={isFirst ? "eager" : "lazy"}
+                fetchPriority={isFirst ? "high" : "low"}
+                quality={isFirst ? 75 : 35}
+                className={`absolute inset-0 w-full h-full object-cover ${dest.pos || "object-center"}`}
+                style={{
+                  opacity: isCurrent
+                    ? (prevIndex === null ? 1 : (isCrossfading ? 1 : 0))
+                    : isPrev
+                      ? (isCrossfading ? 0 : 1)
+                      : 0,
+                  zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
+                  transform: isCurrent
+                    ? (prevIndex === null ? "scale(1)" : (isCrossfading ? "scale(1)" : "scale(1.035)"))
+                    : isPrev
+                      ? (isCrossfading ? "scale(1.01)" : "scale(1)")
+                      : "scale(1)",
+                  transition: "opacity 950ms ease-in-out, transform 950ms ease-in-out",
+                }}
+              />
+            );
+          })}
 
-        {/* Vignette */}
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/75 z-[3]"
-          aria-hidden="true"
-        />
+          {/* Vignette */}
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/75 z-[3]"
+            aria-hidden="true"
+          />
 
-        {/* Golden radial glow */}
-        <div
-          className="absolute inset-0 pointer-events-none z-[3]"
-          aria-hidden="true"
-          style={{
-            background: "radial-gradient(ellipse 70% 55% at 50% 48%, rgba(212,175,55,0.22) 0%, transparent 70%)",
-            animation: "radialPulse 5s ease-in-out infinite",
-          }}
-        />
+          {/* Golden radial glow */}
+          <div
+            className="absolute inset-0 pointer-events-none z-[3]"
+            aria-hidden="true"
+            style={{
+              background: "radial-gradient(ellipse 70% 55% at 50% 48%, rgba(212,175,55,0.22) 0%, transparent 70%)",
+              animation: "radialPulse 5s ease-in-out infinite",
+            }}
+          />
+        </div>
 
         {/* Hero content */}
-        <div className="relative z-[4] flex flex-col items-center text-center px-4 gap-4 select-none w-full max-w-6xl mx-auto">
+        <div ref={contentRef} className="relative z-[4] flex flex-col items-center text-center px-4 gap-4 select-none w-full max-w-6xl mx-auto">
 
           <p
             className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-24 sm:pt-0"

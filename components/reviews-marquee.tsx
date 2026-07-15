@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Marquee from "react-fast-marquee";
 
 export interface Review {
   id: number | string;
@@ -196,7 +197,7 @@ function ReviewCard({ review }: { review: Review }) {
             width={48}
             height={48}
             className="w-12 h-12 rounded-full border-2 border-brand-gold/30 object-cover bg-slate-50"
-            loading="lazy"
+            loading="eager"
           />
         ) : (
           <InitialsAvatar name={review.name} />
@@ -232,7 +233,7 @@ function ReviewCard({ review }: { review: Review }) {
             quality={50}
             sizes="(max-width: 640px) 85vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover"
-            loading="lazy"
+            loading="eager"
           />
         </div>
       )}
@@ -248,12 +249,6 @@ function ReviewCard({ review }: { review: Review }) {
 }
 
 export default function ReviewsMarquee({ initialReviews = fallbackReviews }: { initialReviews?: Review[] }) {
-  // Duplicate for seamless infinite loop — prefix keys to avoid collisions
-  const doubled = [
-    ...initialReviews.map(r => ({ ...r, _key: `a-${r.id}`, isDuplicate: false })),
-    ...initialReviews.map(r => ({ ...r, _key: `b-${r.id}`, isDuplicate: true })),
-  ];
-
   return (
     <section className="py-16 bg-brand-evergreen overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -286,21 +281,14 @@ export default function ReviewsMarquee({ initialReviews = fallbackReviews }: { i
         </div>
       </div>
 
-      {/* Marquee */}
-      <div className="marquee-viewport flex overflow-hidden select-none">
-        <div className="marquee-track py-2" aria-label="Customer reviews">
-          {doubled.map((review) => (
-            <div
-              key={review._key}
-              className={review.isDuplicate ? "review-card-duplicate shrink-0 snap-start" : "review-card-original shrink-0 snap-start"}
-            >
-              {(() => {
-                const { _key, isDuplicate, ...originalReview } = review;
-                return <ReviewCard review={originalReview} />;
-              })()}
+      <div aria-label="Customer reviews" className="marquee-viewport flex overflow-hidden select-none">
+        <Marquee pauseOnHover autoFill speed={40} className="py-2">
+          {initialReviews.map((review) => (
+            <div key={review.id} className="review-card-original">
+              <ReviewCard review={review} />
             </div>
           ))}
-        </div>
+        </Marquee>
       </div>
 
       <p className="text-center text-[#E5C158] text-xs mt-6 tracking-wider">

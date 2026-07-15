@@ -4,7 +4,7 @@ import { Sparkles, Users, FileText, User, MapPin, Compass } from "lucide-react"
 
 export default function EventsContent() {
   const { gatedWhatsApp } = useAuthGate()
-
+  
   return (
     <main className="min-h-screen bg-brand-varden">
 
@@ -26,7 +26,7 @@ export default function EventsContent() {
             From historic tea estate retreats to premium destination weddings, we bring your vision to life with seamless planning and execution.
           </p>
         </div>
-      </div>
+        </div>
 
       {/* Main Content Area */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
@@ -91,10 +91,10 @@ export default function EventsContent() {
                 <div>
                   <h3 className="font-bold text-brand-evergreen text-lg mb-1">Custom Itineraries</h3>
                   <p className="text-brand-ink/65 text-sm">Every trip is designed from scratch around your group&apos;s interests, pace, and budget — no cookie-cutter packages, ever.</p>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
           {/* Right Column: Inquiry Form */}
           <div className="lg:col-span-7">
@@ -209,7 +209,6 @@ export default function EventsContent() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </main>

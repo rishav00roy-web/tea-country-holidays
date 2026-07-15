@@ -7,7 +7,7 @@ import TravelAutocomplete from "@/components/travel-autocomplete"
 
 export default function RailwaysContent() {
   const { gatedWhatsApp } = useAuthGate()
-
+  
   const [from, setFrom] = useState("")
   const [to, setTo] = useState("")
   const [date, setDate] = useState("")
@@ -34,7 +34,7 @@ export default function RailwaysContent() {
             Hassle-free train ticket reservations. We check IRCTC availability and confirm your booking directly.
           </p>
         </div>
-      </div>
+        </div>
 
       <div className="mx-auto max-w-2xl px-4 py-16">
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">

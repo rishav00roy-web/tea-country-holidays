@@ -1,12 +1,12 @@
-# BRIEFING — 2026-07-02T02:18:48+05:30
+# BRIEFING — 2026-07-14T18:43:41Z
 
 ## Mission
-Coordinate and monitor the execution of adding a floating iOS-style quick action bar to the mobile site view.
+Coordinate and monitor the execution of optimizing the Next.js site performance and fixing the hero marquee component.
 
 ## 🔒 My Identity
 - Archetype: sentinel
 - Working directory: C:\Users\User\.gemini\antigravity\scratch\tea-country-holidays\.agents\sentinel
-- Orchestrator: 1b03661a-ea11-4635-b0cd-5960ade0b8e2
+- Orchestrator: 9a41f909-7b17-415f-bcf6-2a8dbd3f0d36
 - Victory Auditor: TBD
 
 ## 🔒 Key Constraints
@@ -15,7 +15,7 @@ Coordinate and monitor the execution of adding a floating iOS-style quick action
 - Must not write code, analyze problems, or make any technical decisions
 
 ## User Context
-- **Last user request**: Add a floating iOS-style quick action bar to the mobile site view.
+- **Last user request**: Optimize Next.js site performance on mobile and desktop, and fix the lagging hero marquee exposing green background.
 - **Pending clarifications**: none
 - **Delivered results**: none
 
@@ -29,3 +29,4 @@ Coordinate and monitor the execution of adding a floating iOS-style quick action
 
 ## Artifact Index
 - C:\Users\User\.gemini\antigravity\scratch\tea-country-holidays\ORIGINAL_REQUEST.md — Original verbatim user request
+- C:\Users\User\.gemini\antigravity\scratch\tea-country-holidays\.agents\sentinel\BRIEFING.md — Sentinel briefing file

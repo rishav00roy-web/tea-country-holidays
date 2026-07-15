@@ -48,7 +48,10 @@ export default function FloatingActionBar() {
       ref={containerRef}
       id="floating-action-bar"
       className="fixed left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-3 md:hidden w-[92%] max-w-[360px]"
-      style={{ bottom: "calc(16px + env(safe-area-inset-bottom))" }}
+      style={{
+        bottom: "calc(16px + env(safe-area-inset-bottom))",
+        paddingBottom: "env(safe-area-inset-bottom)",
+      }}
     >
       {/* WhatsApp bubble with pulsing ring */}
       <a

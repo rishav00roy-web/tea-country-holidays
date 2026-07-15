@@ -65,14 +65,16 @@ export default function Navbar() {
         (window as unknown as Record<string, unknown>).Playwright ||
         /headless/i.test(navigator.userAgent)
       );
-      setIsAutomation(isAutomated);
+      setTimeout(() => {
+        setIsAutomation(isAutomated);
+      }, 0);
     }
   }, []);
 
   // ── Session state management ──
   useEffect(() => {
     let mounted = true;
-    let subscription: any = null;
+    let subscription: { unsubscribe: () => void } | null = null;
 
     const initAuth = async () => {
       const { supabase } = await import("@/lib/supabase");

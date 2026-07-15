@@ -69,7 +69,7 @@ const sections = [
     title: "4. Travel Documents & Permits",
     content: (
       <p>
-        It is the traveller's sole responsibility to possess valid travel
+        It is the traveller&apos;s sole responsibility to possess valid travel
         documents, including government-issued photo ID, passports, visas,
         Inner Line Permits (ILP), and Protected Area Permits (PAP) where
         required. Tea Country Holidays will assist in providing information on
@@ -111,7 +111,7 @@ const sections = [
         Travellers are expected to behave in a manner respectful of local
         customs, fellow travellers, and service providers. Tea Country Holidays
         reserves the right to terminate participation in a tour without refund
-        if a traveller's conduct is deemed disruptive or harmful to the group or
+        if a traveller&apos;s conduct is deemed disruptive or harmful to the group or
         third parties.
       </p>
     ),

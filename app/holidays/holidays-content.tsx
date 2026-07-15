@@ -1,10 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import Image from "next/image"
 import { Clock, ArrowRight, Search, MessageCircle, X, CheckCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { openWhatsApp } from "@/lib/whatsapp"
 import { Package } from "@/lib/packages-data"
 
 function optimizeUnsplashUrl(url: string) {
@@ -154,7 +153,6 @@ function PackageModal({ pkg, isOpen, onClose }: PackageModalProps) {
               className="object-cover transition-all duration-500"
               sizes="(max-width: 768px) 100vw, 50vw"
               quality={70}
-              priority
             />
             {/* Theme tag */}
             <div className="absolute top-4 left-4 bg-[#F4A011] text-white text-xs font-semibold px-3 py-1 rounded-full z-10 shadow-sm">
@@ -257,7 +255,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
   const [hovered, setHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const imagesList = pkg.images && pkg.images.length > 0 ? pkg.images : [pkg.image];
+  const imagesList = useMemo(() => pkg.images && pkg.images.length > 0 ? pkg.images : [pkg.image], [pkg.images, pkg.image]);
 
   useEffect(() => {
     if (!hovered || imagesList.length <= 1) return;
@@ -281,21 +279,17 @@ function PackageCard({ pkg }: { pkg: Package }) {
         onMouseLeave={handleMouseLeave}
       >
         <div className="relative h-56 overflow-hidden bg-gray-50">
-          {imagesList.map((img, idx) => (
+          {imagesList[currentIdx] && (
             <Image
-              key={img}
-              src={optimizeUnsplashUrl(img)}
+              src={optimizeUnsplashUrl(imagesList[currentIdx])}
               alt={pkg.alt || pkg.title}
               fill
               loading="lazy"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               quality={65}
-              className={cn(
-                "object-cover transition-all duration-700 absolute inset-0 w-full h-full",
-                idx === currentIdx ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
-              )}
+              className="object-cover transition-all duration-700 absolute inset-0 w-full h-full opacity-100 scale-100"
             />
-          ))}
+          )}
           <div className="absolute top-4 left-4 bg-[#F4A011] text-white text-xs font-semibold px-3 py-1 rounded-full z-10">
             {pkg.theme}
           </div>
@@ -367,7 +361,7 @@ export default function HolidaysContent({
 
   const filtered = initialPackages.filter(pkg => {
     // Handle both array categories (fallback data) and string categories (Supabase data)
-    const cat = pkg.category as any
+    const cat = pkg.category as unknown
     let matchesFilter = false
     if (activeFilter === "All") {
       matchesFilter = true

@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { openWhatsApp } from "@/lib/whatsapp";
+
 
 export interface CarouselPackage {
   name: string;
@@ -129,8 +129,8 @@ export default function PackagesScroll({ initialPackages = fallbackPackages }: {
                     src={pkg.imageUrl}
                     alt={pkg.name}
                     fill
-                    quality={45}
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    quality={70}
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 33vw, 25vw"
                     className="object-cover pointer-events-none"
                     loading="lazy"
                     draggable={false}

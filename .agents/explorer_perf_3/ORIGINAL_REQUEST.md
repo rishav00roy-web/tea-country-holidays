@@ -1,0 +1,2 @@
+## 2026-07-15T00:15:30Z
+Analyze the Next.js site performance for mobile and desktop. Inspect image component properties (sizes, quality, priority), check bundle optimization opportunities, and examine the reviews marquee component in components/reviews-marquee.tsx. Identify why the marquee lags and why it exposes a green background. Provide detailed optimization and bug fix recommendations. Write your findings to handoff.md in your working directory C:\Users\User\.gemini\antigravity\scratch\tea-country-holidays\.agents\explorer_perf_3.

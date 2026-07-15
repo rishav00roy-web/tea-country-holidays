@@ -1,53 +1,37 @@
-# Plan: Mobile Floating Action Bar Implementation
+# Plan: Performance Optimization and Hero Marquee Bug Fix
 
-This document details the milestones and implementation plan for adding a floating iOS-style quick action bar to the mobile site view.
-
-## Architecture & Code Layout
-- **Target Component**: `components/FloatingActionBar.tsx` (new component)
-- **Layout Integration**: `app/layout.tsx` (persistent across pages, excluding `/admin` routes)
-- **Duplicate CTAs**:
-  - `components/whatsapp-button.tsx` (to be removed from layout/delete)
-  - `components/sticky-cta.tsx` (to be removed from layout/delete)
-- **Dependencies**: `lucide-react`, `react-icons` (check package.json and install missing)
+This plan details the steps to optimize the Tea Country Holidays Next.js site performance for mobile and desktop, and fix the lagging hero reviews marquee component.
 
 ## Milestones
 
 | Milestone | Name | Description | Status |
 |-----------|------|-------------|--------|
-| M1 | Package & Setup | Check `package.json` for `lucide-react` and `react-icons` and install whichever is missing. | PLANNED |
-| M2 | Component Creation | Create `components/FloatingActionBar.tsx` with iOS pill style layout, home (`/`), packages (`/holidays`), WhatsApp, and Phone links. | PLANNED |
-| M3 | Layout Integration | Render `<FloatingActionBar />` in `app/layout.tsx` but exclude on `/admin` routes. | PLANNED |
-| M4 | Remove Duplicate CTAs | Remove `StickyCTA` and `WhatsAppButton` from `app/layout.tsx` and delete components. | PLANNED |
-| M5 | Verification & Audit | Perform build, check responsiveness, active path state, and run forensic integrity audit. | PLANNED |
+| M1 | Performance Analysis & Codebase Exploration | Analyze bundle sizes, image assets, rendering performance, and locate marquee lagging/exposure causes. | PLANNED |
+| M2 | Marquee Bug Fix | Update reviews marquee to utilize performant CSS (transform, will-change) and prevent green background exposure. | PLANNED |
+| M3 | Performance Optimization Implementation | Implement image scaling, lazy loading, font optimization, and eliminate hydration/rendering bottlenecks. | PLANNED |
+| M4 | Verification & Audit | Execute Lighthouse Audits for mobile/desktop to verify Performance score >= 90. Run Forensic Auditor checks. | PLANNED |
 
 ## Detailed Checklist
 
-### Milestone 1: Package & Setup
-- [ ] Inspect package.json for `lucide-react` and `react-icons`.
-- [ ] Install missing packages if any (`npm install <package>`).
+### Milestone 1: Performance Analysis & Codebase Exploration
+- [ ] Investigate Next.js bundle sizes and chunking using next/bundle-analyzer or webpack configurations.
+- [ ] Identify large above-the-fold or card images that lack priority/sizes attributes.
+- [ ] Locate the reviews marquee component rendering, its CSS styles, and structural layout.
+- [ ] Run a baseline Lighthouse performance audit to measure existing mobile and desktop scores.
 
-### Milestone 2: Create Floating Action Bar Component
-- [ ] Define FloatingActionBar component layout and design:
-  - Rounded pill style centered at bottom of viewport.
-  - Position: fixed, bottom (e.g. `bottom-4` or similar), left/right centered, `z-50`, `md:hidden` (only visible on mobile).
-  - Use `env(safe-area-inset-bottom)` to adjust bottom padding for iOS notches/home indicators.
-  - Buttons:
-    - **Home**: link to `/`, active when route is `/`, color gold (`#e8b84b`) when active.
-    - **Packages**: link to `/holidays`, active when route is `/holidays`, color gold (`#e8b84b`) when active.
-    - **WhatsApp**: link to `https://wa.me/918826048272?text=...`, styled as an elevated bubble with pulsing ring.
-    - **Call**: link to `tel:+918826048272`.
-- [ ] Restore missing `<a>` tag structures and fix syntax errors in code layout.
+### Milestone 2: Marquee Bug Fix
+- [ ] Enhance reviews marquee (`components/reviews-marquee.tsx`) animation performance using CSS `transform` and `will-change: transform`.
+- [ ] Restructure the marquee container and track to ensure it loops seamlessly without exposing the parent green background (`#013220`).
+- [ ] Alternatively, integrate `react-fast-marquee` (already in package.json) for optimal performance and gap-free looping.
+- [ ] Verify the fix visually and test for smoothness on touch viewports.
 
-### Milestone 3: Layout Integration & Exclusions
-- [ ] Edit `app/layout.tsx` to import and render `<FloatingActionBar />`.
-- [ ] Implement conditional rendering or route check in `<FloatingActionBar />` or `app/layout.tsx` so it does not render on routes starting with `/admin`.
-  - Use `usePathname()` to check if route starts with `/admin`.
+### Milestone 3: Performance Optimization Implementation
+- [ ] Optimize images: check that `<Image>` components have correct `sizes` and `quality` props.
+- [ ] Fix hydration/rendering bottlenecks in dynamic client components (e.g., dynamic imports with `ssr: false` for client-only components).
+- [ ] Ensure CSS animations and transitions are optimized and don't trigger layout thrashing.
+- [ ] Verify production build completes successfully (`npm run build`).
 
-### Milestone 4: Remove Duplicate CTAs
-- [ ] Remove `<StickyCTA />` and `<WhatsAppButton />` from `app/layout.tsx`.
-- [ ] Delete or keep components but clean imports. Removing is safer to avoid confusion.
-
-### Milestone 5: Verification & Audit
-- [ ] Run `npm run build` to verify there are no compilation or TypeScript errors.
-- [ ] Run E2E tests (`npm run test:e2e`).
-- [ ] Verify using auditor and challenger subagents.
+### Milestone 4: Verification & Audit
+- [ ] Run a Lighthouse performance audit on the built application for both Mobile and Desktop viewports.
+- [ ] Confirm Lighthouse Performance score is >= 90 on both viewports.
+- [ ] Run Forensic Auditor to guarantee code integrity (no hardcoded metrics, no dummy/facade implementations).

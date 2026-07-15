@@ -32,7 +32,7 @@ export default async function HolidaysPage({ searchParams }: HolidaysPageProps) 
       .order('created_at', { ascending: false })
       
     if (!error && data && data.length > 0) {
-      packages = data as any;
+      packages = data as unknown as typeof fallbackPackages;
     } else if (error) {
       console.warn("Failed to fetch packages from Supabase, using fallback packages:", error.message)
     }

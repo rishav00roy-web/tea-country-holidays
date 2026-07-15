@@ -19,7 +19,7 @@ function FlightsPageContent({
   typeParam?: string
 }) {
   const { gatedWhatsApp } = useAuthGate()
-
+  
   const [tripType, setTripType] = useState<"one-way" | "round-trip">(
     typeParam === "round-trip" ? "round-trip" : "one-way"
   )
@@ -49,7 +49,7 @@ function FlightsPageContent({
             Sourcing the best airline fares and handling your booking from takeoff to landing.
           </p>
         </div>
-      </div>
+        </div>
 
       <div className="mx-auto max-w-2xl px-4 py-16">
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">

@@ -1,6 +1,4 @@
-import { Users, Star, MapPin, Award, Plane, Mountain } from "lucide-react";
-
-const features = [
+import { Users, Star, MapPin, Award, Plane, Mountain } from "lucide-react";const features = [
   {
     icon: Users,
     title: "500+ Happy Travellers",

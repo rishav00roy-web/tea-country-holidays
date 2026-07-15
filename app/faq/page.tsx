@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import FAQAccordion from "./FAQAccordion";
 
+
 export const metadata: Metadata = {
   title: "FAQ – Northeast India Travel Questions Answered | Tea Country Holidays",
   description:

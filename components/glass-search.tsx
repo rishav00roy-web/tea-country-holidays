@@ -34,7 +34,9 @@ function useOnClickOutside(refs: React.RefObject<HTMLElement | null>[], handler:
   const handlerRef = useRef(handler);
   useEffect(() => { handlerRef.current = handler; });
   const refsRef = useRef(refs);
-  refsRef.current = refs;
+  useEffect(() => {
+    refsRef.current = refs;
+  });
 
   useEffect(() => {
     const listener = (e: MouseEvent | TouchEvent) => {
@@ -162,7 +164,9 @@ export default function GlassSearch() {
   // Dropdowns render through a portal (see below) so the hero section's
   // overflow:hidden / wave-divider clipping can never cut them off on mobile.
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setTimeout(() => setMounted(true), 0);
+  }, []);
 
   const [dropdownPos, setDropdownPos] = useState<{
     top: number; left: number; width: number; maxHeight: number;

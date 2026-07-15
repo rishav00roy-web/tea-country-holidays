@@ -58,7 +58,7 @@ export default function WhoWeAre() {
 
           {/* Right: Pillar cards */}
           <div className="reveal-stagger grid sm:grid-cols-2 gap-5">
-            {pillars.map((p, i) => {
+            {pillars.map((p) => {
               const Icon = p.icon;
               return (
                 <div
