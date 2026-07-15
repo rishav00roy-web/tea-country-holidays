@@ -3,7 +3,7 @@
 import { useEffect, useState, memo, useRef } from "react";
 import Image from "next/image";
 import GlassSearch from "@/components/glass-search";
-import { useParallaxZoom } from "@/hooks/use-parallax-zoom";
+
 
 const WORDS = [
   "Meghalaya",
@@ -118,8 +118,6 @@ const Typewriter = memo(function Typewriter({
 });
 
 export default function Hero() {
-  const bgRef = useParallaxZoom({ speed: 0.12, zoomFrom: 1.0, zoomTo: 0.94 });
-  const contentRef = useParallaxZoom({ speed: 0.08, zoomFrom: 1.0, zoomTo: 1.0 });
   const [wordIndex, setWordIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const [isCrossfading, setIsCrossfading] = useState(false);
@@ -169,7 +167,7 @@ export default function Hero() {
 
         {/* Parallax background wrapper (Clipping container) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div ref={bgRef} className="absolute inset-[-30px]">
+          <div className="absolute inset-[-30px]">
             {/* Deep Green Base */}
           <div
             className="absolute inset-0 z-0"
@@ -235,7 +233,7 @@ export default function Hero() {
         </div>
 
         {/* Hero content */}
-        <div ref={contentRef} className="relative z-[4] flex flex-col items-center text-center px-4 gap-4 select-none w-full max-w-6xl mx-auto">
+        <div className="relative z-[4] flex flex-col items-center text-center px-4 gap-4 select-none w-full max-w-6xl mx-auto">
 
           <p
             className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-16 sm:pt-0"
