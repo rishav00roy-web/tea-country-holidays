@@ -115,9 +115,9 @@ function LocationInput({
           onChange={(e) => onChange(e.target.value)}
           onFocus={onFocus}
           placeholder={placeholder}
-          autoCorrect="on"
-          autoComplete="on"
-          spellCheck={true}
+          autoCorrect="off"
+          autoComplete="off"
+          spellCheck={false}
           className={`w-full pl-9 pr-4 py-3 rounded-xl text-base sm:text-sm font-medium outline-none transition-all text-white placeholder:text-white/30 border ${
             isActive
               ? "bg-white/15 border-[rgba(212,175,55,0.35)]"

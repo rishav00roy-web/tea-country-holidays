@@ -11,28 +11,16 @@ export const metadata: Metadata = {
   },
 }
 
-export const dynamic = "force-dynamic";
+import { Suspense } from "react"
+import { createPublicClient } from "@/lib/supabase-public"
 
-interface HotelsPageProps {
-  searchParams: Promise<{
-    city?: string
-    checkin?: string
-    checkout?: string
-    guests?: string
-  }>
-}
+export const revalidate = 3600;
 
-export default async function HotelsPage({ searchParams }: HotelsPageProps) {
-  const resolvedSearchParams = await searchParams
-  const cityParam = resolvedSearchParams.city || ""
-  const checkinParam = resolvedSearchParams.checkin || ""
-  const checkoutParam = resolvedSearchParams.checkout || ""
-  const guestsParam = resolvedSearchParams.guests || "2"
-
+export default async function HotelsPage() {
   let hotels: Hotel[] = fallbackHotels;
   let fetchError = false;
   try {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from("hotels")
       .select("*")
@@ -50,13 +38,11 @@ export default async function HotelsPage({ searchParams }: HotelsPageProps) {
   }
 
   return (
-    <HotelsContent
-      initialHotels={hotels}
-      cityParam={cityParam}
-      checkinParam={checkinParam}
-      checkoutParam={checkoutParam}
-      guestsParam={guestsParam}
-      fetchError={fetchError}
-    />
+    <Suspense fallback={<div>Loading hotels...</div>}>
+      <HotelsContent
+        initialHotels={hotels}
+        fetchError={fetchError}
+      />
+    </Suspense>
   )
 }

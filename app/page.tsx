@@ -2,7 +2,7 @@ import nextDynamic from "next/dynamic";
 import Hero          from "@/components/hero";
 import SectionDivider from "@/components/SectionDivider";
 import { BackToTop } from "@/components/back-to-top";
-import { createClient } from "@/lib/supabase-server";
+import { createPublicClient } from "@/lib/supabase-public";
 import { getSiteSettings } from "@/lib/site-settings";
 
 // Fallback data imports
@@ -21,7 +21,7 @@ const ReviewsMarquee      = nextDynamic(() => import("@/components/reviews-marqu
 const BlogsSection        = nextDynamic(() => import("@/components/blogs-section"));
 const HomeFAQ             = nextDynamic(() => import("@/components/home-faq"));
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export default async function Home() {
   let carouselPackages = fallbackPackages;
@@ -30,7 +30,7 @@ export default async function Home() {
   let testimonialsList = fallbackTestimonials;
 
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
 
     // Parallel server-side data fetching
     const [packagesRes, faqsRes, reviewsRes] = await Promise.all([

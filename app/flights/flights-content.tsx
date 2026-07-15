@@ -5,21 +5,18 @@ import { Plane, Calendar, Users } from "lucide-react"
 import { useAuthGate } from "@/hooks/use-auth-gate"
 import TravelAutocomplete from "@/components/travel-autocomplete"
 
-function FlightsPageContent({
-  fromParam = "",
-  toParam = "",
-  dateParam = "",
-  travellersParam = "1 Traveller",
-  typeParam = "one-way",
-}: {
-  fromParam?: string
-  toParam?: string
-  dateParam?: string
-  travellersParam?: string
-  typeParam?: string
-}) {
+import { useSearchParams } from "next/navigation"
+
+export default function FlightsPageContent() {
   const { gatedWhatsApp } = useAuthGate()
-  
+  const searchParams = useSearchParams()
+
+  const fromParam = searchParams?.get("from") || ""
+  const toParam = searchParams?.get("to") || ""
+  const dateParam = searchParams?.get("date") || ""
+  const travellersParam = searchParams?.get("travellers") || "1 Traveller"
+  const typeParam = searchParams?.get("type") || "one-way"
+
   const [tripType, setTripType] = useState<"one-way" | "round-trip">(
     typeParam === "round-trip" ? "round-trip" : "one-way"
   )
@@ -165,28 +162,4 @@ function FlightsPageContent({
   )
 }
 
-interface FlightsContentProps {
-  fromParam?: string
-  toParam?: string
-  dateParam?: string
-  travellersParam?: string
-  typeParam?: string
-}
 
-export default function FlightsContent({
-  fromParam = "",
-  toParam = "",
-  dateParam = "",
-  travellersParam = "1 Traveller",
-  typeParam = "one-way"
-}: FlightsContentProps) {
-  return (
-    <FlightsPageContent
-      fromParam={fromParam}
-      toParam={toParam}
-      dateParam={dateParam}
-      travellersParam={travellersParam}
-      typeParam={typeParam}
-    />
-  )
-}

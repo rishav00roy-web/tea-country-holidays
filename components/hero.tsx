@@ -167,9 +167,10 @@ export default function Hero() {
 
       <section className="relative min-h-screen w-full flex flex-col items-center justify-center pb-16 bg-[#013220]">
 
-        {/* Parallax background wrapper */}
-        <div ref={bgRef} className="absolute inset-[-30px] z-0 overflow-hidden">
-          {/* Deep Green Base */}
+        {/* Parallax background wrapper (Clipping container) */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div ref={bgRef} className="absolute inset-[-30px]">
+            {/* Deep Green Base */}
           <div
             className="absolute inset-0 z-0"
             style={{ background: "linear-gradient(160deg, #01291a 0%, #013220 40%, #001f14 100%)" }}
@@ -231,22 +232,23 @@ export default function Hero() {
             }}
           />
         </div>
+        </div>
 
         {/* Hero content */}
         <div ref={contentRef} className="relative z-[4] flex flex-col items-center text-center px-4 gap-4 select-none w-full max-w-6xl mx-auto">
 
           <p
-            className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-24 sm:pt-0"
+            className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-16 sm:pt-0"
             style={{ animation: "fadeUp 0.8s ease both 0.05s" }}
           >
             Tea Country Holidays
           </p>
 
           <h1
-            className="font-serif text-white text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-snug md:leading-tight flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4"
+            className="font-serif text-white text-[2.75rem] leading-[1.1] sm:text-6xl md:text-7xl lg:text-8xl font-bold md:leading-tight flex flex-col sm:flex-row items-center justify-center gap-0 sm:gap-4"
             style={{ animation: "fadeUp 0.8s ease both 0.1s", opacity: 0, animationFillMode: "both" }}
           >
-            <span>Discover</span>
+            <span className="mb-[-8px] sm:mb-0">Discover</span>
             <Typewriter wordIndex={wordIndex} onWordComplete={advanceWord} />
           </h1>
 

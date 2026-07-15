@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
-import { createClient } from "@/lib/supabase-server"
+import { Suspense } from "react"
+import { createPublicClient } from "@/lib/supabase-public"
 import { fallbackPackages } from "@/lib/packages-data"
 import HolidaysContent from "./holidays-content"
 
@@ -12,19 +13,12 @@ export const metadata: Metadata = {
   },
 }
 
-export interface HolidaysPageProps {
-  searchParams: Promise<{ destination?: string }>
-}
+export const revalidate = 3600;
 
-export const dynamic = "force-dynamic";
-
-export default async function HolidaysPage({ searchParams }: HolidaysPageProps) {
-  const resolvedSearchParams = await searchParams;
-  const initialDestination = resolvedSearchParams.destination || "";
-
+export default async function HolidaysPage() {
   let packages = fallbackPackages;
   try {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from('packages')
       .select('*')
@@ -40,5 +34,9 @@ export default async function HolidaysPage({ searchParams }: HolidaysPageProps) 
     console.error("Error connecting to Supabase or fetching packages:", e)
   }
 
-  return <HolidaysContent initialDestination={initialDestination} initialPackages={packages} />
+  return (
+    <Suspense fallback={<div>Loading packages...</div>}>
+      <HolidaysContent initialPackages={packages} />
+    </Suspense>
+  )
 }

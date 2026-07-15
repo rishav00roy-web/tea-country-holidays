@@ -25,22 +25,22 @@ export const fallbackHotels: Hotel[] = [
   { id: 6, name: "Misty Valleys Resort", city: "Manali", image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80", price: 5800, rating: 4, description: "Cozy retreat surrounded by pine woods and crisp mountain air." }
 ]
 
-function HotelsPageContent({
+import { useSearchParams } from "next/navigation"
+
+export default function HotelsPageContent({
   initialHotels,
-  cityParam = "",
-  checkinParam = "",
-  checkoutParam = "",
-  guestsParam = "2",
   fetchError = false,
 }: {
   initialHotels: Hotel[]
-  cityParam?: string
-  checkinParam?: string
-  checkoutParam?: string
-  guestsParam?: string
   fetchError?: boolean
 }) {
   const { gatedWhatsApp } = useAuthGate()
+  const searchParams = useSearchParams()
+
+  const cityParam = searchParams?.get("city") || ""
+  const checkinParam = searchParams?.get("checkin") || ""
+  const checkoutParam = searchParams?.get("checkout") || ""
+  const guestsParam = searchParams?.get("guests") || "2"
 
   const [city, setCity] = useState(cityParam)
   const [checkin, setCheckin] = useState(checkinParam)
@@ -195,31 +195,4 @@ function HotelsPageContent({
   )
 }
 
-interface HotelsContentProps {
-  initialHotels?: Hotel[]
-  cityParam?: string
-  checkinParam?: string
-  checkoutParam?: string
-  guestsParam?: string
-  fetchError?: boolean
-}
 
-export default function HotelsContent({
-  initialHotels = fallbackHotels,
-  cityParam = "",
-  checkinParam = "",
-  checkoutParam = "",
-  guestsParam = "2",
-  fetchError = false,
-}: HotelsContentProps) {
-  return (
-    <HotelsPageContent
-      initialHotels={initialHotels}
-      cityParam={cityParam}
-      checkinParam={checkinParam}
-      checkoutParam={checkoutParam}
-      guestsParam={guestsParam}
-      fetchError={fetchError}
-    />
-  )
-}

@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { createClient } from "@/lib/supabase-server";
+import { createPublicClient } from "@/lib/supabase-public";
 
 export interface SiteSettings {
   phone: string;
@@ -37,7 +37,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
  */
 export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data, error } = await supabase.from("site_settings").select("*");
 
     if (error || !data) return DEFAULT_SETTINGS;

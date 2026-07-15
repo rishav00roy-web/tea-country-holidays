@@ -38,7 +38,7 @@ export default function Destinations() {
         </div>
 
         {/* Filter pills */}
-        <div className="reveal flex overflow-x-auto pb-4 -mx-4 px-4 hide-scrollbar gap-2.5 snap-x">
+        <div className="reveal flex overflow-x-auto pb-4 -mx-4 px-4 hide-scrollbar gap-2.5 snap-x after:content-[''] after:min-w-[1px] sm:after:hidden">
           {PILLS.map(d => (
             <button key={d} onClick={() => setActive(d)}
               className={`whitespace-nowrap px-5 py-2.5 rounded-full font-semibold text-sm snap-center border-2 transition-all duration-200 ${
@@ -55,14 +55,10 @@ export default function Destinations() {
         <div className="reveal-stagger mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {filtered.map((img) => (
             <div key={img.id}
-              className="group relative overflow-hidden rounded-2xl cursor-pointer"
+              className="group relative overflow-hidden rounded-2xl cursor-pointer aspect-square md:aspect-[3/4]"
               style={{
-                aspectRatio: "1/1",
                 boxShadow: "10px 10px 24px rgba(1,20,10,0.22),-2px -2px 10px rgba(8,50,25,0.1)",
               }}>
-
-              {/* On md+ screens use taller portrait ratio via inner absolute wrapper */}
-              <style>{`.dest-card-md { aspect-ratio: 3/4 !important; }`}</style>
 
               <div className="absolute inset-0 bg-gradient-to-t from-brand-evergreen/90 via-brand-evergreen/30 to-transparent z-10 opacity-80 md:opacity-60 md:group-hover:opacity-90 transition-opacity duration-500" />
 

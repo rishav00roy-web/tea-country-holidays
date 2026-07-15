@@ -347,15 +347,18 @@ function PackageCard({ pkg }: { pkg: Package }) {
 }
 
 
+import { useSearchParams } from "next/navigation"
+
 const filters = ["All", "Domestic", "International", "Beach", "Honeymoon", "Adventure", "Pilgrimage", "Heritage", "Nature"]
 
 export default function HolidaysContent({ 
-  initialDestination = "", 
   initialPackages 
 }: { 
-  initialDestination?: string
   initialPackages: Package[]
 }) {
+  const searchParams = useSearchParams()
+  const initialDestination = searchParams?.get("destination") || ""
+
   const [activeFilter, setActiveFilter] = useState("All")
   const [search, setSearch] = useState(initialDestination)
 

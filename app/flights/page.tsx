@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import FlightsContent from "./flights-content"
 
 export const metadata: Metadata = {
@@ -10,33 +11,12 @@ export const metadata: Metadata = {
   },
 }
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
-interface FlightsPageProps {
-  searchParams: Promise<{
-    from?: string
-    to?: string
-    date?: string
-    travellers?: string
-    type?: string
-  }>
-}
-
-export default async function FlightsPage({ searchParams }: FlightsPageProps) {
-  const resolvedSearchParams = await searchParams
-  const fromParam = resolvedSearchParams.from || ""
-  const toParam = resolvedSearchParams.to || ""
-  const dateParam = resolvedSearchParams.date || ""
-  const travellersParam = resolvedSearchParams.travellers || "1 Traveller"
-  const typeParam = resolvedSearchParams.type || "one-way"
-
+export default function FlightsPage() {
   return (
-    <FlightsContent
-      fromParam={fromParam}
-      toParam={toParam}
-      dateParam={dateParam}
-      travellersParam={travellersParam}
-      typeParam={typeParam}
-    />
+    <Suspense fallback={<div>Loading flights...</div>}>
+      <FlightsContent />
+    </Suspense>
   )
 }
