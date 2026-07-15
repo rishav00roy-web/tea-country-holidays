@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
-import { createPortal } from "react-dom";
+import { useState, useEffect, useRef, useCallback } from "react";
+
 import { MapPin, Calendar, Users, Plane, Train, Car, Navigation, Check, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 // supabase imported dynamically to optimize bundle load size
 
@@ -27,8 +27,7 @@ const MONTH_NAMES = [
 ];
 const DAY_HEADERS = ["Su","Mo","Tu","We","Th","Fr","Sa"];
 
-// Avoids the "useLayoutEffect does nothing on the server" warning under Next.js SSR.
-const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+// Removed useIsomorphicLayoutEffect
 
 function useOnClickOutside(refs: React.RefObject<HTMLElement | null>[], handler: () => void) {
   const handlerRef = useRef(handler);
@@ -119,7 +118,7 @@ function LocationInput({
           autoCorrect="on"
           autoComplete="on"
           spellCheck={true}
-          className={`w-full pl-9 pr-4 py-3 rounded-xl text-sm font-medium outline-none transition-all text-white placeholder:text-white/30 border ${
+          className={`w-full pl-9 pr-4 py-3 rounded-xl text-base sm:text-sm font-medium outline-none transition-all text-white placeholder:text-white/30 border ${
             isActive
               ? "bg-white/15 border-[rgba(212,175,55,0.35)]"
               : "bg-white/8 border-white/10 hover:border-[rgba(212,175,55,0.35)]"
@@ -161,59 +160,7 @@ export default function GlassSearch() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   useOnClickOutside([containerRef, dropdownRef], () => setActiveTab(null));
 
-  // Dropdowns render through a portal (see below) so the hero section's
-  // overflow:hidden / wave-divider clipping can never cut them off on mobile.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setTimeout(() => setMounted(true), 0);
-  }, []);
-
-  const [dropdownPos, setDropdownPos] = useState<{
-    top: number; left: number; width: number; maxHeight: number;
-  } | null>(null);
-
-  const updateDropdownPos = useCallback((tab: "where" | "when" | "who") => {
-    const bar = barRef.current;
-    if (!bar) return;
-    const rect = bar.getBoundingClientRect();
-    const isDesktop = window.innerWidth >= 640; // Tailwind `sm` breakpoint
-    const margin = 16;
-
-    let left = rect.left;
-    let width = rect.width;
-
-    if (isDesktop) {
-      if (tab === "where") {
-        width = 440;
-        left = rect.left;
-      } else if (tab === "when") {
-        width = 320;
-        left = rect.left + rect.width / 4;
-      } else {
-        width = 340;
-        left = rect.right - width;
-      }
-      if (left + width > window.innerWidth - margin) left = window.innerWidth - margin - width;
-      if (left < margin) left = margin;
-    }
-
-    const top = rect.bottom + 8;
-    const maxHeight = Math.max(160, window.innerHeight - top - margin);
-    setDropdownPos({ top, left, width, maxHeight });
-  }, []);
-
-  useIsomorphicLayoutEffect(() => {
-    if (!activeTab) { setDropdownPos(null); return; }
-    const tab = activeTab;
-    updateDropdownPos(tab);
-    const onReflow = () => updateDropdownPos(tab);
-    window.addEventListener("resize", onReflow);
-    window.addEventListener("scroll", onReflow, true);
-    return () => {
-      window.removeEventListener("resize", onReflow);
-      window.removeEventListener("scroll", onReflow, true);
-    };
-  }, [activeTab, updateDropdownPos]);
+  // Dropdowns render inside the relative container.
 
   const closeWhere = useCallback(() => {
     setActiveTab(null);
@@ -345,10 +292,10 @@ export default function GlassSearch() {
         ref={barRef}
         className="relative border border-white/20 rounded-2xl shadow-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
         style={{
-          background: "rgba(1, 40, 26, 0.58)", // Brand dark evergreen for high-contrast visibility against bright waterfalls
+          background: "rgba(1, 40, 26, 0.58)",
           backdropFilter: "blur(24px) saturate(1.3)",
           WebkitBackdropFilter: "blur(24px) saturate(1.3)",
-          border: "1px solid rgba(212, 175, 55, 0.35)", // Subtle brand gold border for premium feel and clear boundary definition
+          border: "1px solid rgba(212, 175, 55, 0.35)",
           borderRadius: "16px",
           boxShadow: "0 12px 40px rgba(1, 32, 20, 0.45), inset 0 1px 0 rgba(255,255,255,0.05)",
           transition: "box-shadow 0.3s ease, border-color 0.3s ease",
@@ -417,28 +364,11 @@ export default function GlassSearch() {
         >
           Plan My Trip ✈
         </button>
-      </div>{/* end glass bar */}
 
-      {/* Dropdowns render through a portal straight into <body>, so they can
-          never be clipped by the hero's overflow-hidden wave divider. */}
-      {mounted && activeTab && dropdownPos && createPortal(
-        <div
-          ref={dropdownRef}
-          style={{
-            position: "fixed",
-            top: dropdownPos.top,
-            left: dropdownPos.left,
-            width: dropdownPos.width,
-            maxHeight: dropdownPos.maxHeight,
-            overflowY: "auto",
-            zIndex: 9999,
-          }}
-        >
-
-        {/* ── WHERE Dropdown — dark glass ── */}
+      {/* Dropdowns render strictly inside the relative container box to align with user layout rules */}
       {activeTab === "where" && (
         <div
-          className="gs-dropdown rounded-2xl shadow-2xl overflow-hidden p-5"
+          className="gs-dropdown absolute top-[calc(100%+12px)] left-0 w-full sm:w-[440px] z-50 rounded-2xl shadow-2xl overflow-hidden p-5 max-h-[55vh] sm:max-h-[80vh] overflow-y-auto"
           style={GLASS_DROPDOWN}
         >
           <div className="space-y-4">
@@ -510,14 +440,15 @@ export default function GlassSearch() {
       {/* ── WHEN — Calendar Dropdown ── */}
       {activeTab === "when" && (
         <div
-          className="gs-dropdown rounded-2xl shadow-2xl overflow-hidden"
+          className="gs-dropdown absolute top-[calc(100%+12px)] left-0 sm:left-[25%] w-full sm:w-[320px] z-50 rounded-2xl shadow-2xl overflow-hidden max-h-[55vh] sm:max-h-[80vh] overflow-y-auto"
           style={GLASS_DROPDOWN}
         >
           <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
             <button
               type="button"
               onClick={prevMonth}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white/60 hover:text-[#F4A011] hover:bg-white/10 transition-all"
+              aria-label="Previous Month"
+              className="w-11 h-11 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white/60 hover:text-[#F4A011] hover:bg-white/10 transition-all"
             >
               <ChevronLeft size={18} />
             </button>
@@ -527,7 +458,8 @@ export default function GlassSearch() {
             <button
               type="button"
               onClick={nextMonth}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white/60 hover:text-[#F4A011] hover:bg-white/10 transition-all"
+              aria-label="Next Month"
+              className="w-11 h-11 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white/60 hover:text-[#F4A011] hover:bg-white/10 transition-all"
             >
               <ChevronRight size={18} />
             </button>
@@ -594,7 +526,7 @@ export default function GlassSearch() {
       {/* ── WHO & HOW Dropdown — dark glass ── */}
       {activeTab === "who" && (
         <div
-          className="gs-dropdown rounded-2xl shadow-2xl overflow-hidden p-5"
+          className="gs-dropdown absolute top-[calc(100%+12px)] right-0 w-full sm:w-[340px] z-50 rounded-2xl shadow-2xl overflow-hidden p-5 max-h-[55vh] sm:max-h-[80vh] overflow-y-auto"
           style={GLASS_DROPDOWN}
         >
           <div className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider mb-4">Travellers</div>
@@ -613,12 +545,14 @@ export default function GlassSearch() {
                   <button
                     onClick={() => setCount(Math.max(min, count - 1))}
                     disabled={count <= min}
-                    className="w-9 h-9 rounded-full border-2 border-white/20 flex items-center justify-center hover:border-[#F4A011] hover:text-[#F4A011] text-white font-bold text-lg transition-all cursor-pointer disabled:opacity-30"
+                    aria-label={`Decrease ${label}`}
+                    className="w-11 h-11 sm:w-9 sm:h-9 rounded-full border-2 border-white/20 flex items-center justify-center hover:border-[#F4A011] hover:text-[#F4A011] text-white font-bold text-lg transition-all cursor-pointer disabled:opacity-30"
                   >−</button>
                   <span className="w-5 text-center text-sm font-bold text-white">{count}</span>
                   <button
                     onClick={() => setCount(count + 1)}
-                    className="w-9 h-9 rounded-full border-2 border-white/20 flex items-center justify-center hover:border-[#F4A011] hover:text-[#F4A011] text-white font-bold text-lg transition-all cursor-pointer"
+                    aria-label={`Increase ${label}`}
+                    className="w-11 h-11 sm:w-9 sm:h-9 rounded-full border-2 border-white/20 flex items-center justify-center hover:border-[#F4A011] hover:text-[#F4A011] text-white font-bold text-lg transition-all cursor-pointer"
                   >+</button>
                 </div>
               </div>
@@ -658,9 +592,7 @@ export default function GlassSearch() {
           </button>
         </div>
       )}
-        </div>,
-        document.body
-      )}
+      </div>{/* end glass bar */}
     </div>
   );
 }

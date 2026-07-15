@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import FloatingActionBar from "@/components/FloatingActionBar";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import FooterVisibility from "@/components/footer-visibility";
 import ScrollRevealInit from "@/components/scroll-reveal-init";
 import CookieBanner from "@/components/cookie-banner";
 import "./globals.css";
@@ -105,7 +106,9 @@ export default function RootLayout({
       <body className="font-sans text-brand-ink antialiased bg-brand-floral min-h-screen flex flex-col overflow-x-hidden max-w-full">
         <Navbar />
         {children}
-        <Footer />
+        <FooterVisibility>
+          <Footer />
+        </FooterVisibility>
         <FloatingActionBar />
         <ScrollRevealInit />
         <CookieBanner />

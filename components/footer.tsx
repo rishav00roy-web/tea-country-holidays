@@ -1,16 +1,8 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 export default function Footer() {
-  const pathname = usePathname();
-
-  // ── Hide Footer on auth pages ──
-  if (pathname === "/login") return null;
-
   return (
     <footer id="footer" className="bg-brand-evergreen text-white pt-20 pb-8 border-t-[3px] border-brand-gold/30 relative overflow-hidden">
       {/* Ambient glow behind footer content */}

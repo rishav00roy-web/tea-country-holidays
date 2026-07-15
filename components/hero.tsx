@@ -78,7 +78,7 @@ const Typewriter = memo(function Typewriter({
 
     if (phase === "pausing") {
       const isFirstWord = wordIndex === 0;
-      const pauseDuration = isFirstWord ? 7000 : PAUSE_AFTER;
+      const pauseDuration = isFirstWord ? 2500 : PAUSE_AFTER;
       const t = setTimeout(() => setPhase("erasing"), pauseDuration);
       return () => clearTimeout(t);
     }
@@ -165,10 +165,10 @@ export default function Hero() {
         }
       `}</style>
 
-      <section className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center pb-16 bg-[#013220]">
+      <section className="relative min-h-screen w-full flex flex-col items-center justify-center pb-16 bg-[#013220]">
 
         {/* Parallax background wrapper */}
-        <div ref={bgRef} className="absolute inset-[-30px] z-0">
+        <div ref={bgRef} className="absolute inset-[-30px] z-0 overflow-hidden">
           {/* Deep Green Base */}
           <div
             className="absolute inset-0 z-0"
@@ -243,10 +243,10 @@ export default function Hero() {
           </p>
 
           <h1
-            className="font-serif text-white text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-snug md:leading-tight"
+            className="font-serif text-white text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-snug md:leading-tight flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4"
             style={{ animation: "fadeUp 0.8s ease both 0.1s", opacity: 0, animationFillMode: "both" }}
           >
-            Discover{" "}
+            <span>Discover</span>
             <Typewriter wordIndex={wordIndex} onWordComplete={advanceWord} />
           </h1>
 

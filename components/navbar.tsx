@@ -491,6 +491,7 @@ export default function Navbar() {
           <div className="relative bg-[#FAFAF7] dark:bg-[#0d1f1a] rounded-2xl shadow-2xl w-full max-w-md p-8 border border-[#C8860A]/20 text-center animate-[fadeUp_0.4s_ease_both]">
             <button 
               onClick={() => setShowLoginModal(false)} 
+              aria-label="Close login dialog"
               className="absolute top-4 right-4 text-brand-evergreen/60 dark:text-white/60 hover:text-brand-evergreen dark:hover:text-white transition-colors"
             >
               <X className="w-5 h-5" />

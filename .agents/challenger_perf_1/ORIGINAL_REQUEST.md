@@ -1,2 +1,0 @@
-## 2026-07-15T01:00:12Z
-Verify that the reviews marquee component animates smoothly and without lagging and structurally prevents any green background from being exposed. Start the local server (`npm run start` after ensuring it is built) and run a Lighthouse performance audit for both mobile and desktop viewports to verify that the performance score is 90 or higher. Document the Lighthouse scores and marquee animation observations in handoff.md in your working directory C:\Users\User\.gemini\antigravity\scratch\tea-country-holidays\.agents\challenger_perf_1.
