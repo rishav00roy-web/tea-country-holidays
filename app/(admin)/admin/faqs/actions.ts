@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/require-admin";
-import { createAdminClient } from "@/lib/supabase-admin";
+import { createClient } from "@/lib/supabase-server";
 
 export interface FAQ {
   id: string;
@@ -19,7 +19,7 @@ function revalidateFaqPaths() {
 
 export async function listFaqs(): Promise<FAQ[]> {
   await requireAdmin();
-  const admin = createAdminClient();
+  const admin = await createClient();
 
   const { data, error } = await admin
     .from("faqs")
@@ -32,7 +32,7 @@ export async function listFaqs(): Promise<FAQ[]> {
 
 export async function createFaq(question: string, answer: string): Promise<FAQ> {
   await requireAdmin();
-  const admin = createAdminClient();
+  const admin = await createClient();
 
   // Compute the next sort_order server-side rather than trusting a value
   // computed from the client's local (possibly stale) list.
@@ -58,7 +58,7 @@ export async function createFaq(question: string, answer: string): Promise<FAQ> 
 
 export async function updateFaq(id: string, question: string, answer: string): Promise<FAQ> {
   await requireAdmin();
-  const admin = createAdminClient();
+  const admin = await createClient();
 
   const { data, error } = await admin
     .from("faqs")
@@ -74,7 +74,7 @@ export async function updateFaq(id: string, question: string, answer: string): P
 
 export async function deleteFaq(id: string): Promise<void> {
   await requireAdmin();
-  const admin = createAdminClient();
+  const admin = await createClient();
 
   const { error } = await admin.from("faqs").delete().eq("id", id);
 
@@ -90,7 +90,7 @@ export async function deleteFaq(id: string): Promise<void> {
  */
 export async function reorderFaqs(updates: { id: string; sort_order: number }[]): Promise<void> {
   await requireAdmin();
-  const admin = createAdminClient();
+  const admin = await createClient();
 
   const results = await Promise.all(
     updates.map((u) =>

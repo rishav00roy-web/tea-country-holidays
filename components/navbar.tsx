@@ -140,11 +140,18 @@ export default function Navbar() {
     }
   };
 
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
   const handleSignOut = async () => {
-    const { supabase } = await import("@/lib/supabase");
-    await supabase.auth.signOut();
-    setHasSession(false);
-    router.refresh();
+    setIsLoggingOut(true);
+    try {
+      const { supabase } = await import("@/lib/supabase");
+      await supabase.auth.signOut();
+      setHasSession(false);
+      router.refresh();
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
 
   if (pathname === "/login" || pathname.startsWith("/admin")) return null;
@@ -249,7 +256,8 @@ export default function Navbar() {
             ) : hasSession ? (
               <button
                 onClick={handleSignOut}
-                className="relative w-[110px] h-[42px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20"
+                disabled={isLoggingOut}
+                className="relative w-[110px] h-[42px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20 group disabled:opacity-70 disabled:hover:-translate-y-0 disabled:cursor-not-allowed"
                 style={{
                   background: "linear-gradient(to bottom right, #C8860A 0%, rgba(200, 134, 10, 0) 30%)",
                   backgroundColor: "rgba(200, 134, 10, 0.2)",
@@ -258,8 +266,12 @@ export default function Navbar() {
                 <div className={`w-full h-full rounded-[10px] flex items-center justify-center gap-2 font-semibold text-sm transition-colors duration-300 ${
                   scrolled && !isDark ? "bg-[#FAFAF7] text-[#2D5016]" : "bg-[#1a2e0f] text-[#F5F0E8]"
                 }`}>
-                  <User className={`w-4 h-4 transition-colors duration-300 ${scrolled && !isDark ? "text-[#2D5016]" : "text-[#F5F0E8]"}`} />
-                  <span>Logout</span>
+                  {isLoggingOut ? (
+                    <svg className={`w-4 h-4 animate-spin transition-colors duration-300 ${scrolled && !isDark ? "text-[#2D5016]" : "text-[#F5F0E8]"}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                  ) : (
+                    <User className={`w-4 h-4 transition-colors duration-300 ${scrolled && !isDark ? "text-[#2D5016]" : "text-[#F5F0E8]"} group-active:scale-95`} />
+                  )}
+                  <span className="group-active:scale-95 transition-transform">Logout</span>
                 </div>
               </button>
             ) : (

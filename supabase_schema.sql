@@ -46,17 +46,34 @@ CREATE TABLE IF NOT EXISTS public.faqs (
   created_at timestamp with time zone DEFAULT now() NOT NULL
 );
 
--- Enable RLS (Since we use Service Role Key for Admin, regular users only get SELECT)
+-- Enable RLS
 ALTER TABLE public.packages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.hotels ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.blog_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.faqs ENABLE ROW LEVEL SECURITY;
+
+-- Helper function to check if a user is an admin
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS boolean AS $$
+BEGIN
+  RETURN (
+    SELECT is_admin FROM public.profiles
+    WHERE id = auth.uid()
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Allow public read access to published items
 CREATE POLICY "Allow public read-only on published packages" ON public.packages FOR SELECT USING (published = true);
 CREATE POLICY "Allow public read-only on published hotels" ON public.hotels FOR SELECT USING (published = true);
 CREATE POLICY "Allow public read-only on published blog posts" ON public.blog_posts FOR SELECT USING (published = true);
 CREATE POLICY "Allow public read-only on all FAQs" ON public.faqs FOR SELECT USING (true);
+
+-- Allow admins to do everything
+CREATE POLICY "Admins can do everything on packages" ON public.packages FOR ALL USING (public.is_admin());
+CREATE POLICY "Admins can do everything on hotels" ON public.hotels FOR ALL USING (public.is_admin());
+CREATE POLICY "Admins can do everything on blog posts" ON public.blog_posts FOR ALL USING (public.is_admin());
+CREATE POLICY "Admins can do everything on FAQs" ON public.faqs FOR ALL USING (public.is_admin());
 
 -- Create Site Settings Table
 CREATE TABLE IF NOT EXISTS public.site_settings (
@@ -66,6 +83,7 @@ CREATE TABLE IF NOT EXISTS public.site_settings (
 
 ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow public read-only on site settings" ON public.site_settings FOR SELECT USING (true);
+CREATE POLICY "Admins can do everything on site settings" ON public.site_settings FOR ALL USING (public.is_admin());
 
 -- Create Profiles Table for Admin Access
 CREATE TABLE IF NOT EXISTS public.profiles (

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/require-admin";
-import { createAdminClient } from "@/lib/supabase-admin";
+import { createClient } from "@/lib/supabase-server";
 
 export interface BlogPost {
   id: string;
@@ -34,7 +34,7 @@ function friendlyBlogError(error: { code?: string; message: string }): Error {
 
 export async function listBlogs(): Promise<BlogPost[]> {
   await requireAdmin();
-  const admin = createAdminClient();
+  const admin = await createClient();
 
   const { data, error } = await admin
     .from("blog_posts")
@@ -47,7 +47,7 @@ export async function listBlogs(): Promise<BlogPost[]> {
 
 export async function createBlog(payload: BlogPostPayload): Promise<BlogPost> {
   await requireAdmin();
-  const admin = createAdminClient();
+  const admin = await createClient();
 
   const { data, error } = await admin
     .from("blog_posts")
@@ -64,7 +64,7 @@ export async function createBlog(payload: BlogPostPayload): Promise<BlogPost> {
 
 export async function updateBlog(id: string, payload: BlogPostPayload): Promise<BlogPost> {
   await requireAdmin();
-  const admin = createAdminClient();
+  const admin = await createClient();
 
   const { data, error } = await admin
     .from("blog_posts")
@@ -82,7 +82,7 @@ export async function updateBlog(id: string, payload: BlogPostPayload): Promise<
 
 export async function deleteBlog(id: string): Promise<void> {
   await requireAdmin();
-  const admin = createAdminClient();
+  const admin = await createClient();
 
   const { error } = await admin.from("blog_posts").delete().eq("id", id);
 
@@ -98,7 +98,7 @@ export async function toggleBlogPublished(
   published_at: string | null
 ): Promise<void> {
   await requireAdmin();
-  const admin = createAdminClient();
+  const admin = await createClient();
 
   const { error } = await admin
     .from("blog_posts")
