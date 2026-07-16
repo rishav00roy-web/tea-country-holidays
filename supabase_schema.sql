@@ -58,6 +58,15 @@ CREATE POLICY "Allow public read-only on published hotels" ON public.hotels FOR 
 CREATE POLICY "Allow public read-only on published blog posts" ON public.blog_posts FOR SELECT USING (published = true);
 CREATE POLICY "Allow public read-only on all FAQs" ON public.faqs FOR SELECT USING (true);
 
+-- Create Site Settings Table
+CREATE TABLE IF NOT EXISTS public.site_settings (
+  key text PRIMARY KEY,
+  value text
+);
+
+ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read-only on site settings" ON public.site_settings FOR SELECT USING (true);
+
 -- Create Profiles Table for Admin Access
 CREATE TABLE IF NOT EXISTS public.profiles (
   id uuid REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
