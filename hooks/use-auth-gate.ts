@@ -20,8 +20,22 @@ export function useAuthGate() {
       return
     }
     // Use location.href so navigation is user-initiated and bypasses popup blockers
+    let whatsapp = "918826048272";
+    try {
+      const { data } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "whatsapp")
+        .single();
+      if (data?.value) {
+        whatsapp = data.value;
+      }
+    } catch (err) {
+      console.warn("Failed to fetch whatsapp setting in auth gate, using default:", err);
+    }
+
     const encoded = encodeURIComponent(message)
-    window.location.href = `https://wa.me/918826048272?text=${encoded}`
+    window.location.href = `https://wa.me/${whatsapp}?text=${encoded}`
   }
 
   return { gatedWhatsApp, openWhatsApp }

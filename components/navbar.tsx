@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, User, Map, Building2, Plane, Train, Calendar, Info, BookOpen, Phone } from "lucide-react";
-import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 // supabase imported dynamically to optimize bundle load size
 
 const NAV_LINKS: { name: string; href: string; isPlaceholder?: boolean }[] = [
@@ -30,7 +29,13 @@ const LINK_ICONS: Record<string, React.ComponentType<any /* eslint-disable-line 
   "Contact": Phone,
 };
 
-export default function Navbar() {
+export default function Navbar({
+  whatsapp = "918826048272",
+  phone = "918826048272",
+}: {
+  whatsapp?: string;
+  phone?: string;
+}) {
   const [scrolled,   setScrolled]   = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isDark,     setIsDark]     = useState(false);
@@ -295,7 +300,7 @@ export default function Navbar() {
 
             {pathname === "/" && !isAutomation ? (
               <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%2C%20I%27d%20like%20to%20book%20a%20holiday%20package.`}
+                href={`https://wa.me/${whatsapp}?text=Hi%2C%20I%27d%20like%20to%20book%20a%20holiday%20package.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-brand-gold hover:bg-amber-400 text-brand-evergreen font-bold px-6 py-2.5 rounded-full text-sm transition-all duration-200 shadow hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
@@ -460,7 +465,7 @@ export default function Navbar() {
             <div className="p-6 border-t border-brand-gold/10 dark:border-white/10 space-y-4">
               {pathname === "/" && !isAutomation ? (
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%2C%20I%27d%20like%20to%20book%20a%20holiday%20package.`}
+                  href={`https://wa.me/${whatsapp}?text=Hi%2C%20I%27d%20like%20to%20book%20a%20holiday%20package.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
@@ -481,10 +486,10 @@ export default function Navbar() {
               <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 p-3 rounded-xl">
                 <div className="text-left">
                   <p className="text-[10px] text-[#1B4332]/50 dark:text-cream/50 uppercase tracking-wider font-semibold">Call Support</p>
-                  <p className="text-sm font-bold text-[#1B4332] dark:text-[#FAFAF8]">+91 88260 48272</p>
+                  <p className="text-sm font-bold text-[#1B4332] dark:text-[#FAFAF8]">{phone.startsWith("91") && phone.length === 12 ? `+91 ${phone.substring(2, 7)} ${phone.substring(7)}` : phone}</p>
                 </div>
                 <a
-                  href={`tel:+${WHATSAPP_NUMBER}`}
+                  href={`tel:+${phone}`}
                   className="bg-[#F4A011] hover:bg-amber-500 text-[#1B4332] font-bold p-2.5 rounded-lg flex items-center justify-center transition-all shadow active:scale-95 cursor-pointer"
                   title="Call support"
                 >

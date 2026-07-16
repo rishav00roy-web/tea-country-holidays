@@ -2,10 +2,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, ArrowRight } from "lucide-react";
 
-const blogs = [
+export interface BlogType {
+  id: string | number;
+  title: string;
+  excerpt: string;
+  image: string;
+  date: string;
+  slug: string;
+  readTime: string;
+  category?: string;
+}
+
+export const fallbackBlogs: BlogType[] = [
   {
     id: 1,
-    title: "Kaziranga National Park — Land of the One-Horned Rhino",
+    title: "Kaziranga National Park: Land of the One-Horned Rhino",
     excerpt: "Home to two-thirds of the world's great one-horned rhinoceros population, Kaziranga is one of India's most extraordinary wildlife experiences.",
     image: "/images/kaziranga-park.jpg",
     date: "June 10, 2025",
@@ -14,7 +25,7 @@ const blogs = [
   },
   {
     id: 2,
-    title: "Majuli — The World's Largest River Island",
+    title: "Majuli: The World's Largest River Island",
     excerpt: "Floating serenely on the Brahmaputra, Majuli is a world unlike any other — ancient monasteries, Neo-Vaishnavite culture, and breathtaking sunsets.",
     image: "/images/majuli-river.jpg",
     date: "June 5, 2025",
@@ -23,7 +34,7 @@ const blogs = [
   },
   {
     id: 3,
-    title: "Cherrapunji & Meghalaya — Where the Clouds Live",
+    title: "Cherrapunji & Meghalaya: Where the Clouds Live",
     excerpt: "One of the wettest places on earth, Meghalaya rewards travellers with living root bridges, crystal-clear rivers, and misty valleys that feel like another world.",
     image: "/images/meghalaya-bridge.jpg",
     date: "May 28, 2025",
@@ -32,7 +43,7 @@ const blogs = [
   },
   {
     id: 4,
-    title: "Ziro Valley, Arunachal — India's Best Kept Secret",
+    title: "Ziro Valley, Arunachal: India's Best Kept Secret",
     excerpt: "Tucked away in the lower Himalayas, Ziro Valley is a UNESCO World Heritage nominee — serene paddy fields, the Apatani tribe, and India's coolest music festival.",
     image: "/images/ziro-arunachal.jpg",
     date: "May 20, 2025",
@@ -41,7 +52,7 @@ const blogs = [
   },
   {
     id: 5,
-    title: "Dzukou Valley, Nagaland — The Valley of Flowers of the Northeast",
+    title: "Dzukou Valley, Nagaland: The Valley of Flowers of the Northeast",
     excerpt: "At 2,452 metres, Dzukou Valley transforms into a carpet of seasonal wildflowers every monsoon. One of India's most rewarding and least crowded treks.",
     image: "/images/dzukou-nagaland.jpg",
     date: "May 12, 2025",
@@ -50,7 +61,7 @@ const blogs = [
   },
   {
     id: 6,
-    title: "Assam Tea Trail — A Journey Through the Gardens",
+    title: "Assam Tea Trail: A Journey Through the Gardens",
     excerpt: "Jorhat is the tea capital of the world. Walk through emerald estates, stay in colonial bungalows, and discover the story behind every cup of Assam tea.",
     image: "/images/assam-tea-estate.jpg",
     date: "May 5, 2025",
@@ -59,7 +70,7 @@ const blogs = [
   },
 ];
 
-export default function BlogsSection() {
+export default function BlogsSection({ initialBlogs = fallbackBlogs }: { initialBlogs?: BlogType[] }) {
   return (
     <section id="blogs" className="bg-brand-sand dark:bg-brand-dark py-24 relative z-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -77,7 +88,7 @@ export default function BlogsSection() {
 
         {/* Blog Grid */}
         <div className="reveal-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogs.map((blog) => (
+          {initialBlogs.map((blog) => (
             <Link
               key={blog.id}
               href={`/blog/${blog.slug}`}

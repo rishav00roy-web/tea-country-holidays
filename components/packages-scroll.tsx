@@ -62,7 +62,13 @@ export const fallbackPackages: CarouselPackage[] = [
   },
 ];
 
-export default function PackagesScroll({ initialPackages = fallbackPackages }: { initialPackages?: CarouselPackage[] }) {
+export default function PackagesScroll({
+  initialPackages = fallbackPackages,
+  whatsappNumber = "918826048272",
+}: {
+  initialPackages?: CarouselPackage[];
+  whatsappNumber?: string;
+}) {
   const scrollRef = useRef<HTMLDivElement>(null);
   // openWhatsApp is used directly to avoid popup blocker issues with async auth checks
 
@@ -158,7 +164,7 @@ export default function PackagesScroll({ initialPackages = fallbackPackages }: {
 
                   {/* Glowing CTA */}
                   <a 
-                    href={`https://wa.me/918826048272?text=${encodeURIComponent(
+                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
                       `Hi, I'm interested in the ${pkg.name} package (${pkg.duration}). Please share more details.`
                     )}`}
                     target="_blank"

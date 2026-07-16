@@ -7,6 +7,7 @@ import Footer from "@/components/footer";
 import FooterVisibility from "@/components/footer-visibility";
 import ScrollRevealInit from "@/components/scroll-reveal-init";
 import CookieBanner from "@/components/cookie-banner";
+import { getSiteSettings } from "@/lib/site-settings";
 import "./globals.css";
 
 const playfairDisplay = Playfair_Display({
@@ -82,9 +83,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const settings = await getSiteSettings();
+
   return (
     <html
       lang="en"
@@ -104,12 +107,12 @@ export default function RootLayout({
             are never contacted at runtime */}
       </head>
       <body className="font-sans text-brand-ink antialiased bg-brand-floral min-h-screen flex flex-col overflow-x-hidden max-w-full">
-        <Navbar />
+        <Navbar whatsapp={settings.whatsapp} phone={settings.phone} />
         {children}
         <FooterVisibility>
-          <Footer />
+          <Footer whatsapp={settings.whatsapp} phone={settings.phone} address={settings.address} />
         </FooterVisibility>
-        <FloatingActionBar />
+        <FloatingActionBar whatsapp={settings.whatsapp} phone={settings.phone} />
         <ScrollRevealInit />
         <CookieBanner />
       </body>

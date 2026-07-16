@@ -10,6 +10,7 @@ import { fallbackPackages } from "@/components/packages-scroll";
 import { fallbackFAQs } from "@/components/home-faq";
 import { fallbackReviews } from "@/components/reviews-marquee";
 import { fallbackTestimonials } from "@/lib/reviews-data";
+import { fallbackBlogs } from "@/components/blogs-section";
 
 const WhoWeAre            = nextDynamic(() => import("@/components/who-we-are"));
 const PackagesScroll      = nextDynamic(() => import("@/components/packages-scroll"));
@@ -28,12 +29,13 @@ export default async function Home() {
   let faqList = fallbackFAQs;
   let reviewsList = fallbackReviews;
   let testimonialsList = fallbackTestimonials;
+  let blogList = fallbackBlogs;
 
   try {
     const supabase = createPublicClient();
 
     // Parallel server-side data fetching
-    const [packagesRes, faqsRes, reviewsRes] = await Promise.all([
+    const [packagesRes, faqsRes, reviewsRes, blogsRes] = await Promise.all([
       supabase
         .from("packages")
         .select("title, duration, theme, category, image")
@@ -47,7 +49,13 @@ export default async function Home() {
       supabase
         .from("reviews")
         .select("*")
+        .eq("published", true),
+      supabase
+        .from("blog_posts")
+        .select("id, title, slug, excerpt, cover_image, content, published_at, created_at")
         .eq("published", true)
+        .order("published_at", { ascending: false, nullsFirst: false })
+        .limit(3)
     ]);
 
     // Map Packages
@@ -89,6 +97,27 @@ export default async function Home() {
         tour: item.trip_type || "Custom Tour"
       }));
     }
+
+    // Map Blogs
+    if (!blogsRes.error && blogsRes.data && blogsRes.data.length > 0) {
+      blogList = blogsRes.data.map(item => {
+        const paragraphs = item.content ? item.content.trim().split("\n").filter(Boolean) : [];
+        const excerpt = item.excerpt || (paragraphs[0] ? paragraphs[0].substring(0, 150) + "..." : "");
+        return {
+          id: item.id,
+          title: item.title,
+          slug: item.slug,
+          excerpt,
+          image: item.cover_image || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=75",
+          date: new Date(item.published_at || item.created_at).toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+          }),
+          readTime: "5 min read",
+        };
+      });
+    }
   } catch (err) {
     console.error("Failed to fetch homepage data on server:", err);
   }
@@ -108,7 +137,7 @@ export default async function Home() {
 
         {/* cream (#FEFAEF) → PackagesScroll (#FEF0D5 varden) */}
         <SectionDivider topColor="#FEFAEF" bottomColor="#FEF0D5" curve="up" />
-        <PackagesScroll initialPackages={carouselPackages} />
+        <PackagesScroll initialPackages={carouselPackages} whatsappNumber={settings.whatsapp} />
 
         {/* varden (#FEF0D5) → BentoWhyUs (mesh #0A2E1D) */}
         <div id="bento-why-us-wrapper" className="relative isolate overflow-hidden">
@@ -118,7 +147,9 @@ export default async function Home() {
           {/* mesh (#0A2E1D) → Destinations (#FEFAEF) */}
           <SectionDivider topColor="#0A2E1D" bottomColor="#FEFAEF" curve="down" className="bg-transparent" />
         </div>
-        <Destinations />
+        <div className="relative">
+          <Destinations />
+        </div>
 
         {/* cream (#FEFAEF) → OfferBanner (dark #013220 overlay) */}
         {/* Controlled by the early_bird_enabled toggle in /admin/settings — see lib/site-settings.ts */}
@@ -141,7 +172,7 @@ export default async function Home() {
 
         {/* dark (#013220) → BlogsSection (cream) */}
         <SectionDivider topColor="#013220" bottomColor="#FEFAEF" curve="down" />
-        <BlogsSection />
+        <BlogsSection initialBlogs={blogList} />
 
         {/* cream (#FEFAEF) → HomeFAQ (#fafaf7) — both light, no divider needed */}
         <HomeFAQ initialFAQs={faqList} />

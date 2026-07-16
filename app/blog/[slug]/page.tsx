@@ -3,6 +3,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock } from "lucide-react"
 import { notFound } from "next/navigation"
+import { createPublicClient } from "@/lib/supabase-public"
+
+export const revalidate = 3600;
 
 export const blogPosts = [
   {
@@ -421,7 +424,35 @@ export async function generateMetadata({
   params: Promise<{ slug: string }> 
 }): Promise<Metadata> {
   const { slug } = await params
-  const post = blogPosts.find(p => p.slug === slug)
+  let post = blogPosts.find(p => p.slug === slug)
+
+  try {
+    const supabase = createPublicClient();
+    const { data } = await supabase
+      .from("blog_posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .single();
+    if (data) {
+      post = {
+        slug: data.slug,
+        title: data.title,
+        image: data.cover_image || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",
+        date: new Date(data.published_at || data.created_at).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric"
+        }),
+        readTime: "5 min read",
+        category: data.category || "Travel",
+        content: data.content,
+      };
+    }
+  } catch (err) {
+    console.error("Error fetching blog metadata:", err);
+  }
+
   if (!post) {
     return {
       title: "Blog Post Not Found | Tea Country Holidays",
@@ -437,7 +468,22 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  return blogPosts.map(post => ({ slug: post.slug }))
+  const defaultParams = blogPosts.map(post => ({ slug: post.slug }))
+  try {
+    const supabase = createPublicClient()
+    const { data } = await supabase
+      .from("blog_posts")
+      .select("slug")
+      .eq("published", true)
+    if (data && data.length > 0) {
+      const dbParams = data.map(p => ({ slug: p.slug }))
+      const slugs = new Set([...defaultParams.map(p => p.slug), ...dbParams.map(p => p.slug)])
+      return Array.from(slugs).map(slug => ({ slug }))
+    }
+  } catch (err) {
+    console.error("Error generating blog static params:", err)
+  }
+  return defaultParams
 }
 
 export default async function BlogDetailPage({ 
@@ -446,7 +492,35 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }> 
 }) {
   const { slug } = await params
-  const post = blogPosts.find(p => p.slug === slug)
+  let post = blogPosts.find(p => p.slug === slug)
+
+  try {
+    const supabase = createPublicClient();
+    const { data } = await supabase
+      .from("blog_posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .single();
+    if (data) {
+      post = {
+        slug: data.slug,
+        title: data.title,
+        image: data.cover_image || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",
+        date: new Date(data.published_at || data.created_at).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric"
+        }),
+        readTime: "5 min read",
+        category: data.category || "Travel",
+        content: data.content,
+      };
+    }
+  } catch (err) {
+    console.error("Error fetching blog post:", err);
+  }
+
   if (!post) notFound()
 
   return (

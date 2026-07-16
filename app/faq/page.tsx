@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import FAQAccordion from "./FAQAccordion";
+import { createPublicClient } from "@/lib/supabase-public";
+import { getSiteSettings } from "@/lib/site-settings";
+
+export const revalidate = 3600;
 
 
 export const metadata: Metadata = {
@@ -19,7 +23,7 @@ export const metadata: Metadata = {
   ],
 };
 
-const faqs = [
+export const fallbackFAQs = [
   {
     question: "What is the best time to visit Northeast India?",
     answer:
@@ -82,20 +86,37 @@ const faqs = [
   },
 ];
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
+export default async function FAQPage() {
+  let faqList = fallbackFAQs;
+  try {
+    const supabase = createPublicClient();
+    const { data, error } = await supabase
+      .from("faqs")
+      .select("*")
+      .order("sort_order", { ascending: true });
+    
+    if (!error && data && data.length > 0) {
+      faqList = data;
+    }
+  } catch (err) {
+    console.error("Failed to fetch FAQs from Supabase:", err);
+  }
 
-export default function FAQPage() {
+  const settings = await getSiteSettings();
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqList.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <>
       <script
@@ -119,7 +140,7 @@ export default function FAQPage() {
 
         {/* FAQ Accordion */}
         <section className="max-w-3xl mx-auto px-4 py-14">
-          <FAQAccordion faqs={faqs} />
+          <FAQAccordion faqs={faqList} />
         </section>
 
         {/* Bottom CTA */}
@@ -131,7 +152,7 @@ export default function FAQPage() {
             Our travel experts are on WhatsApp — we usually reply within the hour.
           </p>
           <a
-            href="https://wa.me/918826048272"
+            href={`https://wa.me/${settings.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#c9a84c] hover:bg-[#b8963f] text-white font-semibold px-6 py-3 rounded-full transition-colors text-sm font-sans"
