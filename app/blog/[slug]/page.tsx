@@ -4,7 +4,7 @@ import Link from "next/link"
 import { ArrowLeft, Calendar, Clock } from "lucide-react"
 import { notFound } from "next/navigation"
 
-const blogPosts = [
+export const blogPosts = [
   {
     slug: "kaziranga-national-park-one-horned-rhino",
     title: "Kaziranga National Park: Land of the One-Horned Rhino",

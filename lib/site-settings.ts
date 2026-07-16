@@ -13,7 +13,7 @@ export interface SiteSettings {
 // Fallback values match what was previously hardcoded across the site, so
 // nothing changes visually if site_settings is empty, unreachable, or the
 // anon key doesn't have SELECT access to it yet (see note below).
-const DEFAULT_SETTINGS: SiteSettings = {
+export const DEFAULT_SETTINGS: SiteSettings = {
   phone: "918826048272",
   whatsapp: "918826048272",
   address: "G.S. Road, Christian Basti, Guwahati, Assam 781005",
