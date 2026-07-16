@@ -135,16 +135,25 @@ async function main() {
     const { count } = await supabase.from("blog_posts").select("*", { count: "exact", head: true });
     if (count === 0) {
       console.log("Seeding blog posts...");
-      const dbBlogs = blogPosts.map((b) => ({
-        title: b.title,
-        slug: b.slug,
-        content: b.content.trim(),
-        category: b.category,
-        image: b.image,
-        read_time: b.readTime,
-        published_date: b.date,
-        published: true,
-      }));
+      const dbBlogs = blogPosts.map((b) => {
+        const paragraphs = b.content.trim().split("\n").filter(Boolean);
+        const excerpt = paragraphs[0] ? (paragraphs[0].substring(0, 157) + "...") : b.title;
+        let published_at = null;
+        try {
+          published_at = new Date(b.date).toISOString();
+        } catch {
+          published_at = new Date().toISOString();
+        }
+        return {
+          title: b.title,
+          slug: b.slug,
+          excerpt,
+          cover_image: b.image,
+          content: b.content.trim(),
+          published: true,
+          published_at,
+        };
+      });
       const { error } = await supabase.from("blog_posts").insert(dbBlogs);
       if (error) throw error;
       console.log(`Successfully seeded ${dbBlogs.length} blog posts.`);
