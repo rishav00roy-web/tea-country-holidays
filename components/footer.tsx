@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
+import AdminFooterLink from "./admin-footer-link";
 
 export default function Footer() {
   return (
@@ -124,6 +125,7 @@ export default function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
             <Link href="/terms" className="hover:text-brand-gold transition-colors">Terms & Conditions</Link>
             <Link href="/privacy" className="hover:text-brand-gold transition-colors">Privacy Policy</Link>
+            <AdminFooterLink />
           </div>
         </div>
       </div>
