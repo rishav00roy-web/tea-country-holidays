@@ -6,20 +6,14 @@ import { Cookie } from "lucide-react";
 
 export default function CookieBanner() {
   const [hasChecked, setHasChecked] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const consent = localStorage.getItem("cookie-consent");
-    if (consent === "accepted" || consent === "declined") {
-      setTimeout(() => {
-        setIsVisible(false);
-        setHasChecked(true);
-      }, 0);
-    } else {
-      setTimeout(() => {
-        setHasChecked(true);
-      }, 0);
+    if (consent !== "accepted" && consent !== "declined") {
+      setIsVisible(true);
     }
+    setHasChecked(true);
   }, []);
 
   const handleAccept = () => {
@@ -32,7 +26,7 @@ export default function CookieBanner() {
     setIsVisible(false);
   };
 
-  if (hasChecked && !isVisible) return null;
+  if (!hasChecked || !isVisible) return null;
 
   return (
     <div
