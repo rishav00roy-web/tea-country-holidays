@@ -52,6 +52,7 @@ export async function createPackage(payload: PackagePayload): Promise<Package> {
     .single();
 
   if (error) throw new Error(error.message);
+  revalidatePath("/");
   revalidatePath("/holidays");
   revalidatePath("/admin/packages");
   return data;
@@ -69,6 +70,7 @@ export async function updatePackage(id: string, payload: PackagePayload): Promis
     .single();
 
   if (error) throw new Error(error.message);
+  revalidatePath("/");
   revalidatePath("/holidays");
   revalidatePath("/admin/packages");
   return data;
@@ -81,6 +83,7 @@ export async function deletePackage(id: string): Promise<void> {
   const { error } = await admin.from("packages").delete().eq("id", id);
 
   if (error) throw new Error(error.message);
+  revalidatePath("/");
   revalidatePath("/holidays");
   revalidatePath("/admin/packages");
 }
@@ -95,6 +98,7 @@ export async function togglePackagePublished(id: string, published: boolean): Pr
     .eq("id", id);
 
   if (error) throw new Error(error.message);
+  revalidatePath("/");
   revalidatePath("/holidays");
   revalidatePath("/admin/packages");
 }

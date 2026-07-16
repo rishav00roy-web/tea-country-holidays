@@ -147,7 +147,7 @@ export default function Navbar() {
     router.refresh();
   };
 
-  if (pathname === "/login") return null;
+  if (pathname === "/login" || pathname.startsWith("/admin")) return null;
 
   return (
     <>

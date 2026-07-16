@@ -48,7 +48,11 @@ export default function FAQsAdminPage() {
       const data = await listFaqs();
       setFaqs(data);
     } catch (err: any) {
-      setError(err.message || "Failed to load FAQs");
+      if (process.env.NODE_ENV === "development") {
+        setFaqs([]);
+      } else {
+        setError(err.message || "Failed to load FAQs");
+      }
     } finally {
       setLoading(false);
     }
@@ -192,6 +196,11 @@ export default function FAQsAdminPage() {
         <div className="py-20 flex flex-col items-center justify-center text-slate-500 bg-white border border-slate-200/80 rounded-xl shadow-sm gap-3">
           <Loader2 className="w-8 h-8 animate-spin text-[#1B4332]" />
           <span>Loading FAQs...</span>
+        </div>
+      ) : error && faqs.length === 0 ? (
+        <div className="py-20 flex flex-col items-center justify-center text-red-500 gap-3 bg-red-50/50 rounded-xl">
+          <AlertCircle className="w-8 h-8 text-red-500" />
+          <span className="font-medium text-red-700">{error}</span>
         </div>
       ) : filteredFaqs.length === 0 ? (
         <div className="py-20 text-center text-slate-500 bg-white border border-slate-200/80 rounded-xl shadow-sm">

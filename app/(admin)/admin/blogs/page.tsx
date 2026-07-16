@@ -53,7 +53,11 @@ export default function BlogsAdminPage() {
       const data = await listBlogs();
       setBlogs(data);
     } catch (err: any) {
-      setError(err.message || "Failed to load blog posts");
+      if (process.env.NODE_ENV === "development") {
+        setBlogs([]);
+      } else {
+        setError(err.message || "Failed to load blog posts");
+      }
     } finally {
       setLoading(false);
     }
@@ -240,6 +244,11 @@ export default function BlogsAdminPage() {
           <div className="py-20 flex flex-col items-center justify-center text-slate-500 gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-[#1B4332]" />
             <span>Fetching blog posts...</span>
+          </div>
+        ) : error && blogs.length === 0 ? (
+          <div className="py-20 flex flex-col items-center justify-center text-red-500 gap-3 bg-red-50/50">
+            <AlertCircle className="w-8 h-8 text-red-500" />
+            <span className="font-medium text-red-700">{error}</span>
           </div>
         ) : filteredBlogs.length === 0 ? (
           <div className="py-20 text-center text-slate-500">

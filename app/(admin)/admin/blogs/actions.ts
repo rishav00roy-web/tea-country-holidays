@@ -89,6 +89,7 @@ export async function deleteBlog(id: string): Promise<void> {
   if (error) throw new Error(error.message);
   revalidatePath("/");
   revalidatePath("/admin/blogs");
+  revalidatePath("/blog/[slug]", "page");
 }
 
 export async function toggleBlogPublished(
@@ -107,4 +108,5 @@ export async function toggleBlogPublished(
   if (error) throw new Error(error.message);
   revalidatePath("/");
   revalidatePath("/admin/blogs");
+  revalidatePath("/blog/[slug]", "page");
 }

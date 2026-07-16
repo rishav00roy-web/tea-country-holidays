@@ -20,15 +20,12 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
-  
-  // Fetch session
   const { data: { session } } = await supabase.auth.getSession();
   
   if (!session) {
     redirect("/login?redirect=/admin");
   }
 
-  // Fetch user profile to check if they are an admin
   const { data: profile } = await supabase
     .from("profiles")
     .select("is_admin")
