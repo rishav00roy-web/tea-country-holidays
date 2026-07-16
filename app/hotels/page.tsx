@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { createClient } from "@/lib/supabase-server"
 import HotelsContent, { Hotel, fallbackHotels } from "./hotels-content"
 
 export const metadata: Metadata = {

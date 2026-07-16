@@ -197,7 +197,7 @@ function ReviewCard({ review }: { review: Review }) {
             width={48}
             height={48}
             className="w-12 h-12 rounded-full border-2 border-brand-gold/30 object-cover bg-slate-50"
-            loading="eager"
+            loading="lazy"
           />
         ) : (
           <InitialsAvatar name={review.name} />
@@ -233,7 +233,7 @@ function ReviewCard({ review }: { review: Review }) {
             quality={50}
             sizes="(max-width: 640px) 85vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover"
-            loading="eager"
+            loading="lazy"
           />
         </div>
       )}

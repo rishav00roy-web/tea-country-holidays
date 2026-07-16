@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Map, Phone } from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
 import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 export default function FloatingActionBar() {
@@ -63,7 +62,9 @@ export default function FloatingActionBar() {
       >
         {/* Pulsing ring */}
         <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-75 animate-ping -z-10" />
-        <FaWhatsapp className="w-6 h-6" />
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 001.333 4.993L2 22l5.13-1.344a9.92 9.92 0 004.881 1.281h.005c5.507 0 9.99-4.48 9.99-9.988C22.007 6.478 17.524 2 12.012 2zm5.72 14.156c-.235.66-1.362 1.218-1.875 1.277-.456.052-.904.22-2.923-.578-2.427-.96-3.99-3.42-4.11-3.582-.121-.161-1.012-1.345-1.012-2.565 0-1.22.636-1.822.862-2.072.227-.25.49-.313.65-.313.16 0 .324.002.463.008.146.006.342-.056.536.406.2.477.683 1.666.746 1.792.062.126.104.272.02.438-.083.167-.125.272-.25.417-.124.146-.262.327-.375.438-.125.124-.256.26-.11.51.147.25.65.1.8 1.488 2.052.743.66.19 1.216.3 1.562.342.346.043.547.018.75-.22.203-.236.862-.998 1.094-1.34.23-.343.46-.288.766-.175.305.112 1.933.91 2.268 1.077.335.166.558.248.64.388.083.14.083.812-.152 1.472z"/>
+        </svg>
       </a>
 
       {/* Dark green backdrop pill */}

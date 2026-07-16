@@ -50,10 +50,10 @@ export async function getAdminSiteSettings(): Promise<SiteSettingsPayload> {
   if (error) throw new Error(error.message);
 
   const result: SiteSettingsPayload = {
-    phone: "",
-    whatsapp: "",
-    address: "",
-    early_bird_text: "",
+    phone: "918826048272",
+    whatsapp: "918826048272",
+    address: "G.S. Road, Christian Basti, Guwahati, Assam 781005",
+    early_bird_text: "Save on your next holiday! Book before the deadline.",
     early_bird_deadline: "",
     early_bird_enabled: false,
   };

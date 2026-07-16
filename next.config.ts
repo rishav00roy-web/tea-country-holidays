@@ -36,6 +36,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: [
       "lucide-react",
       "react-fast-marquee",
+      "react-icons",
     ],
   },
   async headers() {

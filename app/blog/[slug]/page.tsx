@@ -7,14 +7,14 @@ import { notFound } from "next/navigation"
 const blogPosts = [
   {
     slug: "kaziranga-national-park-one-horned-rhino",
-    title: "Kaziranga National Park — Land of the One-Horned Rhino",
+    title: "Kaziranga National Park: Land of the One-Horned Rhino",
     image: "/images/kaziranga-park.jpg",
     date: "June 10, 2025",
     readTime: "5 min read",
     category: "Wildlife",
     content: `
 Kaziranga National Park in Assam is one of India's most extraordinary 
-wildlife destinations — and one of the planet's great conservation 
+wildlife destinations, and one of the planet's great conservation 
 success stories. Nestled between the Brahmaputra floodplains and the 
 Karbi Anglong hills, Kaziranga is home to more than 2,600 Indian 
 one-horned rhinoceroses, representing roughly two-thirds of the 
@@ -25,9 +25,9 @@ entire world population.
 Declared a UNESCO World Heritage Site in 1985, Kaziranga is not just 
 about rhinos. The park hosts the highest density of tigers among 
 protected areas in the world, along with wild water buffalo, swamp 
-deer, elephants, and over 500 species of birds. The landscape itself 
-— a patchwork of tall elephant grass, dense tropical forests, and 
-shallow wetlands — is unlike anything else in India.
+deer, elephants, and over 500 species of birds. The landscape itself, 
+a patchwork of tall elephant grass, dense tropical forests, and 
+shallow wetlands, is unlike anything else in India.
 
 ## The Jeep Safari Experience
 
@@ -37,7 +37,7 @@ The park is divided into four ranges: Central (Kohora), Western
 the most popular and offers the highest chance of rhino sightings, 
 often within the first 30 minutes.
 
-Safaris begin at dawn — usually 5:30 AM — when the animals are most 
+Safaris begin at dawn, usually at 5:30 AM, when the animals are most 
 active and the golden morning light makes photography spectacular. 
 Elephant safaris are also available and give you a unique vantage 
 point through the tall grass.
@@ -75,14 +75,14 @@ visitors alike.
   },
   {
     slug: "majuli-worlds-largest-river-island",
-    title: "Majuli — The World's Largest River Island",
+    title: "Majuli: The World's Largest River Island",
     image: "/images/majuli-river.jpg",
     date: "June 5, 2025",
     readTime: "6 min read",
     category: "Culture",
     content: `
 Floating on the mighty Brahmaputra river in Assam, Majuli is the 
-world's largest river island — a place of extraordinary natural 
+world's largest river island, a place of extraordinary natural 
 beauty, living culture, and a way of life that has remained 
 unchanged for centuries.
 
@@ -91,7 +91,7 @@ unchanged for centuries.
 Majuli is the cradle of Assamese Neo-Vaishnavite culture. The island 
 is home to dozens of Sattra monasteries, established by the 15th 
 century saint-scholar Srimanta Sankardeva. These Sattras are not 
-museums — they are living, breathing centres of art, dance, music, 
+museums; they are living, breathing centres of art, dance, music, 
 and spiritual practice. Visiting a Sattra during a prayer ceremony 
 or mask-making session is one of the most memorable experiences 
 Northeast India offers.
@@ -101,7 +101,7 @@ Northeast India offers.
 Getting to Majuli is part of the experience. From Jorhat, you drive 
 to the Nimati Ghat ferry point and board a country boat or ferry 
 across the Brahmaputra. The crossing takes 60–90 minutes depending 
-on the season and water levels. The Brahmaputra here is immense — 
+on the season and water levels. The Brahmaputra here is immense; 
 crossing it at sunrise, with the mist rising off the water and 
 fishermen casting nets, is an image that stays with you.
 
@@ -113,7 +113,7 @@ groves, and traditional Mishing tribal villages are perfect for
 slow, unhurried exploration.
 
 Key stops include Kamalabari Sattra, Auniati Sattra (famous for 
-its museum of ancient artefacts), and Samaguri Sattra — the centre 
+its museum of ancient artefacts), and Samaguri Sattra, the centre 
 of traditional mask-making used in Bhaona theatrical performances.
 
 ## Best Time to Visit
@@ -139,13 +139,13 @@ Sattra visits, cycling tours, and tribal village interactions.
   },
   {
     slug: "cherrapunji-meghalaya-where-clouds-live",
-    title: "Cherrapunji & Meghalaya — Where the Clouds Live",
+    title: "Cherrapunji & Meghalaya: Where the Clouds Live",
     image: "/images/meghalaya-bridge.jpg",
     date: "May 28, 2025",
     readTime: "7 min read",
     category: "Nature",
     content: `
-Meghalaya — meaning "Abode of the Clouds" — is arguably the most 
+Meghalaya, meaning \"Abode of the Clouds,\" is arguably the most 
 visually stunning state in Northeast India. From the crystal-clear 
 waters of Dawki to the extraordinary living root bridges of 
 Cherrapunji and the vibrant capital Shillong, this is a destination 
@@ -158,8 +158,8 @@ hold the record for the highest annual rainfall anywhere on earth.
 This extraordinary rainfall has sculpted the landscape into a 
 paradise of waterfalls, deep gorges, and lush subtropical forests.
 
-The Nohkalikai Falls — at 340 metres, the tallest plunge waterfall 
-in India — is visible from a viewpoint above Cherrapunji. During 
+The Nohkalikai Falls, at 340 metres, the tallest plunge waterfall 
+in India, is visible from a viewpoint above Cherrapunji. During 
 the post-monsoon months, the falls are at their most spectacular, 
 with the water crashing into a vivid green pool below.
 
@@ -167,7 +167,7 @@ with the water crashing into a vivid green pool below.
 
 The most iconic attraction in Meghalaya is the living root bridges 
 of the Khasi hills. These extraordinary structures are grown, not 
-built — Khasi villagers train the roots of rubber fig trees across 
+built; Khasi villagers train the roots of rubber fig trees across 
 streams over decades until they form natural bridges strong enough 
 to support the weight of many people.
 
@@ -186,8 +186,8 @@ three metres below your boat.
 
 ## Shillong — Scotland of the East
 
-Meghalaya's capital is a hill station with a distinct personality — 
-colonial architecture, a thriving live music scene, excellent 
+Meghalaya's capital is a hill station with a distinct personality, 
+featuring colonial architecture, a thriving live music scene, excellent 
 cafes, and the extraordinary Shillong Peak viewpoint. It makes 
 a perfect base for exploring the rest of the state.
 
@@ -208,13 +208,13 @@ knows every road, viewpoint, and hidden gem.
   },
   {
     slug: "ziro-valley-arunachal-best-kept-secret",
-    title: "Ziro Valley, Arunachal — India's Best Kept Secret",
+    title: "Ziro Valley, Arunachal: India's Best Kept Secret",
     image: "/images/ziro-arunachal.jpg",
     date: "May 20, 2025",
     readTime: "6 min read",
     category: "Adventure",
     content: `
-There are places in India that feel genuinely undiscovered — where 
+There are places in India that feel genuinely undiscovered, where 
 tourism exists but has not yet transformed the landscape or the 
 culture. Ziro Valley in Arunachal Pradesh is one of them, and it 
 will not stay that way forever.
@@ -234,7 +234,7 @@ The valley is home to the Apatani people, one of the most
 fascinating indigenous communities in Northeast India. The 
 Apatani have developed a remarkably sophisticated system of 
 wetland rice cultivation and fish farming that produces high 
-yields on small land areas — a technique that has drawn the 
+yields on small land areas, a technique that has drawn the 
 attention of agricultural researchers worldwide.
 
 Older Apatani women are recognisable by their traditional facial 
@@ -245,7 +245,7 @@ villages of Hong and Hari are a highlight of any visit.
 ## Ziro Music Festival
 
 Every September, Ziro hosts one of India's most celebrated 
-independent music festivals — four days of live performances 
+independent music festivals, consisting of four days of live performances 
 by indie, folk, and experimental artists from across India 
 and abroad, set against the backdrop of the paddy fields 
 and pine forests. It is a uniquely magical experience.
@@ -274,7 +274,7 @@ Tawang, Namdapha, or other Arunachal destinations.
   },
   {
     slug: "dzukou-valley-nagaland-valley-of-flowers",
-    title: "Dzukou Valley, Nagaland — The Valley of Flowers of the Northeast",
+    title: "Dzukou Valley, Nagaland: The Valley of Flowers of the Northeast",
     image: "/images/dzukou-nagaland.jpg",
     date: "May 12, 2025",
     readTime: "5 min read",
@@ -283,7 +283,7 @@ Tawang, Namdapha, or other Arunachal destinations.
 If the Himalayas have the Valley of Flowers, the Northeast has 
 Dzukou. Sitting at 2,452 metres on the border of Nagaland and 
 Manipur, Dzukou Valley transforms into a vast natural garden 
-every monsoon — blanketed in Dzukou lilies, rhododendrons, 
+every monsoon, blanketed in Dzukou lilies, rhododendrons, 
 and dozens of other wildflower species found nowhere else.
 
 ## The Trek
@@ -305,7 +305,7 @@ overnight accommodation.
 Dzukou is remarkable for its isolation and its silence. 
 Unlike more famous trekking destinations, you are unlikely 
 to encounter crowds here. The valley has no permanent 
-settlements and no mobile network — just miles of 
+settlements and no mobile network, offering instead miles of 
 undulating meadows, gurgling streams, and the sound of wind.
 
 The Dzukou lily (Lilium mackliniae) blooms from June to 
@@ -318,7 +318,7 @@ they have had in India.
 ## Best Season
 
 June to September for flowers. October to February for 
-clear skies and dramatic winter landscapes — the valley 
+clear skies and dramatic winter landscapes; the valley 
 occasionally receives snowfall in January.
 
 ## How to Get There
@@ -338,7 +338,7 @@ with a visit to Kohima and the famous Kohima War Cemetery.
   },
   {
     slug: "assam-tea-trail-journey-through-gardens",
-    title: "Assam Tea Trail — A Journey Through the Gardens",
+    title: "Assam Tea Trail: A Journey Through the Gardens",
     image: "/images/assam-tea-estate.jpg",
     date: "May 5, 2025",
     readTime: "8 min read",
@@ -347,7 +347,7 @@ with a visit to Kohima and the famous Kohima War Cemetery.
 Every morning, hundreds of millions of people around the world 
 pour a cup of Assam tea. Most have no idea where it comes from 
 or what it looks like where it grows. The Assam Tea Trail changes 
-that — and it is one of the most immersive, sensory travel 
+that, providing one of the most immersive, sensory travel 
 experiences India offers.
 
 ## Jorhat — The Tea Capital of the World
@@ -359,7 +359,7 @@ copper-red brew that forms the backbone of most breakfast
 tea blends worldwide.
 
 Tea Country Holidays is based here, and we know these gardens 
-intimately — their history, their owners, and the best ways 
+intimately, including their history, their owners, and the best ways 
 to experience them.
 
 ## Inside a Tea Estate
@@ -368,19 +368,19 @@ Most visitors to Assam never set foot inside a working tea
 garden. A Tea Trail experience changes that. You walk between 
 rows of perfectly pruned tea bushes, watch the pluckers work 
 with extraordinary speed and precision, and follow the leaf 
-from the garden to the factory floor — withering, rolling, 
-oxidising, drying — before it becomes the tea in your cup.
+from the garden to the factory floor, covering withering, rolling, 
+oxidising, and drying, before it becomes the tea in your cup.
 
 The factory tours are fascinating. The machinery in some 
 estates is over a century old, still running perfectly. 
-The smell inside a tea factory — warm, slightly vegetal, 
-intensely aromatic — is unlike anything else.
+The smell inside a tea factory, which is warm, slightly vegetal, 
+and intensely aromatic, is unlike anything else.
 
 ## Tea Bungalow Stays
 
 Many of Assam's historic tea estates have converted their 
 colonial-era planter bungalows into boutique heritage stays. 
-These are exceptional — large, graceful houses surrounded by 
+These are exceptional; they are large, graceful houses surrounded by 
 verandas and lawns, with attentive hospitality and food that 
 draws on both Indian and British colonial traditions. Waking 
 up to mist over the tea gardens and a freshly brewed cup of 
@@ -399,7 +399,7 @@ and filled with extraordinary historical monuments.
 ## Best Time to Visit
 
 October to April is ideal for the tea trail. The second 
-flush (May-June) is considered the finest tea of the year — 
+flush (May-June) is considered the finest tea of the year, so 
 visiting during this period means witnessing the gardens 
 at peak production.
 

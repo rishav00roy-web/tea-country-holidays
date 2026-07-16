@@ -95,6 +95,7 @@ export default function OfferBanner({ whatsappNumber, bannerText, deadline }: Of
           sizes="100vw"
           quality={50}
           className="object-cover object-center scale-[1.02]"
+          loading="lazy"
         />
         {/* Dark overlay moved inside the wrapper to bleed and translate with the image */}
         <div className="absolute inset-0 bg-brand-evergreen/80" />

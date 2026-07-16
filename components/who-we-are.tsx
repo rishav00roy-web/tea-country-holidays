@@ -2,7 +2,7 @@ import { Award, Users, MapPin, Leaf } from "lucide-react";
 
 const pillars = [
   { icon: Award,          title: "10 Years of Trust",          desc: "A decade of crafting seamless journeys across Northeast India and beyond, earning the confidence of thousands of families." },
-  { icon: Users,          title: "People-First Philosophy",     desc: "Every itinerary is designed around you — your pace, your interests, your budget. No template tours, ever." },
+  { icon: Users,          title: "People-First Philosophy",     desc: "Every itinerary is designed around you, tailored to your pace, interests, and budget. No template tours, ever." },
   { icon: MapPin,         title: "Rooted in Guwahati",          desc: "Born in the heart of Assam, we carry a deep love for the land, its tea gardens, wildlife, and vibrant culture." },
   { icon: Leaf,           title: "Sustainable Travel",          desc: "We partner with local guides, eco-resorts, and community-driven experiences to give back to the destinations we love." },
 ];
@@ -28,13 +28,13 @@ export default function WhoWeAre() {
               Who We <span className="text-brand-gold italic">Are</span>
             </h2>
             <p className="text-brand-ink/65 text-sm sm:text-lg leading-relaxed mb-5">
-              Founded in the lush heartland of Assam, <strong className="text-brand-evergreen dark:text-brand-gold">TeaCountryHolidays</strong> is more than a travel agency — we are storytellers, dreamweavers, and trusted travel partners who connect travellers with the soul of Northeast India and destinations across the globe.
+              Founded in the lush heartland of Assam, <strong className="text-brand-evergreen dark:text-brand-gold">TeaCountryHolidays</strong> is more than just a travel agency; we are storytellers, dreamweavers, and trusted travel partners who connect travellers with the soul of Northeast India and destinations across the globe.
             </p>
             <p className="text-brand-ink/65 text-sm sm:text-lg leading-relaxed mb-5">
               Under the vision of <strong className="text-brand-evergreen dark:text-brand-gold">Manami</strong>, our founder and IATA-accredited travel expert, Tea Country Holidays has grown into Assam&apos;s most trusted name for curated holiday packages, custom tour itineraries, and end-to-end travel services.
             </p>
             <p className="text-brand-ink/65 text-sm sm:text-lg leading-relaxed mb-5">
-              From the mist-covered peaks of Sikkim and the sacred monasteries of Bhutan, to the golden sands of the Maldives and the futuristic skyline of Dubai — we transform every travel dream into a perfectly crafted journey. Our team handles international and domestic flights, visa assistance, hand-picked hotels, private transfers, and luxury cruises — all under one roof.
+              From the mist-covered peaks of Sikkim and the sacred monasteries of Bhutan, to the golden sands of the Maldives and the futuristic skyline of Dubai, we transform every travel dream into a perfectly crafted journey. Our team handles international and domestic flights, visa assistance, hand-picked hotels, private transfers, and luxury cruises, all under one roof.
             </p>
             <p className="text-brand-ink/65 text-sm sm:text-lg leading-relaxed mb-8">
               Whether you&apos;re planning your first trip to Kaziranga or a royal Rajasthan circuit, Tea Country Holidays brings the expertise, local knowledge, and personal care that turns a holiday into a memory for life.

@@ -75,6 +75,21 @@ CREATE POLICY "Admins can do everything on hotels" ON public.hotels FOR ALL USIN
 CREATE POLICY "Admins can do everything on blog posts" ON public.blog_posts FOR ALL USING (public.is_admin());
 CREATE POLICY "Admins can do everything on FAQs" ON public.faqs FOR ALL USING (public.is_admin());
 
+-- Create Reviews Table
+CREATE TABLE IF NOT EXISTS public.reviews (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  name text NOT NULL,
+  review_text text NOT NULL,
+  trip_type text NOT NULL DEFAULT 'Custom Tour',
+  photo_url text,
+  published boolean DEFAULT false NOT NULL,
+  created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+ALTER TABLE public.reviews ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read-only on published reviews" ON public.reviews FOR SELECT USING (published = true);
+CREATE POLICY "Admins can do everything on reviews" ON public.reviews FOR ALL USING (public.is_admin());
+
 -- Create Site Settings Table
 CREATE TABLE IF NOT EXISTS public.site_settings (
   key text PRIMARY KEY,

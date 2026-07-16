@@ -5,6 +5,8 @@ import {
   Hotel, 
   FileText, 
   HelpCircle, 
+  Star,
+  AlertTriangle,
   ArrowRight 
 } from "lucide-react";
 
@@ -14,12 +16,20 @@ export default async function AdminDashboardPage() {
   const supabase = await createClient();
 
   // Fetch counts from the tables in parallel
-  const [packagesRes, hotelsRes, blogsRes, faqsRes] = await Promise.all([
+  const [packagesRes, hotelsRes, blogsRes, faqsRes, reviewsRes] = await Promise.all([
     supabase.from("packages").select("*", { count: "exact", head: true }),
     supabase.from("hotels").select("*", { count: "exact", head: true }),
     supabase.from("blog_posts").select("*", { count: "exact", head: true }),
     supabase.from("faqs").select("*", { count: "exact", head: true }),
+    supabase.from("reviews").select("*", { count: "exact", head: true }),
   ]);
+
+  const errors: string[] = [];
+  if (packagesRes.error) errors.push(`Packages: ${packagesRes.error.message}`);
+  if (hotelsRes.error) errors.push(`Hotels: ${hotelsRes.error.message}`);
+  if (blogsRes.error) errors.push(`Blogs: ${blogsRes.error.message}`);
+  if (faqsRes.error) errors.push(`FAQs: ${faqsRes.error.message}`);
+  if (reviewsRes.error) errors.push(`Reviews: ${reviewsRes.error.message}`);
 
   const stats = [
     {
@@ -58,6 +68,15 @@ export default async function AdminDashboardPage() {
       color: "from-purple-50 to-fuchsia-50 text-purple-800 border-purple-200 hover:border-purple-300",
       iconColor: "text-purple-600 bg-purple-100",
     },
+    {
+      name: "Total Reviews",
+      count: reviewsRes.count ?? 0,
+      href: "/admin/reviews",
+      icon: Star,
+      description: "Manage customer reviews and approval",
+      color: "from-pink-50 to-rose-50 text-rose-800 border-rose-200 hover:border-rose-300",
+      iconColor: "text-rose-600 bg-rose-100",
+    },
   ];
 
   return (
@@ -70,8 +89,25 @@ export default async function AdminDashboardPage() {
         </p>
       </div>
 
+      {errors.length > 0 && (
+        <div className="p-4 bg-amber-50/70 border border-amber-200 text-amber-900 rounded-xl space-y-2">
+          <div className="flex items-center gap-2 font-semibold">
+            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0" />
+            <span>Database Connection / RLS Warnings</span>
+          </div>
+          <p className="text-xs text-amber-800 leading-relaxed">
+            Some counts could not be loaded because of database schema or permission issues. Falling back to 0.
+          </p>
+          <ul className="list-disc list-inside text-xs space-y-1 font-mono opacity-90 pl-1">
+            {errors.map((err, idx) => (
+              <li key={idx}>{err}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
