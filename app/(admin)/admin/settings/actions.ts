@@ -3,7 +3,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/require-admin";
-import { createClient } from "@/lib/supabase-server";
+import { createAdminClient } from "@/lib/supabase-admin";
 
 export interface SiteSettingsPayload {
   phone: string;
@@ -45,7 +45,7 @@ function revalidateSettingsPaths() {
  */
 export async function getAdminSiteSettings(): Promise<SiteSettingsPayload> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { data, error } = await admin.from("site_settings").select("*");
   if (error) throw new Error(error.message);
@@ -79,7 +79,7 @@ export async function getAdminSiteSettings(): Promise<SiteSettingsPayload> {
 
 export async function saveSiteSettings(payload: SiteSettingsPayload): Promise<void> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const rows = [
     { key: "phone", value: payload.phone },

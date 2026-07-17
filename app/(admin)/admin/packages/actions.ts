@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/require-admin";
-import { createClient } from "@/lib/supabase-server";
+import { createAdminClient } from "@/lib/supabase-admin";
 
 export interface Package {
   id: string;
@@ -30,7 +30,7 @@ export async function listPackages(): Promise<Package[]> {
   // Reading published/unpublished packages for the admin table still
   // requires being an admin, so this checks too, not just the writes.
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { data, error } = await admin
     .from("packages")
@@ -43,7 +43,7 @@ export async function listPackages(): Promise<Package[]> {
 
 export async function createPackage(payload: PackagePayload): Promise<Package> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { data, error } = await admin
     .from("packages")
@@ -60,7 +60,7 @@ export async function createPackage(payload: PackagePayload): Promise<Package> {
 
 export async function updatePackage(id: string, payload: PackagePayload): Promise<Package> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { data, error } = await admin
     .from("packages")
@@ -78,7 +78,7 @@ export async function updatePackage(id: string, payload: PackagePayload): Promis
 
 export async function deletePackage(id: string): Promise<void> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { error } = await admin.from("packages").delete().eq("id", id);
 
@@ -90,7 +90,7 @@ export async function deletePackage(id: string): Promise<void> {
 
 export async function togglePackagePublished(id: string, published: boolean): Promise<void> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { error } = await admin
     .from("packages")

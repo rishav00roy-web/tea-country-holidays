@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/require-admin";
-import { createClient } from "@/lib/supabase-server";
+import { createAdminClient } from "@/lib/supabase-admin";
 
 export interface Hotel {
   id: string;
@@ -27,7 +27,7 @@ export interface HotelPayload {
 
 export async function listHotels(): Promise<Hotel[]> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { data, error } = await admin
     .from("hotels")
@@ -40,7 +40,7 @@ export async function listHotels(): Promise<Hotel[]> {
 
 export async function createHotel(payload: HotelPayload): Promise<Hotel> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { data, error } = await admin
     .from("hotels")
@@ -56,7 +56,7 @@ export async function createHotel(payload: HotelPayload): Promise<Hotel> {
 
 export async function updateHotel(id: string, payload: HotelPayload): Promise<Hotel> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { data, error } = await admin
     .from("hotels")
@@ -73,7 +73,7 @@ export async function updateHotel(id: string, payload: HotelPayload): Promise<Ho
 
 export async function deleteHotel(id: string): Promise<void> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { error } = await admin.from("hotels").delete().eq("id", id);
 
@@ -84,7 +84,7 @@ export async function deleteHotel(id: string): Promise<void> {
 
 export async function toggleHotelPublished(id: string, published: boolean): Promise<void> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { error } = await admin
     .from("hotels")

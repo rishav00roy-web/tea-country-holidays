@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/require-admin";
-import { createClient } from "@/lib/supabase-server";
+import { createAdminClient } from "@/lib/supabase-admin";
 
 export interface Review {
   id: string;
@@ -28,7 +28,7 @@ function revalidateReviewPaths() {
 
 export async function listReviews(): Promise<Review[]> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { data, error } = await admin
     .from("reviews")
@@ -41,7 +41,7 @@ export async function listReviews(): Promise<Review[]> {
 
 export async function createReview(payload: ReviewPayload): Promise<Review> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { data, error } = await admin
     .from("reviews")
@@ -56,7 +56,7 @@ export async function createReview(payload: ReviewPayload): Promise<Review> {
 
 export async function updateReview(id: string, payload: ReviewPayload): Promise<Review> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { data, error } = await admin
     .from("reviews")
@@ -72,7 +72,7 @@ export async function updateReview(id: string, payload: ReviewPayload): Promise<
 
 export async function deleteReview(id: string): Promise<void> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { error } = await admin.from("reviews").delete().eq("id", id);
 
@@ -82,7 +82,7 @@ export async function deleteReview(id: string): Promise<void> {
 
 export async function toggleReviewPublished(id: string, published: boolean): Promise<void> {
   await requireAdmin();
-  const admin = await createClient();
+  const admin = createAdminClient();
 
   const { error } = await admin
     .from("reviews")

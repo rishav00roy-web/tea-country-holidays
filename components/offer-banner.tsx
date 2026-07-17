@@ -22,6 +22,15 @@ function formatDeadline(deadline: string): string | null {
   });
 }
 
+function isDeadlinePassed(deadline: string): boolean {
+  if (!deadline) return false;
+  const date = new Date(deadline);
+  if (isNaN(date.getTime())) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return date < today;
+}
+
 export default function OfferBanner({ whatsappNumber, bannerText, deadline }: OfferBannerProps) {
   const parallaxRef = useRef<HTMLDivElement>(null);
   const formattedDeadline = formatDeadline(deadline);
@@ -71,6 +80,9 @@ export default function OfferBanner({ whatsappNumber, bannerText, deadline }: Of
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const expired = isDeadlinePassed(deadline);
+  if (expired) return null;
 
   return (
     /*
