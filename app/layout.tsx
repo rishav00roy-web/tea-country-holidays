@@ -95,9 +95,6 @@ export default async function RootLayout({
     >
       <head>
         <meta charSet="utf-8" />
-        {/* Unsplash images — preconnect cuts DNS+TLS time */}
-        <link rel="preconnect" href="https://images.unsplash.com" />
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />
         {/* Wikipedia images */}
         <link rel="dns-prefetch" href="https://upload.wikimedia.org" />
         {/* Supabase preconnect removed — data fetching is server-side only;
@@ -110,7 +107,7 @@ export default async function RootLayout({
         <Navbar whatsapp={settings.whatsapp} phone={settings.phone} />
         {children}
         <FooterVisibility>
-          <Footer whatsapp={settings.whatsapp} phone={settings.phone} address={settings.address} />
+          <Footer phone={settings.phone} address={settings.address} />
         </FooterVisibility>
         <FloatingActionBar whatsapp={settings.whatsapp} phone={settings.phone} />
         <ScrollRevealInit />

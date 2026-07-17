@@ -55,7 +55,7 @@ export default async function Home() {
         .select("id, title, slug, excerpt, cover_image, content, published_at, created_at")
         .eq("published", true)
         .order("published_at", { ascending: false, nullsFirst: false })
-        .limit(3)
+        .limit(6)
     ]);
 
     // Map Packages
@@ -75,27 +75,52 @@ export default async function Home() {
 
     // Map Reviews & Testimonials
     if (!reviewsRes.error && reviewsRes.data && reviewsRes.data.length > 0) {
-      reviewsList = reviewsRes.data.map(item => ({
-        id: item.id,
-        name: item.name,
-        rating: 5,
-        date: "Recent",
-        review_text: item.review_text || "",
-        profile_pic_url: item.photo_url || undefined,
-        hasPhoto: false,
-        photoUrl: null,
-        tour: item.trip_type || "Custom Tour"
-      }));
+      const capitalizeName = (str: string) => {
+        if (!str) return "";
+        return str
+          .split(/\s+/)
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+          .join(" ");
+      };
 
-      testimonialsList = reviewsRes.data.map(item => ({
-        id: item.id,
-        name: item.name,
-        rating: "5",
-        review_text: item.review_text || "",
-        profile_pic_url: item.photo_url || "",
-        photos: [] as string[],
-        tour: item.trip_type || "Custom Tour"
-      }));
+      reviewsList = reviewsRes.data.map(item => {
+        const capitalizedName = capitalizeName(item.name);
+        const fallbackTestimonial = fallbackTestimonials.find(
+          t => t.name.toLowerCase() === item.name.toLowerCase()
+        );
+        const hasPhoto = !!(fallbackTestimonial && fallbackTestimonial.photos && fallbackTestimonial.photos.length > 0);
+        const photoUrl = hasPhoto ? fallbackTestimonial!.photos[0] : null;
+        return {
+          id: item.id,
+          name: capitalizedName,
+          rating: 5,
+          date: "Recent",
+          review_text: item.review_text || "",
+          profile_pic_url: item.photo_url || undefined,
+          hasPhoto,
+          photoUrl,
+          tour: item.trip_type || "Custom Tour"
+        };
+      });
+
+      testimonialsList = reviewsRes.data.map(item => {
+        const capitalizedName = capitalizeName(item.name);
+        const fallback = fallbackTestimonials.find(
+          t => t.name.toLowerCase() === item.name.toLowerCase()
+        );
+        const photos = fallback && fallback.photos && fallback.photos.length > 0
+          ? fallback.photos
+          : (item.photo_url ? [item.photo_url] : []);
+        return {
+          id: item.id,
+          name: capitalizedName,
+          rating: "5",
+          review_text: item.review_text || "",
+          profile_pic_url: item.photo_url || "",
+          photos,
+          tour: item.trip_type || "Custom Tour"
+        };
+      });
     }
 
     // Map Blogs

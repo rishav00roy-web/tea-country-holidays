@@ -26,18 +26,18 @@ const PAUSE_AFTER      = 1800;
 const PAUSE_BEFORE     = 400;
 
 const DESTINATIONS = [
-  { name: "Meghalaya", img: "https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=1920&q=75", pos: "object-center" },
-  { name: "Kerala",    img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1920&q=75", pos: "object-center" },
-  { name: "Rajasthan", img: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1920&q=75", pos: "object-[center_35%]" },
-  { name: "Dubai",     img: "https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=1920&q=75", pos: "object-center" },
-  { name: "Bhutan",    img: "https://images.unsplash.com/photo-1578556881786-851d4b79cb73?w=1920&q=75", pos: "object-[35%_center]" },
-  { name: "Maldives",  img: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1920&q=75", pos: "object-center" },
-  { name: "Switzerland", img: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=1920&q=75", pos: "object-center" },
-  { name: "France",    img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1920&q=75", pos: "object-[center_60%]" },
-  { name: "Uzbekistan", img: "https://images.unsplash.com/photo-1664602078796-68ee76b3fc59?w=1920&q=75", pos: "object-center" },
-  { name: "Bali",      img: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920&q=75", pos: "object-center" },
-  { name: "Thailand",  img: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=1920&q=75", pos: "object-center" },
-  { name: "Kashmir",   img: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?w=1920&q=75", pos: "object-center" },
+  { name: "Meghalaya", img: "https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=1200&q=75&auto=format", pos: "object-center" },
+  { name: "Kerala",    img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1200&q=75&auto=format", pos: "object-center" },
+  { name: "Rajasthan", img: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1200&q=75&auto=format", pos: "object-[center_35%]" },
+  { name: "Dubai",     img: "https://images.unsplash.com/photo-1708361089093-beef4c4584e7?w=1200&q=75&auto=format", pos: "object-center" },
+  { name: "Bhutan",    img: "https://images.unsplash.com/photo-1578556881786-851d4b79cb73?w=1200&q=75&auto=format", pos: "object-[35%_center]" },
+  { name: "Maldives",  img: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1200&q=75&auto=format", pos: "object-center" },
+  { name: "Switzerland", img: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=1200&q=75&auto=format", pos: "object-center" },
+  { name: "France",    img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=75&auto=format", pos: "object-[center_60%]" },
+  { name: "Uzbekistan", img: "https://images.unsplash.com/photo-1664602078796-68ee76b3fc59?w=1200&q=75&auto=format", pos: "object-center" },
+  { name: "Bali",      img: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200&q=75&auto=format", pos: "object-center" },
+  { name: "Thailand",  img: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=1200&q=75&auto=format", pos: "object-center" },
+  { name: "Kashmir",   img: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?w=1200&q=75&auto=format", pos: "object-center" },
 ];
 
 const Typewriter = memo(function Typewriter({
@@ -194,7 +194,7 @@ export default function Hero() {
                 priority={isFirst}
                 loading={isFirst ? "eager" : "lazy"}
                 fetchPriority={isFirst ? "high" : "low"}
-                quality={isFirst ? 75 : 35}
+                quality={isFirst ? 50 : 35}
                 className={`absolute inset-0 w-full h-full object-cover ${dest.pos || "object-center"}`}
                 style={{
                   opacity: isCurrent

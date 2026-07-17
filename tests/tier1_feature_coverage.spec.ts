@@ -33,6 +33,8 @@ test.describe('Tier 1: Supabase SSR Auth - Sign Up / Sign In UI', () => {
 
   test('5. Auth: Full Name input is visible in Sign Up mode', async ({ page }) => {
     await page.goto('/login', { timeout: 60000 });
+    await page.locator('input[placeholder="you@example.com"]').fill('user@example.com');
+    await page.locator('button.submit-btn').click();
     const nameInput = page.locator('input[placeholder="John Doe"]');
     await expect(nameInput).toBeVisible();
   });
@@ -45,12 +47,16 @@ test.describe('Tier 1: Supabase SSR Auth - Sign Up / Sign In UI', () => {
 
   test('7. Auth: Password input is visible in Sign Up mode', async ({ page }) => {
     await page.goto('/login', { timeout: 60000 });
+    await page.locator('input[placeholder="you@example.com"]').fill('user@example.com');
+    await page.locator('button.submit-btn').click();
     const passwordInput = page.locator('input[placeholder="••••••••"]');
     await expect(passwordInput).toBeVisible();
   });
 
   test('8. Auth: Sign Up submit button exists', async ({ page }) => {
     await page.goto('/login', { timeout: 60000 });
+    await page.locator('input[placeholder="you@example.com"]').fill('user@example.com');
+    await page.locator('button.submit-btn').click();
     const submitBtn = page.locator('button.submit-btn');
     await expect(submitBtn).toBeVisible();
     await expect(submitBtn).toHaveText(/Sign Up/i);
@@ -74,6 +80,8 @@ test.describe('Tier 1: Supabase SSR Auth - Sign Up / Sign In UI', () => {
     await page.goto('/login', { timeout: 60000 });
     const toggleLink = page.locator('p.toggle-link span');
     await toggleLink.click();
+    await page.locator('input[placeholder="you@example.com"]').fill('user@example.com');
+    await page.locator('button.submit-btn').click();
     const nameInput = page.locator('input[placeholder="John Doe"]');
     await expect(nameInput).not.toBeVisible();
   });
@@ -82,6 +90,8 @@ test.describe('Tier 1: Supabase SSR Auth - Sign Up / Sign In UI', () => {
     await page.goto('/login', { timeout: 60000 });
     const toggleLink = page.locator('p.toggle-link span');
     await toggleLink.click();
+    await page.locator('input[placeholder="you@example.com"]').fill('user@example.com');
+    await page.locator('button.submit-btn').click();
     const submitBtn = page.locator('button.submit-btn');
     await expect(submitBtn).toHaveText(/Sign In/i);
   });
@@ -93,6 +103,8 @@ test.describe('Tier 1: Supabase SSR Auth - Sign Up / Sign In UI', () => {
     await toggleLink.click();
     // Go back to sign up
     await toggleLink.click();
+    await page.locator('input[placeholder="you@example.com"]').fill('user@example.com');
+    await page.locator('button.submit-btn').click();
     const nameInput = page.locator('input[placeholder="John Doe"]');
     await expect(nameInput).toBeVisible();
   });

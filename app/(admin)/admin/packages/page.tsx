@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -42,10 +43,6 @@ export default function PackagesAdminPage() {
   const [image, setImage] = useState("");
   const [published, setPublished] = useState(true);
 
-  useEffect(() => {
-    fetchPackages();
-  }, []);
-
   const fetchPackages = async () => {
     setLoading(true);
     setError(null);
@@ -62,6 +59,12 @@ export default function PackagesAdminPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchPackages();
+    }, 0);
+  }, []);
 
   const openAddModal = () => {
     setEditingId(null);

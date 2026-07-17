@@ -8,6 +8,7 @@ export async function middleware(request: NextRequest) {
     },
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -54,21 +55,8 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  // If trying to access admin panel without being logged in
-  if (request.nextUrl.pathname.startsWith("/admin")) {
-    if (!user) {
-      return NextResponse.redirect(new URL("/login?redirect=/admin", request.url));
-    }
-
-    // Optional: Could verify is_admin in middleware, but usually better left
-    // to layout.tsx and requireAdmin since middleware can't easily query profiles table
-    // (middleware is edge runtime, querying table might have overhead).
-    // The layout.tsx and requireAdmin actions will handle the strict is_admin check.
-  }
+  // Note: auth verification is handled in layout.tsx and requireAdmin
+  // so we don't block the edge middleware path with database queries.
 
   return response;
 }

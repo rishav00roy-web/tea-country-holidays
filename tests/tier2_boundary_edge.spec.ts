@@ -66,10 +66,12 @@ test.describe('Tier 2: Supabase SSR Auth - Form Boundary & Input Validation', ()
     await toggleLink.click(); // Switch to Sign In
 
     const emailInput = page.locator('input[placeholder="you@example.com"]');
-    const passwordInput = page.locator('input[placeholder="••••••••"]');
     const submitBtn = page.locator('button.submit-btn');
 
     await emailInput.fill('user@example.com');
+    await submitBtn.click(); // Go to step 2
+
+    const passwordInput = page.locator('input[placeholder="••••••••"]');
     await passwordInput.fill('');
     await submitBtn.click();
 
@@ -81,6 +83,8 @@ test.describe('Tier 2: Supabase SSR Auth - Form Boundary & Input Validation', ()
 test.describe('Tier 2: Auth Input Lengths & Stressing UI', () => {
   test('6. Auth: Input extremely long name in Sign Up', async ({ page }) => {
     await page.goto('/login', { timeout: 60000 });
+    await page.locator('input[placeholder="you@example.com"]').fill('user@example.com');
+    await page.locator('button.submit-btn').click();
     const nameInput = page.locator('input[placeholder="John Doe"]');
     const longName = 'A'.repeat(500);
     await nameInput.fill(longName);
@@ -99,6 +103,8 @@ test.describe('Tier 2: Auth Input Lengths & Stressing UI', () => {
 
   test('8. Auth: Input extremely long password in Sign Up', async ({ page }) => {
     await page.goto('/login', { timeout: 60000 });
+    await page.locator('input[placeholder="you@example.com"]').fill('user@example.com');
+    await page.locator('button.submit-btn').click();
     const passwordInput = page.locator('input[placeholder="••••••••"]');
     const longPassword = 'P'.repeat(100);
     await passwordInput.fill(longPassword);
@@ -109,14 +115,18 @@ test.describe('Tier 2: Auth Input Lengths & Stressing UI', () => {
   test('9. Auth: Rapid toggling between Sign In and Sign Up modes', async ({ page }) => {
     await page.goto('/login', { timeout: 60000 });
     const toggleLink = page.locator('p.toggle-link span');
-    const nameInput = page.locator('input[placeholder="John Doe"]');
     
     // Toggle 6 times rapidly
     for (let i = 0; i < 6; i++) {
       await toggleLink.click();
     }
     
+    // Proceed to Step 2
+    await page.locator('input[placeholder="you@example.com"]').fill('user@example.com');
+    await page.locator('button.submit-btn').click();
+
     // After even number of toggles, we should be back to original (Sign Up) mode
+    const nameInput = page.locator('input[placeholder="John Doe"]');
     await expect(nameInput).toBeVisible();
   });
 

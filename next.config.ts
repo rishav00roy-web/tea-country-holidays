@@ -30,6 +30,7 @@ const nextConfig: NextConfig = {
   },
   deploymentId: process.env.VERCEL_DEPLOYMENT_ID,
   experimental: {
+    optimizeCss: true,
     // Tree-shake named imports from these packages automatically.
     // No code changes needed in components — Next.js rewrites the imports
     // at build time so only the icons/components actually used are bundled.

@@ -17,7 +17,6 @@ export const revalidate = 3600;
 
 export default async function HotelsPage() {
   let hotels: Hotel[] = fallbackHotels;
-  let fetchError = false;
   try {
     const supabase = createPublicClient()
     const { data, error } = await supabase
@@ -29,11 +28,9 @@ export default async function HotelsPage() {
       hotels = data as unknown as Hotel[];
     } else if (error) {
       console.warn("Failed to fetch hotels from Supabase, using fallback hotels:", error.message)
-      fetchError = true;
     }
   } catch (e) {
     console.error("Error connecting to Supabase or fetching hotels:", e)
-    fetchError = true;
   }
 
   return (

@@ -36,7 +36,7 @@ export default function FloatingActionBar({
   }, [pathname]);
 
   // Return null if the path starts with "/admin" or equals/starts with "/login"
-  if (pathname && (pathname.startsWith("/admin") || pathname.startsWith("/login"))) {
+  if (pathname && (pathname.startsWith("/admin") || pathname.startsWith("/login") || pathname === "/_not-found")) {
     if (typeof window !== "undefined") {
       document.documentElement.style.setProperty('--action-bar-height', '0px');
     }

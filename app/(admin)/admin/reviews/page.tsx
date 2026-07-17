@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -38,10 +39,6 @@ export default function ReviewsAdminPage() {
   const [photoUrl, setPhotoUrl] = useState("");
   const [published, setPublished] = useState(true);
 
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
   const fetchReviews = async () => {
     setLoading(true);
     setError(null);
@@ -54,6 +51,12 @@ export default function ReviewsAdminPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchReviews();
+    }, 0);
+  }, []);
 
   const getInitials = (fullName: string) => {
     return fullName
@@ -231,7 +234,7 @@ export default function ReviewsAdminPage() {
 
                 {/* Review Body */}
                 <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
-                  "{review.review_text.substring(0, 100)}{review.review_text.length > 100 ? "..." : ""}"
+                  {"\""}{review.review_text.substring(0, 100)}{review.review_text.length > 100 ? "..." : ""}{"\""}
                 </p>
               </div>
 

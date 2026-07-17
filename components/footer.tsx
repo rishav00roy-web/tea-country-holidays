@@ -3,11 +3,9 @@ import Image from "next/image";
 import AdminFooterLink from "./admin-footer-link";
 
 export default function Footer({
-  whatsapp = "918826048272",
   phone = "918826048272",
   address = "G.S. Road, Christian Basti, Guwahati, Assam 781005",
 }: {
-  whatsapp?: string;
   phone?: string;
   address?: string;
 }) {

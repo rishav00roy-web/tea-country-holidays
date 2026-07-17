@@ -139,16 +139,16 @@ export default async function AdminDashboardPage() {
       <div className="bg-white border border-slate-200 rounded-xl p-6 md:p-8 mt-8 shadow-sm">
         <h2 className="text-xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-4 flex items-center gap-2">
           <HelpCircle className="w-5 h-5 text-brand-gold" />
-          Owner's Quick Start Guide
+          {"Owner's Quick Start Guide"}
         </h2>
         
         <div className="space-y-6 text-sm text-slate-600">
           <div>
             <h3 className="font-semibold text-slate-800 text-base mb-1">1. Adding your first Tour Package</h3>
             <p>
-              Navigate to the <strong>Packages</strong> section. Click "Add New Package". 
+              Navigate to the <strong>Packages</strong> section. Click {"\""}Add New Package{"\""}. 
               Fill in the title, destination, duration, and price. 
-              <strong> Important:</strong> Check the "Is Featured" box if you want this package to appear on the front page of the website! 
+              <strong> Important:</strong> Check the {"\""}Is Featured{"\""} box if you want this package to appear on the front page of the website! 
               Ensure you upload a high-quality cover image.
             </p>
           </div>
@@ -166,7 +166,7 @@ export default async function AdminDashboardPage() {
             <h3 className="font-semibold text-slate-800 text-base mb-1">3. Publishing Blog Posts</h3>
             <p>
               Use the <strong>Blogs</strong> section to write travel guides, company news, or destination highlights.
-              When writing a blog, the "Slug" is automatically generated from the title (e.g. <code>my-first-post</code>), which forms the URL. 
+              When writing a blog, the {"\""}Slug{"\""} is automatically generated from the title (e.g. <code>my-first-post</code>), which forms the URL. 
               Once published, it will immediately be live on the <code>/blog</code> page.
             </p>
           </div>

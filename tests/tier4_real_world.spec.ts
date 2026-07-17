@@ -15,14 +15,16 @@ test.describe('Tier 4: Real-World User Journeys', () => {
     await expect(page).toHaveURL(/.*\/login/);
 
     // 3. User is in Sign Up mode by default. Fills registration details.
-    const nameInput = page.locator('input[placeholder="John Doe"]');
     const emailInput = page.locator('input[placeholder="you@example.com"]');
-    const passwordInput = page.locator('input[placeholder="••••••••"]');
     const submitBtn = page.locator('button.submit-btn');
 
     const uniqueEmail = `testuser_${Date.now()}@example.com`;
-    await nameInput.fill('Jane Tester');
     await emailInput.fill(uniqueEmail);
+    await submitBtn.click(); // Proceed to step 2
+
+    const nameInput = page.locator('input[placeholder="John Doe"]');
+    const passwordInput = page.locator('input[placeholder="••••••••"]');
+    await nameInput.fill('Jane Tester');
     await passwordInput.fill('ValidPassword123');
 
     // 4. Submit form
@@ -46,10 +48,12 @@ test.describe('Tier 4: Real-World User Journeys', () => {
 
     // 3. Enter wrong login credentials
     const emailInput = page.locator('input[placeholder="you@example.com"]');
-    const passwordInput = page.locator('input[placeholder="••••••••"]');
     const submitBtn = page.locator('button.submit-btn');
 
     await emailInput.fill('nonexistent_user_12345@example.com');
+    await submitBtn.click(); // Proceed to step 2
+
+    const passwordInput = page.locator('input[placeholder="••••••••"]');
     await passwordInput.fill('wrongpassword123');
 
     // 4. Submit form

@@ -135,7 +135,7 @@ export default function PackagesScroll({
                     src={pkg.imageUrl}
                     alt={pkg.name}
                     fill
-                    quality={70}
+                    quality={50}
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 33vw, 25vw"
                     className="object-cover pointer-events-none"
                     loading="lazy"

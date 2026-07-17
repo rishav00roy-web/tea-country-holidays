@@ -10,10 +10,13 @@ export default function CookieBanner() {
 
   useEffect(() => {
     const consent = localStorage.getItem("cookie-consent");
-    if (consent !== "accepted" && consent !== "declined") {
-      setIsVisible(true);
-    }
-    setHasChecked(true);
+    const isNewConsentNeeded = consent !== "accepted" && consent !== "declined";
+    setTimeout(() => {
+      if (isNewConsentNeeded) {
+        setIsVisible(true);
+      }
+      setHasChecked(true);
+    }, 0);
   }, []);
 
   const handleAccept = () => {

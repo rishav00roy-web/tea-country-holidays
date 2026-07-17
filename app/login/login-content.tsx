@@ -511,7 +511,7 @@ export default function LoginContent() {
                   <button 
                     type="button" 
                     className="submit-btn" 
-                    onClick={(e) => {
+                    onClick={() => {
                       if (!email) {
                         setError("Please enter your email address.");
                         return;
@@ -642,7 +642,7 @@ export default function LoginContent() {
                 className="auth-image"
                 priority={idx === 0}
                 sizes="(max-width: 900px) 1px, 50vw"
-                quality={75}
+                quality={50}
               />
               <div className="auth-overlay" />
               <div className="auth-right-content">

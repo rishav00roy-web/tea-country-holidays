@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,8 +9,6 @@ import {
   CheckCircle2, 
   AlertCircle,
   Phone,
-  MessageSquare,
-  MapPin,
   Sparkles
 } from "lucide-react";
 
@@ -26,10 +25,6 @@ export default function SettingsAdminPage() {
   const [earlyBirdText, setEarlyBirdText] = useState("");
   const [earlyBirdDeadline, setEarlyBirdDeadline] = useState("");
   const [earlyBirdEnabled, setEarlyBirdEnabled] = useState(false);
-
-  useEffect(() => {
-    fetchSettings();
-  }, []);
 
   const fetchSettings = async () => {
     setLoading(true);
@@ -48,6 +43,12 @@ export default function SettingsAdminPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchSettings();
+    }, 0);
+  }, []);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();

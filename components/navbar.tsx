@@ -70,9 +70,7 @@ export default function Navbar({
         (window as unknown as Record<string, unknown>).Playwright ||
         /headless/i.test(navigator.userAgent)
       );
-      setTimeout(() => {
-        setIsAutomation(isAutomated);
-      }, 0);
+      setIsAutomation(isAutomated);
     }
   }, []);
 

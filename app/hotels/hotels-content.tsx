@@ -155,7 +155,7 @@ export default function HotelsPageContent({
             {filtered.map(hotel => (
               <div key={hotel.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col">
                 <div className="relative h-56 overflow-hidden">
-                  <Image src={hotel.image || "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80"} alt={hotel.name} fill loading="lazy" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" quality={65} className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <Image src={hotel.image || "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80"} alt={hotel.name} fill loading="lazy" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" quality={50} className="object-cover group-hover:scale-105 transition-transform duration-300" />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[#1C1C1E] text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
                     <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                     {hotel.rating}

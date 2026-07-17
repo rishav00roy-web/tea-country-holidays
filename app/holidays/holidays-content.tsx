@@ -152,7 +152,7 @@ function PackageModal({ pkg, isOpen, onClose }: PackageModalProps) {
               fill
               className="object-cover transition-all duration-500"
               sizes="(max-width: 768px) 100vw, 50vw"
-              quality={70}
+              quality={50}
             />
             {/* Theme tag */}
             <div className="absolute top-4 left-4 bg-[#F4A011] text-white text-xs font-semibold px-3 py-1 rounded-full z-10 shadow-sm">
@@ -286,7 +286,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
               fill
               loading="lazy"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              quality={65}
+              quality={50}
               className="object-cover transition-all duration-700 absolute inset-0 w-full h-full opacity-100 scale-100"
             />
           )}

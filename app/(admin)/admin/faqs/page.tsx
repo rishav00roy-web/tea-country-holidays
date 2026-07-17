@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -37,10 +38,6 @@ export default function FAQsAdminPage() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 
-  useEffect(() => {
-    fetchFaqs();
-  }, []);
-
   const fetchFaqs = async () => {
     setLoading(true);
     setError(null);
@@ -57,6 +54,12 @@ export default function FAQsAdminPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchFaqs();
+    }, 0);
+  }, []);
 
   const openAddModal = () => {
     setEditingId(null);

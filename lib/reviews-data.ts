@@ -36,7 +36,7 @@ export const fallbackTestimonials = [
   },
   {
     "id": "10",
-    "name": "sangita patil",
+    "name": "Sangita Patil",
     "profile_pic_url": "https://lnrkqyxiwbkvkazyzcbe.supabase.co/storage/v1/object/public/tea-country-reviews/sangita%20patil/unnamed%20(25).webp",
     "rating": "5",
     "review_text": "The trip was well organised all places are covered. The accomodation are pre booked which is very nice and they take care of it. Overall very nice experience",
@@ -48,7 +48,7 @@ export const fallbackTestimonials = [
   },
   {
     "id": "11",
-    "name": "rakesh das",
+    "name": "Rakesh Das",
     "profile_pic_url": "https://lnrkqyxiwbkvkazyzcbe.supabase.co/storage/v1/object/public/tea-country-reviews/rakesh%20das/unnamed%20(30).webp",
     "rating": "5",
     "review_text": "Thank u Tea Country Holiday for your great hospitality and pocket friendly trip... Had a great trip with you to be remembered",
