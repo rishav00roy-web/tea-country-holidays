@@ -26,19 +26,21 @@ export interface PackagePayload {
   published: boolean;
 }
 
-export async function listPackages(): Promise<Package[]> {
-  // Reading published/unpublished packages for the admin table still
-  // requires being an admin, so this checks too, not just the writes.
-  await requireAdmin();
-  const admin = createAdminClient();
+export async function listPackages(): Promise<any> {
+  try {
+    await requireAdmin();
+    const admin = createAdminClient();
 
-  const { data, error } = await admin
-    .from("packages")
-    .select("*")
-    .order("created_at", { ascending: false });
+    const { data, error } = await admin
+      .from("packages")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-  if (error) throw new Error(error.message);
-  return data ?? [];
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  } catch (err: any) {
+    return { __serverError: err.message || String(err) };
+  }
 }
 
 export async function createPackage(payload: PackagePayload): Promise<Package> {
