@@ -223,20 +223,7 @@ function ReviewCard({ review }: { review: Review }) {
         &quot;{reviewText}&quot;
       </p>
 
-      {/* Tour photo if available */}
-      {review.hasPhoto && review.photoUrl && (
-        <div className="rounded-xl overflow-hidden aspect-video relative">
-          <Image
-            src={review.photoUrl}
-            alt={`${review.tour} photo`}
-            fill
-            quality={50}
-            sizes="(max-width: 640px) 85vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover"
-            loading="lazy"
-          />
-        </div>
-      )}
+
 
       {/* Tour tag */}
       <div className="mt-auto">
