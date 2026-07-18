@@ -20,24 +20,24 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   // Temporarily bypass auth check for screenshot generation
-  /*
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  
-  if (!session) {
-    redirect("/login?redirect=/admin");
-  }
+  if (process.env.SCREENSHOT_MODE !== "true") {
+    const supabase = await createClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      redirect("/login?redirect=/admin");
+    }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("is_admin")
-    .eq("id", session.user.id)
-    .single();
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_admin")
+      .eq("id", session.user.id)
+      .single();
 
-  if (!profile || !profile.is_admin) {
-    redirect("/");
+    if (!profile || !profile.is_admin) {
+      redirect("/");
+    }
   }
-  */
 
   // Server Action to handle Sign Out
   async function handleSignOut() {
