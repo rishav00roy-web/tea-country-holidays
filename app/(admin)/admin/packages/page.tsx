@@ -48,10 +48,10 @@ export default function PackagesAdminPage() {
     setError(null);
     try {
       const data = await listPackages();
-      if (data && data.__serverError) {
+      if (data && '__serverError' in data) {
         throw new Error(data.__serverError);
       }
-      setPackages(data);
+      setPackages(data as Package[]);
     } catch (err: any) {
       setError(err.message || "Failed to load packages");
     } finally {

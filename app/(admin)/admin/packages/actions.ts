@@ -26,7 +26,7 @@ export interface PackagePayload {
   published: boolean;
 }
 
-export async function listPackages(): Promise<any> {
+export async function listPackages(): Promise<Package[] | { __serverError: string }> {
   try {
     await requireAdmin();
     const admin = createAdminClient();
@@ -38,8 +38,8 @@ export async function listPackages(): Promise<any> {
 
     if (error) throw new Error(error.message);
     return data ?? [];
-  } catch (err: any) {
-    return { __serverError: err.message || String(err) };
+  } catch (err: unknown) {
+    return { __serverError: err instanceof Error ? err.message : String(err) };
   }
 }
 

@@ -120,30 +120,19 @@ const Typewriter = memo(function Typewriter({
 export default function Hero() {
   const [wordIndex, setWordIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
-  const [isCrossfading, setIsCrossfading] = useState(false);
 
   const advanceWord = () => {
-    setIsCrossfading(false);
     setPrevIndex(wordIndex);
     setWordIndex((prev) => (prev + 1) % WORDS.length);
   };
 
-  // Let the old slide render for one frame, then fade between slides.
   useEffect(() => {
     if (prevIndex === null) return;
-    const frame = window.requestAnimationFrame(() => {
-      setIsCrossfading(true);
-    });
-
     const t = window.setTimeout(() => {
       setPrevIndex(null);
-      setIsCrossfading(false);
-    }, 950);
+    }, 1000);
 
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.clearTimeout(t);
-    };
+    return () => window.clearTimeout(t);
   }, [prevIndex]);
 
   return (
@@ -152,6 +141,10 @@ export default function Hero() {
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(28px); }
           to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
         }
         @keyframes blink {
           0%, 100% { opacity: 1; }
@@ -197,18 +190,9 @@ export default function Hero() {
                 quality={isFirst ? 50 : 35}
                 className={`absolute inset-0 w-full h-full object-cover ${dest.pos || "object-center"}`}
                 style={{
-                  opacity: isCurrent
-                    ? (prevIndex === null ? 1 : (isCrossfading ? 1 : 0))
-                    : isPrev
-                      ? (isCrossfading ? 0 : 1)
-                      : 0,
-                  zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
-                  transform: isCurrent
-                    ? (prevIndex === null ? "scale(1)" : (isCrossfading ? "scale(1)" : "scale(1.035)"))
-                    : isPrev
-                      ? (isCrossfading ? "scale(1.01)" : "scale(1)")
-                      : "scale(1)",
-                  transition: "opacity 950ms ease-in-out, transform 950ms ease-in-out",
+                  opacity: isCurrent ? 1 : (isPrev ? 1 : 0),
+                  zIndex: isCurrent ? 2 : (isPrev ? 1 : 0),
+                  animation: isCurrent && prevIndex !== null ? "fadeIn 1s ease-in-out forwards" : "none",
                 }}
               />
             );

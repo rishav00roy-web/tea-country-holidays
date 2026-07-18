@@ -187,7 +187,7 @@ function ReviewCard({ review }: { review: Review }) {
   const reviewText = review.review_text || review.text;
   
   return (
-    <div className="flex-shrink-0 w-[340px] bg-white dark:bg-[#12291f] rounded-2xl shadow-md border border-brand-gold/10 dark:border-brand-gold/25 p-5 mx-3 flex flex-col gap-3 hover:shadow-xl hover:border-brand-gold/30 transition-all duration-300">
+    <div className="shrink-0 w-[300px] sm:w-[340px] bg-white dark:bg-[#12291f] rounded-2xl shadow-md border border-brand-gold/10 dark:border-brand-gold/25 p-5 mx-3 flex flex-col gap-3 hover:shadow-xl hover:border-brand-gold/30 transition-all duration-300 relative z-10">
       {/* Header */}
       <div className="flex items-center gap-3">
         {avatarSrc ? (
@@ -196,7 +196,7 @@ function ReviewCard({ review }: { review: Review }) {
             alt={review.name}
             width={48}
             height={48}
-            className="w-12 h-12 rounded-full border-2 border-brand-gold/30 object-cover bg-slate-50"
+            className="w-12 h-12 rounded-full border-2 border-brand-gold/30 object-cover bg-slate-50 pointer-events-none"
             loading="lazy"
           />
         ) : (
