@@ -98,17 +98,20 @@ function FlipCard({ data, index }: { data: Testimonial; index: number }) {
       <div className="review-flip-card-inner">
         {/* Front Content */}
         <div className="review-flip-card-front relative flex flex-col items-center justify-center p-6 w-full h-full">
-          {photos[currentPhotoIndex] && (
+          {photos.map((photoUrl, i) => (
             <Image
-              src={photos[currentPhotoIndex]}
+              key={photoUrl}
+              src={photoUrl}
               alt=""
               fill
               quality={50}
               sizes="(max-width: 640px) 90vw, 384px"
-              className="object-cover transition-opacity duration-1000 pointer-events-none opacity-70"
-              onError={() => handleImageError(photos[currentPhotoIndex])}
+              className={`object-cover transition-opacity duration-1000 pointer-events-none ${
+                i === currentPhotoIndex ? "opacity-70" : "opacity-0"
+              }`}
+              onError={() => handleImageError(photoUrl)}
             />
-          )}
+          ))}
           
           {/* Subtle dark overlay to prevent tint and ensure contrast */}
           <div className="absolute inset-0 bg-black/40 pointer-events-none" style={{ zIndex: 2 }} />
