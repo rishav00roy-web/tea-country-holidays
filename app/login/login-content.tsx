@@ -63,7 +63,8 @@ export default function LoginContent() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") || "/";
+  const rawRedirect = searchParams.get("redirect") || "/";
+  const redirect = rawRedirect.startsWith("/") && !rawRedirect.startsWith("//") ? rawRedirect : "/";
 
   // Create Supabase client directly here to avoid any module-level
   // initialisation timing issues with the shared singleton
