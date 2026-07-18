@@ -70,6 +70,7 @@ export default function Navbar({
         (window as unknown as Record<string, unknown>).Playwright ||
         /headless/i.test(navigator.userAgent)
       );
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAutomation(isAutomated);
     }
   }, []);

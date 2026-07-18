@@ -208,6 +208,7 @@ export default function ReviewsAdminPage() {
                 <div className="flex items-center gap-3.5 mb-4">
                   <div className="relative w-12 h-12 rounded-full overflow-hidden bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
                     {review.photo_url ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={review.photo_url}
                         alt={review.name}

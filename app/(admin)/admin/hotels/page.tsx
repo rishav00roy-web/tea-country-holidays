@@ -240,6 +240,7 @@ export default function HotelsAdminPage() {
                     <td className="py-4 px-6">
                       <div className="relative w-14 h-10 rounded-md overflow-hidden bg-slate-100 border border-slate-200/60">
                         {hotel.image ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
                           <img
                             src={hotel.image}
                             alt={hotel.name}
