@@ -62,7 +62,7 @@ export default async function Home() {
     if (!packagesRes.error && packagesRes.data && packagesRes.data.length > 0) {
       carouselPackages = packagesRes.data.map(item => ({
         name: item.title,
-        duration: "6 Nights / 5 Days",
+        duration: item.duration,
         destination: item.theme || (Array.isArray(item.category) ? item.category[0] : item.category) || "Holiday",
         imageUrl: item.image || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=75"
       }));
