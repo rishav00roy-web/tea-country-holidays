@@ -92,7 +92,7 @@ export default function BlogsSection({ initialBlogs = fallbackBlogs }: { initial
             <Link
               key={blog.id}
               href={`/blog/${blog.slug}`}
-              className="group bg-white dark:bg-brand-ink/75 rounded-3xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(212,175,55,0.12)] border border-brand-evergreen/5 dark:border-brand-sand/10 transition-all duration-500 hover:-translate-y-1.5 flex flex-col h-full relative"
+              className="@container group bg-white dark:bg-brand-ink/75 rounded-3xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(212,175,55,0.12)] border border-brand-evergreen/5 dark:border-brand-sand/10 transition-all duration-500 hover:-translate-y-1.5 flex flex-col h-full relative"
             >
               {/* Image */}
               <div className="relative h-64 overflow-hidden rounded-t-3xl">

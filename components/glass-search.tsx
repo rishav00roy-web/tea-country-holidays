@@ -368,7 +368,7 @@ export default function GlassSearch() {
       {/* Dropdowns render strictly inside the relative container box to align with user layout rules */}
       {activeTab === "where" && (
         <div
-          className="gs-dropdown absolute top-[calc(100%+12px)] left-0 w-full sm:w-[440px] z-50 rounded-2xl shadow-2xl overflow-hidden p-5 max-h-[55vh] sm:max-h-[80vh] overflow-y-auto"
+          className="gs-dropdown absolute top-[calc(100%+12px)] left-0 w-full sm:w-[440px] z-50 rounded-2xl shadow-2xl overflow-hidden p-5 max-h-[45vh] sm:max-h-[80vh] overflow-y-auto"
           style={GLASS_DROPDOWN}
         >
           <div className="space-y-4">
@@ -440,7 +440,7 @@ export default function GlassSearch() {
       {/* ── WHEN — Calendar Dropdown ── */}
       {activeTab === "when" && (
         <div
-          className="gs-dropdown absolute top-[calc(100%+12px)] left-0 sm:left-[25%] w-full sm:w-[320px] z-50 rounded-2xl shadow-2xl overflow-hidden max-h-[55vh] sm:max-h-[80vh] overflow-y-auto"
+          className="gs-dropdown absolute top-[calc(100%+12px)] left-0 sm:left-[25%] w-full sm:w-[320px] z-50 rounded-2xl shadow-2xl overflow-hidden max-h-[45vh] sm:max-h-[80vh] overflow-y-auto"
           style={GLASS_DROPDOWN}
         >
           <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
@@ -526,7 +526,7 @@ export default function GlassSearch() {
       {/* ── WHO & HOW Dropdown — dark glass ── */}
       {activeTab === "who" && (
         <div
-          className="gs-dropdown absolute top-[calc(100%+12px)] right-0 w-full sm:w-[340px] z-50 rounded-2xl shadow-2xl overflow-hidden p-5 max-h-[55vh] sm:max-h-[80vh] overflow-y-auto"
+          className="gs-dropdown absolute top-[calc(100%+12px)] right-0 w-full sm:w-[340px] z-50 rounded-2xl shadow-2xl overflow-hidden p-5 max-h-[45vh] sm:max-h-[80vh] overflow-y-auto"
           style={GLASS_DROPDOWN}
         >
           <div className="text-[10px] font-bold text-[#F4A011]/70 uppercase tracking-wider mb-4">Travellers</div>

@@ -216,7 +216,7 @@ export default function PackagesAdminPage() {
                   <th className="py-4 px-6">Category</th>
                   <th className="py-4 px-6">Duration</th>
                   <th className="py-4 px-6 text-center">Published</th>
-                  <th className="py-4 px-6 text-right">Actions</th>
+                  <th className="py-4 px-6 text-right sticky right-0 bg-slate-50 shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.05)]">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700 text-sm">
@@ -264,7 +264,7 @@ export default function PackagesAdminPage() {
                         </button>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-right">
+                    <td className="py-4 px-6 text-right sticky right-0 bg-white shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.05)]">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => openEditModal(pkg)}
@@ -300,7 +300,7 @@ export default function PackagesAdminPage() {
           />
 
           {/* Modal content drawer */}
-          <div className="relative bg-white w-full max-w-xl h-full flex flex-col shadow-2xl z-10 transition-transform duration-300 transform animate-in slide-in-from-right">
+          <div className="relative bg-white w-full max-w-full sm:max-w-xl h-[100dvh] flex flex-col shadow-2xl z-10 transition-transform duration-300 transform animate-in slide-in-from-right">
             
             {/* Modal Header */}
             <div className="p-6 border-b border-slate-150 flex items-center justify-between bg-slate-50">
@@ -344,13 +344,13 @@ export default function PackagesAdminPage() {
               </div>
 
               {/* Duration & Theme Grid */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Duration *</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. 5 Nights / 6 Days"
+                    placeholder="e.g. 4 Nights / 5 Days"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332]"

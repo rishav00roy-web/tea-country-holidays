@@ -231,7 +231,7 @@ export default function HotelsAdminPage() {
                   <th className="py-4 px-6">Price</th>
                   <th className="py-4 px-6">Rating</th>
                   <th className="py-4 px-6 text-center">Published</th>
-                  <th className="py-4 px-6 text-right">Actions</th>
+                  <th className="py-4 px-6 text-right sticky right-0 bg-slate-50 shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.05)]">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700 text-sm">
@@ -278,7 +278,7 @@ export default function HotelsAdminPage() {
                         </button>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-right">
+                    <td className="py-4 px-6 text-right sticky right-0 bg-white shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.05)]">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => openEditModal(hotel)}
@@ -314,7 +314,7 @@ export default function HotelsAdminPage() {
           />
 
           {/* Modal content drawer */}
-          <div className="relative bg-white w-full max-w-xl h-full flex flex-col shadow-2xl z-10 transition-transform duration-300 transform animate-in slide-in-from-right">
+          <div className="relative bg-white w-full max-w-full sm:max-w-xl h-[100dvh] flex flex-col shadow-2xl z-10 transition-transform duration-300 transform animate-in slide-in-from-right">
             
             {/* Modal Header */}
             <div className="p-6 border-b border-slate-150 flex items-center justify-between bg-slate-50">
@@ -371,7 +371,7 @@ export default function HotelsAdminPage() {
               </div>
 
               {/* Price & Rating Grid */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Price per Night (₹) *</label>
                   <input

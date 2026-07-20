@@ -186,9 +186,9 @@ export default function Navbar({
               alt="Tea Country Holidays"
               width={205}
               height={37}
-              sizes="(max-width: 768px) 160px, 205px"
+              sizes="(max-width: 768px) 140px, 205px"
               priority
-              className="h-9 md:h-12 w-auto object-contain"
+              className="h-8 sm:h-9 md:h-12 w-auto object-contain"
             />
           </Link>
 
@@ -224,27 +224,21 @@ export default function Navbar({
             })}
           </div>
 
-          {/* ── Right controls ── */}
-          <div className="hidden md:flex navbar-right gap-1.5">
-
-            {/* Dark mode toggle */}
-            <label className="switch" title="Toggle dark mode" aria-label="Toggle dark mode">
-              <input id="darkToggle" type="checkbox" checked={isDark} onChange={toggleDark} onClick={toggleDark} />
+          {/* ── Desktop CTA Buttons & Auth ── */}
+          <div className="hidden md:flex items-center gap-4">
+            <label className="switch scale-90" title="Toggle dark mode" aria-label="Toggle dark mode">
+              <input id="darkToggleDesktopNavbar" type="checkbox" checked={isDark} onChange={toggleDark} onClick={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
-                  {/* Moon craters */}
                   <svg id="moon-dot-1" className="moon-dot" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3"/></svg>
                   <svg id="moon-dot-2" className="moon-dot" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
                   <svg id="moon-dot-3" className="moon-dot" viewBox="0 0 3 3"><circle cx="1.5" cy="1.5" r="1.5"/></svg>
-                  {/* Light rays */}
                   <svg id="light-ray-1" viewBox="0 0 43 43"><circle cx="21.5" cy="21.5" r="21.5"/></svg>
                   <svg id="light-ray-2" viewBox="0 0 55 55"><circle cx="27.5" cy="27.5" r="27.5"/></svg>
                   <svg id="light-ray-3" viewBox="0 0 60 60"><circle cx="30" cy="30" r="30"/></svg>
                 </span>
-                {/* Clouds */}
                 <svg id="cloud-1" className="cloud-light" viewBox="0 0 40 20"><ellipse cx="20" cy="14" rx="18" ry="8"/><ellipse cx="14" cy="10" rx="10" ry="7"/><ellipse cx="26" cy="10" rx="8" ry="6"/></svg>
                 <svg id="cloud-3" className="cloud-dark"  viewBox="0 0 30 16"><ellipse cx="15" cy="11" rx="13" ry="6"/><ellipse cx="10" cy="7"  rx="7"  ry="5"/><ellipse cx="20" cy="7"  rx="6"  ry="4"/></svg>
-                {/* Stars */}
                 <span className="stars">
                   <svg id="star-1" className="star" viewBox="0 0 20 20"><polygon points="10,2 12,8 18,8 13,12 15,18 10,14 5,18 7,12 2,8 8,8"/></svg>
                   <svg id="star-2" className="star" viewBox="0 0 6 6"><polygon points="3,0 3.7,2.3 6,2.3 4.1,3.7 4.8,6 3,4.6 1.2,6 1.9,3.7 0,2.3 2.3,2.3"/></svg>
@@ -254,14 +248,14 @@ export default function Navbar({
               </span>
             </label>
 
-            {/* Login / logout button */}
             {!authReady ? (
               <div className="w-[110px] h-[42px]" />
             ) : hasSession ? (
               <button
+                type="button"
                 onClick={handleSignOut}
                 disabled={isLoggingOut}
-                className="relative w-[110px] h-[42px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20 group disabled:opacity-70 disabled:hover:-translate-y-0 disabled:cursor-not-allowed"
+                className="relative w-[110px] h-[42px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20 cursor-pointer disabled:opacity-50"
                 style={{
                   background: "linear-gradient(to bottom right, #C8860A 0%, rgba(200, 134, 10, 0) 30%)",
                   backgroundColor: "rgba(200, 134, 10, 0.2)",
@@ -316,9 +310,9 @@ export default function Navbar({
           </div>
 
           {/* ── Hamburger / Mobile Controls ── */}
-          <div className="flex md:hidden items-center gap-1.5">
+          <div className="flex md:hidden items-center gap-1 shrink-0">
             {/* Mobile Dark Mode Toggle */}
-            <label className="switch scale-75 origin-right" title="Toggle dark mode" aria-label="Toggle dark mode">
+            <label className="switch scale-75 origin-right shrink-0" title="Toggle dark mode" aria-label="Toggle dark mode">
               <input id="darkToggleMobileNavbar" type="checkbox" checked={isDark} onChange={toggleDark} onClick={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
@@ -342,7 +336,7 @@ export default function Navbar({
 
             {/* Hamburger Button */}
             <button
-              className="p-2 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
+              className="p-1.5 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer shrink-0"
               aria-label="Toggle menu"
               onClick={() => setMobileOpen(v => !v)}
             >

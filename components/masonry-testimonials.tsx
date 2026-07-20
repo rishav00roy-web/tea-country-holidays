@@ -92,7 +92,7 @@ function FlipCard({ data, index }: { data: Testimonial; index: number }) {
 
   return (
     <div 
-      className="review-flip-card-container mx-auto w-full max-w-sm" 
+      className="@container review-flip-card-container mx-auto w-full max-w-sm" 
       style={{ animationDelay: `${index * 150}ms` }}
     >
       <div className="review-flip-card-inner">
@@ -137,7 +137,7 @@ function FlipCard({ data, index }: { data: Testimonial; index: number }) {
         {/* Back Content */}
         <div className="review-flip-card-back z-20 flex flex-col justify-center items-center p-6 text-center bg-[#FAFAF7] dark:bg-[#12291f]">
           <StarRow count={Number(data.rating) || 5} />
-          <p className="font-sans text-[13px] text-[#222] dark:text-brand-cream/90 leading-[1.6] line-clamp-5 mb-4">
+          <p className="font-sans text-xs sm:text-[13px] text-[#222] dark:text-brand-cream/90 leading-[1.6] line-clamp-4 mb-4">
             &quot;{data.review_text || data.review}&quot;
           </p>
           <p className="font-serif font-bold text-[#2D5016] dark:text-[#faf8f3] text-[15px] mb-2">{data.name}</p>

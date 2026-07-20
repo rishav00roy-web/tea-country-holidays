@@ -57,7 +57,7 @@ export default function HomeFAQ({ initialFAQs = fallbackFAQs }: { initialFAQs?: 
           >
             <button
               onClick={() => toggle(i)}
-              className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer"
+              className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer min-h-[44px]"
               aria-expanded={openIndex === i}
             >
               <span className="text-[#1a3c2e] font-medium text-sm md:text-base pr-4">

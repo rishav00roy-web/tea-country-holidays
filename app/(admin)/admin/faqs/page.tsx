@@ -277,7 +277,7 @@ export default function FAQsAdminPage() {
           />
 
           {/* Modal content drawer */}
-          <div className="relative bg-white w-full max-w-xl h-full flex flex-col shadow-2xl z-10 transition-transform duration-300 transform animate-in slide-in-from-right">
+          <div className="relative bg-white w-full max-w-full sm:max-w-xl h-[100dvh] flex flex-col shadow-2xl z-10 transition-transform duration-300 transform animate-in slide-in-from-right">
             
             {/* Modal Header */}
             <div className="p-6 border-b border-slate-150 flex items-center justify-between bg-slate-50">

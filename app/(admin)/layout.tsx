@@ -80,7 +80,7 @@ export default async function AdminLayout({
       />
 
       {/* Sidebar Navigation */}
-      <aside className="fixed md:sticky top-0 bottom-0 left-0 z-50 w-[240px] bg-[#1B4332] text-white flex flex-col justify-between transition-transform duration-300 transform -translate-x-full peer-checked:translate-x-0 md:translate-x-0 h-screen shadow-xl border-r border-[#235640]">
+      <aside className="fixed md:sticky top-0 bottom-0 left-0 z-50 w-[240px] bg-[#1B4332] text-white flex flex-col justify-between transition-transform duration-300 transform -translate-x-full peer-checked:translate-x-0 md:translate-x-0 h-[100dvh] max-h-[100dvh] shadow-xl border-r border-[#235640]">
         
         {/* Sidebar Header */}
         <div className="p-6 border-b border-[#235640]">
@@ -114,7 +114,7 @@ export default async function AdminLayout({
         </nav>
 
         {/* Sidebar Footer with Sign Out */}
-        <div className="p-4 border-t border-[#235640]">
+        <div className="p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] border-t border-[#235640]">
           <form action={handleSignOut}>
             <button
               type="submit"

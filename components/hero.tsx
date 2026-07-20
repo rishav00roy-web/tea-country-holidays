@@ -156,7 +156,7 @@ export default function Hero() {
         }
       `}</style>
 
-      <section className="relative min-h-screen w-full flex flex-col items-center justify-center pb-16 bg-[#013220]">
+      <section className="relative min-h-screen w-full flex flex-col items-center justify-start md:justify-center pt-28 md:pt-36 pb-16 bg-[#013220]">
 
         {/* Parallax background wrapper (Clipping container) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -220,7 +220,7 @@ export default function Hero() {
         <div className="relative z-[4] flex flex-col items-center text-center px-4 gap-4 select-none w-full max-w-6xl mx-auto">
 
           <p
-            className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-16 sm:pt-0"
+            className="text-[#F4A011] uppercase tracking-[0.3em] text-xs font-semibold pt-0"
             style={{ animation: "fadeUp 0.8s ease both 0.05s" }}
           >
             Tea Country Holidays

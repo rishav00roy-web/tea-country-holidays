@@ -14,49 +14,49 @@ export interface CarouselPackage {
 export const fallbackPackages: CarouselPackage[] = [
   {
     name: "Tawang Monastery Journey",
-    duration: "7 Days / 6 Nights",
+    duration: "6 Nights / 7 Days",
     destination: "Pilgrimage",
     imageUrl: "https://images.unsplash.com/photo-1628443266300-e8490ee38875?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Darjeeling & Gangtok Retreat",
-    duration: "6 Days / 5 Nights",
+    duration: "5 Nights / 6 Days",
     destination: "Honeymoon",
     imageUrl: "https://images.unsplash.com/photo-1698753864905-a447aa362ec9?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Majuli Cultural Island",
-    duration: "4 Days / 3 Nights",
+    duration: "3 Nights / 4 Days",
     destination: "Pilgrimage",
     imageUrl: "https://images.unsplash.com/photo-1759738101670-7d50ae3f1bd2?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Cherrapunji Misty Valleys",
-    duration: "5 Days / 4 Nights",
+    duration: "4 Nights / 5 Days",
     destination: "Honeymoon",
     imageUrl: "https://images.unsplash.com/photo-1689089526066-c7e6e95ee265?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Meghalaya Explorer",
-    duration: "5 Days / 4 Nights",
+    duration: "4 Nights / 5 Days",
     destination: "Adventure",
     imageUrl: "https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Kaziranga Wild Safari",
-    duration: "4 Days / 3 Nights",
+    duration: "3 Nights / 4 Days",
     destination: "Adventure",
     imageUrl: "https://images.unsplash.com/photo-1637391783805-f1393be00fcf?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Kashmir Paradise",
-    duration: "6 Days / 5 Nights",
+    duration: "5 Nights / 6 Days",
     destination: "Domestic",
     imageUrl: "https://images.unsplash.com/photo-1614056965546-42fbe24eb36c?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Goa Beach Getaway",
-    duration: "4 Days / 3 Nights",
+    duration: "3 Nights / 4 Days",
     destination: "Beach",
     imageUrl: "https://images.unsplash.com/photo-1558894930-0e1f89b9f0ce?w=800&q=80&auto=format&fit=crop",
   },
@@ -127,7 +127,7 @@ export default function PackagesScroll({
             {initialPackages.map((pkg) => (
               <div
                 key={pkg.name}
-                className="shrink-0 w-[85%] md:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] snap-start bg-brand-floral rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-brand-gold/10 hover:border-brand-gold/30 flex flex-col h-full"
+                className="@container shrink-0 w-[85%] md:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] snap-start bg-brand-floral rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-brand-gold/10 hover:border-brand-gold/30 flex flex-col h-full"
               >
                 {/* Card Image */}
                 <div className="aspect-[4/3] w-full relative overflow-hidden shrink-0">

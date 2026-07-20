@@ -267,7 +267,7 @@ export default function BlogsAdminPage() {
                   <th className="py-4 px-6">Slug</th>
                   <th className="py-4 px-6">Published Date</th>
                   <th className="py-4 px-6 text-center">Published</th>
-                  <th className="py-4 px-6 text-right">Actions</th>
+                  <th className="py-4 px-6 text-right sticky right-0 bg-slate-50 shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.05)]">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700 text-sm">
@@ -315,7 +315,7 @@ export default function BlogsAdminPage() {
                         </button>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-right">
+                    <td className="py-4 px-6 text-right sticky right-0 bg-white shadow-[-8px_0_12px_-4px_rgba(0,0,0,0.05)]">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => openEditModal(blog)}
@@ -351,7 +351,7 @@ export default function BlogsAdminPage() {
           />
 
           {/* Modal content drawer */}
-          <div className="relative bg-white w-full max-w-2xl h-full flex flex-col shadow-2xl z-10 transition-transform duration-300 transform animate-in slide-in-from-right">
+          <div className="relative bg-white w-full max-w-full sm:max-w-xl h-[100dvh] flex flex-col shadow-2xl z-10 transition-transform duration-300 transform animate-in slide-in-from-right">
             
             {/* Modal Header */}
             <div className="p-6 border-b border-slate-150 flex items-center justify-between bg-slate-50">

@@ -202,6 +202,12 @@ export default function LoginContent() {
           animation: fadeIn 0.6s ease-in-out;
         }
 
+        @media (max-width: 480px) {
+          .auth-left {
+            padding: 2.5rem 1.25rem;
+          }
+        }
+
         .auth-right {
           flex: 1.2;
           position: relative;

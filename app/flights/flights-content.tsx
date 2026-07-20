@@ -34,7 +34,7 @@ export default function FlightsPageContent() {
 
   return (
     <main className="min-h-screen bg-[#FAFAF8]">
-      <div className="bg-[#1B4332] pt-32 pb-16 px-4">
+      <div className="bg-[#1B4332] pt-28 md:pt-36 pb-16 px-4">
         <div className="mx-auto max-w-7xl">
           <span className="text-[#F4A011] font-semibold text-xs tracking-[0.25em] uppercase mb-4 block">
             FLIGHT BOOKINGS

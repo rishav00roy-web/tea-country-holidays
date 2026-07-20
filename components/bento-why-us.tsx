@@ -33,9 +33,9 @@ import { Users, Star, MapPin, Award, Plane, Mountain } from "lucide-react";const
 
 export default function BentoWhyUs() {
   return (
-    <>
-      {/* Background bleed container: Sibling to section to prevent clipping by overflow-hidden */}
-      <div className="absolute -inset-x-0 -inset-y-[60px] mesh-bg -z-10" />
+    <div className="relative overflow-hidden w-full">
+      {/* Background bleed container */}
+      <div className="absolute inset-0 mesh-bg -z-10" />
 
       <section className="relative py-20 md:py-28 overflow-hidden bg-transparent">
 
@@ -75,6 +75,6 @@ export default function BentoWhyUs() {
         </div>
       </div>
     </section>
-    </>
+    </div>
   );
 }
