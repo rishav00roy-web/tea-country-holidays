@@ -164,7 +164,7 @@ export default function TravelAutocomplete({
       </div>
 
       {open && suggestions.length > 0 && (
-        <div className="absolute z-30 mt-2 w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+        <div className="absolute z-30 mt-2 w-full max-h-[45vh] overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-xl">
           {suggestions.map((item) => (
             <button
               key={item.id}

@@ -86,13 +86,15 @@ export default function HomeFAQ({ initialFAQs = fallbackFAQs }: { initialFAQs?: 
             </button>
 
             <div
-              className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                openIndex === i ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+              className={`grid transition-all duration-300 ease-in-out ${
+                openIndex === i ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
               }`}
             >
-              <p className="px-6 pb-5 text-gray-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
-                {faq.answer}
-              </p>
+              <div className="overflow-hidden">
+                <p className="px-6 pb-5 text-gray-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
+                  {faq.answer}
+                </p>
+              </div>
             </div>
           </div>
         ))}

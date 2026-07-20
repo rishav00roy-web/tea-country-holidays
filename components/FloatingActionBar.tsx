@@ -76,7 +76,7 @@ export default function FloatingActionBar({
         {/* Home Link */}
         <Link
           href="/"
-          className={`flex flex-col items-center gap-0.5 flex-1 text-center transition-colors duration-200 ${
+          className={`flex flex-col items-center justify-center min-h-[44px] gap-0.5 flex-1 text-center transition-colors duration-200 ${
             isHomeActive ? "text-[#e8b84b]" : "text-white/80 hover:text-white"
           }`}
         >
@@ -87,7 +87,7 @@ export default function FloatingActionBar({
         {/* Packages Link */}
         <Link
           href="/holidays"
-          className={`flex flex-col items-center gap-0.5 flex-1 text-center transition-colors duration-200 border-x border-white/10 ${
+          className={`flex flex-col items-center justify-center min-h-[44px] gap-0.5 flex-1 text-center transition-colors duration-200 border-x border-white/10 ${
             isPackagesActive ? "text-[#e8b84b]" : "text-white/80 hover:text-white"
           }`}
         >
@@ -98,7 +98,7 @@ export default function FloatingActionBar({
         {/* Call Link */}
         <a
           href={`tel:+${phone}`}
-          className="flex flex-col items-center gap-0.5 flex-1 text-center text-white/80 hover:text-white transition-colors duration-200"
+          className="flex flex-col items-center justify-center min-h-[44px] gap-0.5 flex-1 text-center text-white/80 hover:text-white transition-colors duration-200"
         >
           <Phone className="w-5 h-5" />
           <span className="text-[10px] font-medium">Call Us</span>

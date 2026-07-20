@@ -10,6 +10,9 @@ This document tracks the status of identified bugs in the `tea-country-holidays`
 | 4  | Side effect during render in FloatingActionBar | `components/FloatingActionBar.tsx` | Open |
 | 5  | Duplicated sanitizeSearchTerm() | `glass-search.tsx`, `travel-autocomplete.tsx` | Open |
 | 6  | Bot/automation detection changes real production behavior | `components/navbar.tsx` | Open |
+| 7  | FAQ answer clipped on narrow viewports due to fixed max-h-60 | `components/home-faq.tsx` | Fixed |
+| 8  | Autocomplete dropdown overflows viewport with mobile keyboard open | `components/travel-autocomplete.tsx` | Fixed |
+| 9  | Bottom nav action links under 44px min touch target size | `components/FloatingActionBar.tsx` | Fixed |
 
 ---
 
