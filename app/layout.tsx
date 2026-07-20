@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
 import FloatingActionBar from "@/components/FloatingActionBar";
+import ChatWidget from "@/components/ChatWidget";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import FooterVisibility from "@/components/footer-visibility";
@@ -110,6 +111,7 @@ export default async function RootLayout({
           <Footer phone={settings.phone} address={settings.address} />
         </FooterVisibility>
         <FloatingActionBar whatsapp={settings.whatsapp} phone={settings.phone} />
+        <ChatWidget />
         <ScrollRevealInit />
         <CookieBanner />
       </body>
