@@ -274,11 +274,11 @@ function PackageCard({ pkg }: { pkg: Package }) {
   return (
     <>
       <div 
-        className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col"
+        className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="relative h-56 overflow-hidden bg-gray-50">
+        <div className="relative h-56 overflow-hidden bg-gray-50 shrink-0">
           {imagesList[currentIdx] && (
             <Image
               src={optimizeUnsplashUrl(imagesList[currentIdx])}
@@ -311,12 +311,12 @@ function PackageCard({ pkg }: { pkg: Package }) {
             </div>
           )}
         </div>
-        <div className="p-5 flex-grow flex flex-col justify-between">
-          <div>
-            <h3 className="font-serif text-xl font-semibold text-[#1B4332] mb-2">{pkg.title}</h3>
+        <div className="p-5 flex-1 flex flex-col justify-between">
+          <div className="flex flex-col gap-1">
+            <h3 className="font-serif text-xl font-semibold text-[#1B4332] mb-2 line-clamp-2 min-h-[3.25rem] flex items-center">{pkg.title}</h3>
             <p className="text-[#1C1C1E]/60 text-sm mb-4 line-clamp-3">{pkg.description}</p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-2.5 mt-auto">
+          <div className="flex flex-col sm:flex-row gap-2.5 mt-auto pt-2">
             <button
               onClick={() => setIsModalOpen(true)}
               className="flex-1 bg-[#1B4332] text-white text-sm font-medium py-3 sm:py-2.5 rounded-lg hover:bg-[#1B4332]/90 active:bg-[#1B4332] transition-colors flex items-center justify-center gap-2 cursor-pointer min-h-[44px] text-center"
