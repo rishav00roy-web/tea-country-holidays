@@ -156,7 +156,7 @@ export default function Hero() {
         }
       `}</style>
 
-      <section className="relative min-h-screen w-full flex flex-col items-center justify-start md:justify-center pt-28 md:pt-36 pb-16 bg-[#013220]">
+      <section className="relative min-h-screen w-full flex flex-col items-center justify-start pt-32 md:pt-40 pb-16 bg-[#013220]">
 
         {/* Parallax background wrapper (Clipping container) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -247,15 +247,8 @@ export default function Hero() {
           />
 
           <div
-            className="w-full pt-8 relative z-20"
-            style={{ animation: "fadeUp 0.8s ease both 0.25s", opacity: 0 }}
-          >
-            <GlassSearch />
-          </div>
-
-          <div
-            className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 sm:gap-x-4 sm:gap-y-2 text-[#F5F0E8] font-sans text-[11px] sm:text-[13px] tracking-[0.05em] mt-4 opacity-0 relative z-10"
-            style={{ animation: "fadeUp 0.8s ease both 0.3s" }}
+            className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 sm:gap-x-4 sm:gap-y-2 text-[#F5F0E8] font-sans text-[11px] sm:text-[13px] tracking-[0.05em] mt-2 opacity-0 relative z-10"
+            style={{ animation: "fadeUp 0.8s ease both 0.2s" }}
           >
             <span className="text-[#C8860A]">✦</span>
             <span>500+ Tours Crafted</span>
@@ -265,6 +258,13 @@ export default function Hero() {
             <span>4.9★ Google Rating</span>
             <span className="text-white/20">|</span>
             <span>10 Years of Excellence</span>
+          </div>
+
+          <div
+            className="w-full pt-6 relative z-20"
+            style={{ animation: "fadeUp 0.8s ease both 0.25s", opacity: 0 }}
+          >
+            <GlassSearch />
           </div>
 
         </div>

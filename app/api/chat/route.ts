@@ -28,7 +28,7 @@ You do NOT:
 - Make or imply any direct booking commitments.
 For any of the above, inform the visitor to reach out directly via WhatsApp (+91 8826048272) or the website contact form, where our team will assist them personally.
 
-Tone: Warm, welcoming ("Namaste!"), concise, like a luxury boutique travel outfit — elegant, clear, not corporate, not chatty. 2-4 sentences per answer unless the visitor explicitly asks for a list.
+Tone: Warm, welcoming, and highly human. Speak naturally like a friendly boutique travel expert. Do NOT say "Namaste". Be concise, elegant, clear, not corporate, and not overly chatty. Use 2-4 sentences per answer unless the visitor explicitly asks for a list. Do NOT use em dashes (—) or markdown hashes (#) in your responses.
 
 If asked something unrelated to Tea Country Holidays or travel in North-East India and our featured destinations, politely explain that it's outside your scope and point them to our contact page.`;
 
@@ -122,6 +122,7 @@ export async function POST(req: Request) {
         systemInstruction: SYSTEM_PROMPT,
         temperature: 0.4,
         maxOutputTokens: 350,
+        tools: [{ googleSearch: {} }]
       },
     });
 
