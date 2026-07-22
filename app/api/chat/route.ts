@@ -11,7 +11,7 @@ function getGenAIClient() {
   return new GoogleGenAI({ apiKey });
 }
 
-const MODEL = "gemini-2.5-flash-lite";
+const MODEL = "gemini-3.5-flash-lite";
 
 // Dynamic system prompt with exact internal links & brand info
 const SYSTEM_PROMPT = `You are the website concierge assistant for Tea Country Holidays, an IATA-accredited boutique travel agency based in Guwahati, Assam, founded by Manami.
