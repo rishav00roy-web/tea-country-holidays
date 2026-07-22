@@ -122,7 +122,6 @@ export async function POST(req: Request) {
         systemInstruction: SYSTEM_PROMPT,
         temperature: 0.4,
         maxOutputTokens: 350,
-        tools: [{ googleSearch: {} }]
       },
     });
 
