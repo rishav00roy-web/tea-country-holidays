@@ -100,7 +100,7 @@ const Typewriter = memo(function Typewriter({
   }, [displayed, phase, wordIndex, onWordComplete]);
 
   return (
-    <span className="text-[#F4A011] inline-block min-w-[6ch] font-display">
+    <span className="text-[#F4A011] inline-block min-w-[11ch] font-display">
       {displayed || "\u200B"}
       <span
         style={{
@@ -140,7 +140,7 @@ export default function Hero() {
       <style>{`
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(28px); }
-          to   { opacity: 1; transform: translateY(0); }
+          to   { opacity: 1; transform: none; }
         }
         @keyframes fadeIn {
           from { opacity: 0; }
@@ -156,7 +156,7 @@ export default function Hero() {
         }
       `}</style>
 
-      <section className="relative min-h-screen w-full flex flex-col items-center justify-start pt-32 md:pt-40 pb-16 bg-[#013220]">
+      <section className="relative min-h-[100dvh] w-full flex flex-col items-center justify-start pt-32 md:pt-40 pb-16 bg-[#013220]">
 
         {/* Parallax background wrapper (Clipping container) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -230,7 +230,7 @@ export default function Hero() {
             className="font-serif text-white text-[2.75rem] leading-[1.1] sm:text-6xl md:text-7xl lg:text-8xl font-bold md:leading-tight flex flex-col sm:flex-row items-center justify-center gap-0 sm:gap-4"
             style={{ animation: "fadeUp 0.8s ease both 0.1s", opacity: 0, animationFillMode: "both" }}
           >
-            <span className="mb-[-8px] sm:mb-0">Discover</span>
+            <span className="sm:mb-0">Discover</span>
             <Typewriter wordIndex={wordIndex} onWordComplete={advanceWord} />
           </h1>
 
@@ -252,11 +252,11 @@ export default function Hero() {
           >
             <span className="text-[#C8860A]">✦</span>
             <span>500+ Tours Crafted</span>
-            <span className="text-white/20">|</span>
+            <span className="text-white/20 hidden sm:inline">|</span>
             <span>50+ Destinations</span>
-            <span className="text-white/20">|</span>
+            <span className="text-white/20 hidden sm:inline">|</span>
             <span>4.9★ Google Rating</span>
-            <span className="text-white/20">|</span>
+            <span className="text-white/20 hidden sm:inline">|</span>
             <span>10 Years of Excellence</span>
           </div>
 

@@ -17,7 +17,7 @@ export default function WhoWeAre() {
   return (
     <section id="who-we-are" className="py-20 md:py-32 bg-brand-floral overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-16 items-center">
 
           {/* Left */}
           <div className="reveal">
@@ -46,11 +46,11 @@ export default function WhoWeAre() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
               {STATS.map(([n, l]) => (
                 <div key={l} className="group">
                   <span className="font-serif text-2xl sm:text-3xl font-bold text-brand-evergreen dark:text-[#faf8f3] block group-hover:text-brand-gold transition-colors duration-300">{n}</span>
-                  <span className="text-xs text-brand-ink/50 uppercase tracking-wider">{l}</span>
+                  <span className="text-xs text-brand-ink/75 uppercase tracking-wider">{l}</span>
                 </div>
               ))}
             </div>
@@ -69,7 +69,7 @@ export default function WhoWeAre() {
                     <Icon className="w-6 h-6 text-brand-gold" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-bold text-brand-evergreen dark:text-[#faf8f3] text-base mb-2 group-hover:text-brand-gold transition-colors duration-300">{p.title}</h3>
-                  <p className="text-sm text-brand-ink/55 dark:text-[#faf8f3]/65 leading-relaxed">{p.desc}</p>
+                  <p className="text-sm text-brand-ink/80 dark:text-[#faf8f3]/65 leading-relaxed">{p.desc}</p>
                 </div>
               );
             })}

@@ -51,7 +51,7 @@ export default function HotelsPageContent({
   })
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white dark:bg-[#0A2E1D]">
       <div className="bg-[#1B4332] pt-28 md:pt-36 pb-16 px-4">
         <div className="mx-auto max-w-7xl">
           <span className="text-[#F4A011] font-semibold text-xs tracking-[0.25em] uppercase mb-4 block">
@@ -153,7 +153,7 @@ export default function HotelsPageContent({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map(hotel => (
-              <div key={hotel.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col">
+              <div key={hotel.id} className="group bg-white dark:bg-[#12291f] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-white/10 flex flex-col">
                 <div className="relative h-56 overflow-hidden">
                   <Image src={hotel.image || "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80"} alt={hotel.name} fill loading="lazy" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" quality={50} className="object-cover group-hover:scale-105 transition-transform duration-300" />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[#1C1C1E] text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
@@ -166,8 +166,8 @@ export default function HotelsPageContent({
                 </div>
                 <div className="p-5 flex-grow flex flex-col justify-between">
                   <div>
-                    <h3 className="font-serif text-xl font-semibold text-[#1B4332] mb-2">{hotel.name}</h3>
-                    <p className="text-[#1C1C1E]/60 text-sm mb-4">{hotel.description}</p>
+                    <h3 className="font-serif text-xl font-semibold text-[#1B4332] dark:text-[#faf8f3] mb-2">{hotel.name}</h3>
+                    <p className="text-[#1C1C1E]/75 dark:text-white/70 text-sm mb-4">{hotel.description}</p>
                   </div>
                   <div>
                     <button

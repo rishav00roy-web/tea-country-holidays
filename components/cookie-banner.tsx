@@ -34,7 +34,7 @@ export default function CookieBanner() {
   return (
     <div
       data-testid="cookie-consent-banner"
-      className="cookie-consent-banner fixed bottom-[calc(76px+env(safe-area-inset-bottom))] md:bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md bg-[#1B4332] text-white p-5 rounded-2xl shadow-2xl border border-brand-gold/30 z-[60] flex flex-col gap-4 transition-all duration-300 animate-in fade-in slide-in-from-bottom-5"
+      className="cookie-consent-banner fixed bottom-[calc(76px+env(safe-area-inset-bottom))] md:bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md bg-[#1B4332] text-white p-5 rounded-2xl shadow-2xl border border-brand-gold/30 z-[45] flex flex-col gap-4 transition-all duration-300 animate-in fade-in slide-in-from-bottom-5"
     >
       <div className="flex gap-3 items-start">
         <div className="p-2 bg-white/10 rounded-xl shrink-0 text-[#F4A011]">
@@ -56,13 +56,13 @@ export default function CookieBanner() {
       <div className="flex gap-2.5 justify-end mt-1">
         <button
           onClick={handleDecline}
-          className="px-4 py-2 border border-white/20 rounded-lg text-xs font-semibold hover:bg-white/10 hover:border-white/40 active:bg-white/5 transition-all cursor-pointer text-white"
+          className="px-4 py-3 border border-white/20 rounded-lg text-xs font-semibold hover:bg-white/10 hover:border-white/40 active:bg-white/5 transition-all cursor-pointer text-white"
         >
           Decline
         </button>
         <button
           onClick={handleAccept}
-          className="px-5 py-2 bg-[#F4A011] text-[#1B4332] font-bold rounded-lg text-xs hover:bg-[#d48c0f] hover:text-white active:bg-[#F4A011] shadow-md transition-all cursor-pointer"
+          className="px-5 py-3 bg-[#F4A011] text-[#1B4332] font-bold rounded-lg text-xs hover:bg-[#b37400] hover:text-white active:bg-[#F4A011] shadow-md transition-all cursor-pointer"
         >
           Accept
         </button>

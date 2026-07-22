@@ -63,6 +63,7 @@ function StarRow({ count }: { count: number }) {
 }
 
 function FlipCard({ data, index }: { data: Testimonial; index: number }) {
+  const [flipped, setFlipped] = useState(false);
   const [photos, setPhotos] = useState<string[]>([]);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const avatarSrc = getImageUrl(data.profile_pic_url || "");
@@ -92,17 +93,27 @@ function FlipCard({ data, index }: { data: Testimonial; index: number }) {
 
   return (
     <div 
-      className="@container review-flip-card-container mx-auto w-full max-w-sm" 
+      className="@container review-flip-card-container mx-auto w-full max-w-sm cursor-pointer" 
       style={{ animationDelay: `${index * 150}ms` }}
+      onClick={() => setFlipped(!flipped)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setFlipped(!flipped);
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label="Flip card to see review"
     >
-      <div className="review-flip-card-inner">
+      <div className={`review-flip-card-inner ${flipped ? 'flipped' : ''}`}>
         {/* Front Content */}
         <div className="review-flip-card-front relative flex flex-col items-center justify-center p-6 w-full h-full">
           {photos.map((photoUrl, i) => (
             <Image
               key={photoUrl}
               src={photoUrl}
-              alt=""
+              alt={`Photo by ${data.name}`}
               fill
               quality={50}
               sizes="(max-width: 640px) 90vw, 384px"

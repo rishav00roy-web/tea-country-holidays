@@ -34,16 +34,16 @@ export default function HomeFAQ({ initialFAQs = fallbackFAQs }: { initialFAQs?: 
   const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
 
   return (
-    <section className="py-20 px-4 bg-[#fafaf7]">
+    <section className="py-20 px-4 bg-[#fafaf7] dark:bg-[#0A2E1D]">
       {/* heading */}
       <div className="max-w-3xl mx-auto text-center mb-12 reveal">
-        <p className="section-label text-[#c9a84c] mb-3 font-sans">
+        <p className="section-label text-[#a88a3a] mb-3 font-sans">
           Got Questions?
         </p>
-        <h2 className="text-2xl md:text-4xl font-bold text-[#1a3c2e] font-display leading-tight">
+        <h2 className="text-2xl md:text-4xl font-bold text-[#1a3c2e] dark:text-white font-display leading-tight">
           Frequently Asked Questions
         </h2>
-        <p className="text-gray-500 mt-3 text-sm font-sans">
+        <p className="text-gray-500 dark:text-white/70 mt-3 text-sm font-sans">
           Quick answers to the most common questions about travelling Northeast India with us.
         </p>
       </div>
@@ -53,14 +53,15 @@ export default function HomeFAQ({ initialFAQs = fallbackFAQs }: { initialFAQs?: 
         {initialFAQs.map((faq, i) => (
           <div
             key={faq.id || i}
-            className="border border-gray-200 rounded-xl bg-white overflow-hidden shadow-sm"
+            className="border border-gray-200 dark:border-white/10 rounded-xl bg-white dark:bg-[#12291f] overflow-hidden shadow-sm"
           >
             <button
               onClick={() => toggle(i)}
               className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer min-h-[44px]"
               aria-expanded={openIndex === i}
+              aria-controls={`faq-panel-${i}`}
             >
-              <span className="text-[#1a3c2e] font-medium text-sm md:text-base pr-4">
+              <span className="text-[#1a3c2e] dark:text-white font-medium text-sm md:text-base pr-4">
                 {faq.question}
               </span>
               <span
@@ -86,12 +87,13 @@ export default function HomeFAQ({ initialFAQs = fallbackFAQs }: { initialFAQs?: 
             </button>
 
             <div
+              id={`faq-panel-${i}`}
               className={`grid transition-all duration-300 ease-in-out ${
                 openIndex === i ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
               }`}
             >
               <div className="overflow-hidden">
-                <p className="px-6 pb-5 text-gray-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
+                <p className="px-6 pb-5 text-gray-600 dark:text-white/70 text-sm leading-relaxed border-t border-gray-100 dark:border-white/10 pt-4">
                   {faq.answer}
                 </p>
               </div>
@@ -104,7 +106,7 @@ export default function HomeFAQ({ initialFAQs = fallbackFAQs }: { initialFAQs?: 
       <div className="flex justify-center mt-10">
         <Link
           href="/faq"
-          className="inline-flex items-center gap-2 border-2 border-[#1a3c2e] text-[#1a3c2e] hover:bg-[#1a3c2e] hover:text-white font-semibold px-8 py-3 rounded-full text-sm transition-all duration-200 font-sans group"
+          className="inline-flex items-center gap-2 border-2 border-[#1a3c2e] dark:border-white text-[#1a3c2e] dark:text-white hover:bg-[#1a3c2e] hover:text-white dark:hover:bg-white dark:hover:text-[#1a3c2e] font-semibold px-8 py-3 rounded-full text-sm transition-all duration-200 font-sans group"
         >
           View All FAQs
           <svg

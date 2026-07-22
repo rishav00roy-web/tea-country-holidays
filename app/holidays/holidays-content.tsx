@@ -164,13 +164,13 @@ function PackageModal({ pkg, isOpen, onClose }: PackageModalProps) {
               <>
                 <button
                   onClick={() => setCurrentImgIdx((prev) => (prev === 0 ? imagesList.length - 1 : prev - 1))}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-all z-10 cursor-pointer text-sm font-bold"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-all z-10 cursor-pointer text-sm font-bold"
                 >
                   &larr;
                 </button>
                 <button
                   onClick={() => setCurrentImgIdx((prev) => (prev === imagesList.length - 1 ? 0 : prev + 1))}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-all z-10 cursor-pointer text-sm font-bold"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-all z-10 cursor-pointer text-sm font-bold"
                 >
                   &rarr;
                 </button>
@@ -274,7 +274,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
   return (
     <>
       <div 
-        className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full"
+        className="group bg-white dark:bg-[#12291f] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-white/10 flex flex-col h-full"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -313,8 +313,8 @@ function PackageCard({ pkg }: { pkg: Package }) {
         </div>
         <div className="p-5 flex-1 flex flex-col justify-between">
           <div className="flex flex-col gap-1">
-            <h3 className="font-serif text-xl font-semibold text-[#1B4332] mb-2 line-clamp-2 min-h-[3.25rem] flex items-center">{pkg.title}</h3>
-            <p className="text-[#1C1C1E]/60 text-sm mb-4 line-clamp-3">{pkg.description}</p>
+            <h3 className="font-serif text-xl font-semibold text-[#1B4332] dark:text-[#faf8f3] mb-2 line-clamp-2 min-h-[3.25rem] flex items-center">{pkg.title}</h3>
+            <p className="text-[#1C1C1E]/75 dark:text-white/70 text-sm mb-4 line-clamp-3">{pkg.description}</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-2.5 mt-auto pt-2">
             <button
@@ -384,7 +384,7 @@ export default function HolidaysContent({
   })
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white dark:bg-[#0A2E1D]">
       <div className="bg-[#1B4332] pt-28 md:pt-36 pb-16 px-4">
         <div className="mx-auto max-w-7xl">
           <span className="text-[#F4A011] font-semibold text-xs tracking-[0.25em] uppercase mb-4 block">
@@ -424,7 +424,7 @@ export default function HolidaysContent({
               key={f}
               onClick={() => setActiveFilter(f)}
               className={cn(
-                "px-4 py-2 text-sm font-medium rounded-full transition-colors cursor-pointer",
+                "px-4 py-3 text-sm font-medium rounded-full transition-colors cursor-pointer min-h-[44px] flex items-center",
                 activeFilter === f
                   ? "bg-[#1B4332] text-white"
                   : "bg-[#D8F3DC] text-[#1B4332] hover:bg-[#1B4332]/10"

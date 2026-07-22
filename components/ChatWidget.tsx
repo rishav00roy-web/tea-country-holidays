@@ -81,20 +81,22 @@ export default function ChatWidget() {
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
-      let assembled = "";
+      const chunks: string[] = [];
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        assembled += decoder.decode(value, { stream: true });
+        chunks.push(decoder.decode(value, { stream: true }));
+        const assembled = chunks.join("");
         setMessages((prev) => {
           const copy = [...prev];
           copy[copy.length - 1] = { role: "assistant", text: assembled };
           return copy;
         });
       }
-    } catch (err: any) {
-      setError(err.message || "Something went wrong. Please try again.");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      setError(message);
       setMessages((prev) => prev.slice(0, -1));
     } finally {
       setIsSending(false);
@@ -115,7 +117,7 @@ export default function ChatWidget() {
   }
 
   return (
-    <div className="fixed right-4 sm:right-6 bottom-20 z-[60]">
+    <div className="fixed right-4 sm:right-6 bottom-24 z-[45]">
       {/* ── FAB Button ───────────────────────────────────────────── */}
       {!isOpen && (
         <button
@@ -171,7 +173,7 @@ export default function ChatWidget() {
                 <button
                   aria-label="Reset conversation"
                   onClick={handleReset}
-                  className="p-1.5 text-[#E8CE8B] hover:text-white transition rounded-full hover:bg-white/10"
+                  className="p-1.5 text-[#E8CE8B] hover:text-white transition rounded-full hover:bg-white/10 min-w-[44px] min-h-[44px] flex items-center justify-center"
                   title="Reset conversation"
                 >
                   <RefreshIcon />
@@ -179,7 +181,7 @@ export default function ChatWidget() {
                 <button
                   aria-label="Close chat"
                   onClick={() => setIsOpen(false)}
-                  className="p-1 text-[#E8CE8B] hover:text-white text-2xl leading-none transition rounded-full hover:bg-white/10 px-2"
+                  className="p-1 text-[#E8CE8B] hover:text-white text-2xl leading-none transition rounded-full hover:bg-white/10 px-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
                   title="Close"
                 >
                   ×
@@ -233,7 +235,7 @@ export default function ChatWidget() {
             {/* Quick Suggestion Chips */}
             {messages.length === 1 && !isSending && (
               <div className="mt-2 p-3 bg-white/80 border border-[#C7A045]/30 rounded-xl space-y-1.5">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8C7134]">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-[#6B5520]">
                   Suggested Questions:
                 </p>
                 <div className="flex flex-col gap-1.5">
@@ -266,13 +268,13 @@ export default function ChatWidget() {
               onKeyDown={handleKeyDown}
               placeholder="Ask about tours, regions, seasons..."
               disabled={isSending}
-              className="flex-1 bg-transparent border-b border-[#8C7134] focus:border-[#C7A045] outline-none px-2 py-1.5 text-xs text-[#20342C] placeholder-[#8C7134]/70 italic"
+              className="flex-1 bg-transparent border-b border-[#8C7134] focus:border-[#C7A045] outline-none px-2 py-1.5 text-base text-[#20342C] placeholder-[#6B5520] italic"
             />
             <button
               onClick={() => handleSend()}
               disabled={isSending || !input.trim()}
               aria-label="Send message"
-              className="w-8 h-8 rounded-full border border-[#C7A045] bg-[#EEE4CB] text-[#8C7134] hover:bg-[#C7A045] hover:text-[#152B25] flex items-center justify-center shrink-0 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-11 h-11 rounded-full border border-[#C7A045] bg-[#EEE4CB] text-[#8C7134] hover:bg-[#C7A045] hover:text-[#152B25] flex items-center justify-center shrink-0 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <LeafMark size={14} />
             </button>

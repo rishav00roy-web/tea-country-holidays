@@ -123,7 +123,7 @@ export default async function FAQPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <main className="bg-[#fafaf7] min-h-screen">
+      <main className="bg-[#fafaf7] dark:bg-[#0A2E1D] min-h-screen">
         {/* Header */}
         <section className="bg-[#1a3c2e] py-16 px-4 text-center">
           <p className="text-[#c9a84c] text-sm font-semibold tracking-widest uppercase mb-3 font-sans">

@@ -7,6 +7,13 @@ export default function ScrollRevealInit() {
   const pathname = usePathname();
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.reveal').forEach(el => {
+        el.classList.add('revealed');
+      });
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -28,10 +35,25 @@ export default function ScrollRevealInit() {
     // Initial check
     observeElements();
 
-    // Watch for dynamically added DOM elements (next/dynamic, routing transitions, etc.)
-    const mutationObserver = new MutationObserver(() => {
-      observeElements();
-    });
+    let pendingRevealCheck = false;
+    const checkForNewReveals = () => {
+      document.querySelectorAll(".reveal:not(.revealed), .reveal-stagger:not(.revealed)").forEach((el) => {
+        observer.observe(el);
+      });
+    };
+
+    const mutationCallback = () => {
+      if (!pendingRevealCheck) {
+        pendingRevealCheck = true;
+        const schedule = window.requestIdleCallback || ((cb: () => void) => setTimeout(cb, 50));
+        schedule(() => {
+          checkForNewReveals();
+          pendingRevealCheck = false;
+        });
+      }
+    };
+    
+    const mutationObserver = new MutationObserver(mutationCallback);
     
     mutationObserver.observe(document.body, {
       childList: true,

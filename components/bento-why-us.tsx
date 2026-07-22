@@ -51,7 +51,7 @@ export default function BentoWhyUs() {
             Travel Smarter.{" "}
             <span className="text-brand-gold">Live Better.</span>
           </h2>
-          <p className="mt-4 text-white/60 max-w-2xl mx-auto text-sm md:text-base">
+          <p className="mt-4 text-white/80 max-w-2xl mx-auto text-sm md:text-base">
             Discover what makes TeaCountryHolidays the preferred choice for hundreds of travelers seeking unforgettable, seamless journeys.
           </p>
         </div>
@@ -62,13 +62,13 @@ export default function BentoWhyUs() {
             return (
               <div
                 key={i}
-                className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:-translate-y-2 hover:bg-white/10 hover:border-brand-gold/30 hover:shadow-2xl hover:shadow-brand-gold/5 transition-all duration-300"
+                className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-brand-gold/30 hover:shadow-2xl hover:shadow-brand-gold/5 transition-all duration-300"
               >
                 <div className="w-12 h-12 rounded-xl bg-brand-gold/10 flex items-center justify-center mb-6 text-brand-gold">
                   <Icon strokeWidth={1.5} size={24} />
                 </div>
                 <h3 className="text-white font-serif text-xl md:text-2xl font-bold mb-3">{item.title}</h3>
-                <p className="text-white/60 text-sm leading-relaxed">{item.desc}</p>
+                <p className="text-white/80 text-sm leading-relaxed">{item.desc}</p>
               </div>
             );
           })}

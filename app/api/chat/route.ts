@@ -150,10 +150,11 @@ export async function POST(req: Request) {
         "Cache-Control": "no-cache",
       },
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const errMessage = err instanceof Error ? err.message : "Unknown error";
     console.error("Chat API error:", err);
     return new Response(
-      JSON.stringify({ error: "API ERROR: " + (err?.message || "Unknown error") }),
+      JSON.stringify({ error: "API ERROR: " + errMessage }),
       {
         status: 500,
         headers: { "Content-Type": "application/json" },

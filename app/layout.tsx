@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
 import FloatingActionBar from "@/components/FloatingActionBar";
@@ -84,6 +84,12 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -104,7 +110,8 @@ export default async function RootLayout({
             next/font/google self-hosts fonts, Google servers
             are never contacted at runtime */}
       </head>
-      <body className="font-sans text-brand-ink antialiased bg-brand-floral min-h-screen flex flex-col overflow-x-hidden max-w-full">
+      <body className="font-sans text-brand-ink antialiased bg-brand-floral min-h-screen flex flex-col max-w-full">
+        <div className="flex flex-col flex-1 overflow-x-hidden">
         <Navbar whatsapp={settings.whatsapp} phone={settings.phone} />
         {children}
         <FooterVisibility>
@@ -114,6 +121,7 @@ export default async function RootLayout({
         <ChatWidget />
         <ScrollRevealInit />
         <CookieBanner />
+        </div>
       </body>
     </html>
   );

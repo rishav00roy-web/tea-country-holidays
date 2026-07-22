@@ -46,7 +46,7 @@ export default function SectionDivider({ topColor, bottomColor, curve = "down", 
       <svg
         viewBox="0 0 1440 60"
         preserveAspectRatio="none"
-        className={`w-full h-[60px] block ${className}`}
+        className={`w-full h-[30px] sm:h-[45px] md:h-[60px] block ${className}`}
         style={{ display: "block" }}
       >
         <path d={path} fill={fill} />

@@ -206,7 +206,7 @@ function ReviewCard({ review }: { review: Review }) {
           <p className="font-semibold text-brand-evergreen dark:text-white text-sm truncate">{review.name}</p>
           <div className="flex items-center gap-2">
             <StarRating count={review.rating} />
-            <span className="text-xs text-brand-ink/65 dark:text-white/60">{review.date}</span>
+            <span className="text-xs text-brand-ink/80 dark:text-white/80">{review.date}</span>
           </div>
         </div>
         {/* Google G logo */}
@@ -257,7 +257,7 @@ export default function ReviewsMarquee({ initialReviews = fallbackReviews }: { i
                 </svg>
               ))}
             </div>
-            <p className="text-white/75 text-xs mt-1">Based on Google Reviews</p>
+            <p className="text-white/90 text-xs mt-1">Based on Google Reviews</p>
           </div>
           <svg viewBox="0 0 48 48" className="w-10 h-10" xmlns="http://www.w3.org/2000/svg">
             <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
@@ -269,7 +269,7 @@ export default function ReviewsMarquee({ initialReviews = fallbackReviews }: { i
       </div>
 
       <div aria-label="Customer reviews" className="marquee-viewport flex overflow-hidden select-none">
-        <Marquee pauseOnHover autoFill speed={40} className="py-2">
+        <Marquee pauseOnHover pauseOnClick={true} autoFill speed={40} className="py-2">
           {initialReviews.map((review) => (
             <div key={review.id} className="review-card-original">
               <ReviewCard review={review} />

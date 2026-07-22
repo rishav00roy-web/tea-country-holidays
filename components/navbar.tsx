@@ -203,7 +203,7 @@ export default function Navbar({
                   }`}>
                     {l.name}
                   </span>
-                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-[#013220] border border-[#C8860A]/30 text-[#F5F0E8] text-[10px] py-1.5 px-3 rounded shadow-lg whitespace-nowrap z-50">
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-[#013220] border border-[#C8860A]/30 text-[#F5F0E8] text-[10px] py-1.5 px-3 rounded shadow-lg whitespace-nowrap z-30">
                     Coming Soon
                   </div>
                 </div>
@@ -227,7 +227,7 @@ export default function Navbar({
           {/* ── Desktop CTA Buttons & Auth ── */}
           <div className="hidden md:flex items-center gap-4">
             <label className="switch scale-90" title="Toggle dark mode" aria-label="Toggle dark mode">
-              <input id="darkToggleDesktopNavbar" type="checkbox" checked={isDark} onChange={toggleDark} onClick={toggleDark} />
+              <input id="darkToggleDesktopNavbar" type="checkbox" checked={isDark} onChange={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
                   <svg id="moon-dot-1" className="moon-dot" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3"/></svg>
@@ -249,13 +249,13 @@ export default function Navbar({
             </label>
 
             {!authReady ? (
-              <div className="w-[110px] h-[42px]" />
+              <div className="w-[110px] h-[44px]" />
             ) : hasSession ? (
               <button
                 type="button"
                 onClick={handleSignOut}
                 disabled={isLoggingOut}
-                className="relative w-[110px] h-[42px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20 cursor-pointer disabled:opacity-50"
+                className="relative w-[110px] h-[44px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20 cursor-pointer disabled:opacity-50"
                 style={{
                   background: "linear-gradient(to bottom right, #C8860A 0%, rgba(200, 134, 10, 0) 30%)",
                   backgroundColor: "rgba(200, 134, 10, 0.2)",
@@ -275,7 +275,7 @@ export default function Navbar({
             ) : (
               <Link
                 href="/login"
-                className="relative w-[110px] h-[42px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20"
+                className="relative w-[110px] h-[44px] rounded-xl flex items-center justify-center p-[2px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/20"
                 style={{
                   background: "linear-gradient(to bottom right, #C8860A 0%, rgba(200, 134, 10, 0) 30%)",
                   backgroundColor: "rgba(200, 134, 10, 0.2)",
@@ -313,7 +313,7 @@ export default function Navbar({
           <div className="flex md:hidden items-center gap-1 shrink-0">
             {/* Mobile Dark Mode Toggle */}
             <label className="switch scale-75 origin-right shrink-0" title="Toggle dark mode" aria-label="Toggle dark mode">
-              <input id="darkToggleMobileNavbar" type="checkbox" checked={isDark} onChange={toggleDark} onClick={toggleDark} />
+              <input id="darkToggleMobileNavbar" type="checkbox" checked={isDark} onChange={toggleDark} />
               <span className="slider round">
                 <span className="sun-moon">
                   <svg id="m-moon-dot-1" className="moon-dot" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3"/></svg>
@@ -359,7 +359,7 @@ export default function Navbar({
       `}</style>
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 flex flex-col md:hidden" style={{ zIndex: 80 }}>
+        <div className="fixed inset-0 z-40 flex flex-col md:hidden" style={{ zIndex: 50 }}>
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
@@ -496,7 +496,7 @@ export default function Navbar({
 
       {/* ── Login Modal ── */}
       {showLoginModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-[#013220]/75 backdrop-blur-sm" onClick={() => setShowLoginModal(false)} />
           <div className="relative bg-[#FAFAF7] dark:bg-[#0d1f1a] rounded-2xl shadow-2xl w-full max-w-md p-8 border border-[#C8860A]/20 text-center animate-[fadeUp_0.4s_ease_both]">
             <button 
@@ -517,12 +517,12 @@ export default function Navbar({
               <div>
                 <label className="text-xs font-semibold text-brand-evergreen/70 dark:text-white/70 uppercase tracking-wider block mb-1">Email Address</label>
                 <input type="email" placeholder="you@example.com" autoComplete="email"
-                  className="w-full px-4 py-3 bg-white dark:bg-black/35 border border-[#C8860A]/20 rounded-xl text-sm focus:border-[#C8860A] outline-none text-brand-evergreen dark:text-white" />
+                  className="w-full px-4 py-3 bg-white dark:bg-black/35 border border-[#C8860A]/20 rounded-xl text-base focus:border-[#C8860A] outline-none text-brand-evergreen dark:text-white" />
               </div>
               <div>
                 <label className="text-xs font-semibold text-brand-evergreen/70 dark:text-white/70 uppercase tracking-wider block mb-1">Password</label>
                 <input type="password" placeholder={"\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"}
-                  className="w-full px-4 py-3 bg-white dark:bg-black/35 border border-[#C8860A]/20 rounded-xl text-sm focus:border-[#C8860A] outline-none text-brand-evergreen dark:text-white" />
+                  className="w-full px-4 py-3 bg-white dark:bg-black/35 border border-[#C8860A]/20 rounded-xl text-base focus:border-[#C8860A] outline-none text-brand-evergreen dark:text-white" />
               </div>
             </div>
             <button 

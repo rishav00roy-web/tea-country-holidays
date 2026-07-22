@@ -66,7 +66,7 @@ export default function OfferBanner({ whatsappNumber, bannerText, deadline }: Of
 
     const handleScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
           updatePosition();
           ticking = false;
         });
@@ -102,7 +102,7 @@ export default function OfferBanner({ whatsappNumber, bannerText, deadline }: Of
       >
         <Image
           src="https://images.unsplash.com/photo-1686472886489-1d2d7e08ff9c?w=1600&q=65&auto=format&fm=webp"
-          alt=""
+          alt="Tea plantation landscape"
           fill
           sizes="100vw"
           quality={50}

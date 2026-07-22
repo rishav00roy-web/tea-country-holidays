@@ -55,6 +55,7 @@ export default function TravelAutocomplete({
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [error, setError] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const requestIdRef = useRef(0);
 
@@ -146,13 +147,35 @@ export default function TravelAutocomplete({
               setLoading(true);
             }
             setOpen(true);
+            setActiveIndex(-1);
           }}
           onFocus={() => setOpen(true)}
+          onKeyDown={(e) => {
+            if (!open) {
+              if (e.key === "ArrowDown") setOpen(true);
+              return;
+            }
+            if (e.key === "ArrowDown") {
+              e.preventDefault();
+              setActiveIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : prev));
+            } else if (e.key === "ArrowUp") {
+              e.preventDefault();
+              setActiveIndex((prev) => (prev > 0 ? prev - 1 : -1));
+            } else if (e.key === "Enter" && activeIndex >= 0 && suggestions[activeIndex]) {
+              e.preventDefault();
+              pick(suggestions[activeIndex]);
+            } else if (e.key === "Escape") {
+              setOpen(false);
+            }
+          }}
+          role="combobox"
+          aria-expanded={open}
+          aria-controls={`${label.replace(/\s+/g, "-").toLowerCase()}-listbox`}
           placeholder={placeholder}
           autoCorrect="off"
           autoComplete="off"
           spellCheck={false}
-          className="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-sm text-[#1C1C1E]"
+          className="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 focus:border-[#1B4332] text-base text-[#1C1C1E]"
         />
         <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
           {loading ? (
@@ -161,43 +184,45 @@ export default function TravelAutocomplete({
             <ChevronDown className="h-4 w-4 text-[#1B4332]/35" />
           )}
         </div>
+
+        {open && suggestions.length > 0 && (
+          <div role="listbox" id={`${label.replace(/\s+/g, "-").toLowerCase()}-listbox`} className="absolute z-30 mt-2 w-full max-h-[45vh] overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-xl mobile-bottom-sheet">
+            {suggestions.map((item, index) => (
+              <button
+                key={item.id}
+                role="option"
+                aria-selected={activeIndex === index}
+                type="button"
+                onMouseDown={(event) => {
+                  event.preventDefault();
+                  pick(item);
+                }}
+                className={`w-full px-4 py-3 text-left flex items-start justify-between gap-4 ${activeIndex === index ? "bg-[#1B4332]/10" : "hover:bg-[#1B4332]/5"}`}
+              >
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-[#1B4332] truncate">{item.name}</div>
+                  <div className="text-xs text-[#1C1C1E]/70 truncate">{item.region}, {item.country}</div>
+                </div>
+                <span className="shrink-0 rounded-md bg-[#D8F3DC] px-2 py-1 text-[11px] font-bold text-[#1B4332]">
+                  {item.code}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {open && error && (
+          <div className="absolute z-30 mt-2 w-full rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600 shadow-xl">
+            Couldn&apos;t load suggestions. Please try again.
+          </div>
+        )}
+
+        {open && !loading && !error && value.trim().length >= 2 && suggestions.length === 0 && (
+          <div className="absolute z-30 mt-2 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#1C1C1E]/50 shadow-xl">
+            No matches found.
+          </div>
+        )}
       </div>
-
-      {open && suggestions.length > 0 && (
-        <div className="absolute z-30 mt-2 w-full max-h-[45vh] overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-xl">
-          {suggestions.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onMouseDown={(event) => {
-                event.preventDefault();
-                pick(item);
-              }}
-              className="w-full px-4 py-3 text-left hover:bg-[#1B4332]/5 flex items-start justify-between gap-4"
-            >
-              <div className="min-w-0">
-                <div className="text-sm font-semibold text-[#1B4332] truncate">{item.name}</div>
-                <div className="text-xs text-[#1C1C1E]/50 truncate">{item.region}, {item.country}</div>
-              </div>
-              <span className="shrink-0 rounded-md bg-[#D8F3DC] px-2 py-1 text-[11px] font-bold text-[#1B4332]">
-                {item.code}
-              </span>
-            </button>
-          ))}
-        </div>
-      )}
-
-      {open && error && (
-        <div className="absolute z-30 mt-2 w-full rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600 shadow-xl">
-          Couldn&apos;t load suggestions. Please try again.
-        </div>
-      )}
-
-      {open && !loading && !error && value.trim().length >= 2 && suggestions.length === 0 && (
-        <div className="absolute z-30 mt-2 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#1C1C1E]/50 shadow-xl">
-          No matches found.
-        </div>
-      )}
     </div>
   );
 }

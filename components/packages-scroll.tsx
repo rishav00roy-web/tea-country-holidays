@@ -127,7 +127,7 @@ export default function PackagesScroll({
             {initialPackages.map((pkg) => (
               <div
                 key={pkg.name}
-                className="@container shrink-0 w-[85%] md:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] snap-start bg-brand-floral rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-brand-gold/10 hover:border-brand-gold/30 flex flex-col h-full"
+                className="@container shrink-0 w-[300px] sm:w-[340px] md:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] snap-start bg-brand-floral rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-brand-gold/10 hover:border-brand-gold/30 flex flex-col h-full"
               >
                 {/* Card Image */}
                 <div className="aspect-[4/3] w-full relative overflow-hidden shrink-0">
@@ -147,7 +147,7 @@ export default function PackagesScroll({
                 <div className="p-5 flex flex-col flex-1 gap-3 justify-between">
                   <div className="flex flex-col gap-2">
                     {/* Destination Tag */}
-                    <span className="inline-block self-start bg-brand-gold/10 text-[#826207] dark:text-brand-gold text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                    <span className="inline-block self-start bg-brand-gold/10 text-[#5C4505] dark:text-brand-gold text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
                       {pkg.destination}
                     </span>
 

@@ -102,14 +102,15 @@ export default function BlogsSection({ initialBlogs = fallbackBlogs }: { initial
                   alt={blog.title}
                   fill
                   quality={50}
+                  draggable={false}
                   sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                  className="object-cover pointer-events-none group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
               </div>
 
               {/* Content */}
               <div className="p-8">
-                <div className="flex items-center gap-2 text-brand-evergreen/60 dark:text-brand-sand/60 text-xs font-medium uppercase tracking-wider mb-4">
+                <div className="flex items-center gap-2 text-brand-evergreen/80 dark:text-brand-sand/60 text-xs font-medium uppercase tracking-wider mb-4">
                   <Calendar className="h-4 w-4" />
                   {blog.date}
                 </div>
@@ -120,7 +121,7 @@ export default function BlogsSection({ initialBlogs = fallbackBlogs }: { initial
                   {blog.excerpt}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-brand-evergreen/40 dark:text-brand-sand/40 text-xs">
+                  <span className="text-brand-evergreen/70 dark:text-brand-sand/40 text-xs">
                     {blog.readTime}
                   </span>
                   <span className="inline-flex items-center gap-2 text-brand-gold font-medium group-hover:gap-3 transition-all">

@@ -41,7 +41,7 @@ export default function Destinations() {
         <div className="reveal flex overflow-x-auto pb-4 -mx-4 px-4 hide-scrollbar gap-2.5 snap-x after:content-[''] after:min-w-[1px] sm:after:hidden">
           {PILLS.map(d => (
             <button key={d} onClick={() => setActive(d)}
-              className={`whitespace-nowrap px-5 py-2.5 rounded-full font-semibold text-sm snap-center border-2 transition-all duration-200 ${
+              className={`whitespace-nowrap px-5 py-3 rounded-full font-semibold text-sm snap-center border-2 transition-all duration-200 ${
                 active === d
                   ? "bg-brand-evergreen text-brand-gold border-brand-evergreen shadow-md scale-105"
                   : "bg-white dark:bg-[#12291f] text-brand-evergreen dark:text-[#faf8f3] border-brand-gold/25 dark:border-brand-gold/30 hover:border-brand-gold hover:bg-brand-varden dark:hover:bg-[#1a3a2a]"
@@ -73,11 +73,11 @@ export default function Destinations() {
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-brand-gold/60 rounded-2xl transition-colors duration-300 z-20 pointer-events-none" />
 
               <div className="absolute bottom-0 left-0 w-full p-3 sm:p-4 z-30">
-                <p className="text-brand-gold text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5 md:opacity-0 md:group-hover:opacity-100 md:-translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
+                <p className="text-brand-gold text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:-translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
                   Explore →
                 </p>
                 <h3 className="text-white font-bold text-xs sm:text-sm md:text-base drop-shadow-lg leading-tight">{img.name}</h3>
-                <p className="text-white/50 text-[10px] sm:text-xs mt-0.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">{img.cat}</p>
+                <p className="text-white/80 text-[11px] sm:text-xs mt-0.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">{img.cat}</p>
               </div>
             </div>
           ))}
