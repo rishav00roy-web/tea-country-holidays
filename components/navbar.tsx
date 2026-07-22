@@ -181,15 +181,17 @@ export default function Navbar({
 
           {/* ── Logo ── */}
           <Link href="/" className="shrink-0 flex items-center" style={{ background: "transparent" }}>
-            <Image
-              src="/logo.png"
-              alt="Tea Country Holidays"
-              width={205}
-              height={37}
-              sizes="(max-width: 768px) 140px, 205px"
-              priority
-              className="h-8 sm:h-9 md:h-12 w-auto object-contain"
-            />
+            <div className={(!scrolled || isDark) ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]" : ""}>
+              <Image
+                src="/logo.png"
+                alt="Tea Country Holidays"
+                width={205}
+                height={37}
+                sizes="(max-width: 768px) 140px, 205px"
+                priority
+                className="h-8 sm:h-9 md:h-12 w-auto object-contain"
+              />
+            </div>
           </Link>
 
           {/* ── Desktop links ── */}
